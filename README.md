@@ -1,2 +1,5 @@
 # com.bitplan.simplegraph
-Wrapping Apache TinkerPop
+Allow Wrapping Systems with Apache TinkerPop
+
+# History
+2018-01-11 initial showcase FileSystem
