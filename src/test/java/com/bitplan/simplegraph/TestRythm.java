@@ -56,7 +56,7 @@ public class TestRythm extends BaseTest {
 
   @Test
   public void testRythmFromString() throws Exception {
-    debug=true;
+    //debug=true;
     RythmContext rythmContext = RythmContext.getInstance();
     String template="@// Rythem template\n" + 
         "@// you can try me out at http://fiddle.rythmengine.com\n" + 
