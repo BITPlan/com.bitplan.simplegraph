@@ -32,7 +32,7 @@ import com.bitplan.simplegraph.SimpleNode;
  * @author wf
  *
  */
-public class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNode {
+public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNode {
   
   Vertex vertex;
   SimpleGraph simpleGraph;
@@ -53,22 +53,5 @@ public class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNode {
   public void setVertex(Vertex vertex) {
     this.vertex = vertex;
   }
-
-  @Override
-  public SimpleNode asSimpleNode() {
-    return this;
-  }
   
-  @Override
-  public Stream<SimpleNode> out(String edgeName) {
-    throw new PseudoAbstractCallException(edgeName);
-  };
-  
-  @Override
-  public Stream<SimpleNode> in(String edgeName) {
-    throw new PseudoAbstractCallException(edgeName);
-  };
-  
-
-
 }

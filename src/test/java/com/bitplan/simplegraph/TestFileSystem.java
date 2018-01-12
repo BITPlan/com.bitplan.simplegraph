@@ -28,7 +28,6 @@ import org.junit.Test;
 
 import com.bitplan.filesystem.FileNode;
 import com.bitplan.filesystem.FileSystem;
-import com.bitplan.simplegraph.SimpleSystem;
 
 /**
  * test navigating the Filesystem with SimpleGraph approaches
@@ -40,7 +39,7 @@ public class TestFileSystem {
   @Test
   public void testFileSystem() throws Exception {
     SimpleSystem fs=new FileSystem();
-    FileNode start = (FileNode) fs.moveTo("src");
+    FileNode start = (FileNode) fs.connect("").moveTo("src");
     if (debug)
       start.printNameValues(System.out);
     start.recursiveOut("files",Integer.MAX_VALUE).forEach(childFile->{
@@ -50,18 +49,20 @@ public class TestFileSystem {
     long filecount = start.g().V().count().next().longValue();
     if (debug)
       System.out.println(filecount);
-    assertEquals(25,filecount);
+    assertEquals(28,filecount);
     GraphTraversal<Vertex, Vertex> javaFiles = start.g().V().has("ext", "java");
     long javaFileCount=javaFiles.count().next().longValue();
-    assertEquals(10,javaFileCount);
+    assertEquals(11,javaFileCount);
+    javaFiles = start.g().V().has("ext", "java");
     javaFiles.forEachRemaining(javaFile-> {
       for (String key:javaFile.keys()) {
         if (debug)
           System.out.println(String.format("%s = %s", key, javaFile.property(key).value()));
       }
-      //Map<String, Object> javaFileMap =javaFile.valueMap().next();
-      //javaFileMap.forEach((k, v) -> System.out.println(String.format("%s = %s", k, v)));
     });
+    //Vertex txtFile=start.g().V().has("ext","txt").next();
+    // Vertex etcDir= txtFile.in("parent").findFirst().get();
+    //assertEquals("src/etc",etcDir.getMap().get("path"));
   }
 
 }

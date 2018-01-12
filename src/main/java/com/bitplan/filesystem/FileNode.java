@@ -48,6 +48,8 @@ public class FileNode extends SimpleNodeImpl {
   // System to be used
   FileSystem fileSystem;
   
+  transient String ext;
+  
   final public static SimpleDateFormat isoDateFormat = new SimpleDateFormat(
       "yyyy-MM-dd HH:mm:ss");
 
@@ -69,7 +71,7 @@ public class FileNode extends SimpleNodeImpl {
     super(fileSystem);
     this.fileSystem=fileSystem;
     this.file = file;
-    String ext = FilenameUtils.getExtension(file.getName());
+    this.ext = FilenameUtils.getExtension(file.getName());
     Date modified = new Date(file.lastModified());
     super.setVertex(fileSystem.graph().addVertex(T.label, "file", "path", file.getAbsolutePath(),
         "name", file.getName(), "size", file.length(), "ext", ext, "modified",
@@ -80,14 +82,25 @@ public class FileNode extends SimpleNodeImpl {
   public Map<String, Object> getMap() {
     Map<String, Object> result = new HashMap<String, Object>();
     result.put("file", file);
+    result.put("path", file.getAbsolutePath());
     result.put("name", file.getName());
     result.put("size", file.length());
+    result.put("ext", ext);
     result.put("lastModified", isoDateFormat.format(file.lastModified()));
     return result;
   }
 
   @Override
   public Stream<SimpleNode> out(String edgeName) {
+    return inOrOut(edgeName);
+  }
+  
+  @Override
+  public Stream<SimpleNode> in(String edgeName) {
+    return inOrOut(edgeName);
+  }
+
+  protected Stream<SimpleNode> inOrOut(String edgeName) {
     Stream<SimpleNode> links = Stream.of();
     switch (edgeName) {
     case "parent":

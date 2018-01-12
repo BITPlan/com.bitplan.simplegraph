@@ -32,8 +32,6 @@ import org.apache.tinkerpop.gremlin.structure.Graph;
  *
  */
 public interface SimpleGraph {
-  // this is the only function you need to implement
-  public SimpleGraph asSimpleGraph();
 
   // access my wrapped graph
   public Graph graph();
@@ -44,17 +42,9 @@ public interface SimpleGraph {
     return this.graph().traversal();
   }
 
-  // default implementations for SimpleGraph API
-  public default SimpleNode getStartNode() {
-    return this.sg().getStartNode();
-  };
-
-  public default SimpleNode setStartNode(SimpleNode startNode) {
-    return this.setStartNode(startNode);
-  };
-
-  public default SimpleGraph sg() {
-    return this.asSimpleGraph();
-  };
+  // SimpleGraph API
+  public SimpleNode getStartNode();
+ 
+  public SimpleNode setStartNode(SimpleNode startNode);
 
 }

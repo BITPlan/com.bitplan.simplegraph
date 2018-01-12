@@ -20,7 +20,6 @@
  */
 package com.bitplan.simplegraph.impl;
 
-import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
 
 /**
@@ -29,7 +28,7 @@ import com.bitplan.simplegraph.SimpleSystem;
  * @author wf
  *
  */
-public class SimpleSystemImpl extends SimpleGraphImpl implements SimpleSystem {
+public abstract class SimpleSystemImpl extends SimpleGraphImpl implements SimpleSystem {
   
   String name;
   String version;
@@ -54,16 +53,6 @@ public class SimpleSystemImpl extends SimpleGraphImpl implements SimpleSystem {
   
   public void setVersion(String version) {
     this.version = version;
-  }
-
-  @Override
-  public SimpleNode moveTo(String nodeQuery) throws Exception {
-    throw new PseudoAbstractCallException(nodeQuery);
-  }
-
-  @Override
-  public SimpleSystem connect(String connectionString) throws Exception {
-    return this;
   }
 
 }

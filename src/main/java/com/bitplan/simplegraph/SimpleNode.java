@@ -37,29 +37,23 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
  */
 public interface SimpleNode extends SimpleGraph {
   public enum EdgeDirection{IN,OUT,BOTH};
-  
-  // this is the only operation that needs to be implemented for a class wanting
-  // to behave like a SimpleNode
-  public SimpleNode asSimpleNode();
 
   // interface to Tinkertop/Gremlin wrapped Vertex
-  public default Vertex getVertex() {
-    return this.asSimpleNode().getVertex();
-  };
+  public Vertex getVertex() ;
   
   // interfaces with default implementation
-  public default Map<String, Object> getMap() {
-    return this.asSimpleNode().getMap();
-  };
+  public Map<String, Object> getMap();
 
-  public default Stream<SimpleNode> out(String edgeName) {
-    return this.asSimpleNode().out(edgeName);
-  };
+  public Stream<SimpleNode> out(String edgeName);
   
-  public default Stream<SimpleNode> in(String edgeName) {
-    return this.asSimpleNode().in(edgeName);
-  };
+  public Stream<SimpleNode> in(String edgeName);
   
+  /**
+   * recursive out handling
+   * @param edgeName
+   * @param recursionDepth
+   * @return
+   */
   public default Stream<SimpleNode> recursiveOut(String edgeName,int recursionDepth) {
     // get the neighbor nodes with wrapped vertices following the edge with the given name
     // prepare a list of simple nodes for the recursive results

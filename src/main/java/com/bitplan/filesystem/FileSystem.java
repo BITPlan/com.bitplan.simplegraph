@@ -38,7 +38,14 @@ public class FileSystem extends com.bitplan.simplegraph.impl.SimpleSystemImpl {
   @Override
   public FileNode moveTo(String nodeQuery) throws Exception {
     FileNode file=new FileNode(this,nodeQuery);
+    if (this.getStartNode()==null)
+      this.setStartNode(file);
     return file;
+  }
+  
+  @Override
+  public FileSystem connect(String connectString) {
+    return this;
   }
 
 }

@@ -24,6 +24,7 @@ import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 
 import com.bitplan.simplegraph.SimpleGraph;
+import com.bitplan.simplegraph.SimpleNode;
 
 /**
  * default implementation of SimpleGraph interface - wraps a TinkerPop 3 graph
@@ -34,6 +35,8 @@ public class SimpleGraphImpl implements SimpleGraph {
 
   // The TinkerPop 3 graph
   Graph graph;
+  
+  SimpleNode startNode;
   
   public SimpleGraphImpl() {
     this(null); 
@@ -47,8 +50,14 @@ public class SimpleGraphImpl implements SimpleGraph {
   }
   
   @Override
-  public SimpleGraph asSimpleGraph() {
-    return this;
+  public SimpleNode getStartNode() {
+    return startNode;
+  }
+
+  @Override
+  public SimpleNode setStartNode(SimpleNode startNode) {
+    this.startNode = startNode;
+    return startNode;
   }
   
   @Override
