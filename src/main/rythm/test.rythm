@@ -1,0 +1,5 @@
+@// Rythm template
+@args() {
+  String title;
+}
+@title

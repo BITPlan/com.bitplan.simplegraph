@@ -36,7 +36,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
  *
  */
 public interface SimpleNode extends SimpleGraph {
-  public enum EdgeDirection{IN,OUT,BOTH};
+  public static enum EdgeDirection{IN,OUT,BOTH};
 
   // interface to Tinkertop/Gremlin wrapped Vertex
   public Vertex getVertex() ;

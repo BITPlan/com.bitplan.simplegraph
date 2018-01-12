@@ -22,6 +22,8 @@ package com.bitplan.simplegraph;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.logging.Level;
+
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
@@ -34,11 +36,13 @@ import com.bitplan.filesystem.FileSystem;
  * @author wf
  *
  */
-public class TestFileSystem {
-  boolean debug=true;
+public class TestFileSystem extends BaseTest {
+ 
   @Test
-  public void testFileSystem() throws Exception {
+  public void testFileSystemTree() throws Exception {
     SimpleSystem fs=new FileSystem();
+    assertEquals("FileSystem",fs.getName());
+    assertEquals("0.0.1",fs.getVersion());
     FileNode start = (FileNode) fs.connect("").moveTo("src");
     if (debug)
       start.printNameValues(System.out);
@@ -48,21 +52,37 @@ public class TestFileSystem {
     });
     long filecount = start.g().V().count().next().longValue();
     if (debug)
-      System.out.println(filecount);
-    assertEquals(28,filecount);
+      LOGGER.log(Level.INFO,""+filecount);
+    assertEquals(35,filecount);
     GraphTraversal<Vertex, Vertex> javaFiles = start.g().V().has("ext", "java");
     long javaFileCount=javaFiles.count().next().longValue();
-    assertEquals(11,javaFileCount);
+    assertEquals(15,javaFileCount);
     javaFiles = start.g().V().has("ext", "java");
     javaFiles.forEachRemaining(javaFile-> {
       for (String key:javaFile.keys()) {
         if (debug)
-          System.out.println(String.format("%s = %s", key, javaFile.property(key).value()));
+          LOGGER.log(Level.INFO,String.format("%s = %s", key, javaFile.property(key).value()));
       }
     });
-    //Vertex txtFile=start.g().V().has("ext","txt").next();
-    // Vertex etcDir= txtFile.in("parent").findFirst().get();
-    //assertEquals("src/etc",etcDir.getMap().get("path"));
+  }
+  
+  @Test
+  public void testFileSystemParent() throws Exception {
+    // debug=true;
+    // starting from the file "src/etc/header" move up the hierarchy to steps
+    SimpleSystem fs=new FileSystem();
+    FileNode start = (FileNode) fs.connect("").moveTo("src/etc/header.txt");
+    FileNode src=(FileNode) start.in("parent").findFirst().get().in("parent").findFirst().get();
+    if (debug)
+      src.printNameValues(System.out);
+    assertEquals("src",src.getMap().get("name"));
+    assertEquals("src",src.getVertex().property("name").value());
   }
 
+  @Test
+  public void testEdgeDirection() {
+    // we want three directions even if we only use two a this time
+    // TODO: BOTH is not covered although Coverage tells you so!
+    assertEquals(3,SimpleNode.EdgeDirection.values().length);
+  }
 }

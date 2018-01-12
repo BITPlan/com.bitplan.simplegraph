@@ -18,38 +18,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.simplegraph.impl;
+package com.bitplan.simplegraph;
 
-import org.apache.tinkerpop.gremlin.structure.Vertex;
+import static org.junit.Assert.assertTrue;
 
-import com.bitplan.simplegraph.SimpleGraph;
-import com.bitplan.simplegraph.SimpleNode;
+import org.junit.Test;
 
-/**
- * default implementation of a SimpleNode wraps a Tinkerpop/Gremlin Vertex
- * @author wf
- *
- */
-public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNode {
-  
-  Vertex vertex;
-  SimpleGraph simpleGraph;
-  
-  /**
-   * initialize me for the given graph
-   * @param simpleGraph
-   */
-  public SimpleNodeImpl(SimpleGraph simpleGraph) {
-    super(simpleGraph);
-    this.simpleGraph=simpleGraph;
+public class TestDebug extends BaseTest {
+
+  @Test
+  public void testDebug() {
+    debug=true;
+    assertTrue(debug);
   }
-
-  public Vertex getVertex() {
-    return vertex;
-  }
-
-  public void setVertex(Vertex vertex) {
-    this.vertex = vertex;
-  }
-  
 }

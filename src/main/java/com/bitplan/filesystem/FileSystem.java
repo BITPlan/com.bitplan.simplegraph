@@ -31,7 +31,7 @@ public class FileSystem extends com.bitplan.simplegraph.impl.SimpleSystemImpl {
    * initialize me
    */
   public FileSystem() {
-    super.setName("Filesystem");
+    super.setName("FileSystem");
     super.setVersion("0.0.1");
   }
 
