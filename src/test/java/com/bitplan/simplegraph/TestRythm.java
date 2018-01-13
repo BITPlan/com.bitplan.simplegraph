@@ -86,23 +86,26 @@ public class TestRythm extends BaseTest {
   @Test
   public void testGenerateGraphViz() throws Exception {
     SimpleSystem fs=new FileSystem();  
-    FileNode start = (FileNode) fs.connect("").moveTo("src");
+    SimpleNode start = fs.connect("").moveTo("src");
     start.recursiveOut("files",Integer.MAX_VALUE);
     Map<String, Object> rootMap = new HashMap<String, Object>();
     rootMap.put("start",start);
     rootMap.put("edge", "parent");
     rootMap.put("property","name");
+    rootMap.put("rankdir", "RL");
     rootMap.put("graphname", "FileSystemGraph");
     File template = new File("src/main/rythm/graphvizTree.rythm");
     RythmContext rythmContext = RythmContext.getInstance();
     String graphViz=rythmContext.render(template,rootMap);
-    System.out.println(graphViz);
-    Edge e=null;
+    debug=true;
+    if (debug)
+      System.out.println(graphViz);
     start.g().E().hasLabel("parent").forEachRemaining(edge->{
       String in=(String) edge.inVertex().property("name").value();
       String out=(String) edge.outVertex().property("name").value();
       String label=edge.label();
-      System.out.println(String.format("\"%s\"->\"%s\" [label=\"%s\"]",out,in,label));
+      if (debug)
+        System.out.println(String.format("\"%s\"->\"%s\" [label=\"%s\"]",out,in,label));
     });
   }
 

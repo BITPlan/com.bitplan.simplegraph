@@ -5,7 +5,10 @@
   FileNode start,
   String edge,
   String property,
-  String graphname;
+  String urlprefix,
+  String graphname,
+  String rankdir
+  ;
 }
 @// display an edge in a graph in graphviz
 @def edgeLine(Edge edge, String property) {
@@ -13,8 +16,7 @@
   String in=(String) edge.inVertex().property(property).value();
   String out=(String) edge.outVertex().property(property).value();
   String label=edge.label();
-}
- "@out" -> "@in" [ label="@label"]
+}   "@out" -> "@in" [ label="@label"]
 }
 @// prepare an Edge list from the given starting point
 @{
@@ -25,8 +27,9 @@
 }
 <graphviz>
   digraph @graphname @("{")
+    rankdir="@rankdir";
   @for(Edge edge:edges) {
-    @edgeLine(edge,property)
+      @edgeLine(edge,property)
   }
   @("}")
 </graphviz>

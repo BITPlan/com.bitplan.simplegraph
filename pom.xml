@@ -20,6 +20,8 @@
 		<commons.io.version>2.6</commons.io.version>
 		<!-- Rythm Template Engine -->
 		<rythm.version>1.1.7</rythm.version>
+		<!-- Java Code Coverage version -->
+		<jacoco.version>0.8.0</jacoco.version>
 	</properties>
 	<packaging>jar</packaging>
 	<url>https://github.com/BITPlan/com.bitplan.simplegraph</url>
@@ -129,7 +131,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<!--  License header handling -->
+			<!-- License header handling -->
 			<plugin>
 				<!-- http://code.mycila.com/license-maven-plugin/ -->
 				<groupId>com.mycila.maven-license-plugin</groupId>
@@ -142,6 +144,26 @@
 					</includes>
 					<strictCheck>true</strictCheck>
 				</configuration>
+			</plugin>
+			<!-- Code Coverage of tests with Jacoco -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Code Coverage reporting to Coveralls -->
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>4.3.0</version>
 			</plugin>
 		</plugins>
 	</build>
