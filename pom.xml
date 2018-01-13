@@ -107,6 +107,11 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.9.9</version>
 		</dependency>
+		<dependency>
+			<groupId>com.bitplan</groupId>
+			<artifactId>org.sidif.triplestore</artifactId>
+			<version>0.0.8</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>

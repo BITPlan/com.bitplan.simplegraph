@@ -25,7 +25,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ TestDebug.class,TestFileSystem.class, TestTinkerPop3.class,
-    TestRythm.class })
+    TestTripleStore.class,TestRythm.class })
 /**
  * TestSuite
  * 
