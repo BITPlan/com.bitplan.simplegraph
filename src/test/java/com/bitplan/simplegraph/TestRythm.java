@@ -28,10 +28,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.apache.tinkerpop.gremlin.structure.Edge;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
-import com.bitplan.filesystem.FileNode;
 import com.bitplan.filesystem.FileSystem;
 import com.bitplan.rythm.RythmContext;
 
@@ -43,6 +43,10 @@ import com.bitplan.rythm.RythmContext;
  */
 public class TestRythm extends BaseTest {
 
+  // for the documentation we have to translate local file path to github path
+  // just add the following PREFIX do so
+  public static final String GITHUB_URL_PREFIX = "https://github.com/BITPlan/com.bitplan.simplegraph/blob/master/";
+
   @Test
   public void testRythmFromFile() throws Exception {
     RythmContext rythmContext = RythmContext.getInstance();
@@ -50,7 +54,7 @@ public class TestRythm extends BaseTest {
     rythmContext.setTemplateRoot(templateDir.getAbsolutePath());
     // set it again - the engine should not be reconfigured
     rythmContext.setTemplateRoot(templateDir.getAbsolutePath());
-    File template=new File(templateDir,"test.rythm");
+    File template = new File(templateDir, "test.rythm");
     Map<String, Object> rootMap = new HashMap<String, Object>();
     rootMap.put("title", "testTitle");
     String result = rythmContext.render(template, rootMap);
@@ -59,53 +63,91 @@ public class TestRythm extends BaseTest {
 
   @Test
   public void testRythmFromString() throws Exception {
-    //debug=true;
+    // debug=true;
     RythmContext rythmContext = RythmContext.getInstance();
-    String template="@// Rythem template\n" + 
-        "@// you can try me out at http://fiddle.rythmengine.com\n" + 
-        "@// Created by Wolfgang Fahl, BITPlan GmbH,  2018-01-12\n" + 
-        "@args() {\n" + 
-        "  String title,int times;\n" + 
-        "}\n" + 
-        "@for (int i=0;i<times;i++) {\n" + 
-        "  @title @i\n" + 
-        "}";
+    String template = "@// Rythem template\n"
+        + "@// you can try me out at http://fiddle.rythmengine.com\n"
+        + "@// Created by Wolfgang Fahl, BITPlan GmbH,  2018-01-12\n"
+        + "@args() {\n" + "  String title,int times;\n" + "}\n"
+        + "@for (int i=0;i<times;i++) {\n" + "  @title @i\n" + "}";
     if (debug) {
-      // if there is something wrong with the template try it out in the Rythm fiddle
-      LOGGER.log(Level.INFO,template);
+      // if there is something wrong with the template try it out in the Rythm
+      // fiddle
+      LOGGER.log(Level.INFO, template);
     }
     Map<String, Object> rootMap = new HashMap<String, Object>();
     rootMap.put("title", "step");
-    rootMap.put("times",5);
+    rootMap.put("times", 5);
     String result = rythmContext.render(template, rootMap);
     if (debug)
-      LOGGER.log(Level.INFO,result);
+      LOGGER.log(Level.INFO, result);
     assertTrue(result.contains("step 4"));
   }
-  
+
+
   @Test
-  public void testGenerateGraphViz() throws Exception {
-    SimpleSystem fs=new FileSystem();  
-    SimpleNode start = fs.connect("").moveTo("src");
-    start.recursiveOut("files",Integer.MAX_VALUE);
+  public void testGenerateGraphVizViaRythm() throws Exception {
+    //debug=true;
+    SimpleNode start = getFileNode("/src",Integer.MAX_VALUE);
+    // prepare the Map of information to be supplied for the Rythm template
     Map<String, Object> rootMap = new HashMap<String, Object>();
-    rootMap.put("start",start);
+    // the SimpleNode to start with
+    rootMap.put("start", start);
+    // the edges to select
     rootMap.put("edge", "parent");
-    rootMap.put("property","name");
+    // the property to show (for edges/vertices)
+    rootMap.put("property", "name");
+    // the property to derive the URL from
+    rootMap.put("idProperty", "path");
+    // the prefix to prepend to the idProperty to get the final url
+    rootMap.put("urlPrefix", GITHUB_URL_PREFIX);
+    // style of graph e.g. TB, BT, RL, LR (Top-Bottom, Bottom-Top, Right-Left,
+    // Left-Right see. graphviz rankdir
     rootMap.put("rankdir", "RL");
-    rootMap.put("graphname", "FileSystemGraph");
-    File template = new File("src/main/rythm/graphvizTree.rythm");
+    // the name of the graph
+    rootMap.put("graphname",
+        "FileSystemGraphForSrcDirectoryOfSimpleGraphGitHubOpenSourceProject");
+    // get us a Rythm context to be able to render via a template
     RythmContext rythmContext = RythmContext.getInstance();
-    String graphViz=rythmContext.render(template,rootMap);
-    debug=true;
+    // choose a Rythm template that will work on our graph
+    File template = new File("src/main/rythm/graphvizTree.rythm");
+    // let Rythm do the rendering according to the template
+    String graphViz = rythmContext.render(template, rootMap);
+    // debug = true;
     if (debug)
-      System.out.println(graphViz);
-    start.g().E().hasLabel("parent").forEachRemaining(edge->{
-      String in=(String) edge.inVertex().property("name").value();
-      String out=(String) edge.outVertex().property("name").value();
-      String label=edge.label();
+      System.out.println(graphViz.trim());
+  }
+
+  @Test
+  public void testGenerateGraphVizManually() throws Exception {
+    debug = true;
+    SimpleNode start = getFileNode("/src",Integer.MAX_VALUE);
+    // get the gremlin starting point
+    GraphTraversalSource g = start.g();
+    // traverse using Apache Gremlin
+    // first print all vertices
+    g.V().forEachRemaining(vertex -> {
+      // lambda
+      Vertex v = vertex; // just to force needed import to make it available for
+                         // cut&paste to rythm template
+      String label = v.property("name").value().toString();
+      String path = v.property("path").value().toString();
+      String url = GITHUB_URL_PREFIX + path;
+      if (debug) {
+        // do not use LOGGER since we might want to copy&paste the result
+        System.out.println(String.format("\"%s\" [ label=\"%s\" URL=\"%s\" ]", path,label, url));
+      }
+    });
+    // then print all edges
+    g.E().hasLabel("parent").forEachRemaining(edge -> {
+      // lambda
+      String in = (String) edge.inVertex().property("path").value();
+      String out = (String) edge.outVertex().property("path").value();
+      String label = edge.label();
       if (debug)
-        System.out.println(String.format("\"%s\"->\"%s\" [label=\"%s\"]",out,in,label));
+        // do not use LOGGER since we might want to copy&paste the result
+        System.out.println(
+            String.format("\"%s\"->\"%s\" [label=\"%s\"]", out, in, label));
     });
   }
 

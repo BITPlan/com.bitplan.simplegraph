@@ -73,7 +73,7 @@ public class FileNode extends SimpleNodeImpl {
     this.file = file;
     this.ext = FilenameUtils.getExtension(file.getName());
     Date modified = new Date(file.lastModified());
-    super.setVertex(fileSystem.graph().addVertex(T.label, "file", "path", file.getAbsolutePath(),
+    super.setVertex(fileSystem.graph().addVertex(T.label, "file", "path", file.getPath(),
         "name", file.getName(), "size", file.length(), "ext", ext, "modified",
         modified));
   }
@@ -82,7 +82,7 @@ public class FileNode extends SimpleNodeImpl {
   public Map<String, Object> getMap() {
     Map<String, Object> result = new HashMap<String, Object>();
     result.put("file", file);
-    result.put("path", file.getAbsolutePath());
+    result.put("path", file.getPath());
     result.put("name", file.getName());
     result.put("size", file.length());
     result.put("ext", ext);
@@ -114,7 +114,6 @@ public class FileNode extends SimpleNodeImpl {
         for (File childFile : file.listFiles()) {
           FileNode childFileNode=new FileNode(fileSystem,childFile);
           knit(this,childFileNode);
-          
           files.add(childFileNode);
         }
         links = files.stream();

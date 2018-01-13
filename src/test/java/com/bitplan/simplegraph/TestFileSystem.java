@@ -59,11 +59,19 @@ public class TestFileSystem extends BaseTest {
     assertEquals(15,javaFileCount);
     javaFiles = start.g().V().has("ext", "java");
     javaFiles.forEachRemaining(javaFile-> {
-      for (String key:javaFile.keys()) {
-        if (debug)
-          LOGGER.log(Level.INFO,String.format("%s = %s", key, javaFile.property(key).value()));
-      }
+      logPropertyValues(javaFile);
     });
+  }
+  
+  @Test
+  public void testFullyQualifiedPath() throws Exception {
+    debug=true;
+    SimpleNode start=super.getFileNode("src",2);
+    long nodeCount=start.g().V().count().next().longValue();
+    assertEquals(14,nodeCount);
+    if (debug)
+      LOGGER.log(Level.INFO,"src has "+nodeCount+" subdirectories on the next two levels");
+    start.g().V().forEachRemaining(vertex->logPropertyValues(vertex));
   }
   
   @Test

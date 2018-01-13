@@ -20,14 +20,53 @@
  */
 package com.bitplan.simplegraph;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.tinkerpop.gremlin.structure.Vertex;
+
+import com.bitplan.filesystem.FileSystem;
 
 /**
  * base class for tests holding global configs e.g. debug
+ * 
  * @author wf
  *
  */
 public class BaseTest {
-  public static boolean debug=false;
+  public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph");
+  protected SimpleSystem fs;
+
+  /**
+   * get a File node for the given path
+   * 
+   * @param path
+   * @return
+   * @throws Exception
+   */
+  public SimpleNode getFileNode(String path, int levels) throws Exception {
+    // create a new FileSystem access supplying the result as a SimpleSystem API
+    // the "global" variable "fs" is set as a side effect
+    fs = new FileSystem();
+    // connect to this system with no extra information (e.g. no credentials)
+    // and move to the path node
+    SimpleNode start = fs.connect("").moveTo("src");
+    // do gremlin style out traversals recursively to the given depth
+    start.recursiveOut("files", levels);
+    return start;
+  }
+
+  /**
+   * show property values of a vertex for debug
+   * 
+   * @param vertex
+   */
+  protected void logPropertyValues(Vertex vertex) {
+    if (debug)
+      for (String key : vertex.keys()) {
+        LOGGER.log(Level.INFO,
+            String.format("%s = %s", key, vertex.property(key).value()));
+      }
+  }
 }
