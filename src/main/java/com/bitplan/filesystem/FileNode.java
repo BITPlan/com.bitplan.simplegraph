@@ -105,19 +105,28 @@ public class FileNode extends SimpleNodeImpl {
     switch (edgeName) {
     case "parent":
       FileNode parent = new FileNode(fileSystem,file.getParent());
+      knit(parent,this);
       links = Stream.of(parent);
       break;
     case "files":
       if (file.isDirectory()) {
         List<SimpleNode> files = new ArrayList<SimpleNode>();
         for (File childFile : file.listFiles()) {
-          files.add(new FileNode(fileSystem,childFile));
+          FileNode childFileNode=new FileNode(fileSystem,childFile);
+          knit(this,childFileNode);
+          
+          files.add(childFileNode);
         }
         links = files.stream();
       }
       break;
     }
     return links;
+  }
+  
+  protected void knit(FileNode parent,FileNode child) {
+    child.getVertex().addEdge("parent", parent.getVertex());
+    parent.getVertex().addEdge("files", child.getVertex());
   }
 
 }

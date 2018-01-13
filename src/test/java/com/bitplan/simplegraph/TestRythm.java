@@ -28,8 +28,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.junit.Test;
 
+import com.bitplan.filesystem.FileNode;
+import com.bitplan.filesystem.FileSystem;
 import com.bitplan.rythm.RythmContext;
 
 /**
@@ -78,6 +81,29 @@ public class TestRythm extends BaseTest {
     if (debug)
       LOGGER.log(Level.INFO,result);
     assertTrue(result.contains("step 4"));
+  }
+  
+  @Test
+  public void testGenerateGraphViz() throws Exception {
+    SimpleSystem fs=new FileSystem();  
+    FileNode start = (FileNode) fs.connect("").moveTo("src");
+    start.recursiveOut("files",Integer.MAX_VALUE);
+    Map<String, Object> rootMap = new HashMap<String, Object>();
+    rootMap.put("start",start);
+    rootMap.put("edge", "parent");
+    rootMap.put("property","name");
+    rootMap.put("graphname", "FileSystemGraph");
+    File template = new File("src/main/rythm/graphvizTree.rythm");
+    RythmContext rythmContext = RythmContext.getInstance();
+    String graphViz=rythmContext.render(template,rootMap);
+    System.out.println(graphViz);
+    Edge e=null;
+    start.g().E().hasLabel("parent").forEachRemaining(edge->{
+      String in=(String) edge.inVertex().property("name").value();
+      String out=(String) edge.outVertex().property("name").value();
+      String label=edge.label();
+      System.out.println(String.format("\"%s\"->\"%s\" [label=\"%s\"]",out,in,label));
+    });
   }
 
 }

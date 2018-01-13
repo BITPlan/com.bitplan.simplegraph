@@ -1,0 +1,32 @@
+@// Rythm template
+@import com.bitplan.filesystem.FileNode
+@import org.apache.tinkerpop.gremlin.structure.Edge
+@args() {
+  FileNode start,
+  String edge,
+  String property,
+  String graphname;
+}
+@// display an edge in a graph in graphviz
+@def edgeLine(Edge edge, String property) {
+@{
+  String in=(String) edge.inVertex().property(property).value();
+  String out=(String) edge.outVertex().property(property).value();
+  String label=edge.label();
+}
+ "@out" -> "@in" [ label="@label"]
+}
+@// prepare an Edge list from the given starting point
+@{
+   List<Edge> edges=new ArrayList<Edge>();
+   start.g().E().hasLabel(edge).forEachRemaining(edge->{
+    	  edges.add(edge);
+  });
+}
+<graphviz>
+  digraph @graphname @("{")
+  @for(Edge edge:edges) {
+    @edgeLine(edge,property)
+  }
+  @("}")
+</graphviz>
