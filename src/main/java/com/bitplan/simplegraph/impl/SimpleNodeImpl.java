@@ -50,6 +50,7 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
 
   public void setVertex(Vertex vertex) {
     this.vertex = vertex;
+    // FIXME - use my information to properly create a back link
   }
   
 }
