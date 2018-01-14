@@ -129,6 +129,12 @@
 			<groupId>com.bitplan</groupId>
 			<artifactId>org.sidif.triplestore</artifactId>
 			<version>0.0.8</version>
+			<exclusions>
+        <exclusion>  <!-- workaround the railroad diagrammer might not be found by travis -->
+          <groupId>nl-big-o</groupId>
+          <artifactId>rrd-anltr4</artifactId>
+        </exclusion>
+      </exclusions> 
 		</dependency>
 	</dependencies>
 	<build>
