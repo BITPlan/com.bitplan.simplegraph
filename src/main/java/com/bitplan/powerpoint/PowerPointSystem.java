@@ -20,11 +20,15 @@
  */
 package com.bitplan.powerpoint;
 
-import com.bitplan.filesystem.FileNode;
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
+/**
+ * create a graph oriented PowerPoint System
+ * @author wf
+ *
+ */
 public class PowerPointSystem extends SimpleSystemImpl{
 
   /**

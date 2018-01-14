@@ -20,10 +20,7 @@
  */
 package com.bitplan.powerpoint;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,11 +33,15 @@ import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.tinkerpop.gremlin.structure.T;
 
-import com.bitplan.filesystem.FileNode;
 import com.bitplan.simplegraph.SimpleGraph;
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
+/**
+ * a slide show node wraps a powerpoint slideshow
+ * @author wf
+ *
+ */
 public class SlideShowNode extends SimpleNodeImpl{
 
   protected XMLSlideShow slideshow;

@@ -44,10 +44,17 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
     this.simpleGraph=simpleGraph;
   }
 
+  /**
+   * get the Vertex
+   */
   public Vertex getVertex() {
     return vertex;
   }
 
+  /**
+   * set my vertex
+   * @param vertex
+   */
   public void setVertex(Vertex vertex) {
     this.vertex = vertex;
     // FIXME - use my information to properly create a back link

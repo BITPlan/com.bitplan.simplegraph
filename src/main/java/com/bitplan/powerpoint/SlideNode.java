@@ -31,10 +31,20 @@ import com.bitplan.simplegraph.SimpleGraph;
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
+/**
+ * a slide node that wraps a slide
+ * @author wf
+ *
+ */
 public class SlideNode extends SimpleNodeImpl {
 
   private XSLFSlide slide;
 
+  /**
+   * create a SlideNode from the given PowerPoint slide
+   * @param simpleGraph
+   * @param slide
+   */
   public SlideNode(SimpleGraph simpleGraph, XSLFSlide slide) {
     super(simpleGraph);
     this.slide = slide;
@@ -54,7 +64,7 @@ public class SlideNode extends SimpleNodeImpl {
 
   @Override
   public Stream<SimpleNode> out(String edgeName) {
-    // TODO if we want to show detail e.g shapse
+    // TODO if we want to show detail e.g shapes
     return null;
   }
 
