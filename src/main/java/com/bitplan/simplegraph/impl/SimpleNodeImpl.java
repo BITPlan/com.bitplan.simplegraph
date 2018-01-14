@@ -20,6 +20,13 @@
  */
 package com.bitplan.simplegraph.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.tinkerpop.gremlin.structure.T;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 import com.bitplan.simplegraph.SimpleGraph;
@@ -34,14 +41,18 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
   
   Vertex vertex;
   SimpleGraph simpleGraph;
+  String kind;
+  protected Map<String, Object> map = new HashMap<String, Object>();
   
   /**
    * initialize me for the given graph
    * @param simpleGraph
+   * @param kind 
    */
-  public SimpleNodeImpl(SimpleGraph simpleGraph) {
+  public SimpleNodeImpl(SimpleGraph simpleGraph, String kind) {
     super(simpleGraph);
     this.simpleGraph=simpleGraph;
+    this.kind=kind;
   }
 
   /**
@@ -51,13 +62,38 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
     return vertex;
   }
 
+  @Override
+  public Vertex setVertexFromMap() {
+    initMap();
+    List<Object> keyValueList=new ArrayList<Object>();
+    // first add a key value pair for my kind
+    addKeyValue(keyValueList,T.label,this.kind);
+    // now add the pointer to me
+    // TODO - filter / ignore me when saving
+    addKeyValue(keyValueList,"mysimplenode",this);
+    // add all key values from my map
+    for (Entry<String, Object> entry:map.entrySet()) {
+      addKeyValue(keyValueList,entry.getKey(),entry.getValue());
+    }
+    // create a vertex with the given data for later traversal
+    vertex=this.graph.addVertex(keyValueList.toArray());
+    return vertex;
+  }
+  
   /**
-   * set my vertex
-   * @param vertex
+   * add a pair of values
+   * @param keyValueList
+   * @param name
+   * @param value
    */
-  public void setVertex(Vertex vertex) {
-    this.vertex = vertex;
-    // FIXME - use my information to properly create a back link
+  private void addKeyValue(List<Object> keyValueList,Object name,Object value) {
+    keyValueList.add(name);
+    keyValueList.add(value);
+  }
+
+  @Override
+  public Map<String, Object> getMap() {
+    return map;
   }
   
 }

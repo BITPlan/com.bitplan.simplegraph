@@ -23,14 +23,11 @@ package com.bitplan.filesystem;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.tinkerpop.gremlin.structure.T;
 
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
@@ -68,26 +65,22 @@ public class FileNode extends SimpleNodeImpl {
    * @param file
    */
   public FileNode(FileSystem fileSystem,File file) {
-    super(fileSystem);
+    super(fileSystem,"file");
     this.fileSystem=fileSystem;
     this.file = file;
     this.ext = FilenameUtils.getExtension(file.getName());
-    Date modified = new Date(file.lastModified());
-    super.setVertex(fileSystem.graph().addVertex(T.label, "file", "path", file.getPath(),
-        "name", file.getName(), "size", file.length(), "ext", ext, "modified",
-        modified));
+    super.setVertexFromMap();
   }
 
   @Override
-  public Map<String, Object> getMap() {
-    Map<String, Object> result = new HashMap<String, Object>();
-    result.put("file", file);
-    result.put("path", file.getPath());
-    result.put("name", file.getName());
-    result.put("size", file.length());
-    result.put("ext", ext);
-    result.put("lastModified", isoDateFormat.format(file.lastModified()));
-    return result;
+  public Map<String, Object> initMap() {
+    map.put("file", file);
+    map.put("path", file.getPath());
+    map.put("name", file.getName());
+    map.put("size", file.length());
+    map.put("ext", ext);
+    map.put("lastModified", isoDateFormat.format(file.lastModified()));
+    return map;
   }
 
   @Override

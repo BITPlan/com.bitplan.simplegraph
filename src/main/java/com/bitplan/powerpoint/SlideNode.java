@@ -20,12 +20,10 @@
  */
 package com.bitplan.powerpoint;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
 import org.apache.poi.xslf.usermodel.XSLFSlide;
-import org.apache.tinkerpop.gremlin.structure.T;
 
 import com.bitplan.simplegraph.SimpleGraph;
 import com.bitplan.simplegraph.SimpleNode;
@@ -46,20 +44,17 @@ public class SlideNode extends SimpleNodeImpl {
    * @param slide
    */
   public SlideNode(SimpleGraph simpleGraph, XSLFSlide slide) {
-    super(simpleGraph);
+    super(simpleGraph,"slide");
     this.slide = slide;
-    Map<String, Object> map = getMap();
-    super.setVertex(simpleGraph.graph().addVertex(T.label, "slide", "number",map.get("number")));
+    super.setVertexFromMap();
   }
 
   @Override
-  public Map<String, Object> getMap() {
-    // FIXME make getMap and setVertex less redundant
-    Map<String, Object> result = new HashMap<String, Object>();
-    result.put("number", slide.getSlideNumber());
-    result.put("title", slide.getTitle());
-    result.put("comments", slide.getComments());
-    return result;
+  public Map<String, Object> initMap() {
+    map.put("number", slide.getSlideNumber());
+    map.put("title", slide.getTitle());
+    map.put("comments", slide.getComments());
+    return map;
   }
 
   @Override

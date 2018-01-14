@@ -32,6 +32,11 @@ import org.sidif.triple.TripleQuery;
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
+/**
+ * a node derived from the tripleStore
+ * @author wf
+ *
+ */
 public class TripleNode extends SimpleNodeImpl {
   TripleStoreSystem system;
   Triple triple;
@@ -43,14 +48,14 @@ public class TripleNode extends SimpleNodeImpl {
    * @param triple
    */
   public TripleNode(TripleStoreSystem system, Triple triple) {
-    super(system);
+    super(system,"triple");
     this.system = system;
     this.triple = triple;
+    super.setVertexFromMap();
   }
 
   @Override
-  public Map<String, Object> getMap() {
-    Map<String, Object> map = new HashMap<String, Object>();
+  public Map<String, Object> initMap() {
     List<Triple> triples = system.query.select(triple.getSubject(), null, null);
     for (Triple triple : triples) {
       Object value = triple.getObject();
@@ -62,7 +67,7 @@ public class TripleNode extends SimpleNodeImpl {
 
   @Override
   public Stream<SimpleNode> out(String edgeName) {
-    // translate the graph out vertice step to a triple query
+    // translate the graph out vertex step to a triple query
     List<Triple> triples = system.query.select(triple.getSubject(), edgeName,
         null);
     return triplesAsStream(triples, EdgeDirection.OUT);
@@ -70,7 +75,7 @@ public class TripleNode extends SimpleNodeImpl {
 
   @Override
   public Stream<SimpleNode> in(String edgeName) {
-    // translate the graph in vertice step to a triple query
+    // translate the graph in vertex step to a triple query
     List<Triple> triples = system.query.select(null, edgeName,
         triple.getSubject());
     return triplesAsStream(triples, EdgeDirection.IN);

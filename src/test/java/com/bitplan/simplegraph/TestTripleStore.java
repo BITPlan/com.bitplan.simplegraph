@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.bitplan.triplestore.TripleStoreSystem;
@@ -69,7 +68,7 @@ public class TestTripleStore extends BaseTest {
   @Test
   // https://de.wikipedia.org/wiki/Matching_(Graphentheorie)
   public void testReadTree() throws Exception {
-    // debug = true;
+    debug = true;
     SimpleSystem royal92 = readSiDIF();
     // read the SiDIF file for Royal 92 GEDCOM conversion
     royal92.connect("src/test/resources/sidif/royal92.sidif");

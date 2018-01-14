@@ -36,12 +36,14 @@ import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextBox;
 import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
 import org.apache.poi.xslf.usermodel.XSLFTextRun;
+import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 import org.junit.Test;
 
 import com.bitplan.powerpoint.PowerPointSystem;
 
 /**
  * test the access to the PowerPoint System
+ * 
  * @author wf
  *
  */
@@ -51,24 +53,27 @@ public class TestPowerPoint {
    * 
    * @param ppt
    */
-  public XSLFSlide slideForPerson(XMLSlideShow ppt, SimpleNode person) {
+  public XSLFSlide slideForNode(XMLSlideShow ppt, SimpleNode node,
+      String ... props) {
     XSLFSlide slide = ppt.createSlide();
-    
-    XSLFTextBox shape = slide.createTextBox();
-    int x=20;
-    int y=20;
-    int width=200;
-    int height=200;
-    shape.setAnchor(new Rectangle(x, y, width, height));
-    XSLFTextParagraph p = shape.addNewTextParagraph();
-    XSLFTextRun r1 = p.addNewTextRun();
-    Map<String, Object> map = person.getMap();
-    r1.setText(map.get("name").toString());
-    r1.setFontColor(Color.blue);
-    r1.setFontSize(24.);
+    int y = 20;
+    Map<String, Object> map = node.getMap();
+    for (String prop : props) {
+      XSLFTextBox shape = slide.createTextBox();
+      int x = 20;
+      int width = 600;
+      int height = 25;
+      shape.setAnchor(new Rectangle(x, y, width, height));
+      XSLFTextParagraph p = shape.addNewTextParagraph();
+      XSLFTextRun r1 = p.addNewTextRun();
+      r1.setText(prop + ":" + map.get(prop).toString());
+      r1.setFontColor(Color.blue);
+      r1.setFontSize(24.);
+      y += height;
+    }
     return slide;
   }
-  
+
   @Test
   public void testPowerPointCreate() throws Exception {
     SimpleSystem royal92 = TestTripleStore.readSiDIF();
@@ -79,25 +84,46 @@ public class TestPowerPoint {
     XMLSlideShow ppt = new XMLSlideShow();
     POIXMLProperties props = ppt.getProperties();
     props.getCoreProperties().setTitle("Queen Victoria");
+    /**
+     * born = 1819-05-24
+sex = female
+nobleTitle = Queen of England
+childOf = F42
+yearBorn = 1819
+parentOf = F1
+died = 1901-01-22
+diedAt = Royal Mausoleum,Frogmore,Berkshire,England
+birthPlace = Kensington,Palace,London,England
+yearDied = 1901
+isA = Person
+monthBorn = 5
+name = Victoria Hanover
+id = I1
+monthDied = 1
+     */
+    String slideprops[]= {"name","nobleTitle","sex","yearBorn","birthPlace","yearDied","diedAt"};
     //add slides
-    slideForPerson(ppt,queenVictoria);
+    slideForNode(ppt,queenVictoria,slideprops);
     for (SimpleNode child:TestTripleStore.children(queenVictoria)) {
-      slideForPerson(ppt,child);
+      slideForNode(ppt,child,slideprops);
     }
     FileOutputStream out = new FileOutputStream("QueenVictoria.pptx");
     ppt.write(out);
     out.close();
     ppt.close();
   }
-  
+
   @Test
   public void testPowerPointAsGraph() throws Exception {
     PowerPointSystem pps = new PowerPointSystem();
     SimpleNode sls = pps.connect("").moveTo("QueenVictoria.pptx");
     sls.printNameValues(System.out);
-    List<SimpleNode> slides = sls.out("slides").collect(Collectors.toCollection(ArrayList::new));
+    List<SimpleNode> slides = sls.out("slides")
+        .collect(Collectors.toCollection(ArrayList::new));
     slides.forEach(slide -> slide.printNameValues(System.out));
     assertEquals(10, slides.size());
-  } 
+    sls.graph().io(IoCore.graphml()).writeGraph("QueenVictoriaPowerPoint.xml");
+
+  }
 
 }

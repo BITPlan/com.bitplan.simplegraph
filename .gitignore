@@ -24,3 +24,6 @@ hs_err_pid*
 /target/
 # eclipse
 .settings
+
+# MAC
+.DS_Store

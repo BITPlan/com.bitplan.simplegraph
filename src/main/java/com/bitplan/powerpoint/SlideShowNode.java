@@ -22,7 +22,6 @@ package com.bitplan.powerpoint;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -31,7 +30,6 @@ import org.apache.poi.POIXMLProperties;
 import org.apache.poi.POIXMLProperties.CoreProperties;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
-import org.apache.tinkerpop.gremlin.structure.T;
 
 import com.bitplan.simplegraph.SimpleGraph;
 import com.bitplan.simplegraph.SimpleNode;
@@ -53,14 +51,11 @@ public class SlideShowNode extends SimpleNodeImpl{
    * @throws Exception
    */
   public SlideShowNode(SimpleGraph simpleGraph, String path) throws Exception {
-    super(simpleGraph);
+    super(simpleGraph,"slideshow");
     this.path=path;
     slideshow=new XMLSlideShow(new FileInputStream(path));
-    // my properties e.g. title
-    Map<String, Object> map = getMap();
-    super.setVertex(simpleGraph.graph().addVertex(T.label, "slideshow", "title", map.get("title")));
+    super.setVertexFromMap();
   }
-
   
   /**
    * get the core properties
@@ -74,11 +69,11 @@ public class SlideShowNode extends SimpleNodeImpl{
   }
 
   @Override
-  public Map<String, Object> getMap() {
-    Map<String, Object> result = new HashMap<String, Object>();
+  public Map<String, Object> initMap() {
+    map.put("path", path);
     CoreProperties cp=getCoreProperties();
-    result.put("title", cp.getTitle());
-    return result;
+    map.put("title", cp.getTitle());
+    return map;
   }
 
   @Override
@@ -105,7 +100,5 @@ public class SlideShowNode extends SimpleNodeImpl{
     }
     return links;
   }
-
-
  
 }
