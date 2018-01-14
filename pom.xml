@@ -22,7 +22,7 @@
 		<rythm.version>1.1.7</rythm.version>
 		<!-- Java Code Coverage version -->
 		<jacoco.version>0.8.0</jacoco.version>
-	    <!-- Apache POI e.g. for Powerpoint -->
+		<!-- Apache POI e.g. for Powerpoint -->
 		<apache-poi.version>3.16</apache-poi.version>
 	</properties>
 	<packaging>jar</packaging>
@@ -128,13 +128,13 @@
 		<dependency>
 			<groupId>com.bitplan</groupId>
 			<artifactId>org.sidif.triplestore</artifactId>
-			<version>0.0.8</version>
+			<version>0.0.9</version>
 			<exclusions>
-        <exclusion>  <!-- workaround the railroad diagrammer might not be found by travis -->
-          <groupId>nl-big-o</groupId>
-          <artifactId>rrd-anltr4</artifactId>
-        </exclusion>
-      </exclusions> 
+				<exclusion>  <!-- workaround the railroad diagrammer might not be found by travis -->
+					<groupId>nl-big-o</groupId>
+					<artifactId>rrd-anltr4</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 	<build>
