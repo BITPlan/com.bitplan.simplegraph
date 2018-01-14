@@ -26,17 +26,51 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.bitplan.triplestore.TripleStoreSystem;
 
+/**
+ * test the TripleStore access
+ * 
+ * @author wf
+ *
+ */
 public class TestTripleStore extends BaseTest {
+  static SimpleSystem royal92;
+
+  /**
+   * read the SiDIF File
+   * @return
+   * @throws Exception
+   */
+  public static SimpleSystem readSiDIF() throws Exception {
+    if (royal92 == null) {
+      royal92 = new TripleStoreSystem();
+      // read the SiDIF file for Royal 92 GEDCOM conversion
+      royal92.connect("src/test/resources/sidif/royal92.sidif");
+    }
+    return royal92;
+  }
+  
+  /**
+   * get the children for a given node
+   * @param person
+   * @return
+   */
+  public static List<SimpleNode> children(SimpleNode person) {
+    SimpleNode family = person.out("parentOf").findFirst().get();
+    List<SimpleNode> children = family.in("childOf")
+        .collect(Collectors.toCollection(ArrayList::new));
+    return children;
+  }
 
   @Test
   // https://de.wikipedia.org/wiki/Matching_(Graphentheorie)
   public void testReadTree() throws Exception {
-    debug = true;
-    SimpleSystem royal92 = new TripleStoreSystem();
+    // debug = true;
+    SimpleSystem royal92 = readSiDIF();
     // read the SiDIF file for Royal 92 GEDCOM conversion
     royal92.connect("src/test/resources/sidif/royal92.sidif");
     // start with Queen Victoria (Person Id=I1)
@@ -56,10 +90,11 @@ public class TestTripleStore extends BaseTest {
       System.out.println();
     }
     assertEquals("1840", qvf.getMap().get("yearMarried"));
-    
-    // get Queen Victoria's children  (qvc)
+
+    // get Queen Victoria's children (qvc)
     // https://stackoverflow.com/a/15458176/1497139
-    List<SimpleNode> qvc = qvf.in("childOf").collect(Collectors.toCollection(ArrayList::new));
+    List<SimpleNode> qvc = qvf.in("childOf")
+        .collect(Collectors.toCollection(ArrayList::new));
     if (debug) {
       qvc.forEach(child -> child.printNameValues(System.out));
     }
