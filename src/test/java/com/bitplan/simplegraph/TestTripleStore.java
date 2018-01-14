@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -40,7 +39,7 @@ public class TestTripleStore extends BaseTest {
     SimpleSystem royal92 = new TripleStoreSystem();
     // read the SiDIF file for Royal 92 GEDCOM conversion
     royal92.connect("src/test/resources/sidif/royal92.sidif");
-    // start with Queen Victoria (Persion Id=I1)
+    // start with Queen Victoria (Person Id=I1)
     SimpleNode queenVictoria = royal92.moveTo("id=I1");
     if (debug) {
       queenVictoria.printNameValues(System.out);
