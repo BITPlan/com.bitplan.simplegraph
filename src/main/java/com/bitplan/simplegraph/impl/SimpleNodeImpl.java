@@ -73,7 +73,8 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
     addKeyValue(keyValueList,"mysimplenode",this);
     // add all key values from my map
     for (Entry<String, Object> entry:map.entrySet()) {
-      addKeyValue(keyValueList,entry.getKey(),entry.getValue());
+      if (entry.getValue()!=null)
+        addKeyValue(keyValueList,entry.getKey(),entry.getValue());
     }
     // create a vertex with the given data for later traversal
     vertex=this.graph.addVertex(keyValueList.toArray());

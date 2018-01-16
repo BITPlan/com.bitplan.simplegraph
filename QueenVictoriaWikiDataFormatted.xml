@@ -1,0 +1,1699 @@
+<?xml version="1.0"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.1/graphml.xsd">
+	<key id="P269" for="node" attr.name="P269" attr.type="string"/>
+	<key id="P268" for="node" attr.name="P268" attr.type="string"/>
+	<key id="P1629" for="node" attr.name="P1629" attr.type="string"/>
+	<key id="P1628" for="node" attr.name="P1628" attr.type="string"/>
+	<key id="P2559" for="node" attr.name="P2559" attr.type="string"/>
+	<key id="P949" for="node" attr.name="P949" attr.type="string"/>
+	<key id="P2950" for="node" attr.name="P2950" attr.type="string"/>
+	<key id="P1343" for="node" attr.name="P1343" attr.type="string"/>
+	<key id="P3762" for="node" attr.name="P3762" attr.type="string"/>
+	<key id="mysimplenode" for="node" attr.name="mysimplenode" attr.type="string"/>
+	<key id="P4570" for="node" attr.name="P4570" attr.type="string"/>
+	<key id="P4293" for="node" attr.name="P4293" attr.type="string"/>
+	<key id="P2949" for="node" attr.name="P2949" attr.type="string"/>
+	<key id="P535" for="node" attr.name="P535" attr.type="string"/>
+	<key id="P2429" for="node" attr.name="P2429" attr.type="string"/>
+	<key id="P2668" for="node" attr.name="P2668" attr.type="string"/>
+	<key id="P1855" for="node" attr.name="P1855" attr.type="string"/>
+	<key id="P2667" for="node" attr.name="P2667" attr.type="string"/>
+	<key id="P1696" for="node" attr.name="P1696" attr.type="string"/>
+	<key id="P2302" for="node" attr.name="P2302" attr.type="string"/>
+	<key id="P935" for="node" attr.name="P935" attr.type="string"/>
+	<key id="P2264" for="node" attr.name="P2264" attr.type="string"/>
+	<key id="P4200" for="node" attr.name="P4200" attr.type="string"/>
+	<key id="labelV" for="node" attr.name="labelV" attr.type="string"/>
+	<key id="P1290" for="node" attr.name="P1290" attr.type="string"/>
+	<key id="P140" for="node" attr.name="P140" attr.type="string"/>
+	<key id="P166" for="node" attr.name="P166" attr.type="string"/>
+	<key id="P2378" for="node" attr.name="P2378" attr.type="string"/>
+	<key id="P569" for="node" attr.name="P569" attr.type="string"/>
+	<key id="P2533" for="node" attr.name="P2533" attr.type="string"/>
+	<key id="P4159" for="node" attr.name="P4159" attr.type="string"/>
+	<key id="P3222" for="node" attr.name="P3222" attr.type="string"/>
+	<key id="P2011" for="node" attr.name="P2011" attr.type="string"/>
+	<key id="P4553" for="node" attr.name="P4553" attr.type="string"/>
+	<key id="P1282" for="node" attr.name="P1282" attr.type="string"/>
+	<key id="P570" for="node" attr.name="P570" attr.type="string"/>
+	<key id="P691" for="node" attr.name="P691" attr.type="string"/>
+	<key id="P434" for="node" attr.name="P434" attr.type="string"/>
+	<key id="P950" for="node" attr.name="P950" attr.type="string"/>
+	<key id="P1559" for="node" attr.name="P1559" attr.type="string"/>
+	<key id="P1315" for="node" attr.name="P1315" attr.type="string"/>
+	<key id="P1711" for="node" attr.name="P1711" attr.type="string"/>
+	<key id="P94" for="node" attr.name="P94" attr.type="string"/>
+	<key id="P3734" for="node" attr.name="P3734" attr.type="string"/>
+	<key id="P1795" for="node" attr.name="P1795" attr.type="string"/>
+	<key id="P2521" for="node" attr.name="P2521" attr.type="string"/>
+	<key id="P1430" for="node" attr.name="P1430" attr.type="string"/>
+	<key id="P1793" for="node" attr.name="P1793" attr.type="string"/>
+	<key id="P1552" for="node" attr.name="P1552" attr.type="string"/>
+	<key id="P4145" for="node" attr.name="P4145" attr.type="string"/>
+	<key id="P1273" for="node" attr.name="P1273" attr.type="string"/>
+	<key id="P18" for="node" attr.name="P18" attr.type="string"/>
+	<key id="P17" for="node" attr.name="P17" attr.type="string"/>
+	<key id="P19" for="node" attr.name="P19" attr.type="string"/>
+	<key id="P345" for="node" attr.name="P345" attr.type="string"/>
+	<key id="P227" for="node" attr.name="P227" attr.type="string"/>
+	<key id="P106" for="node" attr.name="P106" attr.type="string"/>
+	<key id="P463" for="node" attr.name="P463" attr.type="string"/>
+	<key id="P2914" for="node" attr.name="P2914" attr.type="string"/>
+	<key id="P4539" for="node" attr.name="P4539" attr.type="string"/>
+	<key id="P906" for="node" attr.name="P906" attr.type="string"/>
+	<key id="P2875" for="node" attr.name="P2875" attr.type="string"/>
+	<key id="P509" for="node" attr.name="P509" attr.type="string"/>
+	<key id="P3447" for="node" attr.name="P3447" attr.type="string"/>
+	<key id="P2235" for="node" attr.name="P2235" attr.type="string"/>
+	<key id="P349" for="node" attr.name="P349" attr.type="string"/>
+	<key id="P1543" for="node" attr.name="P1543" attr.type="string"/>
+	<key id="P2236" for="node" attr.name="P2236" attr.type="string"/>
+	<key id="P21" for="node" attr.name="P21" attr.type="string"/>
+	<key id="P2354" for="node" attr.name="P2354" attr.type="string"/>
+	<key id="P109" for="node" attr.name="P109" attr.type="string"/>
+	<key id="P20" for="node" attr.name="P20" attr.type="string"/>
+	<key id="P1263" for="node" attr.name="P1263" attr.type="string"/>
+	<key id="P3321" for="node" attr.name="P3321" attr.type="string"/>
+	<key id="P22" for="node" attr.name="P22" attr.type="string"/>
+	<key id="P25" for="node" attr.name="P25" attr.type="string"/>
+	<key id="P27" for="node" attr.name="P27" attr.type="string"/>
+	<key id="P26" for="node" attr.name="P26" attr.type="string"/>
+	<key id="P214" for="node" attr.name="P214" attr.type="string"/>
+	<key id="P213" for="node" attr.name="P213" attr.type="string"/>
+	<key id="P1816" for="node" attr.name="P1816" attr.type="string"/>
+	<key id="P1938" for="node" attr.name="P1938" attr.type="string"/>
+	<key id="P1417" for="node" attr.name="P1417" attr.type="string"/>
+	<key id="P1659" for="node" attr.name="P1659" attr.type="string"/>
+	<key id="P1899" for="node" attr.name="P1899" attr.type="string"/>
+	<key id="P1415" for="node" attr.name="P1415" attr.type="string"/>
+	<key id="P3713" for="node" attr.name="P3713" attr.type="string"/>
+	<key id="P1412" for="node" attr.name="P1412" attr.type="string"/>
+	<key id="P1896" for="node" attr.name="P1896" attr.type="string"/>
+	<key id="P735" for="node" attr.name="P735" attr.type="string"/>
+	<key id="P856" for="node" attr.name="P856" attr.type="string"/>
+	<key id="P31" for="node" attr.name="P31" attr.type="string"/>
+	<key id="P3430" for="node" attr.name="P3430" attr.type="string"/>
+	<key id="P39" for="node" attr.name="P39" attr.type="string"/>
+	<key id="P126" for="node" attr.name="P126" attr.type="string"/>
+	<key id="P3709" for="node" attr.name="P3709" attr.type="string"/>
+	<key id="P485" for="node" attr.name="P485" attr.type="string"/>
+	<key id="P245" for="node" attr.name="P245" attr.type="string"/>
+	<key id="P1647" for="node" attr.name="P1647" attr.type="string"/>
+	<key id="P244" for="node" attr.name="P244" attr.type="string"/>
+	<key id="P409" for="node" attr.name="P409" attr.type="string"/>
+	<key id="P1921" for="node" attr.name="P1921" attr.type="string"/>
+	<key id="P1006" for="node" attr.name="P1006" attr.type="string"/>
+	<key id="P3029" for="node" attr.name="P3029" attr.type="string"/>
+	<key id="P3303" for="node" attr.name="P3303" attr.type="string"/>
+	<key id="P40" for="node" attr.name="P40" attr.type="string"/>
+	<key id="P646" for="node" attr.name="P646" attr.type="string"/>
+	<key id="P3544" for="node" attr.name="P3544" attr.type="string"/>
+	<key id="P1001" for="node" attr.name="P1001" attr.type="string"/>
+	<key id="P648" for="node" attr.name="P648" attr.type="string"/>
+	<key id="P373" for="node" attr.name="P373" attr.type="string"/>
+	<key id="P4629" for="node" attr.name="P4629" attr.type="string"/>
+	<key id="P112" for="node" attr.name="P112" attr.type="string"/>
+	<key id="P3417" for="node" attr.name="P3417" attr.type="string"/>
+	<key id="P2843" for="node" attr.name="P2843" attr.type="string"/>
+	<key id="P119" for="node" attr.name="P119" attr.type="string"/>
+	<key id="P1630" for="node" attr.name="P1630" attr.type="string"/>
+	<key id="P1476" for="node" attr.name="P1476" attr.type="string"/>
+	<key id="P910" for="node" attr.name="P910" attr.type="string"/>
+	<key id="P1114" for="node" attr.name="P1114" attr.type="string"/>
+	<key id="P53" for="node" attr.name="P53" attr.type="string"/>
+	<key id="P1871" for="node" attr.name="P1871" attr.type="string"/>
+	<key id="P3254" for="node" attr.name="P3254" attr.type="string"/>
+	<key id="P2163" for="node" attr.name="P2163" attr.type="string"/>
+	<key id="P1196" for="node" attr.name="P1196" attr.type="string"/>
+	<key id="P3373" for="node" attr.name="P3373" attr.type="string"/>
+	<key id="P2041" for="node" attr.name="P2041" attr.type="string"/>
+	<key id="P361" for="node" attr.name="P361" attr.type="string"/>
+	<key id="labelE" for="edge" attr.name="labelE" attr.type="string"/>
+	<graph id="G" edgedefault="directed">
+		<node id="0">
+			<data key="labelV">wikidata</data>
+			<data key="P269">"027448207"</data>
+			<data key="P268">"11928202f"</data>
+			<data key="P345">"nm0703075"</data>
+			<data key="P227">"118626876"</data>
+			<data key="P106">http://www.wikidata.org/entity/Q1028181 (item)</data>
+			<data key="P463">http://www.wikidata.org/entity/Q123885 (item)</data>
+			<data key="P2914">"msib7_1207144285"</data>
+			<data key="P4539">"9064"</data>
+			<data key="P906">"205997"</data>
+			<data key="P949">"000610331"</data>
+			<data key="P509">http://www.wikidata.org/entity/Q1368943 (item)</data>
+			<data key="P2950">"queen_victoria"</data>
+			<data key="P349">"00621601"</data>
+			<data key="P1543">"Royal Monogram of Queen Victoria of Great Britain.svg"</data>
+			<data key="P21">http://www.wikidata.org/entity/Q6581072 (item)</data>
+			<data key="P109">"Queen Victoria Signature.svg"</data>
+			<data key="P20">http://www.wikidata.org/entity/Q565155 (item)</data>
+			<data key="P1343">http://www.wikidata.org/entity/Q16014700 (item)</data>
+			<data key="P3762">"40795"</data>
+			<data key="P1263">"575/000024503"</data>
+			<data key="P22">http://www.wikidata.org/entity/Q157009 (item)</data>
+			<data key="P25">http://www.wikidata.org/entity/Q58067 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@662b4c69</data>
+			<data key="P27">http://www.wikidata.org/entity/Q145 (item)</data>
+			<data key="P26">http://www.wikidata.org/entity/Q152245 (item)</data>
+			<data key="P4293">"pe/017802"</data>
+			<data key="P214">"95738652"</data>
+			<data key="P213">"0000 0001 2144 3562"</data>
+			<data key="P1816">"mp04634"</data>
+			<data key="P2949">"Hannover-14"</data>
+			<data key="P535">"1442"</data>
+			<data key="P1938">"9035"</data>
+			<data key="P1417">"biography/Victoria-queen-of-United-Kingdom"</data>
+			<data key="P1899">"3622"</data>
+			<data key="P1415">"36652"</data>
+			<data key="P1412">http://www.wikidata.org/entity/Q1860 (item)</data>
+			<data key="P735">http://www.wikidata.org/entity/Q590893 (item)</data>
+			<data key="P935">"Victoria of the United Kingdom"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q5 (item)</data>
+			<data key="P3430">"w66z0061"</data>
+			<data key="P4200">"58694"</data>
+			<data key="P1290">http://www.wikidata.org/entity/Q15193 (item)</data>
+			<data key="P39">http://www.wikidata.org/entity/Q5352166 (item)</data>
+			<data key="P140">http://www.wikidata.org/entity/Q6423963 (item)</data>
+			<data key="P166">http://www.wikidata.org/entity/Q4710826 (item)</data>
+			<data key="P485">http://www.wikidata.org/entity/Q666063 (item)</data>
+			<data key="P245">"500022428"</data>
+			<data key="P244">"n79017983"</data>
+			<data key="P409">"35581194"</data>
+			<data key="P1006">"070185115"</data>
+			<data key="P3029">"F65350"</data>
+			<data key="P40">http://www.wikidata.org/entity/Q158140 (item)</data>
+			<data key="P569">1819-05-24 (Prec.: day [-0 .. +0], PCal: Gregorian)</data>
+			<data key="P646">"/m/0cw10"</data>
+			<data key="P3544">"31936"</data>
+			<data key="P2533">"57ab5323-f473-44ea-ba9d-b568ee58b6af"</data>
+			<data key="P4159">"Victoria_of_the_United_Kingdom_(1)"</data>
+			<data key="P648">"OL343963A"</data>
+			<data key="P3222">"victoria-(1819-1901-drottning-av-storbrit)"</data>
+			<data key="P2011">"18042969"</data>
+			<data key="P4553">"8741"</data>
+			<data key="P373">"Victoria of the United Kingdom"</data>
+			<data key="P570">1901-01-22 (Prec.: day [-0 .. +0], PCal: Gregorian)</data>
+			<data key="P691">"jn20000701900"</data>
+			<data key="P434">"7db5c493-38e5-41c7-9518-f3b8332a5ff7"</data>
+			<data key="P950">"XX979643"</data>
+			<data key="P1559">"Victoria" (en)</data>
+			<data key="P4629">"Victoria, Queen of Great Britain, 1819-1901"</data>
+			<data key="P112">http://www.wikidata.org/entity/Q94158 (item)</data>
+			<data key="P1315">"1002991"</data>
+			<data key="P3417">"Queen-Victoria"</data>
+			<data key="P1711">"49731"</data>
+			<data key="P94">"Coat of arms of the United Kingdom (1837-1952).svg"</data>
+			<data key="P2843">"B00190726"</data>
+			<data key="P1795">"5149"</data>
+			<data key="P119">http://www.wikidata.org/entity/Q564578 (item)</data>
+			<data key="P910">http://www.wikidata.org/entity/Q6157016 (item)</data>
+			<data key="P1430">"16297"</data>
+			<data key="P53">http://www.wikidata.org/entity/Q157217 (item)</data>
+			<data key="P1871">"cnp00396790"</data>
+			<data key="P4145">"140"</data>
+			<data key="P2163">"31183"</data>
+			<data key="P1273">"a11252959"</data>
+			<data key="P1196">http://www.wikidata.org/entity/Q3739104 (item)</data>
+			<data key="P3373">http://www.wikidata.org/entity/Q60508 (item)</data>
+			<data key="P2041">"6883"</data>
+			<data key="P18">"Queen Victoria by Bassano.jpg"</data>
+			<data key="P19">http://www.wikidata.org/entity/Q207385 (item)</data>
+		</node>
+		<node id="898">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q13550863 (item)</data>
+			<data key="P3709">http://www.wikidata.org/entity/Q14799954 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q9065647 (item)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q14799963 (item)</data>
+			<data key="P1896">"https://aleph.nkp.cz/F/?func=file&amp;file_name=find-b&amp;local_base=aut&amp;CON_LNG=ENG"</data>
+			<data key="P2667">http://www.wikidata.org/entity/Q10804062 (item)</data>
+			<data key="P1630">"https://aleph.nkp.cz/F/?func=find-c&amp;local_base=aut&amp;ccl_term=ica=$1&amp;CON_LNG=ENG"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q1967876 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21528958 (item)</data>
+			<data key="P1793">"[a-z]{2,4}[0-9]{2,14}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/10#P691"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@2ca923bb</data>
+			<data key="P17">http://www.wikidata.org/entity/Q213 (item)</data>
+		</node>
+		<node id="515">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"169"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/24#P1417"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q5375741 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@13df2a8c</data>
+			<data key="P1659">http://www.wikidata.org/entity/P2450 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q47180 (item)</data>
+			<data key="P1896">"https://www.britannica.com/"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q30836223 (item)</data>
+			<data key="P1630">"https://www.britannica.com/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q19474404 (item)</data>
+			<data key="P1793">"(biography|topic|place|science|animal|event|art|technology|plant|sports)\/[^\s\/]+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19847637 (item)</data>
+		</node>
+		<node id="389">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P27"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q42138 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@1ebea008</data>
+			<data key="P1628">"http://schema.org/nationality"</data>
+			<data key="P1647">http://www.wikidata.org/entity/P17 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P1532 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1001 (item)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q19414348 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q23908972 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533253 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502838 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18608871 (item)</data>
+		</node>
+		<node id="263">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q2553334 (item)</data>
+			<data key="P1628">"http://dbpedia.org/ontology/ndlId"</data>
+			<data key="P1659">http://www.wikidata.org/entity/P2687 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q982133 (item)</data>
+			<data key="P1921">"http://id.ndl.go.jp/auth/ndlna/$1"</data>
+			<data key="P1896">"https://id.ndl.go.jp/auth/ndla"</data>
+			<data key="P1630">"https://id.ndl.go.jp/auth/ndlna/$1"</data>
+			<data key="P856">"https://id.ndl.go.jp/auth/ndla"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q477675 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q19474404 (item)</data>
+			<data key="P1793">"0?\d{8}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/4#P349"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@72d6b3ba</data>
+			<data key="P17">http://www.wikidata.org/entity/Q17 (item)</data>
+		</node>
+		<node id="647">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/2#P166"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q618779 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@1787f2a0</data>
+			<data key="P1628">"http://schema.org/award"</data>
+			<data key="P1659">http://www.wikidata.org/entity/P4622 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q7131158 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q22911624 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533369 (item)</data>
+			<data key="P1696">http://www.wikidata.org/entity/P1346 (property)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510856 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18618644 (item)</data>
+		</node>
+		<node id="776">
+			<data key="labelV">wikidata</data>
+			<data key="P126">http://www.wikidata.org/entity/Q915603 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P2041 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q21996620 (item)</data>
+			<data key="P1896">"https://collections.tepapa.govt.nz/"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45315806 (item)</data>
+			<data key="P1630">"https://collections.tepapa.govt.nz/Person/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q915603 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P1793">"\d+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q27918607 (item)</data>
+			<data key="P2264">"362"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Te_Papa_artist_ID"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7de62196</data>
+			<data key="P17">http://www.wikidata.org/entity/Q664 (item)</data>
+		</node>
+		<node id="1032">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q24255573 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q16915458 (item)</data>
+			<data key="P1896">"http://oxfordindex.oup.com/view/10.1093/benz/9780199773787.001.0001"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45312093 (item)</data>
+			<data key="P2667">http://www.wikidata.org/entity/Q45407270 (item)</data>
+			<data key="P1630">"http://oxfordindex.oup.com/view/10.1093/benz/9780199773787.article.$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P1793">"B\d{7,8}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q27918607 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q23585486 (item)</data>
+			<data key="P2264">"143"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Benezit"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@163370c2</data>
+		</node>
+		<node id="1161">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/20#P1196"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q2438541 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@51bf5add</data>
+			<data key="P1659">http://www.wikidata.org/entity/P3909 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q213864 (item)</data>
+			<data key="P1896">"http://www.documentcloud.org/documents/29467-death-cert.html"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45328507 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18608871 (item)</data>
+		</node>
+		<node id="142">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q36578 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P1292 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q212190 (item)</data>
+			<data key="P1921">"http://d-nb.info/gnd/$1"</data>
+			<data key="P1896">"https://portal.dnb.de"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q8709075 (item)</data>
+			<data key="P1630">"https://d-nb.info/gnd/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q27302 (item)</data>
+			<data key="P1476">"&#x41A;&#x430;&#x442;&#x430;&#x43B;&#x43E;&#x433; &#x41D;&#x435;&#x43C;&#x435;&#x446;&#x43A;&#x43E;&#x439; &#x43D;&#x430;&#x446;&#x438;&#x43E;&#x43D;&#x430;&#x43B;&#x44C;&#x43D;&#x43E;&#x439; &#x431;&#x438;&#x431;&#x43B;&#x438;&#x43E;&#x442;&#x435;&#x43A;&#x438;" (ru)</data>
+			<data key="P3303">"https://viaf.org/processed/DNB|$1"</data>
+			<data key="P1114">11269767</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P1793">"(1|1[01])\d{7}[0-9X]|[47]\d{6}-\d|[1-9]\d{0,7}-[0-9X]|3\d{7}[0-9X]"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+			<data key="P2264">"431"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/3#P227"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7905a0b8</data>
+			<data key="P17">http://www.wikidata.org/entity/Q183 (item)</data>
+		</node>
+		<node id="529">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/31#P1899"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q1070969 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@35a3d49f</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q2959615 (item)</data>
+			<data key="P1896">"https://librivox.org"</data>
+			<data key="P1630">"https://librivox.org/author/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"[0-9]+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+		</node>
+		<node id="403">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q1196129 (item)</data>
+			<data key="P1628">"http://www.w3.org/2006/vcard/ns#Spouse"</data>
+			<data key="P1647">http://www.wikidata.org/entity/P1038 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P2546 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q33923 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q21037839 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533263 (item)</data>
+			<data key="P2521">"echtgenote" (nl)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21528958 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26935994 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q28343326 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P26"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@389b0789</data>
+		</node>
+		<node id="915">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q19832969 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P3478 (property)</data>
+			<data key="P1921">"http://musicbrainz.org/$1/artist"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q2599 (item)</data>
+			<data key="P1896">"http://musicbrainz.org/doc/MusicBrainz_Identifier"</data>
+			<data key="P1630">"https://musicbrainz.org/artist/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q14005 (item)</data>
+			<data key="P3303">"http://www.bbc.co.uk/music/artists/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502838 (item)</data>
+			<data key="P1793">"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q24075706 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/5#P434"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@13d9cbf5</data>
+		</node>
+		<node id="660">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/6#P485"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q166118 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@478db956</data>
+			<data key="P1647">http://www.wikidata.org/entity/P276 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q12765 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q22964126 (item)</data>
+		</node>
+		<node id="1172">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Requests_for_comment/Make_family_member_properties_gender_neutral"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q31184 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@6ca18a14</data>
+			<data key="P1647">http://www.wikidata.org/entity/P1038 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q7207 (item)</data>
+			<data key="P2559">"bruk \"slektning\" (P1038) for svigers&#xF8;sken og stes&#xF8;sken" (nb)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q27927382 (item)</data>
+			<data key="P2236">"http://www.w3.org/2006/vcard/ns#Sibling"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510862 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26935994 (item)</data>
+		</node>
+		<node id="1047">
+			<data key="labelV">wikidata</data>
+			<data key="P126">http://www.wikidata.org/entity/Q1192305 (item)</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q19186351 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P2252 (property)</data>
+			<data key="P1921">"http://edan.si.edu/saam/id/person-institution/$1"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q4730556 (item)</data>
+			<data key="P1896">"https://github.com/usc-isi-i2/saam-lod/tree/master/n3/n3-seeAlso"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45311958 (item)</data>
+			<data key="P1630">"http://americanart.si.edu/collections/search/artist/?id=$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q1192305 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P1793">"[1-9][0-9]{0,4}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q27918607 (item)</data>
+			<data key="P2264">"39"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/29#P1795"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@c667f46</data>
+			<data key="P17">http://www.wikidata.org/entity/Q30 (item)</data>
+		</node>
+		<node id="792">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"156"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/45#P2533"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q22811588 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@51bd8b5c</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1976101 (item)</data>
+			<data key="P1896">"http://resources.huygens.knaw.nl/womenwriters"</data>
+			<data key="P1630">"http://resources.huygens.knaw.nl/womenwriters/vre/persons/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P1793">"[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q29561722 (item)</data>
+		</node>
+		<node id="281">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/26#P1543"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q168346 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7b50df34</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q130752 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q23909124 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">".+\.(svg|png|gif|SVG|PNG|GIF)"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26940804 (item)</data>
+		</node>
+		<node id="540">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"1"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/24#P1415"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q17565097 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@1b410b60</data>
+			<data key="P17">http://www.wikidata.org/entity/Q145 (item)</data>
+			<data key="P2429">http://www.wikidata.org/entity/Q47169297 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q430712 (item)</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q17565097 (item)</data>
+			<data key="P1630">"https://doi.org/10.1093/ref:odnb/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+		</node>
+		<node id="669">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q2494649 (item)</data>
+			<data key="P1921">"http://vocab.getty.edu/ulan/$1"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q6373 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45312103 (item)</data>
+			<data key="P1630">"http://vocab.getty.edu/page/ulan/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q11203476 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"500\d{6}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q27918607 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+			<data key="P2264">"27"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/3#P245"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@2462cb01</data>
+		</node>
+		<node id="1184">
+			<data key="labelV">wikidata</data>
+			<data key="P126">http://www.wikidata.org/entity/Q1464509 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P3372 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q60809 (item)</data>
+			<data key="P1896">"https://www.ngv.vic.gov.au/explore/collection/artist/"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45313594 (item)</data>
+			<data key="P1630">"https://www.ngv.vic.gov.au/explore/collection/artist/$1/"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q1464509 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P1793">"\d+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q27918607 (item)</data>
+			<data key="P2264">"95"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/33#P2041"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@19b843ba</data>
+			<data key="P17">http://www.wikidata.org/entity/Q408 (item)</data>
+		</node>
+		<node id="418">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"788"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Pressemappe_20._Jahrhundert_IFIS"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q36948990 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@64ec96c6</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q639128 (item)</data>
+			<data key="P1896">"http://webopac0.hwwa.de/PresseMappe20/"</data>
+			<data key="P1630">"http://purl.org/pressemappe20/folder/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"(pe|co)\/\d{6}|(sh|wa)\/\d{6},\d{6}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+		</node>
+		<node id="930">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"163"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/15#P950"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@77659b30</data>
+			<data key="P17">http://www.wikidata.org/entity/Q29 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q79822 (item)</data>
+			<data key="P1630">"http://datos.bne.es/resource/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q750403 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502410 (item)</data>
+			<data key="P1793">"XX\d{4,7}|a\d{4,7}|bima\d{10}|bimo\d{10}|bise\d{10}|bivi\d{10}|Mise\d{10}|Mimo\d{10}|Mima\d{10}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q23585486 (item)</data>
+		</node>
+		<node id="163">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P106"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q12737077 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@456d6c1e</data>
+			<data key="P1659">http://www.wikidata.org/entity/P3618 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q42402 (item)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q28858517 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q20116994 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502838 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18608871 (item)</data>
+		</node>
+		<node id="291">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P21"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q48277 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@1e13529a</data>
+			<data key="P1628">"http://xmlns.com/foaf/spec/#term_gender"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q2988585 (item)</data>
+			<data key="P2559">"bitte nur verwenden: m&#xE4;nnlich (Q6581097), weiblich (Q6581072), Intersexualit&#xE4;t (Q1097630), Transfrau (Q1052281), Transmann (Q2449503) oder Genderqueer (Q48270); f&#xFC;r Tiere m&#xE4;nnliches Tier (Q44148) oder weibliches Tier (Q43445)" (de)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q26220006 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q28039789 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26935994 (item)</data>
+		</node>
+		<node id="804">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/WeRelate_person_ID"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q7983244 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@1ec9bd38</data>
+			<data key="P4570">"https://www.wikidata.org/wiki/Wikidata:WikiProject_Genealogy"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q236669 (item)</data>
+			<data key="P1630">"http://www.werelate.org/wiki/Person:$1"</data>
+			<data key="P856">"https://www.werelate.org"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502410 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+		</node>
+		<node id="553">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/24#P1412"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q2390977 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@452e19ca</data>
+			<data key="P1628">"http://www.w3.org/2006/vcard/ns#language"</data>
+			<data key="P1647">http://www.wikidata.org/entity/P2439 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P407 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q4604 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q23909087 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533381 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21528958 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26935994 (item)</data>
+		</node>
+		<node id="1065">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P119"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q12131650 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@6b0d80ed</data>
+			<data key="P1647">http://www.wikidata.org/entity/P276 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P4602 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1526 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q23909089 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533343 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q22983697 (item)</data>
+		</node>
+		<node id="684">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q13219454 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P1144 (property)</data>
+			<data key="P1921">"http://id.loc.gov/authorities/names/$1"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q33384 (item)</data>
+			<data key="P1896">"http://id.loc.gov"</data>
+			<data key="P1630">"https://id.loc.gov/authorities/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q131454 (item)</data>
+			<data key="P3303">"http://viaf.org/processed/LC|$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P1793">"(n|nb|nr|no|ns|sh)([4-9][0-9]|00|20[0-1][0-9])[0-9]{6}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q21745557 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q23585486 (item)</data>
+			<data key="P2264">"600"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/3#P244"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@6f8e8894</data>
+			<data key="P17">http://www.wikidata.org/entity/Q30 (item)</data>
+		</node>
+		<node id="174">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/6#P463"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q9200127 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@3cfdd820</data>
+			<data key="P1628">"http://www.w3.org/ns/org#memberOf"</data>
+			<data key="P1647">http://www.wikidata.org/entity/P1416 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P39 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1672692 (item)</data>
+			<data key="P2559">"&#xBBFC;&#xC871;, &#xC815;&#xB2F9;&#xC744; &#xB098;&#xD0C0;&#xB0B4;&#xB824;&#xACE0; &#xD55C;&#xB2E4;&#xBA74; P172(&#xBBFC;&#xC871;)&#xB098; P102(&#xC18C;&#xC18D; &#xC815;&#xB2F9;)&#xB97C;, &#xD300;&#xC744; &#xB098;&#xD0C0;&#xB0B4;&#xB294; &#xACBD;&#xC6B0;&#xC5D4; P54(&#xC18C;&#xC18D; &#xD300;)&#xB97C;, &#xAC00;&#xBB38;&#xC744; &#xB098;&#xD0C0;&#xB0B4;&#xB824;&#xACE0; &#xD55C;&#xB2E4;&#xBA74; P50(&#xB2E4;&#xC74C; &#xAC00;&#xBB38;&#xC758; &#xC77C;&#xC6D0;&#xC784;)&#xC744; &#xB300;&#xC2E0; &#xC0AC;&#xC6A9;&#xD558;&#xC138;&#xC694;." (ko)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q21037892 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533283 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26935994 (item)</data>
+		</node>
+		<node id="430">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q54919 (item)</data>
+			<data key="P3709">http://www.wikidata.org/entity/Q16300230 (item)</data>
+			<data key="P2429">http://www.wikidata.org/entity/Q21873886 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q3166765 (item)</data>
+			<data key="P1921">"https://viaf.org/viaf/$1"</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q16300231 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q8709085 (item)</data>
+			<data key="P1896">"https://viaf.org"</data>
+			<data key="P1630">"https://viaf.org/viaf/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q190593 (item)</data>
+			<data key="P3303">"https://tools.wmflabs.org/scholia/viaf/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q19474404 (item)</data>
+			<data key="P1793">"[1-9]\d(\d{0,7}|\d{17,20})"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q21745557 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/3#P214"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@928763c</data>
+		</node>
+		<node id="303">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P109"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q188675 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@e25951c</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q935 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q20116998 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">".+\.(svg|png|jpg|jpeg|gif|tif|tiff)"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26940804 (item)</data>
+		</node>
+		<node id="815">
+			<data key="labelV">wikidata</data>
+			<data key="P126">http://www.wikidata.org/entity/Q1201876 (item)</data>
+			<data key="P2264">"98"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/8#P648"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q1201876 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@15f47664</data>
+			<data key="P2668">http://www.wikidata.org/entity/Q23611840 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1911573 (item)</data>
+			<data key="P1630">"https://openlibrary.org/works/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"OL[1-9]\d{0,7}[AMW]"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q29547399 (item)</data>
+		</node>
+		<node id="943">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/26#P1559"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q82799 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@471a9022</data>
+			<data key="P1647">http://www.wikidata.org/entity/P2561 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P1705 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q55400 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q21037859 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19643892 (item)</data>
+		</node>
+		<node id="1200">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q178659 (item)</data>
+			<data key="P3709">http://www.wikidata.org/entity/Q16742291 (item)</data>
+			<data key="P1628">"http://xmlns.com/foaf/spec/#term_img"</data>
+			<data key="P1659">http://www.wikidata.org/entity/P4640 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q42 (item)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q17497856 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q15907809 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q16742292 (item)</data>
+			<data key="P1630">"https://commons.wikimedia.org/wiki/File:$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21528958 (item)</data>
+			<data key="P1793">"(?:i).+\.(jpg|jpeg|jpe|png|svg|tif|tiff|gif|xcf|pdf|djvu|webp)"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26940804 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#Image_.2F_Abbildung_.2F_Image"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@dc9876b</data>
+		</node>
+		<node id="1077">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/14#P910"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q4167836 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@2f666ebb</data>
+			<data key="P1659">http://www.wikidata.org/entity/P373 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q9920 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q41443773 (item)</data>
+			<data key="P2667">http://www.wikidata.org/entity/Q6839215 (item)</data>
+			<data key="P1696">http://www.wikidata.org/entity/P301 (property)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21528958 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18667213 (item)</data>
+		</node>
+		<node id="566">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/11#P735"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q202444 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@19976a65</data>
+			<data key="P1628">"http://xmlns.com/foaf/spec/#term_givenName"</data>
+			<data key="P1647">http://www.wikidata.org/entity/P2561 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P2561 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1124 (item)</data>
+			<data key="P2559">"&#x437;&#x43D;&#x430;&#x447;&#x435;&#x43D;&#x43D;&#x44F;, &#x449;&#x43E; &#x432;&#x438;&#x43A;&#x43E;&#x440;&#x438;&#x441;&#x442;&#x43E;&#x432;&#x443;&#x44E;&#x442;&#x44C;&#x441;&#x44F; &#x437; &#x432;&#x43B;&#x430;&#x441;&#x442;&#x438;&#x432;&#x456;&#x441;&#x442;&#x44E;, &#x43D;&#x435; &#x43F;&#x43E;&#x432;&#x438;&#x43D;&#x43D;&#x456; &#x43F;&#x43E;&#x441;&#x438;&#x43B;&#x430;&#x442;&#x438;&#x441;&#x44F; &#x43D;&#x430; &#x441;&#x442;&#x43E;&#x440;&#x456;&#x43D;&#x43A;&#x438; &#x437;&#x43D;&#x430;&#x447;&#x435;&#x43D;&#x44C; &#x456; &#x43F;&#x440;&#x456;&#x437;&#x432;&#x438;&#x449;&#x430;" (uk)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q29454937 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510864 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26935994 (item)</data>
+		</node>
+		<node id="313">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q18658526 (item)</data>
+			<data key="P1628">"http://schema.org/deathPlace"</data>
+			<data key="P1647">http://www.wikidata.org/entity/P276 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P19 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1046049 (item)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q23981595 (item)</data>
+			<data key="P2559">"&#xAC00;&#xC7A5; &#xAD6C;&#xCCB4;&#xC801;&#xC778; &#xC7A5;&#xC18C;&#xB9CC; &#xAC12;&#xC73C;&#xB85C; &#xAE30;&#xC7AC;&#xD569;&#xB2C8;&#xB2E4;. &#xC989;, &#xC0AC;&#xB9DD;&#xD55C; &#xB3C4;&#xC2DC;&#xB9CC; &#xC54C;&#xB824;&#xC84C;&#xC73C;&#xBA74; &#xD574;&#xB2F9; &#xB3C4;&#xC2DC; &#xD56D;&#xBAA9;&#xC744; &#xC785;&#xB825;&#xD558;&#xC9C0;&#xB9CC;, &#xC0AC;&#xB9DD;&#xD55C; &#xBCD1;&#xC6D0;&#xC774;&#xB098; &#xC7A5;&#xC18C;&#xB3C4; &#xC54C;&#xB824;&#xC84C;&#xC73C;&#xBA74; &#xB3C4;&#xC2DC; &#xB300;&#xC2E0; &#xD574;&#xB2F9; &#xBCD1;&#xC6D0;/&#xC7A5;&#xC18C; &#xD56D;&#xBAA9;&#xC744; &#xAC12;&#xC73C;&#xB85C; &#xC785;&#xB825;&#xD569;&#xB2C8;&#xB2E4;." (ko)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q20116963 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533342 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26935994 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P20"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@a1f72f5</data>
+		</node>
+		<node id="954">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"694"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Online_Books_Page_author_ID"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@4b2c5e02</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q5686 (item)</data>
+			<data key="P1896">"http://onlinebooks.library.upenn.edu/"</data>
+			<data key="P1630">"http://onlinebooks.library.upenn.edu/webbin/book/lookupname?key=$1"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+		</node>
+		<node id="188">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"69"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/MSBI_ID"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q6754185 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@57a3e26a</data>
+			<data key="P17">http://www.wikidata.org/entity/Q27 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q506566 (item)</data>
+			<data key="P1896">"http://sculpture.gla.ac.uk/"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45313304 (item)</data>
+			<data key="P1630">"http://sculpture.gla.ac.uk/view/person.php?id=$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"[a-z0-9]+_[0-9]+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q45312863 (item)</data>
+		</node>
+		<node id="828">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"257"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Nationalencyklopedin_Online_ID"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q1165538 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@75c56eb9</data>
+			<data key="P1659">http://www.wikidata.org/entity/P1417 (property)</data>
+			<data key="P17">http://www.wikidata.org/entity/Q34 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q9391 (item)</data>
+			<data key="P1630">"https://www.ne.se/uppslagsverk/encyklopedi/l&#xE5;ng/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"[a-z0-9&#xE4;&#xF6;&#xE5;-][a-z0-9&#xE4;&#xF6;&#xE5;()-]*"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+		</node>
+		<node id="702">
+			<data key="labelV">wikidata</data>
+			<data key="P1628">"http://dbpedia.org/ontology/nlaId"</data>
+			<data key="P1659">http://www.wikidata.org/entity/P1315 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q436699 (item)</data>
+			<data key="P1896">"http://trove.nla.gov.au/people?q="</data>
+			<data key="P1630">"https://nla.gov.au/anbd.aut-an$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q623578 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"[1-9][0-9]{0,11}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/4#P409"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@4bc222e</data>
+			<data key="P17">http://www.wikidata.org/entity/Q408 (item)</data>
+		</node>
+		<node id="448">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q423048 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q21930050 (item)</data>
+			<data key="P2559">"ISNI&#xB97C; &#xC785;&#xB825;&#xD560; &#xB54C;&#xB294; 4&#xAE00;&#xC790;&#xC529; &#xB744;&#xC6CC;&#xC11C; &#xC785;&#xB825;&#xD558;&#xC138;&#xC694;." (ko)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q13280236 (item)</data>
+			<data key="P1630">"https://tools.wmflabs.org/wikidata-externalid-url/?p=213&amp;url_prefix=http://isni.org/&amp;id=$1"</data>
+			<data key="P3303">"https://viaf.org/processed/ISNI|$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P1793">"\d\d\d\d \d\d\d\d \d\d\d\d \d\d\d[\dX]"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q27038669 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+			<data key="P2264">"368"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/3#P213"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@2dc9b0f5</data>
+		</node>
+		<node id="1216">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q958822 (item)</data>
+			<data key="P1628">"http://schema.org/birthPlace"</data>
+			<data key="P1647">http://www.wikidata.org/entity/P276 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P569 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q9726 (item)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q23981599 (item)</data>
+			<data key="P2559">"&#xAC00;&#xC7A5; &#xAD6C;&#xCCB4;&#xC801;&#xC778; &#xC7A5;&#xC18C;&#xB9CC; &#xAC12;&#xC73C;&#xB85C; &#xAE30;&#xC7AC;&#xD569;&#xB2C8;&#xB2E4;. &#xC989;, &#xD0DC;&#xC5B4;&#xB09C; &#xB3C4;&#xC2DC;&#xB9CC; &#xC54C;&#xB824;&#xC84C;&#xC73C;&#xBA74; &#xD574;&#xB2F9; &#xB3C4;&#xC2DC; &#xD56D;&#xBAA9;&#xC744; &#xC785;&#xB825;&#xD558;&#xC9C0;&#xB9CC;, &#xD0DC;&#xC5B4;&#xB09C; &#xBCD1;&#xC6D0;&#xC774;&#xB098; &#xC7A5;&#xC18C;&#xB3C4; &#xC54C;&#xB824;&#xC84C;&#xC73C;&#xBA74; &#xB3C4;&#xC2DC; &#xB300;&#xC2E0; &#xD574;&#xB2F9; &#xBCD1;&#xC6D0;/&#xC7A5;&#xC18C; &#xD56D;&#xBAA9;&#xC744; &#xAC12;&#xC73C;&#xB85C; &#xC785;&#xB825;&#xD569;&#xB2C8;&#xB2E4;." (ko)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q19684010 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533338 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502838 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26935994 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P19"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@6531a794</data>
+		</node>
+		<node id="1089">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q721747 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P1893 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q6256854 (item)</data>
+			<data key="P1896">"http://openplaques.org/"</data>
+			<data key="P1630">"http://openplaques.org/people/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q23018437 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"[1-9][0-9]{0,4}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+			<data key="P2264">"16"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/24#P1430"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@3b5fad2d</data>
+			<data key="P17">http://www.wikidata.org/entity/Q145 (item)</data>
+		</node>
+		<node id="579">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q21167233 (item)</data>
+			<data key="P3709">http://www.wikidata.org/entity/Q15228984 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P373 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1514053 (item)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q15220674 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q26250089 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q29415465 (item)</data>
+			<data key="P2667">http://www.wikidata.org/entity/Q5462387 (item)</data>
+			<data key="P1630">"https://commons.wikimedia.org/wiki/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"^(?![Cc]ategory:).*$"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18610173 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/14#P935"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@5e17553a</data>
+		</node>
+		<node id="963">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q26950764 (item)</data>
+			<data key="P1628">"http://schema.org/founder"</data>
+			<data key="P1647">http://www.wikidata.org/entity/P170 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q312 (item)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q22158804 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q22158807 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533316 (item)</data>
+			<data key="P2521">"&#x5DE;&#x5D9;&#x5D9;&#x5E1;&#x5D3;&#x5EA;" (he)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510865 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18608993 (item)</data>
+			<data key="P3321">"&#x43E;&#x441;&#x43D;&#x43E;&#x432;&#x430;&#x442;&#x435;&#x43B;&#x44C;" (ru)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P112"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@3eb91815</data>
+		</node>
+		<node id="328">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"20"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/22#P1343"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@56dc1551</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q60 (item)</data>
+			<data key="P2559">"Property to write the document containing contents about the item. Please only include documents that have actually been printed (dictionaries, encyclopedias). If the document is contained in a wiki document, it may be used as a footnote as \"To be described\"(P248) for linking to the detailed document where the item is located use footnotes as a \"URL to reference when describing\" a web page(P854)" (et)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18608359 (item)</data>
+		</node>
+		<node id="841">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"83"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/32#P2011"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q20684567 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@102cec62</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q20726418 (item)</data>
+			<data key="P1630">"https://collection.cooperhewitt.org/people/$1/"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q1129820 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P1793">"\d+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q21745557 (item)</data>
+		</node>
+		<node id="202">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"692"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Collective_Biographies_of_Women_ID"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@74f6c5d8</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q7504 (item)</data>
+			<data key="P1630">"http://cbw.iath.virginia.edu/women_display.php?id=$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q28649030 (item)</data>
+		</node>
+		<node id="717">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/15#P1006"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@27912e3</data>
+			<data key="P17">http://www.wikidata.org/entity/Q55 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q134461 (item)</data>
+			<data key="P1630">"http://opc4.kb.nl/PPN?PPN=$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q1526131 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"\d{8}(\d|X)"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+		</node>
+		<node id="463">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"47"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/30#P1816"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@34b9f960</data>
+			<data key="P17">http://www.wikidata.org/entity/Q145 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q3398798 (item)</data>
+			<data key="P1896">"http://www.npg.org.uk/"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45312097 (item)</data>
+			<data key="P1630">"https://www.npg.org.uk/collections/search/person/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"\w\w\d{5,6}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q27918607 (item)</data>
+		</node>
+		<node id="1104">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/30#P1871"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q1127581 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@43015c69</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q18945790 (item)</data>
+			<data key="P1896">"https://thesaurus.cerl.org"</data>
+			<data key="P1630">"https://thesaurus.cerl.org/record/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"c(af|nc|ni|nl|np)0\d{7}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q21745557 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q23585486 (item)</data>
+		</node>
+		<node id="337">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/openMLOL_author_ID"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@19b89d4</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q40640 (item)</data>
+			<data key="P1896">"https://openmlol.it"</data>
+			<data key="P1630">"https://openmlol.it/autore/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"\d+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+		</node>
+		<node id="978">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"89"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/22#P1315"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q623578 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@4bbf6d0e</data>
+			<data key="P1659">http://www.wikidata.org/entity/P409 (property)</data>
+			<data key="P17">http://www.wikidata.org/entity/Q408 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1117048 (item)</data>
+			<data key="P1630">"http://trove.nla.gov.au/people/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"[1-9]\d{5,7}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+		</node>
+		<node id="211">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q1798125 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q762 (item)</data>
+			<data key="P1921">"https://libris.kb.se/resource/auth/$1"</data>
+			<data key="P1630">"https://libris.kb.se/auth/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q953058 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"[1-9]\d{4,5}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+			<data key="P2264">"732"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/14#P906"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@30b6ffe0</data>
+			<data key="P17">http://www.wikidata.org/entity/Q34 (item)</data>
+		</node>
+		<node id="595">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q29861311 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q380645 (item)</data>
+			<data key="P2559">"NOT to be used for generic social networks (Twitter, Facebook, LinkedIn, etc)" (en)</data>
+			<data key="P1896">"http://snaccooperative.org/"</data>
+			<data key="P1630">"http://snaccooperative.org/ark:/99166/$1"</data>
+			<data key="P3303">"http://socialarchive.iath.virginia.edu/ark:/99166/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q29861311 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"\d*[a-zA-Z][a-zA-Z0-9]*"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q21745557 (item)</data>
+			<data key="P2264">"344"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Social_networks_and_archival_context_ID"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@791d1f8b</data>
+		</node>
+		<node id="853">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"869"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/RA_Collections_ID"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q270920 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@2415fc55</data>
+			<data key="P17">http://www.wikidata.org/entity/Q145 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q43145431 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45315782 (item)</data>
+			<data key="P1630">"http://www.racollection.org.uk/ixbin/indexplus?_IXACTION_=file&amp;_IXFILE_=templates/full/person.html&amp;_IXTRAIL_=Names%C2%A0A-Z&amp;person=$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502410 (item)</data>
+			<data key="P1793">"[1-9]\d*"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q27918607 (item)</data>
+		</node>
+		<node id="89">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q2597810 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P4285 (property)</data>
+			<data key="P1921">"https://www.idref.fr/$1/id"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q154571 (item)</data>
+			<data key="P1896">"https://www.idref.fr/"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q47005094 (item)</data>
+			<data key="P1630">"https://www.idref.fr/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q2826570 (item)</data>
+			<data key="P3303">"http://viaf.org/processed/SUDOC|$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502410 (item)</data>
+			<data key="P1793">"(\d{8}[\dX]|)"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/3#P269"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@14f232c4</data>
+			<data key="P17">http://www.wikidata.org/entity/Q142 (item)</data>
+		</node>
+		<node id="729">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"640"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/UK_National_Archive_ID"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@13bc8645</data>
+			<data key="P2429">http://www.wikidata.org/entity/Q21873886 (item)</data>
+			<data key="P17">http://www.wikidata.org/entity/Q145 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q46633 (item)</data>
+			<data key="P1896">"https://discovery.nationalarchives.gov.uk/"</data>
+			<data key="P1630">"https://discovery.nationalarchives.gov.uk/details/c/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q392703 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"[A-Z]\d+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q21745557 (item)</data>
+		</node>
+		<node id="347">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"37"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/21#P1263"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q1373513 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@24c22fe</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q982133 (item)</data>
+			<data key="P1896">"http://nndb.com/people/$1"</data>
+			<data key="P2667">http://www.wikidata.org/entity/Q5605070 (item)</data>
+			<data key="P1630">"http://www.nndb.com/people/$1/"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q1373513 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"\d{3}/\d{9}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+		</node>
+		<node id="476">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/WikiTree"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q1074931 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@93081b6</data>
+			<data key="P4570">"https://www.wikidata.org/wiki/Wikidata:WikiProject_Genealogy"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q2740012 (item)</data>
+			<data key="P1896">"https://www.wikitree.com/"</data>
+			<data key="P1630">"https://www.wikitree.com/wiki/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"\D+-\d+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q24075706 (item)</data>
+		</node>
+		<node id="1116">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"515"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Atheneum_ID"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q32061534 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@cd1e646</data>
+			<data key="P1659">http://www.wikidata.org/entity/P4146 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q191748 (item)</data>
+			<data key="P1896">"http://www.the-athenaeum.org/"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45312087 (item)</data>
+			<data key="P1630">"http://www.the-athenaeum.org/people/detail.php?id=$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"\d+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+		</node>
+		<node id="991">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"319"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Quora_topic_ID"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q51711 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7ba8c737</data>
+			<data key="P1659">http://www.wikidata.org/entity/P4411 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q42 (item)</data>
+			<data key="P1896">"https://www.quora.com/"</data>
+			<data key="P1630">"https://www.quora.com/topic/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q51711 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"[^\s\/]+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q30041186 (item)</data>
+		</node>
+		<node id="226">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/15#P949"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q188915 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@1890516e</data>
+			<data key="P17">http://www.wikidata.org/entity/Q801 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q191825 (item)</data>
+			<data key="P1896">"http://a20.libnet.ac.il/F?"</data>
+			<data key="P1630">"http://aleph.nli.org.il/F/?func=find-b&amp;local_base=NNL10&amp;find_code=SYS&amp;con_lng=heb&amp;request=$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q188915 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"\d{9}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19833377 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+		</node>
+		<node id="610">
+			<data key="labelV">wikidata</data>
+			<data key="P126">http://www.wikidata.org/entity/Q503176 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P3783 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q154340 (item)</data>
+			<data key="P1896">"http://artist.christies.com/"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45312094 (item)</data>
+			<data key="P1630">"http://artist.christies.com/_-$1.aspx"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q503176 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P1793">"[1-9]\d*"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q27918607 (item)</data>
+			<data key="P2264">"675"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Christie%27s_creator_id"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@15a04efb</data>
+		</node>
+		<node id="866">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q24574745 (item)</data>
+			<data key="P3709">http://www.wikidata.org/entity/Q11925740 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P935 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q36611 (item)</data>
+			<data key="P2559">"&#xC785;&#xB825;&#xD560; &#xB54C; &#xBD84;&#xB958;&#xBA85; &#xC55E;&#xC5D0; &#xBD99;&#xB294; \"Category:\"&#xB294; &#xBE7C;&#xACE0; &#xC4F0;&#xC138;&#xC694;." (ko)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q11925744 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q22914718 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q11925741 (item)</data>
+			<data key="P2667">http://www.wikidata.org/entity/Q48029 (item)</data>
+			<data key="P1630">"https://commons.wikimedia.org/wiki/Category:$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"[^{}\[\]&lt;&gt;:]+"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18667213 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/4#P373"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@16c069df</data>
+		</node>
+		<node id="743">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q2389905 (item)</data>
+			<data key="P3709">http://www.wikidata.org/entity/Q32866007 (item)</data>
+			<data key="P1628">"http://www.w3.org/2006/vcard/ns#bday"</data>
+			<data key="P1647">http://www.wikidata.org/entity/P571 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P3150 (property)</data>
+			<data key="P2668">http://www.wikidata.org/entity/Q23611288 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q935 (item)</data>
+			<data key="P2559">"&#xD0DC;&#xC5B4;&#xB09C; &#xC5F0;&#xB3C4;&#xAC00; &#xC5C6;&#xAC70;&#xB098; &#xAE30;&#xB85D;&#xC774; &#xC5C6;&#xC5B4; &#xD0DC;&#xC5B4;&#xB09C; &#xB2EC;&#xACFC; &#xC77C;&#xB9CC; &#xC788;&#xB294; &#xACBD;&#xC6B0; &#xC774; &#xC18D;&#xC131; &#xB300;&#xC2E0; P3150(&#xD0DC;&#xC5B4;&#xB09C; &#xC6D4;&#xB7;&#xC77C;)&#xC744; &#xC0AC;&#xC6A9;&#xD558;&#xC138;&#xC694;." (ko)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q39599131 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q21096033 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q19332013 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26935994 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/8#P569"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@2bec854f</data>
+		</node>
+		<node id="488">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q63056 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P2025 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q352999 (item)</data>
+			<data key="P1896">"http://www.findagrave.com/"</data>
+			<data key="P2667">http://www.wikidata.org/entity/Q6203793 (item)</data>
+			<data key="P1630">"https://www.findagrave.com/memorial/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P1793">"[1-9]\d*"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+			<data key="P2264">"865"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/7#P535"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@31edaa7d</data>
+			<data key="P4570">"https://www.wikidata.org/wiki/Wikidata:WikiProject_Genealogy"</data>
+		</node>
+		<node id="361">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P22"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q7565 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@26adfd2d</data>
+			<data key="P1647">http://www.wikidata.org/entity/P1038 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P3448 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q36949 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q22913739 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533250 (item)</data>
+			<data key="P2235">"http://www.w3.org/2006/vcard/ns#Parent"</data>
+			<data key="P1696">http://www.wikidata.org/entity/P40 (property)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21528958 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26935994 (item)</data>
+		</node>
+		<node id="1130">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q3294867 (item)</data>
+			<data key="P1921">"http://id.worldcat.org/fast/$1"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q4681267 (item)</data>
+			<data key="P2559">"Make sure to use the purely numeric linked data identifier and not the MARC21 control number (\"fst\" + eight zero padded digits)" (en)</data>
+			<data key="P1896">"http://id.worldcat.org/fast/"</data>
+			<data key="P1630">"http://id.worldcat.org/fast/$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q190593 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502838 (item)</data>
+			<data key="P1793">"[1-9]\d{0,7}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+			<data key="P2264">"150"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/35#P2163"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@3336e6b6</data>
+			<data key="P361">http://www.wikidata.org/entity/Q3294867 (item)</data>
+		</node>
+		<node id="107">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q19938912 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P4258 (property)</data>
+			<data key="P1921">"http://data.bnf.fr/ark:/12148/cb$1"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q430 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q44752824 (item)</data>
+			<data key="P1630">"http://catalogue.bnf.fr/ark:/12148/cb$1"</data>
+			<data key="P2378">http://www.wikidata.org/entity/Q193563 (item)</data>
+			<data key="P3303">"http://viaf.org/processed/BNF|$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P1793">"\d{8}[0-9bcdfghjkmnpqrstvwxz]"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/3#P268"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7c3fdb62</data>
+			<data key="P17">http://www.wikidata.org/entity/Q142 (item)</data>
+		</node>
+		<node id="1005">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q18785969 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P3632 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q5598 (item)</data>
+			<data key="P1896">"https://collection.britishmuseum.org/resource?uri=http://collection.britishmuseum.org/id/person-institution&amp;role=object"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q45405657 (item)</data>
+			<data key="P1630">"https://collection.britishmuseum.org/id/person-institution/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"[1-9][0-9]{0,5}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q21745557 (item)</data>
+			<data key="P2264">"32"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/28#P1711"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@205d38da</data>
+			<data key="P17">http://www.wikidata.org/entity/Q145 (item)</data>
+		</node>
+		<node id="240">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/7#P509"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q1931388 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@6950ed69</data>
+			<data key="P1647">http://www.wikidata.org/entity/P1479 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P1347 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q33866 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q22913695 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533437 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503247 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18608756 (item)</data>
+		</node>
+		<node id="625">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/21#P1290"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q223973 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@6dd7b5a3</data>
+			<data key="P1647">http://www.wikidata.org/entity/P1038 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q9439 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q23909116 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510864 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q22964231 (item)</data>
+		</node>
+		<node id="883">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q18748141 (item)</data>
+			<data key="P3709">http://www.wikidata.org/entity/Q23037969 (item)</data>
+			<data key="P1628">"http://schema.org/deathDate"</data>
+			<data key="P1647">http://www.wikidata.org/entity/P576 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P4602 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q935 (item)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q28858520 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q20117080 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510860 (item)</data>
+			<data key="P2354">http://www.wikidata.org/entity/Q3071313 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q22661913 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/8#P570"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@6f3187b0</data>
+		</node>
+		<node id="375">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P25"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q7560 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@2663e964</data>
+			<data key="P1647">http://www.wikidata.org/entity/P1038 (property)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P1290 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q40901 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q22913754 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533257 (item)</data>
+			<data key="P2235">"http://www.w3.org/2006/vcard/ns#Parent"</data>
+			<data key="P1696">http://www.wikidata.org/entity/P40 (property)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21528958 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q28649030 (item)</data>
+		</node>
+		<node id="503">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"71"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/32#P1938"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q22673 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@48b67364</data>
+			<data key="P1659">http://www.wikidata.org/entity/P2034 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q16031468 (item)</data>
+			<data key="P1630">"https://www.gutenberg.org/ebooks/author/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"[1-9][0-9]{0,4}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+		</node>
+		<node id="760">
+			<data key="labelV">wikidata</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q1453477 (item)</data>
+			<data key="P1659">http://www.wikidata.org/entity/P2671 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q20012932 (item)</data>
+			<data key="P1921">"http://g.co/kg$1"</data>
+			<data key="P1896">"https://developers.google.com/freebase"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q27478224 (item)</data>
+			<data key="P3447">http://www.wikidata.org/entity/Q52 (item)</data>
+			<data key="P1630">"http://web.archive.org/*/www.freebase.com$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21528958 (item)</data>
+			<data key="P1793">"(/m/0[0-9a-z_]{2,6}|/m/01[0123][0-9a-z_]{5})"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q853614 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/8#P646"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@189cbd7c</data>
+		</node>
+		<node id="635">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P140"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q4392985 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7bf3a5d8</data>
+			<data key="P1282">"Key:denomination"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1058 (item)</data>
+			<data key="P2559">"use the most relevant/specific religious group or denomination" (en)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q22913724 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q42533271 (item)</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q44597997 (item)</data>
+		</node>
+		<node id="1147">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/21#P1273"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q8342938 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@42e25b0b</data>
+			<data key="P17">http://www.wikidata.org/entity/Q29 (item)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q561147 (item)</data>
+			<data key="P1896">"http://www.bnc.cat"</data>
+			<data key="P1630">"http://cantic.bnc.cat/registres/CUCId/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21503250 (item)</data>
+			<data key="P1793">"a\d{7}\d|x"</data>
+			<data key="P1001">http://www.wikidata.org/entity/Q5705 (item)</data>
+			<data key="P31">http://www.wikidata.org/entity/Q19595382 (item)</data>
+			<data key="P1552">http://www.wikidata.org/entity/Q26921380 (item)</data>
+		</node>
+		<node id="124">
+			<data key="labelV">wikidata</data>
+			<data key="P3709">http://www.wikidata.org/entity/Q32582648 (item)</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q37312 (item)</data>
+			<data key="P1628">"http://purl.org/ontology/mo/imdb"</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q29512115 (item)</data>
+			<data key="P3713">http://www.wikidata.org/entity/Q26220045 (item)</data>
+			<data key="P1896">"http://www.imdb.com/"</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q26997818 (item)</data>
+			<data key="P3734">http://www.wikidata.org/entity/Q32583390 (item)</data>
+			<data key="P2667">http://www.wikidata.org/entity/Q13220022 (item)</data>
+			<data key="P1630">"https://tools.wmflabs.org/wikidata-externalid-url/?p=345&amp;url_prefix=http://www.imdb.com/&amp;id=$1"</data>
+			<data key="P3303">"http://www.omdbapi.com/?i=$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21510851 (item)</data>
+			<data key="P1793">"ev\d{7}\/(19|20)\d{2}(-\d)?|(ch|co|ev|nm|tt)\d{7}|ni\d{8}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q29542094 (item)</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/4#P345"</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@39b43d60</data>
+		</node>
+		<node id="252">
+			<data key="labelV">wikidata</data>
+			<data key="P2264">"216"</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Nomisma_ID"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q24578999 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@44be0077</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q1405 (item)</data>
+			<data key="P1630">"http://nomisma.org/id/$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q19474404 (item)</data>
+			<data key="P1793">"['().ABCEIMST\[\]_a-z0-9-]{2,58}"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q18614948 (item)</data>
+		</node>
+		<node id="1020">
+			<data key="labelV">wikidata</data>
+			<data key="P3254">"https://www.wikidata.org/wiki/Wikidata:Property_proposal/Archive/1#P94"</data>
+			<data key="P1629">http://www.wikidata.org/entity/Q14659 (item)</data>
+			<data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@2205a05d</data>
+			<data key="P1659">http://www.wikidata.org/entity/P154 (property)</data>
+			<data key="P1855">http://www.wikidata.org/entity/Q235 (item)</data>
+			<data key="P2875">http://www.wikidata.org/entity/Q23909098 (item)</data>
+			<data key="P1630">"https://commons.wikimedia.org/wiki/File:$1"</data>
+			<data key="P2302">http://www.wikidata.org/entity/Q21502404 (item)</data>
+			<data key="P1793">"^(?!.*[Uu]nknow escutcheon).*$"</data>
+			<data key="P31">http://www.wikidata.org/entity/Q26940804 (item)</data>
+		</node>
+		<edge id="897" source="0" target="883">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="514" source="0" target="503">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="388" source="0" target="375">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="262" source="0" target="252">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="646" source="0" target="635">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="775" source="0" target="760">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1031" source="0" target="1020">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1160" source="0" target="1147">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="141" source="0" target="124">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="528" source="0" target="515">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="402" source="0" target="389">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="914" source="0" target="898">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="659" source="0" target="647">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1171" source="0" target="1161">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1046" source="0" target="1032">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="791" source="0" target="776">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="280" source="0" target="263">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="539" source="0" target="529">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="668" source="0" target="660">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1183" source="0" target="1172">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="417" source="0" target="403">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="929" source="0" target="915">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="162" source="0" target="142">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="290" source="0" target="281">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="803" source="0" target="792">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="552" source="0" target="540">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1064" source="0" target="1047">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="683" source="0" target="669">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="173" source="0" target="163">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="429" source="0" target="418">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="302" source="0" target="291">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="814" source="0" target="804">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="942" source="0" target="930">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1199" source="0" target="1184">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1076" source="0" target="1065">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="565" source="0" target="553">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="312" source="0" target="303">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="953" source="0" target="943">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="187" source="0" target="174">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="827" source="0" target="815">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="701" source="0" target="684">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="447" source="0" target="430">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1215" source="0" target="1200">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1088" source="0" target="1077">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="578" source="0" target="566">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="962" source="0" target="954">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="327" source="0" target="313">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="840" source="0" target="828">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="201" source="0" target="188">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="716" source="0" target="702">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="462" source="0" target="448">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1230" source="0" target="1216">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1103" source="0" target="1089">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="336" source="0" target="328">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="977" source="0" target="963">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="210" source="0" target="202">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="594" source="0" target="579">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="852" source="0" target="841">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="728" source="0" target="717">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="346" source="0" target="337">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="475" source="0" target="463">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1115" source="0" target="1104">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="990" source="0" target="978">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="225" source="0" target="211">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="609" source="0" target="595">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="865" source="0" target="853">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="742" source="0" target="729">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="487" source="0" target="476">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="360" source="0" target="347">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1129" source="0" target="1116">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="106" source="0" target="89">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1004" source="0" target="991">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="239" source="0" target="226">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="624" source="0" target="610">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="882" source="0" target="866">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="374" source="0" target="361">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="502" source="0" target="488">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="759" source="0" target="743">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="634" source="0" target="625">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1146" source="0" target="1130">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="123" source="0" target="107">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="251" source="0" target="240">
+			<data key="labelE">myProperty</data>
+		</edge>
+		<edge id="1019" source="0" target="1005">
+			<data key="labelE">myProperty</data>
+		</edge>
+	</graph>
+</graphml>

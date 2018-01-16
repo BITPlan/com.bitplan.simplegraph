@@ -24,6 +24,8 @@
 		<jacoco.version>0.8.0</jacoco.version>
 		<!-- Apache POI e.g. for Powerpoint -->
 		<apache-poi.version>3.16</apache-poi.version>
+		<!-- <wikidata.toolkit.version>0.7.0</wikidata.toolkit.version> -->
+		<wikidata.toolkit.version>0.8.0</wikidata.toolkit.version>
 	</properties>
 	<packaging>jar</packaging>
 	<url>https://github.com/BITPlan/com.bitplan.simplegraph</url>
@@ -62,6 +64,17 @@
 			<groupId>org.apache.tinkerpop</groupId>
 			<artifactId>tinkergraph-gremlin</artifactId>
 			<version>${tinkerpop.version}</version>
+		</dependency>
+		<!-- Wikidata access -->
+		<dependency>
+			<groupId>org.wikidata.wdtk</groupId>
+			<artifactId>wdtk-dumpfiles</artifactId>
+			<version>${wikidata.toolkit.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.wikidata.wdtk</groupId>
+			<artifactId>wdtk-wikibaseapi</artifactId>
+			<version>${wikidata.toolkit.version}</version>
 		</dependency>
 		<!-- commons io -->
 		<dependency>

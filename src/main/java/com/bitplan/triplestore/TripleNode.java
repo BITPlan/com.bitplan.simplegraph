@@ -21,7 +21,6 @@
 package com.bitplan.triplestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -42,7 +41,7 @@ public class TripleNode extends SimpleNodeImpl {
   Triple triple;
 
   /**
-   * get the triplenode
+   * get the triple node
    * 
    * @param system
    * @param triple

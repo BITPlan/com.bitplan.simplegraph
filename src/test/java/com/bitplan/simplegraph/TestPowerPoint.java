@@ -104,7 +104,7 @@ monthDied = 1
     String slideprops[]= {"name","nobleTitle","sex","yearBorn","birthPlace","yearDied","diedAt"};
     //add slides
     slideForNode(ppt,queenVictoria,slideprops);
-    for (SimpleNode child:TestTripleStore.children(queenVictoria)) {
+    for (SimpleNode child:TestTripleStore.children(queenVictoria,1)) {
       slideForNode(ppt,child,slideprops);
     }
     FileOutputStream out = new FileOutputStream("QueenVictoria.pptx");
@@ -122,8 +122,7 @@ monthDied = 1
         .collect(Collectors.toCollection(ArrayList::new));
     slides.forEach(slide -> slide.printNameValues(System.out));
     assertEquals(10, slides.size());
-    sls.graph().io(IoCore.graphml()).writeGraph("QueenVictoriaPowerPoint.xml");
-
+    pps.graph().io(IoCore.graphml()).writeGraph("QueenVictoriaPowerPoint.xml");
   }
 
 }
