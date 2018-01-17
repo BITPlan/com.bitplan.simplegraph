@@ -40,7 +40,7 @@ public class PowerPointSystem extends SimpleSystemImpl{
   }
   
   @Override
-  public SimpleNode moveTo(String nodeQuery) throws Exception {
+  public SimpleNode moveTo(String nodeQuery)  {
     SlideShowNode slideShow=new SlideShowNode(this,nodeQuery);
     if (this.getStartNode()==null)
       this.setStartNode(slideShow);
@@ -48,8 +48,8 @@ public class PowerPointSystem extends SimpleSystemImpl{
   }
 
   @Override
-  public SimpleSystem connect(String connectionString) throws Exception {
-    // no connection needed
+  public SimpleSystem connect(String ... params) throws Exception {
+    // no connection settings needed
     return this;
   }
 

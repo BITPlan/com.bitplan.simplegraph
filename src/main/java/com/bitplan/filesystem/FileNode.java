@@ -112,6 +112,8 @@ public class FileNode extends SimpleNodeImpl {
         links = files.stream();
       }
       break;
+      default:
+        throw new RuntimeException("unknown edgeName "+edgeName);
     }
     return links;
   }

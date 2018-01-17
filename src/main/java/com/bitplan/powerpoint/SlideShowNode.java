@@ -21,6 +21,7 @@
 package com.bitplan.powerpoint;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,10 +51,14 @@ public class SlideShowNode extends SimpleNodeImpl{
    * @param nodeQuery
    * @throws Exception
    */
-  public SlideShowNode(SimpleGraph simpleGraph, String path) throws Exception {
+  public SlideShowNode(SimpleGraph simpleGraph, String path)  {
     super(simpleGraph,"slideshow");
     this.path=path;
-    slideshow=new XMLSlideShow(new FileInputStream(path));
+    try {
+      slideshow=new XMLSlideShow(new FileInputStream(path));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     super.setVertexFromMap();
   }
   

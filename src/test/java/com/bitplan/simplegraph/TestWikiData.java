@@ -20,15 +20,28 @@
  */
 package com.bitplan.simplegraph;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
-import org.junit.Ignore;
+//import org.junit.Ignore;
 import org.junit.Test;
 import org.wikidata.wdtk.datamodel.interfaces.EntityDocument;
+import org.wikidata.wdtk.datamodel.interfaces.Value;
+import org.wikidata.wdtk.datamodel.json.jackson.datavalues.JacksonValueItemId;
 import org.wikidata.wdtk.wikibaseapi.WikibaseDataFetcher;
 import org.wikidata.wdtk.wikibaseapi.apierrors.MediaWikiApiErrorException;
 
+import com.bitplan.wikidata.WikiDataNode;
 import com.bitplan.wikidata.WikiDataSystem;
 
 /**
@@ -68,7 +81,8 @@ public class TestWikiData extends BaseTest {
   public SimpleNode getQueenVictoria() throws Exception {
     if (queenVictoria == null) {
       wikiDataSystem = new WikiDataSystem();
-      wikiDataSystem.connect("");
+      wikiDataSystem.connect();
+      wikiDataSystem.usePropertyCache(new File("QueenVictoriaWikiData.xml"));
       queenVictoria = wikiDataSystem.moveTo("Q9439");
     }
     return queenVictoria;
@@ -76,47 +90,129 @@ public class TestWikiData extends BaseTest {
 
   /**
    * test that we can lookup property names from a property cache
-   * @throws Exception 
+   * 
+   * @throws Exception
    */
-  @Ignore
+  @Test
   public void testPropertyCache() throws Exception {
-    
-    queenVictoria=this.getQueenVictoria();
-    queenVictoria.getVertex().properties().forEachRemaining(prop->{
-      System.out.println(String.format("%s=%s", prop.label(),prop.value().toString()));
-      SimpleNode propNode;
-      try {
-        propNode = wikiDataSystem.moveTo(prop.label());
-        queenVictoria.getVertex().addEdge("myProperty", propNode.getVertex());
-        propNode.printNameValues(System.out);
-      } catch (Exception e) {
-        // lambdas and exceptions - oh no ...
+    debug = true;
+    queenVictoria = this.getQueenVictoria();
+    queenVictoria.getVertex().properties().forEachRemaining(prop -> {
+      SimpleNode propNode = wikiDataSystem.cacheProperty(prop.label(),false);
+      if (debug) {
+        if (propNode != null) {
+          System.out.println(
+              String.format("%s (%s)=%s", propNode.getMap().get("label_en"),
+                  prop.label(), prop.value().toString()));
+        }
       }
     });
-    wikiDataSystem.graph().io(IoCore.graphml()).writeGraph("QueenVictoriaWikiData.xml");
+    wikiDataSystem.flushPropertyCache();
   }
 
   @Test
   public void testQueenVictoria() throws Exception {
     debug = true;
-    queenVictoria=this.getQueenVictoria();
+    queenVictoria = this.getQueenVictoria();
     if (debug)
       queenVictoria.printNameValues(System.out);
+    @SuppressWarnings("unchecked")
+    List<JacksonValueItemId> children = (List<JacksonValueItemId>) queenVictoria
+        .getMap().get("P40");
+    assertEquals(9, children.size());
+    for (JacksonValueItemId child : children) {
+      if (debug)
+        System.out.println(child.getId());
+      assertTrue(child.getId().startsWith("Q"));
+    }
   }
-  
+
   @Test
-  public void testUnknownEntityId()  {
+  public void testQueenVictoriaFather() throws Exception {
+    debug=true;
+    queenVictoria = this.getQueenVictoria();
+    // first try to navigate via Property Id P22 father
+    List<SimpleNode> fatherList = queenVictoria.out("P22")
+        .collect(Collectors.toCollection(ArrayList::new));
+    assertEquals(1, fatherList.size());
+    SimpleNode fatherNode = fatherList.get(0);
+    if (debug)
+      fatherNode.printNameValues(System.out);
+    assertEquals(fatherNode.getMap().get("label_en"),
+        "Prince Edward Augustus, Duke of Kent and Strathearn");
+  }
+
+  @Test
+  public void testQueenVictoriaChildren() throws Exception {
+    debug=true;
+    queenVictoria = this.getQueenVictoria();
+    // first try to navigate via Property Id
+    List<SimpleNode> childrenP40 = queenVictoria.out("P40")
+        .collect(Collectors.toCollection(ArrayList::new));
+    assertEquals(9, childrenP40.size());
+    // then via property name
+    List<SimpleNode> children = queenVictoria.out("child")
+        .collect(Collectors.toCollection(ArrayList::new));
+    assertEquals(9, children.size());
+    if (debug) {
+      children.forEach(child->child.printNameValues(System.out));
+    }
+  }
+
+  @Test
+  public void testLanguages() throws Exception {
+    debug = true;
+    String[] languages = { "zh", "en", "es", "ar", "hi", "pt", "fr", "ja", "ru",
+        "de" };
+    wikiDataSystem = new WikiDataSystem(languages);
+    wikiDataSystem.connect();
+    // Beer
+    SimpleNode beerNode = wikiDataSystem.moveTo("Q44");
+    for (String language : languages) {
+      long wikiCount = beerNode.g().V().has("wiki_" + language).count().next()
+          .longValue();
+      assertEquals(1, wikiCount);
+      WikiDataNode foundNode = (WikiDataNode) (beerNode.g().V()
+          .has("wiki_" + language).next().property("mysimplenode").value());
+      assertEquals(beerNode, foundNode);
+      Map<String, Object> map = foundNode.getMap();
+      if (debug)
+        System.out.println(String.format("%s -> label: %s, wiki:%s", language,
+            map.get("label_" + language), map.get("wiki_" + language)));
+    }
+    // if (debug)
+    // beerNode.printNameValues(System.out);
+  }
+
+  @Test
+  public void testMoveWithoutConnect() {
     wikiDataSystem = new WikiDataSystem();
-    Exception foundException=null;
+    Exception foundException = null;
     try {
-      wikiDataSystem.connect("");
+      // Beer
+      wikiDataSystem.moveTo("Q44");
+    } catch (Exception e) {
+      foundException = e;
+    }
+    assertNotNull(foundException);
+    assertTrue(foundException instanceof java.lang.IllegalStateException);
+    assertEquals("not connected", foundException.getMessage());
+  }
+
+  @Test
+  public void testUnknownEntityId() {
+    wikiDataSystem = new WikiDataSystem();
+    Exception foundException = null;
+    try {
+      wikiDataSystem.connect();
       queenVictoria = wikiDataSystem.moveTo("Q6");
     } catch (Exception e) {
-      foundException=e;
+      foundException = e;
     }
     assertNotNull(foundException);
     assertTrue(foundException instanceof java.lang.IllegalArgumentException);
-    assertEquals("Entity Document for Q6 not found",foundException.getMessage());
+    assertEquals("Entity Document for Q6 not found",
+        foundException.getMessage());
   }
 
 }

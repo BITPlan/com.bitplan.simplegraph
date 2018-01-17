@@ -44,7 +44,6 @@ public interface SimpleNode extends SimpleGraph {
   // fill my Vertex using my Map - this is the standard way to set the Nodes Vertex
   public Vertex setVertexFromMap();
   
-  // interfaces with default implementation
   public Map<String, Object> getMap();
   // fill the map with it's data
   public Map<String, Object> initMap();
@@ -52,14 +51,15 @@ public interface SimpleNode extends SimpleGraph {
   public Stream<SimpleNode> out(String edgeName);
   
   public Stream<SimpleNode> in(String edgeName);
-  
+
+  // interfaces with default implementation
   /**
    * recursive out handling
    * @param edgeName
    * @param recursionDepth
    * @return
    */
-  public default Stream<SimpleNode> recursiveOut(String edgeName,int recursionDepth) {
+  public default Stream<SimpleNode> recursiveOut(String edgeName,int recursionDepth)  {
     // get the neighbor nodes with wrapped vertices following the edge with the given name
     // prepare a list of simple nodes for the recursive results
     List<SimpleNode> recursiveOuts=new ArrayList<SimpleNode>();

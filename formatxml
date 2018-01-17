@@ -1,0 +1,4 @@
+#!/bin/bash
+# WF 2018-01-16
+# pretty print the QueenVictoriaWikiData property cache example
+cat QueenVictoriaWikiData.xml | xmlstarlet fo > QueenVictoriaWikiDataFormatted.xml

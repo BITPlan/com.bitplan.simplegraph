@@ -46,8 +46,10 @@ public class TripleStoreSystem extends SimpleSystemImpl {
   }
 
   @Override
-  public SimpleSystem connect(String connectionString) throws Exception {
-    File sidifFile = new File(connectionString);
+  public SimpleSystem connect(String ... params) throws Exception {
+    if (params.length!=1)
+      throw new IllegalArgumentException("only one connection parameter (path to SiDIF file) allowed at this time");
+    File sidifFile = new File(params[0]);
     tripleStore = TripleStoreBuilder.fromFile(sidifFile);
     query = tripleStore.query();
     return this;

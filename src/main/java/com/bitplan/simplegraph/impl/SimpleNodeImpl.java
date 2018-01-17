@@ -39,9 +39,9 @@ import com.bitplan.simplegraph.SimpleNode;
  */
 public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNode {
   
-  Vertex vertex;
-  SimpleGraph simpleGraph;
-  String kind;
+  private Vertex vertex;
+  protected SimpleGraph simpleGraph;
+  protected String kind;
   protected Map<String, Object> map = new HashMap<String, Object>();
   
   /**
@@ -58,13 +58,36 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
   /**
    * get the Vertex
    */
+  @Override
   public Vertex getVertex() {
     return vertex;
   }
-
+  
+  public Vertex setVertex(Vertex vertex) {
+    this.vertex=vertex;
+    return vertex;
+  }
+  
+  @Override
+  public Map<String, Object> getMap() {
+    return map;
+  }
+  
+  public void setMap(Map<String, Object> map) {
+    this.map=map;
+  }
+  
   @Override
   public Vertex setVertexFromMap() {
-    initMap();
+    return setVertexFromMap(initMap());
+  }
+  
+  /**
+   * set my vertex from the given map
+   * @param map
+   * @return
+   */
+  public Vertex setVertexFromMap(Map<String,Object> map) {   
     List<Object> keyValueList=new ArrayList<Object>();
     // first add a key value pair for my kind
     addKeyValue(keyValueList,T.label,this.kind);
@@ -92,9 +115,4 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
     keyValueList.add(value);
   }
 
-  @Override
-  public Map<String, Object> getMap() {
-    return map;
-  }
-  
 }

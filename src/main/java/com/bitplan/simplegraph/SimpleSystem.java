@@ -29,6 +29,6 @@ package com.bitplan.simplegraph;
 public interface SimpleSystem extends SimpleGraph {
   String getName();
   String getVersion();
-  SimpleNode moveTo(String nodeQuery) throws Exception;
-  SimpleSystem connect(String connectionString) throws Exception;
+  SimpleNode moveTo(String nodeQuery);
+  SimpleSystem connect(String ... connectionParams) throws Exception;
 }
