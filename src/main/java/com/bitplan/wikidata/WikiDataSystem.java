@@ -83,7 +83,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
     super.setName("WikiData");
     super.setName("0.0.8");
     for (String languageCode : languageCodes) {
-      languages.add(languageCode);
+      addLanguage(languageCode);
     }
   }
 
@@ -103,6 +103,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
 
   /**
    * enable the user of a propertyCache
+   * 
    * @param propertyCacheFile
    * @return
    * @throws Exception
@@ -114,50 +115,53 @@ public class WikiDataSystem extends SimpleSystemImpl {
       // read it
       graph().io(IoCore.graphml()).readGraph(propertyCacheFile.getPath());
       // simple nodes references are not o.k.
-      // <data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7905a0b8</data>
-      graph().traversal().V().has("mysimplenode").forEachRemaining(node->{
-        Object simpleNodeObject=node.property("mysimplenode").value();
+      // <data
+      // key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7905a0b8</data>
+      graph().traversal().V().has("mysimplenode").forEachRemaining(node -> {
+        Object simpleNodeObject = node.property("mysimplenode").value();
         if (simpleNodeObject instanceof String) {
-          Map<String,Object> map=new HashMap<String,Object>();
-          node.properties().forEachRemaining(nodeprop->{
+          Map<String, Object> map = new HashMap<String, Object>();
+          node.properties().forEachRemaining(nodeprop -> {
             map.put(nodeprop.key(), nodeprop.value());
           });
-          WikiDataNode wikiDataNode=new WikiDataNode(this);
+          WikiDataNode wikiDataNode = new WikiDataNode(this);
           wikiDataNode.setVertex(node);
           wikiDataNode.setMap(map);
           map.put("mysimplenode", wikiDataNode);
-          node.property("mysimplenode",wikiDataNode);
+          node.property("mysimplenode", wikiDataNode);
         }
       });
     }
     return propertyCacheFile;
   }
-  
+
   /**
    * flush the propertyCache
+   * 
    * @throws Exception
    */
   public void flushPropertyCache() throws Exception {
-    graph().io(IoCore.graphml())
-    .writeGraph(propertyCacheFile.getPath());
+    graph().io(IoCore.graphml()).writeGraph(propertyCacheFile.getPath());
   }
 
   /**
    * cache the property with the given id
+   * 
    * @param propId
-   * @param level 
+   * @param level
    */
   public SimpleNode cacheProperty(String propId, boolean optional) {
     if (!propId.matches("P[0-9]+")) {
       return null;
     }
-    GraphTraversal<Vertex, Vertex> propVertex =g().V().has("wikidata_id",propId);
-    SimpleNode node=null;
+    GraphTraversal<Vertex, Vertex> propVertex = g().V().has("wikidata_id",
+        propId);
+    SimpleNode node = null;
     if (propVertex.hasNext()) {
-      node= propVertex.next().value("mysimplenode");
+      node = propVertex.next().value("mysimplenode");
     } else {
       if (!optional)
-        node=this.moveTo(propId);
+        node = this.moveTo(propId);
     }
     return node;
   }

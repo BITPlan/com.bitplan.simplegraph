@@ -20,7 +20,9 @@
  */
 package com.bitplan.powerpoint;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +39,20 @@ import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
- * a slide show node wraps a powerpoint slideshow
+ * a slide show node wraps a power point slideshow
  * @author wf
  *
  */
-public class SlideShowNode extends SimpleNodeImpl{
+public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
 
   protected XMLSlideShow slideshow;
   protected String path;
+  protected File pptFile;
+  
+  public XMLSlideShow getSlideshow() {
+    return slideshow;
+  }
+
   /**
    * create a SlideShow
    * @param simpleGraph
@@ -54,8 +62,12 @@ public class SlideShowNode extends SimpleNodeImpl{
   public SlideShowNode(SimpleGraph simpleGraph, String path)  {
     super(simpleGraph,"slideshow");
     this.path=path;
+    pptFile=new File(path);
     try {
-      slideshow=new XMLSlideShow(new FileInputStream(path));
+      if (pptFile.exists())
+        slideshow=new XMLSlideShow(new FileInputStream(path));
+      else
+        slideshow=new XMLSlideShow();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -95,15 +107,44 @@ public class SlideShowNode extends SimpleNodeImpl{
     Stream<SimpleNode> links = Stream.of();
     switch (edgeName) {
     case "slides":
-        List<SimpleNode> slides = new ArrayList<SimpleNode>();
-        for (XSLFSlide slide : slideshow.getSlides() ){
+        List<SimpleNode> slideNodes = new ArrayList<SimpleNode>();
+        List<XSLFSlide> slides = slideshow.getSlides();
+        int pageNo=1;
+        for (XSLFSlide slide : slides ){
           SlideNode slideNode=new SlideNode(this,slide);
-          slides.add(slideNode);
+          slideNodes.add(slideNode);
+          slideNode.getMap().put("pageNo",pageNo++);
+          slideNode.getMap().put("pages", slides.size());
         }
-        links = slides.stream();
+        links = slideNodes.stream();
       break;
     }
     return links;
+  }
+
+  @Override
+  public String getTitle() {
+    return map.get("title").toString();
+  }
+
+  @Override
+  public void setTitle(String title) {
+    this.getCoreProperties().setTitle(title);
+    map.put("title", title);
+  }
+
+  @Override
+  public void save() throws Exception {
+    FileOutputStream out = new FileOutputStream(path);
+    slideshow.write(out);
+    out.close();
+    slideshow.close();
+  }
+
+  @Override
+  public Slide createSlide() {
+    XSLFSlide xslide = slideshow.createSlide();
+    return new SlideNode(this,xslide);
   }
  
 }

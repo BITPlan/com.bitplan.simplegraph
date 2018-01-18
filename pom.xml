@@ -170,6 +170,7 @@
 					<excludes>
 						<!-- JUnit4 TestSuites -->
 						<exclude>**/TestSuite.java</exclude>
+						<exclude>**/TestDebug.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

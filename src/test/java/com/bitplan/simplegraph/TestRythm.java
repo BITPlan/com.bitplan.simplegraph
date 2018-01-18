@@ -32,7 +32,6 @@ import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSo
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
-import com.bitplan.filesystem.FileSystem;
 import com.bitplan.rythm.RythmContext;
 
 /**
@@ -120,7 +119,7 @@ public class TestRythm extends BaseTest {
 
   @Test
   public void testGenerateGraphVizManually() throws Exception {
-    debug = true;
+    //debug = true;
     SimpleNode start = getFileNode("/src",Integer.MAX_VALUE);
     // get the gremlin starting point
     GraphTraversalSource g = start.g();

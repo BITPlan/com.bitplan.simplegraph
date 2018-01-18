@@ -42,6 +42,10 @@ public class SimpleGraphImpl implements SimpleGraph {
     this(null); 
   }
   
+  /**
+   * construct me from the given simple Graph
+   * @param simpleGraph
+   */
   public SimpleGraphImpl(SimpleGraph simpleGraph) {
     if (simpleGraph==null)
       graph = TinkerGraph.open(); 

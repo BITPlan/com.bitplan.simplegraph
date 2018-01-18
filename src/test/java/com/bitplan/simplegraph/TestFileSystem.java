@@ -21,6 +21,7 @@
 package com.bitplan.simplegraph;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.logging.Level;
 
@@ -53,10 +54,10 @@ public class TestFileSystem extends BaseTest {
     long filecount = start.g().V().count().next().longValue();
     if (debug)
       LOGGER.log(Level.INFO,""+filecount);
-    assertEquals(52,filecount);
+    assertEquals(54,filecount);
     GraphTraversal<Vertex, Vertex> javaFiles = start.g().V().has("ext", "java");
     long javaFileCount=javaFiles.count().next().longValue();
-    assertEquals(25,javaFileCount);
+    assertEquals(27,javaFileCount);
     javaFiles = start.g().V().has("ext", "java");
     javaFiles.forEachRemaining(javaFile-> {
       logPropertyValues(javaFile);
@@ -91,6 +92,23 @@ public class TestFileSystem extends BaseTest {
   public void testEdgeDirection() {
     // we want three directions even if we only use two a this time
     // TODO: BOTH is not covered although Coverage tells you so!
-    assertEquals(3,SimpleNode.EdgeDirection.values().length);
+    assertEquals(2,SimpleNode.EdgeDirection.values().length);
   }
+  
+  @Test
+  public void testInvalidEdgeName() throws Exception  {
+    SimpleSystem fs=new FileSystem();
+    FileNode start = (FileNode) fs.connect("").moveTo("src/test");
+    // link is an invalid edge for Files
+    try {
+      start.out("link");
+      fail("Exception expected");
+    } catch (Throwable th) {
+      // debug=true;
+      if (debug)
+        System.out.println(th.getMessage());
+      assertEquals("unknown edgeName link",th.getMessage());
+    }
+  }
+  
 }

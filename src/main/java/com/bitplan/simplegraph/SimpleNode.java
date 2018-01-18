@@ -36,7 +36,9 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
  *
  */
 public interface SimpleNode extends SimpleGraph {
-  public static enum EdgeDirection{IN,OUT,BOTH};
+  public static enum EdgeDirection{IN,OUT
+    //,BOTH
+    };
 
   // interface to Tinkertop/Gremlin wrapped Vertex
   public Vertex getVertex() ;
@@ -47,11 +49,21 @@ public interface SimpleNode extends SimpleGraph {
   public Map<String, Object> getMap();
   // fill the map with it's data
   public Map<String, Object> initMap();
-
+  
   public Stream<SimpleNode> out(String edgeName);
   
   public Stream<SimpleNode> in(String edgeName);
-
+  
+  /**
+   * add the key value pair to the vertex and map
+   * @param key
+   * @param value
+   */
+  public default void property(String key,Object value) {
+    getVertex().property(key, value);
+    getMap().put(key, value);
+  }
+  
   // interfaces with default implementation
   /**
    * recursive out handling

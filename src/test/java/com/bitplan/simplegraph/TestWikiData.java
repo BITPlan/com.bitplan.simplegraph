@@ -30,13 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
-import org.apache.tinkerpop.gremlin.structure.Vertex;
-import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 //import org.junit.Ignore;
 import org.junit.Test;
 import org.wikidata.wdtk.datamodel.interfaces.EntityDocument;
-import org.wikidata.wdtk.datamodel.interfaces.Value;
 import org.wikidata.wdtk.datamodel.json.jackson.datavalues.JacksonValueItemId;
 import org.wikidata.wdtk.wikibaseapi.WikibaseDataFetcher;
 import org.wikidata.wdtk.wikibaseapi.apierrors.MediaWikiApiErrorException;
@@ -95,7 +91,7 @@ public class TestWikiData extends BaseTest {
    */
   @Test
   public void testPropertyCache() throws Exception {
-    debug = true;
+    // debug = true;
     queenVictoria = this.getQueenVictoria();
     queenVictoria.getVertex().properties().forEachRemaining(prop -> {
       SimpleNode propNode = wikiDataSystem.cacheProperty(prop.label(),false);
@@ -112,7 +108,7 @@ public class TestWikiData extends BaseTest {
 
   @Test
   public void testQueenVictoria() throws Exception {
-    debug = true;
+    // debug = true;
     queenVictoria = this.getQueenVictoria();
     if (debug)
       queenVictoria.printNameValues(System.out);
@@ -129,7 +125,7 @@ public class TestWikiData extends BaseTest {
 
   @Test
   public void testQueenVictoriaFather() throws Exception {
-    debug=true;
+    //debug=true;
     queenVictoria = this.getQueenVictoria();
     // first try to navigate via Property Id P22 father
     List<SimpleNode> fatherList = queenVictoria.out("P22")
@@ -144,7 +140,7 @@ public class TestWikiData extends BaseTest {
 
   @Test
   public void testQueenVictoriaChildren() throws Exception {
-    debug=true;
+    //debug=true;
     queenVictoria = this.getQueenVictoria();
     // first try to navigate via Property Id
     List<SimpleNode> childrenP40 = queenVictoria.out("P40")
@@ -161,7 +157,7 @@ public class TestWikiData extends BaseTest {
 
   @Test
   public void testLanguages() throws Exception {
-    debug = true;
+    //debug = true;
     String[] languages = { "zh", "en", "es", "ar", "hi", "pt", "fr", "ja", "ru",
         "de" };
     wikiDataSystem = new WikiDataSystem(languages);

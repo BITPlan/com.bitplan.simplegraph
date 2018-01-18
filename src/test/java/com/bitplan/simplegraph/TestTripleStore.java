@@ -94,7 +94,7 @@ public class TestTripleStore extends BaseTest {
 
   @Test
   public void testReadChildren() throws Exception {
-    debug = true;
+    //debug = true;
     SimpleSystem royal92 = readSiDIF();
     // start with Queen Victoria (Person Id=I1)
     SimpleNode queenVictoria = royal92.moveTo("id=I1");

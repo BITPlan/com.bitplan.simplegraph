@@ -44,6 +44,10 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
   protected String kind;
   protected Map<String, Object> map = new HashMap<String, Object>();
   
+  public SimpleGraph getSimpleGraph() {
+    return simpleGraph;
+  }
+
   /**
    * initialize me for the given graph
    * @param simpleGraph

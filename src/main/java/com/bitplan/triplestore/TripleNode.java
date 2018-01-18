@@ -101,8 +101,8 @@ public class TripleNode extends SimpleNodeImpl {
         TripleQuery query = system.tripleStore.query();
         subject = query.selectSingle(edgeTarget.toString(), "isA", null);
         break;
-      case BOTH:
-        throw new IllegalStateException("BOTH not supported yet");
+      //case BOTH:
+      //  throw new IllegalStateException("BOTH not supported yet");
       }
       if (subject != null)
         nodes.add(new TripleNode(system, subject));
