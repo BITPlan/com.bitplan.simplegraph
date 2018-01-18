@@ -120,7 +120,7 @@ public class TestRythm extends BaseTest {
   @Test
   public void testGenerateGraphVizManually() throws Exception {
     //debug = true;
-    SimpleNode start = getFileNode("/src",Integer.MAX_VALUE);
+    SimpleNode start = getFileNode("src",Integer.MAX_VALUE);
     // get the gremlin starting point
     GraphTraversalSource g = start.g();
     // traverse using Apache Gremlin

@@ -51,7 +51,7 @@ public class BaseTest {
     fs = new FileSystem();
     // connect to this system with no extra information (e.g. no credentials)
     // and move to the path node
-    SimpleNode start = fs.connect("").moveTo("src");
+    SimpleNode start = fs.connect("").moveTo(path);
     // do gremlin style out traversals recursively to the given depth
     start.recursiveOut("files", levels);
     return start;

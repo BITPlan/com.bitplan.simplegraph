@@ -21,6 +21,7 @@
 package com.bitplan.simplegraph;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.logging.Level;
@@ -31,6 +32,7 @@ import org.junit.Test;
 
 import com.bitplan.filesystem.FileNode;
 import com.bitplan.filesystem.FileSystem;
+import com.bitplan.gremlin.RegexPredicate;
 
 /**
  * test navigating the Filesystem with SimpleGraph approaches
@@ -54,10 +56,10 @@ public class TestFileSystem extends BaseTest {
     long filecount = start.g().V().count().next().longValue();
     if (debug)
       LOGGER.log(Level.INFO,""+filecount);
-    assertEquals(54,filecount);
+    assertEquals(56,filecount);
     GraphTraversal<Vertex, Vertex> javaFiles = start.g().V().has("ext", "java");
     long javaFileCount=javaFiles.count().next().longValue();
-    assertEquals(27,javaFileCount);
+    assertEquals(28,javaFileCount);
     javaFiles = start.g().V().has("ext", "java");
     javaFiles.forEachRemaining(javaFile-> {
       logPropertyValues(javaFile);
@@ -109,6 +111,17 @@ public class TestFileSystem extends BaseTest {
         System.out.println(th.getMessage());
       assertEquals("unknown edgeName link",th.getMessage());
     }
+  }
+  
+  @Test
+  public void testRegularExpession() throws Exception {
+    SimpleNode start=super.getFileNode("src/test/java",3);
+    start.g().V().has("ext","java").has("name",RegexPredicate.regex("Test.*")).forEachRemaining(node->{
+      FileNode fileNode=(FileNode) node.property("mysimplenode").value(); 
+      if (debug)
+        fileNode.printNameValues(System.out);
+      assertTrue(fileNode.getMap().get("name").toString().startsWith("Test"));
+    });
   }
   
 }
