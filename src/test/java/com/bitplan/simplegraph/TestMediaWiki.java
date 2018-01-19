@@ -20,18 +20,29 @@
  */
 package com.bitplan.simplegraph;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import static org.junit.Assert.assertEquals;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({ TestDebug.class,TestFileSystem.class, TestTinkerPop3.class,
-    TestTripleStore.class,TestPowerPoint.class,TestMediaWiki.class,TestWikiData.class,TestRythm.class })
+import org.junit.Test;
+
+import com.bitplan.mediawiki.MediaWikiSystem;
+import com.bitplan.mediawiki.japi.api.Ii;
+
 /**
- * TestSuite
- * 
+ * test access to MediaWiki
  * @author wf
  *
- *         no content necessary - annotation has info
  */
-public class TestSuite {
+public class TestMediaWiki extends BaseTest {
+
+  @Test
+  public void testGetImageInfo() throws Exception {
+    debug=true;
+    MediaWikiSystem mws=new MediaWikiSystem();
+    SimpleNode pageNode = mws.connect("https://commons.wikimedia.org","/w").moveTo("File:Queen Victoria by Bassano.jpg");
+    if (debug)
+      pageNode.printNameValues(System.out);
+    Ii imageInfo=(Ii) pageNode.getMap().get("imageInfo");
+    assertEquals("https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg",imageInfo.getUrl());
+  }
+
 }

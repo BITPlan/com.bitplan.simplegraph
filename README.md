@@ -10,6 +10,7 @@ Allow Wrapping Systems with Apache TinkerPop
 * PowerPoint
 * [SiDIF TripleStore](http://www.bitplan.com/index.php/SiDIF-TripleStore)
 * [WikiData](https://www.wikidata.org/wiki/Wikidata:Main_Page)
+* [MediaWiki](http://mediawiki-japi.bitplan.com/index.php/Main_Page)
 
 # Links
 * http://www.bitplan.com/index.php/SimpleGraph

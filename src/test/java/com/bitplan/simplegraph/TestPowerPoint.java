@@ -27,7 +27,6 @@ import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +77,7 @@ public class TestPowerPoint extends BaseTest {
         map.get("name").toString(), fontSize, Color.blue, url);
     y += height;
     for (String prop : props) {
-      Object textObj = map.get(prop);
+      Object textObj = node.getProperty(prop);
       if (textObj != null) {
         String text = textObj.toString();
         slide.addText(slide.addTextBox(x, y, lwidth, height), prop + ":",

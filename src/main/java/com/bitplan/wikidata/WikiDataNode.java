@@ -166,17 +166,19 @@ public class WikiDataNode extends SimpleNodeImpl {
     }
     return map;
   }
-
+  
   /**
-   * get the Wikidata entity id
-   * 
-   * @param entityIri
-   * @return - the entityId
+   * get the property value for the given key
+   * @param key
+   * @return - the property value
    */
-  public String getWikiDataEntityId(String entityIri) {
-    entityIri = entityIri.replace("http://www.wikidata.org/entity/", "");
-    entityIri = entityIri.replace(" (item)", "");
-    return entityIri;
+  public Object getProperty(String key) {
+    String propId=key;
+    if (!key.startsWith("P") && propIdByName.containsKey(key)) {
+      propId=propIdByName.get(key);
+    }
+    Object value=map.get(propId);
+    return value;
   }
 
   /*
