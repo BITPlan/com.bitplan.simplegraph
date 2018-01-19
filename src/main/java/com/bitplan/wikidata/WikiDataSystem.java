@@ -46,7 +46,59 @@ import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 public class WikiDataSystem extends SimpleSystemImpl {
   transient WikibaseDataFetcher wbdf;
   List<String> languages = new ArrayList<String>();
-  private File propertyCacheFile;
+  transient Map<String,Cache> cacheMap=new HashMap<String,Cache>();
+  
+  class Cache {
+    File file;
+    String purpose;
+    WikiDataSystem wds;
+    /**
+     * create a cache with the given file for the given purpose
+     * @param file
+     * @param purpose
+     */
+    public Cache(WikiDataSystem wds,File file, String purpose) {
+      this.wds=wds;
+      this.file=file;
+      this.purpose=purpose;
+    }
+    
+    /**
+     * flush the cache
+     * @throws Exception
+     */
+    public void flush() throws Exception {
+      wds.graph().io(IoCore.graphml()).writeGraph(file.getPath());
+    }
+
+    /**
+     * reinitialize the cache
+     * @throws Exception
+     */
+    public void reinit() throws Exception {
+     // read it
+      wds.graph().io(IoCore.graphml()).readGraph(file.getPath());
+      // simple nodes references are not o.k.
+      // <data
+      // key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7905a0b8</data>
+      wds.graph().traversal().V().has("mysimplenode").forEachRemaining(node -> {
+        Object simpleNodeObject = node.property("mysimplenode").value();
+        if (simpleNodeObject instanceof String) {
+          Map<String, Object> map = new HashMap<String, Object>();
+          node.properties().forEachRemaining(nodeprop -> {
+            map.put(nodeprop.key(), nodeprop.value());
+          });
+          WikiDataNode wikiDataNode = new WikiDataNode(wds);
+          wikiDataNode.setVertex(node);
+          wikiDataNode.setMap(map);
+          map.put("mysimplenode", wikiDataNode);
+          node.property("mysimplenode", wikiDataNode);
+        }
+      });
+      
+    }
+  }
+ 
 
   @Override
   public SimpleNode moveTo(String entityId) {
@@ -80,13 +132,23 @@ public class WikiDataSystem extends SimpleSystemImpl {
    * @param languages
    */
   public WikiDataSystem(String... languageCodes) {
+    this(null,languageCodes);
+  }
+  
+  /**
+   * create a WikiDataSystem with a given fetcher
+   * @param wbdf
+   * @param languageCodes
+   */
+  private WikiDataSystem(WikibaseDataFetcher wbdf,String... languageCodes) {
     super.setName("WikiData");
-    super.setName("0.0.8");
+    super.setVersion("0.0.8");
+    this.wbdf=wbdf;
     for (String languageCode : languageCodes) {
       addLanguage(languageCode);
     }
   }
-
+  
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
     wbdf = WikibaseDataFetcher.getWikidataDataFetcher();
@@ -102,46 +164,34 @@ public class WikiDataSystem extends SimpleSystemImpl {
   }
 
   /**
-   * enable the user of a propertyCache
+   * enable the use of a cache for the given purpose
    * 
-   * @param propertyCacheFile
+   * @param cacheFile
+   * @param purpose
    * @return
    * @throws Exception
    */
-  public File usePropertyCache(File propertyCacheFile) throws Exception {
-    this.propertyCacheFile = propertyCacheFile;
+  public Cache useCache(File cacheFile,String purpose) throws Exception {
+    // create a new WikiDataSystem based on the same fetcher
+    WikiDataSystem cachews = new WikiDataSystem(wbdf,languages.toArray(new String[0]));
+    Cache cache=new Cache(cachews,cacheFile,purpose);
+    cacheMap.put(purpose, cache);
     // is there propertyCacheFile?
-    if (propertyCacheFile.exists()) {
-      // read it
-      graph().io(IoCore.graphml()).readGraph(propertyCacheFile.getPath());
-      // simple nodes references are not o.k.
-      // <data
-      // key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7905a0b8</data>
-      graph().traversal().V().has("mysimplenode").forEachRemaining(node -> {
-        Object simpleNodeObject = node.property("mysimplenode").value();
-        if (simpleNodeObject instanceof String) {
-          Map<String, Object> map = new HashMap<String, Object>();
-          node.properties().forEachRemaining(nodeprop -> {
-            map.put(nodeprop.key(), nodeprop.value());
-          });
-          WikiDataNode wikiDataNode = new WikiDataNode(this);
-          wikiDataNode.setVertex(node);
-          wikiDataNode.setMap(map);
-          map.put("mysimplenode", wikiDataNode);
-          node.property("mysimplenode", wikiDataNode);
-        }
-      });
+    if (cacheFile.exists()) {
+      cache.reinit();
     }
-    return propertyCacheFile;
+    return cache;
   }
 
   /**
-   * flush the propertyCache
-   * 
+   * flush the cache for the given purpose
+   * @param purpose
    * @throws Exception
    */
-  public void flushPropertyCache() throws Exception {
-    graph().io(IoCore.graphml()).writeGraph(propertyCacheFile.getPath());
+  public void flushCache(String purpose) throws Exception {
+    if (!cacheMap.containsKey(purpose))
+      throw new IllegalArgumentException("no cache for purpose "+purpose+" in use");
+    cacheMap.get(purpose).flush();   
   }
 
   /**
@@ -150,18 +200,24 @@ public class WikiDataSystem extends SimpleSystemImpl {
    * @param propId
    * @param level
    */
-  public SimpleNode cacheProperty(String propId, boolean optional) {
-    if (!propId.matches("P[0-9]+")) {
+  public SimpleNode cache(String itemId, boolean optional) {
+    if (!itemId.matches("[QP][0-9]+")) {
       return null;
     }
-    GraphTraversal<Vertex, Vertex> propVertex = g().V().has("wikidata_id",
-        propId);
+    String purpose="property";
+    if (itemId.startsWith("Q"))
+       purpose="entity";
+    if (!cacheMap.containsKey(purpose))
+      return null;
+    Cache cache=cacheMap.get(purpose);
+    GraphTraversal<Vertex, Vertex> propVertex = cache.wds.g().V().has("wikidata_id",
+        itemId);
     SimpleNode node = null;
     if (propVertex.hasNext()) {
       node = propVertex.next().value("mysimplenode");
     } else {
       if (!optional)
-        node = this.moveTo(propId);
+        node = cache.wds.moveTo(itemId);
     }
     return node;
   }

@@ -24,7 +24,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,23 +51,23 @@ import com.bitplan.powerpoint.SlideShowNode;
  */
 public class TestPowerPoint extends BaseTest {
 
+ 
   /**
    * 
    * @param sls
+   * @throws Exception 
    */
-  public Slide slideForNode(SlideShow sls, SimpleNode node, String... props) {
+  public Slide slideForNode(SlideShow sls, SimpleNode node, String... props) throws Exception {
     SlideNode slide = (SlideNode) sls.createSlide();
-    // add a property "source" to the node
-    String source = "Royal 92 GEDCOM file";
-    node.property("source", source);
-    slide.property("source", source);
+    Map<String, Object> map = node.getMap();
+    slide.property("source", map.get("source"));
     int y = 20;
     int x = 20;
     int lwidth = 150;
     int twidth = 500;
     double fontSize = 24.0;
     int height = (int) (fontSize * 1.25);
-    Map<String, Object> map = node.getMap();
+   
     String name = map.get("name").toString();
     slide.setTitle(name);
     String url = "http://royal-family.bitplan.com/index.php/"
@@ -84,20 +88,22 @@ public class TestPowerPoint extends BaseTest {
         y += height;
       }
     }
-    String notes = "";
-    for (String key : map.keySet()) {
-      notes += String.format("%s=%s\n", key, map.get(key).toString());
-    }
-    slide.setNotes(notes);
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PrintStream ps = new PrintStream(baos, true, "utf-8");
+    node.printNameValues(ps);
+    ps.close();
+    slide.setNotes(new String(baos.toByteArray(), StandardCharsets.UTF_8));
     return slide;
   }
-
-  @Test
-  public void testPowerPointCreate() throws Exception {
-    SimpleSystem royal92 = TestTripleStore.readSiDIF();
-    // start with Queen Victoria (Person Id=I1)
-    SimpleNode queenVictoria = royal92.moveTo("id=I1");
-    String pptFilePath = "QueenVictoria.pptx";
+  
+  /**
+   * get a new powerpoint file for the given path and title
+   * @param pptFilePath
+   * @param title
+   * @return
+   * @throws Exception
+   */
+  public SlideShow getPPT(String pptFilePath,String title) throws Exception {
     PowerPointSystem pps = new PowerPointSystem();
     File pptFile = new File(pptFilePath);
     // remove file if it exists
@@ -105,7 +111,47 @@ public class TestPowerPoint extends BaseTest {
       pptFile.delete();
     // to force to create a new empty slide show
     SlideShow sls = (SlideShow) pps.connect("").moveTo(pptFilePath);
-    sls.setTitle("Queen Victoria");
+    sls.setTitle(title);
+    return sls;
+  }
+  
+  @Test
+  public void testPowerPointCreateWikiData() throws Exception {
+    debug=true;
+    SimpleNode queenVictoria = TestWikiData.getQueenVictoria();
+    String pptFilePath = "QueenVictoria.pptx";
+    SlideShow sls =this.getPPT(pptFilePath, "Queen Victoria");
+    if (debug)
+      queenVictoria.printNameValues(System.out);
+    
+    String slideprops[] = { 
+       "image"
+        //"image","sex or gender", "father", "mother", "wikidata_id",
+        //"date of birth", "place of birth", "date of death", "wiki_en", "label_en", "source" 
+    };
+    // add a property "source" to the node
+    String source = "WikiData";
+    queenVictoria.property("source", source);
+    queenVictoria.property("name", queenVictoria.getMap().get("label_en"));
+    SlideNode qv = (SlideNode) slideForNode(sls, queenVictoria, slideprops);
+    List<SimpleNode> children = queenVictoria.out("child")
+        .collect(Collectors.toCollection(ArrayList::new));
+    for (SimpleNode child:children) {
+      child.property("source", source);
+      child.property("name", child.getMap().get("label_en"));
+      slideForNode(sls,child,slideprops);
+    }
+    sls.save();
+  }
+
+  @Test
+  public void testPowerPointCreateRoyal92() throws Exception {
+    SimpleSystem royal92 = TestTripleStore.readSiDIF();
+    // start with Queen Victoria (Person Id=I1)
+    SimpleNode queenVictoria = royal92.moveTo("id=I1");
+    String pptFilePath = "QueenVictoriaRoyal92.pptx";
+    SlideShow sls = this.getPPT(pptFilePath, "Queen Victoria");
+    
     /**
      * born = 1819-05-24 sex = female nobleTitle = Queen of England childOf =
      * F42 yearBorn = 1819 parentOf = F1 died = 1901-01-22 diedAt = Royal
@@ -116,10 +162,12 @@ public class TestPowerPoint extends BaseTest {
     String slideprops[] = { "name", "nobleTitle", "sex", "yearBorn",
         "birthPlace", "yearDied", "diedAt", "source" };
     // add slides
+    String source = "Royal 92 GEDCOM file";
+    queenVictoria.property("source", source);
     SlideNode qv = (SlideNode) slideForNode(sls, queenVictoria, slideprops);
     // debug = true;
-    String source = qv.getMap().get("source").toString();
     for (SimpleNode child : TestTripleStore.children(queenVictoria, 1)) {
+      child.property("source", source);
       SlideNode slide = (SlideNode) slideForNode(sls, child, slideprops);
       assertEquals(slide.getTitle(), child.getMap().get("name"));
       String text = slide.getText();

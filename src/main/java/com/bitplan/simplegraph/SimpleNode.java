@@ -64,6 +64,15 @@ public interface SimpleNode extends SimpleGraph {
     getMap().put(key, value);
   }
   
+  /**
+   * get the property value for the given key
+   * @param key
+   * @return - the property value
+   */
+  public default Object getProperty(String key) {
+    return getMap().get(key);
+  }
+  
   // interfaces with default implementation
   /**
    * recursive out handling

@@ -48,8 +48,8 @@ import com.bitplan.wikidata.WikiDataSystem;
  */
 public class TestWikiData extends BaseTest {
 
-  private SimpleNode queenVictoria;
-  private WikiDataSystem wikiDataSystem;
+  private static SimpleNode queenVictoria;
+  private static WikiDataSystem wikiDataSystem;
 
   @Test
   public void testWikiDatabaseFetcher() throws MediaWikiApiErrorException {
@@ -74,11 +74,11 @@ public class TestWikiData extends BaseTest {
    * @return
    * @throws Exception
    */
-  public SimpleNode getQueenVictoria() throws Exception {
+  public static SimpleNode getQueenVictoria() throws Exception {
     if (queenVictoria == null) {
       wikiDataSystem = new WikiDataSystem();
       wikiDataSystem.connect();
-      wikiDataSystem.usePropertyCache(new File("QueenVictoriaWikiData.xml"));
+      wikiDataSystem.useCache(new File("QueenVictoriaWikiData.xml"),"property");
       queenVictoria = wikiDataSystem.moveTo("Q9439");
     }
     return queenVictoria;
@@ -91,10 +91,10 @@ public class TestWikiData extends BaseTest {
    */
   @Test
   public void testPropertyCache() throws Exception {
-    // debug = true;
-    queenVictoria = this.getQueenVictoria();
+    debug = true;
+    queenVictoria = getQueenVictoria();
     queenVictoria.getVertex().properties().forEachRemaining(prop -> {
-      SimpleNode propNode = wikiDataSystem.cacheProperty(prop.label(),false);
+      SimpleNode propNode = wikiDataSystem.cache(prop.label(),false);
       if (debug) {
         if (propNode != null) {
           System.out.println(
@@ -103,13 +103,13 @@ public class TestWikiData extends BaseTest {
         }
       }
     });
-    wikiDataSystem.flushPropertyCache();
+    wikiDataSystem.flushCache("property");
   }
 
   @Test
   public void testQueenVictoria() throws Exception {
     // debug = true;
-    queenVictoria = this.getQueenVictoria();
+    queenVictoria = getQueenVictoria();
     if (debug)
       queenVictoria.printNameValues(System.out);
     @SuppressWarnings("unchecked")
@@ -126,7 +126,7 @@ public class TestWikiData extends BaseTest {
   @Test
   public void testQueenVictoriaFather() throws Exception {
     //debug=true;
-    queenVictoria = this.getQueenVictoria();
+    queenVictoria = getQueenVictoria();
     // first try to navigate via Property Id P22 father
     List<SimpleNode> fatherList = queenVictoria.out("P22")
         .collect(Collectors.toCollection(ArrayList::new));
@@ -141,7 +141,7 @@ public class TestWikiData extends BaseTest {
   @Test
   public void testQueenVictoriaChildren() throws Exception {
     //debug=true;
-    queenVictoria = this.getQueenVictoria();
+    queenVictoria = getQueenVictoria();
     // first try to navigate via Property Id
     List<SimpleNode> childrenP40 = queenVictoria.out("P40")
         .collect(Collectors.toCollection(ArrayList::new));
@@ -160,10 +160,10 @@ public class TestWikiData extends BaseTest {
     //debug = true;
     String[] languages = { "zh", "en", "es", "ar", "hi", "pt", "fr", "ja", "ru",
         "de" };
-    wikiDataSystem = new WikiDataSystem(languages);
-    wikiDataSystem.connect();
+    WikiDataSystem lwikiDataSystem = new WikiDataSystem(languages);
+    lwikiDataSystem.connect();
     // Beer
-    SimpleNode beerNode = wikiDataSystem.moveTo("Q44");
+    SimpleNode beerNode = lwikiDataSystem.moveTo("Q44");
     for (String language : languages) {
       long wikiCount = beerNode.g().V().has("wiki_" + language).count().next()
           .longValue();
@@ -182,11 +182,11 @@ public class TestWikiData extends BaseTest {
 
   @Test
   public void testMoveWithoutConnect() {
-    wikiDataSystem = new WikiDataSystem();
+    WikiDataSystem lwikiDataSystem = new WikiDataSystem();
     Exception foundException = null;
     try {
       // Beer
-      wikiDataSystem.moveTo("Q44");
+      lwikiDataSystem.moveTo("Q44");
     } catch (Exception e) {
       foundException = e;
     }

@@ -38,6 +38,7 @@ import org.wikidata.wdtk.datamodel.interfaces.SiteLink;
 import org.wikidata.wdtk.datamodel.interfaces.Snak;
 import org.wikidata.wdtk.datamodel.interfaces.Statement;
 import org.wikidata.wdtk.datamodel.interfaces.StatementDocument;
+import org.wikidata.wdtk.datamodel.interfaces.StringValue;
 import org.wikidata.wdtk.datamodel.interfaces.TermedDocument;
 import org.wikidata.wdtk.datamodel.interfaces.Value;
 import org.wikidata.wdtk.datamodel.json.jackson.datavalues.JacksonValueItemId;
@@ -154,7 +155,7 @@ public class WikiDataNode extends SimpleNodeImpl {
           // first time single value
           map.put(propId, value);
         }
-        SimpleNode propNode = this.getSystem().cacheProperty(propId, true);
+        SimpleNode propNode = this.getSystem().cache(propId, true);
         if (propNode != null) {
           String propLabel = propNode.getMap().get("label_en").toString();
           if (propLabel != null) {
@@ -200,7 +201,7 @@ public class WikiDataNode extends SimpleNodeImpl {
     List<SimpleNode> outs = new ArrayList<SimpleNode>();
     String propertyId = edgeName;
     if (!edgeName.matches("P[0-9]+")) {
-      propertyId=this.propIdByName.get(edgeName);
+      propertyId = this.propIdByName.get(edgeName);
     }
     Object outValue = map.get(propertyId);
     if (outValue instanceof JacksonValueItemId) {
@@ -224,11 +225,19 @@ public class WikiDataNode extends SimpleNodeImpl {
     Map<String, Object> map = this.getMap();
     for (String key : map.keySet()) {
       String label = key;
-      SimpleNode propNode = getSystem().cacheProperty(key, true);
+      SimpleNode propNode = getSystem().cache(key, true);
       if (propNode != null) {
         label = propNode.getMap().get("label_en").toString();
       }
-      out.println(String.format("%s (%s) = %s", label, key, map.get(key)));
+      Object value = map.get(key);
+      String valueStr = "?";
+      String valueType = value.getClass().getSimpleName();
+      if (value instanceof StringValue) {
+        valueStr = ((StringValue) value).getString();
+      } else {
+        valueStr = value.toString();
+      }
+      out.println(String.format("%s (%s) = %s", label, key, valueStr));
     }
   }
 }
