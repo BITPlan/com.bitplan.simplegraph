@@ -20,9 +20,7 @@
  */
 package com.bitplan.mediawiki;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
@@ -122,7 +120,39 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
    * @throws Exception
    */
   public BufferedImage getImage() throws Exception {
+    return getImage(null);
+  }
+  
+  public static String getThumbImageUrl(String url,int size) {
+    // https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg
+    // https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Queen_Victoria_by_Bassano.jpg/170px-Queen_Victoria_by_Bassano.jpg
+    String[] parts = url.split("/");
+    String thumbUrl=url;
+    int len=parts.length;
+    if (len>3) {
+      thumbUrl="";
+      for (int i=0;i<len-3;i++) {
+        thumbUrl=thumbUrl+parts[i]+"/";
+      }
+      thumbUrl=thumbUrl+"thumb/";
+      for (int i=len-3;i<len-1;i++) {
+        thumbUrl=thumbUrl+parts[i]+"/";        
+      }
+      thumbUrl=thumbUrl+parts[len-1]+"/"+size+"px-"+parts[len-1];
+    }
+    return thumbUrl;
+  }
+  
+  /**
+   * get the image for this page (for File: pages)
+   * @param size - thumbnail size - full image if size is null
+   * @return the image
+   * @throws Exception
+   */
+  public BufferedImage getImage(Integer size) throws Exception {
     String imageUrlStr = ((Ii) getMap().get("imageInfo")).getUrl();
+    if (size!=null)
+      imageUrlStr=getThumbImageUrl(imageUrlStr, size);
     URL imageUrl=new URL(imageUrlStr);
     BufferedImage image=ImageIO.read(imageUrl);
     return image;

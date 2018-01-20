@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.poi.xslf.usermodel.XSLFPictureShape;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 import org.junit.Test;
 
@@ -53,7 +54,6 @@ import com.bitplan.powerpoint.SlideShowNode;
  */
 public class TestPowerPoint extends BaseTest {
 
- 
   /**
    * 
    * @param sls
@@ -65,16 +65,16 @@ public class TestPowerPoint extends BaseTest {
     String source=map.get("source").toString();
     slide.property("source", source);
     int y = 20;
-    int x = 20;
-    int lwidth = 150;
-    int twidth = 500;
-    double fontSize = 24.0;
+    int x = 240;
+    int lwidth = 130;
+    int twidth = 350;
+    double fontSize = 16.0;
     int height = (int) (fontSize * 1.25);
-   
+    int imageheight=800;
     String name = map.get("name").toString();
     slide.setTitle(name);
     String url="";
-    if ("WikiData".equals("source"))
+    if ("WikiData".equals(source))
       url="https://tools.wmflabs.org/sqid/#/view?id="+node.getProperty("wikidata_id");
     else
       url = "http://royal-family.bitplan.com/index.php/"
@@ -85,14 +85,24 @@ public class TestPowerPoint extends BaseTest {
         map.get("name").toString(), fontSize, Color.blue, url);
     y += height;
     for (String prop : props) {
-      Object textObj = node.getProperty(prop);
-      if (textObj != null) {
-        String text = textObj.toString();
-        slide.addText(slide.addTextBox(x, y, lwidth, height), prop + ":",
-            fontSize, Color.black);
-        slide.addText(slide.addTextBox(x + lwidth, y, twidth, height), text,
+      Object propObj = node.getProperty(prop);
+      if (propObj != null) {
+        if (propObj instanceof String) {
+          slide.addText(slide.addTextBox(x, y, lwidth, height), prop + ":",
+              fontSize, Color.black);
+          slide.addText(slide.addTextBox(x + lwidth, y, twidth, height), propObj.toString(),
             fontSize, Color.blue);
-        y += height;
+          y += height;
+          if (y>imageheight) {
+            x=20;
+          }
+        } else if (propObj instanceof BufferedImage) {
+          BufferedImage image = (BufferedImage) propObj;
+          XSLFPictureShape picture = slide.addPicture(image);;
+          imageheight=image.getHeight();
+          slide.setPosition(picture, 20, y, image.getWidth(), imageheight);
+        }
+        
       }
     }
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -129,10 +139,10 @@ public class TestPowerPoint extends BaseTest {
    * @return - the buffered image
    * @throws Exception 
    */
-  public BufferedImage getImage(MediaWikiSystem mws,SimpleNode personNode) throws Exception {
+  public BufferedImage getImage(MediaWikiSystem mws,SimpleNode personNode, int size) throws Exception {
     String image=personNode.getProperty("image").toString();
     MediaWikiPageNode pageNode = (MediaWikiPageNode)mws.moveTo("File:"+image);
-    return pageNode.getImage();
+    return pageNode.getImage(size);
   }
   
   @Test
@@ -149,21 +159,22 @@ public class TestPowerPoint extends BaseTest {
       queenVictoria.printNameValues(System.out);
     
     String slideprops[] = { 
-       "wikidata_id",
-        //"image","sex or gender", "father", "mother", "wikidata_id",
-        //"date of birth", "place of birth", "date of death", "wiki_en", "label_en", 
+       "picture","wikidata_id",
+       "image",
+       "sex or gender", "father", "mother", 
+        "date of birth", "place of birth", "date of death", "wiki_en", "label_en", 
        "source" 
     };
     // add a property "source" to the node
     String source = "WikiData";
-    queenVictoria.property("picture", this.getImage(mws, queenVictoria));
+    queenVictoria.property("picture", this.getImage(mws, queenVictoria,200));
     queenVictoria.property("source", source);
     queenVictoria.property("name", queenVictoria.getMap().get("label_en"));
     SlideNode qv = (SlideNode) slideForNode(sls, queenVictoria, slideprops);
     List<SimpleNode> children = queenVictoria.out("child")
         .collect(Collectors.toCollection(ArrayList::new));
     for (SimpleNode child:children) {
-      child.property("picture", this.getImage(mws, child));
+      child.property("picture", this.getImage(mws, child,200));
       child.property("source", source);
       child.property("name", child.getMap().get("label_en"));
       slideForNode(sls,child,slideprops);

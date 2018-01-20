@@ -22,14 +22,23 @@ package com.bitplan.powerpoint;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import javax.imageio.ImageIO;
+
+import org.apache.poi.sl.usermodel.PictureData;
 import org.apache.poi.sl.usermodel.Placeholder;
 import org.apache.poi.xslf.usermodel.XSLFHyperlink;
 import org.apache.poi.xslf.usermodel.XSLFNotes;
+import org.apache.poi.xslf.usermodel.XSLFPictureData;
+import org.apache.poi.xslf.usermodel.XSLFPictureShape;
 import org.apache.poi.xslf.usermodel.XSLFShape;
+import org.apache.poi.xslf.usermodel.XSLFSimpleShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextBox;
 import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
@@ -49,7 +58,15 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 public class SlideNode extends SimpleNodeImpl implements Slide {
 
   private XSLFSlide slide;
-
+  
+  /**
+   * get the underlying powerpoint slide
+   * @return
+   */
+  public XSLFSlide getSlide() {
+    return slide;
+  }
+  
   /**
    * create a SlideNode from the given PowerPoint slide
    * @param simpleGraph
@@ -87,6 +104,15 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
   }
   
   /**
+   * set the position of a simple shape
+   */
+  public XSLFSimpleShape setPosition(XSLFSimpleShape shape, int x,int y,int width,int height) {
+    Rectangle rect=new Rectangle(x,y,width,height);
+    shape.setAnchor(rect);
+    return shape;
+  }
+  
+  /**
    * add a text box
    * @param sheet 
    * @param x
@@ -97,8 +123,7 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
    */
   public XSLFTextBox addTextBox(int x,int y,int width,int height) {
     XSLFTextBox textbox = slide.createTextBox();
-    Rectangle rect=new Rectangle(x,y,width,height);
-    textbox.setAnchor(rect);
+    setPosition(textbox,x,y,width,height);
     return textbox;
   }
   
@@ -131,6 +156,21 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
     XSLFHyperlink hyperlink = r.createHyperlink();
     hyperlink.setAddress(link);
     return hyperlink;
+  }
+  
+  /**
+   * add a Picture 
+   * @param image
+   * @return 
+   * @throws Exception
+   */
+  public XSLFPictureShape addPicture(BufferedImage image) throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ImageIO.write(image, "jpg", baos);
+    byte[] pictureData = baos.toByteArray();
+    XSLFPictureData pd = getSlideShow().getSlideshow().addPicture(pictureData, PictureData.PictureType.JPEG);
+    XSLFPictureShape pic = slide.createPicture(pd);
+    return pic;
   }
 
   /**

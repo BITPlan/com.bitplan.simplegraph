@@ -33,6 +33,7 @@ import com.bitplan.mediawiki.japi.api.Ii;
 
 /**
  * test access to MediaWiki
+ * 
  * @author wf
  *
  */
@@ -40,17 +41,29 @@ public class TestMediaWiki extends BaseTest {
 
   @Test
   public void testGetImageInfo() throws Exception {
-    debug=true;
-    MediaWikiSystem mws=new MediaWikiSystem();
-    MediaWikiPageNode pageNode = (MediaWikiPageNode) mws.connect("https://commons.wikimedia.org","/w").moveTo("File:Queen Victoria by Bassano.jpg");
+    debug = true;
+    MediaWikiSystem mws = new MediaWikiSystem();
+    MediaWikiPageNode pageNode = (MediaWikiPageNode) mws
+        .connect("https://commons.wikimedia.org", "/w")
+        .moveTo("File:Queen Victoria by Bassano.jpg");
     if (debug)
       pageNode.printNameValues(System.out);
-    String url=((Ii) pageNode.getMap().get("imageInfo")).getUrl();
-    assertEquals("https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg",url);
-    BufferedImage queenVictoriaImage=pageNode.getImage();
+    String url = ((Ii) pageNode.getMap().get("imageInfo")).getUrl();
+    assertEquals(
+        "https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg",
+        url);
+    BufferedImage queenVictoriaImage = pageNode.getImage(600);
     assertNotNull(queenVictoriaImage);
-    assertEquals(2729,queenVictoriaImage.getWidth());
-    assertEquals(3851,queenVictoriaImage.getHeight());
+    assertEquals(600, queenVictoriaImage.getWidth());
+    assertEquals(847, queenVictoriaImage.getHeight());
   }
 
+  @Test
+  public void testThumbImageUrl() throws Exception {
+    String url = "https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg";
+    String thumbUrl = MediaWikiPageNode.getThumbImageUrl(url, 170);
+    assertEquals(
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Queen_Victoria_by_Bassano.jpg/170px-Queen_Victoria_by_Bassano.jpg",
+        thumbUrl);
+  }
 }
