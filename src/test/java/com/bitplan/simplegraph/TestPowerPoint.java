@@ -24,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -36,6 +37,8 @@ import java.util.stream.Collectors;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 import org.junit.Test;
 
+import com.bitplan.mediawiki.MediaWikiPageNode;
+import com.bitplan.mediawiki.MediaWikiSystem;
 import com.bitplan.powerpoint.PowerPointSystem;
 import com.bitplan.powerpoint.Slide;
 import com.bitplan.powerpoint.SlideNode;
@@ -59,7 +62,8 @@ public class TestPowerPoint extends BaseTest {
   public Slide slideForNode(SlideShow sls, SimpleNode node, String... props) throws Exception {
     SlideNode slide = (SlideNode) sls.createSlide();
     Map<String, Object> map = node.getMap();
-    slide.property("source", map.get("source"));
+    String source=map.get("source").toString();
+    slide.property("source", source);
     int y = 20;
     int x = 20;
     int lwidth = 150;
@@ -69,7 +73,11 @@ public class TestPowerPoint extends BaseTest {
    
     String name = map.get("name").toString();
     slide.setTitle(name);
-    String url = "http://royal-family.bitplan.com/index.php/"
+    String url="";
+    if ("WikiData".equals("source"))
+      url="https://tools.wmflabs.org/sqid/#/view?id="+node.getProperty("wikidata_id");
+    else
+      url = "http://royal-family.bitplan.com/index.php/"
         + name.replaceAll(" ", "_");
     slide.addText(slide.addTextBox(x, y, lwidth, height), "link:", fontSize,
         Color.black);
@@ -114,9 +122,26 @@ public class TestPowerPoint extends BaseTest {
     return sls;
   }
   
+  /**
+   * get the image for the given person
+   * @param mws
+   * @param personNode
+   * @return - the buffered image
+   * @throws Exception 
+   */
+  public BufferedImage getImage(MediaWikiSystem mws,SimpleNode personNode) throws Exception {
+    String image=personNode.getProperty("image").toString();
+    MediaWikiPageNode pageNode = (MediaWikiPageNode)mws.moveTo("File:"+image);
+    return pageNode.getImage();
+  }
+  
   @Test
   public void testPowerPointCreateWikiData() throws Exception {
     debug=true;
+    // prepare access to wikimedia for getting pictures
+    MediaWikiSystem mws=new MediaWikiSystem();
+    mws.connect("https://commons.wikimedia.org","/w");
+    
     SimpleNode queenVictoria = TestWikiData.getQueenVictoria();
     String pptFilePath = "QueenVictoria.pptx";
     SlideShow sls =this.getPPT(pptFilePath, "Queen Victoria");
@@ -124,18 +149,21 @@ public class TestPowerPoint extends BaseTest {
       queenVictoria.printNameValues(System.out);
     
     String slideprops[] = { 
-       "image"
+       "wikidata_id",
         //"image","sex or gender", "father", "mother", "wikidata_id",
-        //"date of birth", "place of birth", "date of death", "wiki_en", "label_en", "source" 
+        //"date of birth", "place of birth", "date of death", "wiki_en", "label_en", 
+       "source" 
     };
     // add a property "source" to the node
     String source = "WikiData";
+    queenVictoria.property("picture", this.getImage(mws, queenVictoria));
     queenVictoria.property("source", source);
     queenVictoria.property("name", queenVictoria.getMap().get("label_en"));
     SlideNode qv = (SlideNode) slideForNode(sls, queenVictoria, slideprops);
     List<SimpleNode> children = queenVictoria.out("child")
         .collect(Collectors.toCollection(ArrayList::new));
     for (SimpleNode child:children) {
+      child.property("picture", this.getImage(mws, child));
       child.property("source", source);
       child.property("name", child.getMap().get("label_en"));
       slideForNode(sls,child,slideprops);

@@ -178,6 +178,20 @@ public class WikiDataNode extends SimpleNodeImpl {
       propId=propIdByName.get(key);
     }
     Object value=map.get(propId);
+    return typeConvert(value);
+  }
+  
+  /**
+   * convert the types according to
+   * https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
+   * @param value
+   * @return the converted type
+   */
+  public Object typeConvert(Object value) {
+    if (value instanceof StringValue) {
+      StringValue svalue = (StringValue)value;
+      return svalue.getString();
+    }
     return value;
   }
 

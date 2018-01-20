@@ -108,7 +108,7 @@ public class TestWikiData extends BaseTest {
 
   @Test
   public void testQueenVictoria() throws Exception {
-    // debug = true;
+    debug = true;
     queenVictoria = getQueenVictoria();
     if (debug)
       queenVictoria.printNameValues(System.out);
@@ -116,6 +116,9 @@ public class TestWikiData extends BaseTest {
     List<JacksonValueItemId> children = (List<JacksonValueItemId>) queenVictoria
         .getMap().get("P40");
     assertEquals(9, children.size());
+    assertEquals("Q9439",queenVictoria.getProperty("wikidata_id"));
+    Object image=queenVictoria.getProperty("P18");
+    assertEquals("Queen Victoria by Bassano.jpg",image); // image
     for (JacksonValueItemId child : children) {
       if (debug)
         System.out.println(child.getId());

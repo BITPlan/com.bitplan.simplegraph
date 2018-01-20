@@ -21,9 +21,13 @@
 package com.bitplan.simplegraph;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.awt.image.BufferedImage;
 
 import org.junit.Test;
 
+import com.bitplan.mediawiki.MediaWikiPageNode;
 import com.bitplan.mediawiki.MediaWikiSystem;
 import com.bitplan.mediawiki.japi.api.Ii;
 
@@ -38,11 +42,15 @@ public class TestMediaWiki extends BaseTest {
   public void testGetImageInfo() throws Exception {
     debug=true;
     MediaWikiSystem mws=new MediaWikiSystem();
-    SimpleNode pageNode = mws.connect("https://commons.wikimedia.org","/w").moveTo("File:Queen Victoria by Bassano.jpg");
+    MediaWikiPageNode pageNode = (MediaWikiPageNode) mws.connect("https://commons.wikimedia.org","/w").moveTo("File:Queen Victoria by Bassano.jpg");
     if (debug)
       pageNode.printNameValues(System.out);
-    Ii imageInfo=(Ii) pageNode.getMap().get("imageInfo");
-    assertEquals("https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg",imageInfo.getUrl());
+    String url=((Ii) pageNode.getMap().get("imageInfo")).getUrl();
+    assertEquals("https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg",url);
+    BufferedImage queenVictoriaImage=pageNode.getImage();
+    assertNotNull(queenVictoriaImage);
+    assertEquals(2729,queenVictoriaImage.getWidth());
+    assertEquals(3851,queenVictoriaImage.getHeight());
   }
 
 }

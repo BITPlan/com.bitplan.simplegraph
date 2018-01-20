@@ -20,10 +20,16 @@
  */
 package com.bitplan.mediawiki;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+
+import javax.imageio.ImageIO;
 
 import com.bitplan.mediawiki.japi.api.Api;
 import com.bitplan.mediawiki.japi.api.Ii;
@@ -38,7 +44,7 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  * @author wf
  *
  */
-public class WikiPageNode extends SimpleNodeImpl implements SimpleNode {
+public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
 
   private String pageTitle;
   private MediaWikiSystem ms;
@@ -49,7 +55,7 @@ public class WikiPageNode extends SimpleNodeImpl implements SimpleNode {
    * @param mediaWikiSystem
    * @param pageTitle
    */
-  public WikiPageNode(MediaWikiSystem mediaWikiSystem, String pageTitle) {
+  public MediaWikiPageNode(MediaWikiSystem mediaWikiSystem, String pageTitle) {
     super(mediaWikiSystem, "wikiPage");
     this.ms = mediaWikiSystem;
     this.pageTitle = pageTitle;
@@ -108,6 +114,18 @@ public class WikiPageNode extends SimpleNodeImpl implements SimpleNode {
   public Stream<SimpleNode> in(String edgeName) {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  /**
+   * get the image for this page (for File: pages)
+   * @return the image
+   * @throws Exception
+   */
+  public BufferedImage getImage() throws Exception {
+    String imageUrlStr = ((Ii) getMap().get("imageInfo")).getUrl();
+    URL imageUrl=new URL(imageUrlStr);
+    BufferedImage image=ImageIO.read(imageUrl);
+    return image;
   }
 
 }
