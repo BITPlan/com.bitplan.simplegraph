@@ -33,29 +33,36 @@ import com.bitplan.simplegraph.Keys;
  *
  */
 public class KeysImpl implements Keys {
-  private List<String> keys;
+  protected List<String> keysList;
+  protected String[] keys;
 
   /**
    * initialize me from an array of keys
    * @param keys
    */
   public KeysImpl(String... keys) {
-    this.keys = Arrays.asList(keys);
+    this.keys=keys;
+    this.keysList = Arrays.asList(keys);
   }
 
   @Override
   public boolean hasKey(String key) {
-    if (keys.size() == 0)
+    if (keysList.size() == 0)
       return true;
     else
-      return keys.contains(key);
+      return keysList.contains(key);
   }
 
   @Override
-  public Optional<List<String>> getKeys() {
-    if (keys.size()==0)
+  public Optional<List<String>> getKeysList() {
+    if (keysList.size()==0)
       return Optional.empty();
     else
-      return Optional.of(keys);
+      return Optional.of(keysList);
+  }
+
+  @Override
+  public String[] getKeys() {
+    return keys;
   }
 }

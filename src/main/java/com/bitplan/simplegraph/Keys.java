@@ -30,5 +30,6 @@ import java.util.Optional;
  */
 public interface Keys {
   public boolean hasKey(String key);
-  Optional<List<String>> getKeys();
+  Optional<List<String>> getKeysList();
+  String[] getKeys();
 }

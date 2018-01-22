@@ -52,8 +52,8 @@ import com.bitplan.wikidata.WikiDataSystem;
  */
 public class TestWikiData extends BaseTest {
 
-  private static SimpleNode queenVictoria;
-  private static WikiDataSystem wikiDataSystem;
+  static SimpleNode queenVictoria;
+  static WikiDataSystem wikiDataSystem;
 
   @Test
   public void testWikiDatabaseFetcher() throws MediaWikiApiErrorException {
@@ -144,9 +144,9 @@ public class TestWikiData extends BaseTest {
   public void testItemCache() throws Exception {
     debug = true;
     // sex or gender (P21),father (P22),mother (P25),signature (P109), monogram
-    // (P1543), place of death
+    // (P1543),date of birth(P569), place of birth (P19),date of death(P570), place of death
     // (P20)
-    queenVictoria = getQueenVictoria("P21", "P22", "P25", "P109", "P20",
+    queenVictoria = getQueenVictoria("P21", "P22", "P25", "P109", "P569","P19","P570","P20",
         "P1543");
     if (debug)
       queenVictoria.printNameValues(System.out);

@@ -25,6 +25,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
@@ -37,15 +39,17 @@ import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
- * I wrap a single Wikipedia Page as a node
+ * I wrap a single MediaWiki Page as a node
  * 
  * @author wf
  *
  */
 public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
-
+  boolean failSafe = true;
   private String pageTitle;
   private MediaWikiSystem ms;
+  transient protected static Logger LOGGER = Logger
+      .getLogger("com.bitplan.mediawiki");
 
   /**
    * initialize me from the given pageTitle
@@ -53,8 +57,9 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
    * @param mediaWikiSystem
    * @param pageTitle
    */
-  public MediaWikiPageNode(MediaWikiSystem mediaWikiSystem, String pageTitle, String ...keys) {
-    super(mediaWikiSystem, "wikiPage",keys);
+  public MediaWikiPageNode(MediaWikiSystem mediaWikiSystem, String pageTitle,
+      String... keys) {
+    super(mediaWikiSystem, "wikiPage", keys);
     this.ms = mediaWikiSystem;
     this.pageTitle = pageTitle;
     super.setVertexFromMap();
@@ -74,10 +79,13 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
       // TODO -multi language ?
       if (pageTitle.startsWith("File:")) {
         Ii imageInfo = ms.wiki.getImageInfo(pageTitle);
-        map.put("imageInfo",imageInfo);
+        map.put("imageInfo", imageInfo);
       }
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      if (failSafe)
+        LOGGER.log(Level.WARNING, "problem with pageTitle " + pageTitle, e);
+      else
+        throw new RuntimeException(e);
     }
     return map;
   }
@@ -116,46 +124,55 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
 
   /**
    * get the image for this page (for File: pages)
+   * 
    * @return the image
    * @throws Exception
    */
   public BufferedImage getImage() throws Exception {
     return getImage(null);
   }
-  
-  public static String getThumbImageUrl(String url,int size) {
+
+  public static String getThumbImageUrl(String url, int size) {
     // https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg
     // https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Queen_Victoria_by_Bassano.jpg/170px-Queen_Victoria_by_Bassano.jpg
     String[] parts = url.split("/");
-    String thumbUrl=url;
-    int len=parts.length;
-    if (len>3) {
-      thumbUrl="";
-      for (int i=0;i<len-3;i++) {
-        thumbUrl=thumbUrl+parts[i]+"/";
+    String thumbUrl = url;
+    int len = parts.length;
+    if (len > 3) {
+      thumbUrl = "";
+      for (int i = 0; i < len - 3; i++) {
+        thumbUrl = thumbUrl + parts[i] + "/";
       }
-      thumbUrl=thumbUrl+"thumb/";
-      for (int i=len-3;i<len-1;i++) {
-        thumbUrl=thumbUrl+parts[i]+"/";        
+      thumbUrl = thumbUrl + "thumb/";
+      for (int i = len - 3; i < len - 1; i++) {
+        thumbUrl = thumbUrl + parts[i] + "/";
       }
-      thumbUrl=thumbUrl+parts[len-1]+"/"+size+"px-"+parts[len-1];
+      thumbUrl = thumbUrl + parts[len - 1] + "/" + size + "px-"
+          + parts[len - 1];
     }
     return thumbUrl;
   }
-  
+
   /**
    * get the image for this page (for File: pages)
-   * @param size - thumbnail size - full image if size is null
+   * 
+   * @param size
+   *          - thumbnail size - full image if size is null
    * @return the image
    * @throws Exception
    */
   public BufferedImage getImage(Integer size) throws Exception {
-    String imageUrlStr = ((Ii) getMap().get("imageInfo")).getUrl();
-    if (size!=null)
-      imageUrlStr=getThumbImageUrl(imageUrlStr, size);
-    URL imageUrl=new URL(imageUrlStr);
-    BufferedImage image=ImageIO.read(imageUrl);
-    return image;
+    map = getMap();
+    if (map.containsKey("imageInfo")) {
+      String imageUrlStr = ((Ii) map.get("imageInfo")).getUrl();
+      if (size != null)
+        imageUrlStr = getThumbImageUrl(imageUrlStr, size);
+      URL imageUrl = new URL(imageUrlStr);
+      BufferedImage image = ImageIO.read(imageUrl);
+      return image;
+    } else {
+      return null;
+    }
   }
 
 }

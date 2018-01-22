@@ -27,6 +27,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
@@ -57,7 +59,9 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  */
 public class SlideNode extends SimpleNodeImpl implements Slide {
 
+  boolean failSafe=true;
   private XSLFSlide slide;
+  transient protected static Logger LOGGER = Logger.getLogger("com.bitplan.powerpoint");
   
   /**
    * get the underlying powerpoint slide
@@ -164,9 +168,18 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
    * @return 
    * @throws Exception
    */
-  public XSLFPictureShape addPicture(BufferedImage image) throws Exception {
+  public XSLFPictureShape addPicture(BufferedImage image)  {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    ImageIO.write(image, "jpg", baos);
+    try {
+      ImageIO.write(image, "jpg", baos);
+    } catch (IOException e) {
+      if (failSafe) {
+        LOGGER.log(Level.WARNING,"addPicture failed", e);
+        return null;
+      }
+      else
+        throw new RuntimeException(e);
+    }
     byte[] pictureData = baos.toByteArray();
     XSLFPictureData pd = getSlideShow().getSlideshow().addPicture(pictureData, PictureData.PictureType.JPEG);
     XSLFPictureShape pic = slide.createPicture(pd);

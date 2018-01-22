@@ -32,11 +32,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import org.apache.poi.xslf.usermodel.XSLFPictureShape;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.bitplan.mediawiki.MediaWikiPageNode;
 import com.bitplan.mediawiki.MediaWikiSystem;
@@ -52,33 +55,36 @@ import com.bitplan.powerpoint.SlideShowNode;
  * @author wf
  *
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestPowerPoint extends BaseTest {
 
   /**
    * 
    * @param sls
-   * @throws Exception 
+   * @throws Exception
    */
-  public Slide slideForNode(SlideShow sls, SimpleNode node, String... props) throws Exception {
+  public Slide slideForNode(SlideShow sls, SimpleNode node, String... props)
+      throws Exception {
     SlideNode slide = (SlideNode) sls.createSlide();
     Map<String, Object> map = node.getMap();
-    String source=map.get("source").toString();
+    String source = map.get("source").toString();
     slide.property("source", source);
     int y = 20;
-    int x = 240;
-    int lwidth = 130;
+    int x = 235;
+    int lwidth = 115;
     int twidth = 350;
     double fontSize = 16.0;
-    int height = (int) (fontSize * 1.25);
-    int imageheight=800;
+    int height = (int) (fontSize * 1.5);
+    int imageheight = 800;
     String name = map.get("name").toString();
     slide.setTitle(name);
-    String url="";
+    String url = null;
     if ("WikiData".equals(source))
-      url="https://tools.wmflabs.org/sqid/#/view?id="+node.getProperty("wikidata_id");
+      url = "https://tools.wmflabs.org/sqid/#/view?id="
+          + node.getProperty("wikidata_id");
     else
       url = "http://royal-family.bitplan.com/index.php/"
-        + name.replaceAll(" ", "_");
+          + name.replaceAll(" ", "_");
     slide.addText(slide.addTextBox(x, y, lwidth, height), "link:", fontSize,
         Color.black);
     slide.addHyperlink(slide.addTextBox(x + lwidth, y, twidth, height),
@@ -88,21 +94,31 @@ public class TestPowerPoint extends BaseTest {
       Object propObj = node.getProperty(prop);
       if (propObj != null) {
         if (propObj instanceof String) {
+          String text = propObj.toString();
           slide.addText(slide.addTextBox(x, y, lwidth, height), prop + ":",
               fontSize, Color.black);
-          slide.addText(slide.addTextBox(x + lwidth, y, twidth, height), propObj.toString(),
-            fontSize, Color.blue);
+          double tFontSize = fontSize;
+          if (text.length() > 45)
+            tFontSize = fontSize * 0.75;
+          slide.addText(slide.addTextBox(x + lwidth, y, twidth, height),
+              propObj.toString(), tFontSize, Color.blue);
           y += height;
-          if (y>imageheight) {
-            x=20;
-          }
+          // if (y > imageheight) {
+          // x = 20;
+          // }
         } else if (propObj instanceof BufferedImage) {
           BufferedImage image = (BufferedImage) propObj;
-          XSLFPictureShape picture = slide.addPicture(image);;
-          imageheight=image.getHeight();
-          slide.setPosition(picture, 20, y, image.getWidth(), imageheight);
+          XSLFPictureShape picture = slide.addPicture(image);
+          if (picture != null) {
+            imageheight = image.getHeight();
+            slide.setPosition(picture, 20, y - height, image.getWidth(),
+                imageheight);
+          }
+        } else {
+          LOGGER.log(Level.INFO, String.format("property %s=(%s) %s", prop,
+              propObj.getClass().getSimpleName(), propObj.toString()));
         }
-        
+
       }
     }
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -112,15 +128,16 @@ public class TestPowerPoint extends BaseTest {
     slide.setNotes(new String(baos.toByteArray(), StandardCharsets.UTF_8));
     return slide;
   }
-  
+
   /**
    * get a new powerpoint file for the given path and title
+   * 
    * @param pptFilePath
    * @param title
    * @return
    * @throws Exception
    */
-  public SlideShow getPPT(String pptFilePath,String title) throws Exception {
+  public SlideShow getPPT(String pptFilePath, String title) throws Exception {
     PowerPointSystem pps = new PowerPointSystem();
     File pptFile = new File(pptFilePath);
     // remove file if it exists
@@ -131,55 +148,93 @@ public class TestPowerPoint extends BaseTest {
     sls.setTitle(title);
     return sls;
   }
-  
+
   /**
    * get the image for the given person
+   * 
    * @param mws
    * @param personNode
    * @return - the buffered image
-   * @throws Exception 
+   * @throws Exception
    */
-  public BufferedImage getImage(MediaWikiSystem mws,SimpleNode personNode, int size) throws Exception {
-    String image=personNode.getProperty("image").toString();
-    MediaWikiPageNode pageNode = (MediaWikiPageNode)mws.moveTo("File:"+image);
+  public BufferedImage getImage(MediaWikiSystem mws, SimpleNode personNode,
+      int size) throws Exception {
+    String image = personNode.getProperty("image").toString();
+    MediaWikiPageNode pageNode = (MediaWikiPageNode) mws
+        .moveTo("File:" + image);
     return pageNode.getImage(size);
   }
-  
-  @Test
-  public void testPowerPointCreateWikiData() throws Exception {
-    debug=true;
-    // prepare access to wikimedia for getting pictures
-    MediaWikiSystem mws=new MediaWikiSystem();
-    mws.connect("https://commons.wikimedia.org","/w");
-    
-    SimpleNode queenVictoria = TestWikiData.getQueenVictoria();
-    String pptFilePath = "QueenVictoria.pptx";
-    SlideShow sls =this.getPPT(pptFilePath, "Queen Victoria");
-    if (debug)
-      queenVictoria.printNameValues(System.out);
-    
-    String slideprops[] = { 
-       "picture","wikidata_id",
-       "image",
-       "sex or gender", "father", "mother", 
-        "date of birth", "place of birth", "date of death", "wiki_en", "label_en", 
-       "source" 
-    };
+
+  /**
+   * add a slide for the given person
+   * 
+   * @param sls
+   * @param mws
+   * @param person
+   * @param slideprops
+   * @param debug
+   * @throws Exception
+   */
+  private void addSlide(SlideShow sls, MediaWikiSystem mws, SimpleNode person,
+      String[] slideprops, boolean debug) throws Exception {
     // add a property "source" to the node
     String source = "WikiData";
-    queenVictoria.property("picture", this.getImage(mws, queenVictoria,200));
-    queenVictoria.property("source", source);
-    queenVictoria.property("name", queenVictoria.getMap().get("label_en"));
-    SlideNode qv = (SlideNode) slideForNode(sls, queenVictoria, slideprops);
-    List<SimpleNode> children = queenVictoria.out("child")
-        .collect(Collectors.toCollection(ArrayList::new));
-    for (SimpleNode child:children) {
-      child.property("picture", this.getImage(mws, child,200));
-      child.property("source", source);
-      child.property("name", child.getMap().get("label_en"));
-      slideForNode(sls,child,slideprops);
+    if (person.getMap().containsKey("P18")) {
+      BufferedImage image = this.getImage(mws, person, 200);
+      if (image != null)
+        person.property("picture", image);
     }
+    person.property("source", source);
+    person.property("name", person.getMap().get("label_en"));
+    SlideNode personNode = (SlideNode) slideForNode(sls, person, slideprops);
+    if (debug)
+      personNode.printNameValues(System.out);
+  }
+
+  /**
+   * add slides for children
+   * 
+   * @param sls
+   * @param mws
+   * @param mws
+   * @param person
+   * @param levels
+   * @throws Exception
+   */
+  private void addSlides(SlideShow sls, MediaWikiSystem mws, SimpleNode person,
+      String[] slideprops, int levels, boolean debug) throws Exception {
+    this.addSlide(sls, mws, person, slideprops, debug);
+    List<SimpleNode> children = person.out("child")
+        .collect(Collectors.toCollection(ArrayList::new));
+    for (SimpleNode child : children) {
+      if (levels >= 1) {
+        addSlides(sls, mws, child, slideprops, levels - 1, debug);
+      }
+    }
+  }
+
+  @Test
+  public void testPowerPointCreateWikiData() throws Exception {
+    debug = true;
+    // prepare access to wikimedia for getting pictures
+    MediaWikiSystem mws = new MediaWikiSystem();
+    mws.connect("https://commons.wikimedia.org", "/w");
+
+    String props[] = { "P21", "P22", "P25", "P109", "P569", "P19", "P570",
+        "P20", "P1543" };
+    SimpleNode queenVictoria = TestWikiData.getQueenVictoria(props);
+    String pptFilePath = "QueenVictoria.pptx";
+    SlideShow sls = this.getPPT(pptFilePath, "Queen Victoria");
+    if (debug)
+      queenVictoria.printNameValues(System.out);
+
+    String slideprops[] = { "picture", "wikidata_id", "image", "sex or gender",
+        "father", "mother", "date of birth", "place of birth", "date of death",
+        "place of death", "wiki_en", "label_en", "source" };
+    // add slides for children and grand children of queen victoria
+    this.addSlides(sls, mws, queenVictoria, slideprops, 1, debug);
     sls.save();
+    TestWikiData.wikiDataSystem.close();
   }
 
   @Test
@@ -189,7 +244,7 @@ public class TestPowerPoint extends BaseTest {
     SimpleNode queenVictoria = royal92.moveTo("id=I1");
     String pptFilePath = "QueenVictoriaRoyal92.pptx";
     SlideShow sls = this.getPPT(pptFilePath, "Queen Victoria");
-    
+
     /**
      * born = 1819-05-24 sex = female nobleTitle = Queen of England childOf =
      * F42 yearBorn = 1819 parentOf = F1 died = 1901-01-22 diedAt = Royal
@@ -227,7 +282,7 @@ public class TestPowerPoint extends BaseTest {
   }
 
   @Test
-  public void testPowerPointAsGraph() throws Exception {
+  public void testPowerPointDoafterCreateAsGraph() throws Exception {
     PowerPointSystem pps = new PowerPointSystem();
     SlideShowNode sls = (SlideShowNode) pps.connect("")
         .moveTo("QueenVictoria.pptx");

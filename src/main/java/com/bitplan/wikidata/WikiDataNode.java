@@ -21,7 +21,9 @@
 package com.bitplan.wikidata;
 
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -42,6 +44,7 @@ import org.wikidata.wdtk.datamodel.interfaces.Statement;
 import org.wikidata.wdtk.datamodel.interfaces.StatementDocument;
 import org.wikidata.wdtk.datamodel.interfaces.StringValue;
 import org.wikidata.wdtk.datamodel.interfaces.TermedDocument;
+import org.wikidata.wdtk.datamodel.interfaces.TimeValue;
 import org.wikidata.wdtk.datamodel.interfaces.Value;
 import org.wikidata.wdtk.datamodel.json.jackson.datavalues.JacksonValueItemId;
 
@@ -61,7 +64,9 @@ public class WikiDataNode extends SimpleNodeImpl {
    */
   Map<String, EntityIdValue> entityIdByName = new HashMap<String, EntityIdValue>();
   Map<String, EntityIdValue> entityIdById = new HashMap<String, EntityIdValue>();
-
+  SimpleDateFormat isoDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+  //SimpleDateFormat isoDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+  
   /**
    * create a wiki Data node
    * 
@@ -180,10 +185,11 @@ public class WikiDataNode extends SimpleNodeImpl {
         if (value instanceof ItemIdValue) {
           ItemIdValue itemIdValue = (ItemIdValue) value;
           this.entityIdById.put(itemIdValue.getId(), itemIdValue);
-          boolean cacheOptional=true;
-          if (keys.getKeys().isPresent())
-            cacheOptional=!keys.hasKey(propId.getId());
-          SimpleNode itemNode=this.getSystem().cache(itemIdValue, cacheOptional);
+          boolean cacheOptional = true;
+          if (keys.getKeysList().isPresent())
+            cacheOptional = !keys.hasKey(propId.getId());
+          SimpleNode itemNode = this.getSystem().cache(itemIdValue,
+              cacheOptional);
         }
       }
     }
@@ -216,6 +222,29 @@ public class WikiDataNode extends SimpleNodeImpl {
     if (value instanceof StringValue) {
       StringValue svalue = (StringValue) value;
       return svalue.getString();
+    } else if (value instanceof TimeValue) {
+      TimeValue timeValue=(TimeValue) value;
+      int year=(int) timeValue.getYear();
+      int month=timeValue.getMonth();
+      int day=timeValue.getDay();
+      int hour=timeValue.getHour();
+      int minute=timeValue.getMinute();
+      int sec=timeValue.getSecond();
+      GregorianCalendar timeDate=new GregorianCalendar(year,month,day,hour,minute,sec);
+      // TODO use timeValue.getPrecision() to select display
+      return this.isoDateFormat.format(timeDate.getTime());
+    } else if (value instanceof ItemIdValue) {
+      ItemIdValue itemIdValue = (ItemIdValue) value;
+      String itemId = itemIdValue.getId();
+      String valueStr = itemId;
+      SimpleNode itemNode = getSystem().cache(itemIdValue, true);
+      if (itemNode != null) {
+        Map<String, Object> itemMap = itemNode.getMap();
+        if (itemMap.containsKey("label_en")) {
+          valueStr = itemMap.get("label_en").toString()+" ("+itemId+")";
+        }
+      }
+      return valueStr;
     }
     return value;
   }
@@ -233,7 +262,7 @@ public class WikiDataNode extends SimpleNodeImpl {
    * @return the entity Node
    */
   public SimpleNode getEntityNode(JacksonValueItemId itemValue) {
-    SimpleNode node = this.getSystem().moveTo(itemValue.getId());
+    SimpleNode node = this.getSystem().moveTo(itemValue.getId(),keys.getKeys());
     return node;
   }
 
@@ -242,15 +271,21 @@ public class WikiDataNode extends SimpleNodeImpl {
     List<SimpleNode> outs = new ArrayList<SimpleNode>();
     String propertyId = edgeName;
     if (!edgeName.matches("P[0-9]+")) {
-      propertyId = this.entityIdByName.get(edgeName).getId();
+      EntityIdValue entityIdValue = this.entityIdByName.get(edgeName);
+      if (entityIdValue != null) {
+        propertyId = entityIdValue.getId();
+      }
     }
-    Object outValue = map.get(propertyId);
-    if (outValue instanceof JacksonValueItemId) {
-      outs.add(getEntityNode((JacksonValueItemId) outValue));
-    } else {
-      @SuppressWarnings("unchecked")
-      List<JacksonValueItemId> entityValues = (List<JacksonValueItemId>) outValue;
-      entityValues.forEach(entityValue -> outs.add(getEntityNode(entityValue)));
+    if (map.containsKey(propertyId)) {
+      Object outValue = map.get(propertyId);
+      if (outValue instanceof JacksonValueItemId) {
+        outs.add(getEntityNode((JacksonValueItemId) outValue));
+      } else {
+        @SuppressWarnings("unchecked")
+        List<JacksonValueItemId> entityValues = (List<JacksonValueItemId>) outValue;
+        entityValues
+            .forEach(entityValue -> outs.add(getEntityNode(entityValue)));
+      }
     }
     return outs.stream();
   }
@@ -260,6 +295,8 @@ public class WikiDataNode extends SimpleNodeImpl {
     // TODO Auto-generated method stub
     return null;
   }
+  
+  
 
   // show name values
   public void printNameValues(PrintStream out) {
@@ -274,27 +311,9 @@ public class WikiDataNode extends SimpleNodeImpl {
             label = entityNode.getMap().get("label_en").toString();
           }
         }
-        Object value = map.get(key);
-        String valueStr = "?";
-        String itemId="";
-        String valueType = value.getClass().getSimpleName();
-        if (value instanceof StringValue) {
-          valueStr = ((StringValue) value).getString();
-        } else if (value instanceof ItemIdValue) {
-          ItemIdValue itemIdValue = (ItemIdValue) value;
-          itemId=itemIdValue.getId();
-          valueStr=itemId;
-          SimpleNode itemNode = getSystem().cache(itemIdValue,true);
-          if (itemNode!=null) {
-            Map<String, Object> itemMap = itemNode.getMap();
-            if (itemMap.containsKey("label_en")) {
-            valueStr=itemMap.get("label_en").toString();
-            }
-          }
-        } else {
-          valueStr = value.toString();
-        }
-        out.println(String.format("%s (%s) = %s (%s)", label, key, valueStr, itemId));
+        String valueStr=this.getProperty(key).toString();
+        out.println(
+            String.format("%s (%s) = %s", label, key, valueStr));
       }
     }
   }
