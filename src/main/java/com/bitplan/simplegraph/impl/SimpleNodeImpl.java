@@ -70,6 +70,7 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
     return vertex;
   }
   
+  @Override
   public Vertex setVertex(Vertex vertex) {
     this.vertex=vertex;
     return vertex;
@@ -80,6 +81,7 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
     return map;
   }
   
+  @Override
   public void setMap(Map<String, Object> map) {
     this.map=map;
   }

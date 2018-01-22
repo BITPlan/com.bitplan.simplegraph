@@ -53,4 +53,9 @@ public class PowerPointSystem extends SimpleSystemImpl{
     return this;
   }
 
+  @Override
+  public Class<? extends SimpleNode> getNodeClass() {
+    return SlideNode.class;
+  }
+
 }

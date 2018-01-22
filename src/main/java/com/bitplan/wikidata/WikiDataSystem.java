@@ -32,7 +32,6 @@ import java.util.logging.Logger;
 
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 import org.wikidata.wdtk.datamodel.implementation.ItemIdValueImpl;
 import org.wikidata.wdtk.datamodel.implementation.PropertyIdValueImpl;
 import org.wikidata.wdtk.datamodel.interfaces.EntityDocument;
@@ -42,6 +41,7 @@ import org.wikidata.wdtk.wikibaseapi.apierrors.MediaWikiApiErrorException;
 
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.impl.Cache;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
 /**
@@ -55,66 +55,11 @@ public class WikiDataSystem extends SimpleSystemImpl {
   public static final String PURPOSE_ITEM = "http://www.wikidata.org/ontology#Item";
   transient WikibaseDataFetcher wbdf;
   List<String> languages = new ArrayList<String>();
-  transient Map<String, Cache> cacheMap = new HashMap<String, Cache>();
+
   public static String siteiri = "http://www.wikidata.org/entity/";
   transient static boolean debug = true;
   transient protected static Logger LOGGER = Logger
       .getLogger("com.bitplan.wikidata");
-
-  class Cache {
-    File file;
-    String purpose;
-    WikiDataSystem wds;
-
-    /**
-     * create a cache with the given file for the given purpose
-     * 
-     * @param file
-     * @param purpose
-     */
-    public Cache(WikiDataSystem wds, File file, String purpose) {
-      this.wds = wds;
-      this.file = file;
-      this.purpose = purpose;
-    }
-
-    /**
-     * flush the cache
-     * 
-     * @throws Exception
-     */
-    public void flush() throws Exception {
-      wds.graph().io(IoCore.graphml()).writeGraph(file.getPath());
-    }
-
-    /**
-     * reinitialize the cache
-     * 
-     * @throws Exception
-     */
-    public void reinit() throws Exception {
-      // read it
-      wds.graph().io(IoCore.graphml()).readGraph(file.getPath());
-      // simple nodes references are not o.k.
-      // <data
-      // key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7905a0b8</data>
-      wds.graph().traversal().V().has("mysimplenode").forEachRemaining(node -> {
-        Object simpleNodeObject = node.property("mysimplenode").value();
-        if (simpleNodeObject instanceof String) {
-          Map<String, Object> map = new HashMap<String, Object>();
-          node.properties().forEachRemaining(nodeprop -> {
-            map.put(nodeprop.key(), nodeprop.value());
-          });
-          WikiDataNode wikiDataNode = new WikiDataNode(wds);
-          wikiDataNode.setVertex(node);
-          wikiDataNode.setMap(map);
-          map.put("mysimplenode", wikiDataNode);
-          node.property("mysimplenode", wikiDataNode);
-        }
-      });
-
-    }
-  }
 
   @Override
   public SimpleNode moveTo(String entityId, String... keys) {
@@ -201,18 +146,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
     return cache;
   }
 
-  /**
-   * flush the cache for the given purpose
-   * 
-   * @param purpose
-   * @throws Exception
-   */
-  public void flushCache(String purpose) throws Exception {
-    if (!cacheMap.containsKey(purpose))
-      throw new IllegalArgumentException(
-          "no cache for purpose " + purpose + " in use");
-    cacheMap.get(purpose).flush();
-  }
+  
 
   /**
    * cache the entity with the given id
@@ -229,7 +163,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
       Cache cache = cacheMap.get(purpose);
       String wikidata_id=entityId.getId();
       // try to find the
-      GraphTraversal<Vertex, Vertex> propVertex = cache.wds.g().V()
+      GraphTraversal<Vertex, Vertex> propVertex = cache.getSystem().g().V()
           .has("wikidata_id", wikidata_id);
       if (propVertex.hasNext()) {
         node = propVertex.next().value("mysimplenode");
@@ -237,7 +171,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
         // no cache entry
         // if the caching is non optional get the value
         if (!optional) {
-          node = cache.wds.moveTo(entityId.getId());
+          node = cache.getSystem().moveTo(entityId.getId());
           if (debug)
             LOGGER.log(Level.INFO, String.format("caching %s=%s",
                 entityId.getIri(), node.getMap().get("label_en")));
@@ -293,12 +227,9 @@ public class WikiDataSystem extends SimpleSystemImpl {
     }
   }
   
-  @Override
-  public SimpleSystem close(String ... closeParams) throws Exception {
-    for (String purpose:this.cacheMap.keySet()) {
-      this.flushCache(purpose);
-    }
-    return this;
+  @Override 
+  public Class<? extends SimpleNode> getNodeClass() {
+    return WikiDataNode.class;
   }
 
 }

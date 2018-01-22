@@ -105,4 +105,8 @@ public interface SimpleNode extends SimpleGraph {
       out.println(String.format("%s = %s", key, map.get(key)));
     }
   }
+
+  Vertex setVertex(Vertex vertex);
+
+  void setMap(Map<String, Object> map);
 }

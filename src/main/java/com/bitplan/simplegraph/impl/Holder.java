@@ -18,42 +18,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.filesystem;
-
-import com.bitplan.simplegraph.SimpleNode;
+package com.bitplan.simplegraph.impl;
 
 /**
- * implements FileSystem access via a simple graph
+ * generic holder to be use in e.g. in lambdas to access outer scope variables which need to be final
  * @author wf
  *
+ * @param <T>
  */
-public class FileSystem extends com.bitplan.simplegraph.impl.SimpleSystemImpl {
-
-  /**
-   * initialize me
-   */
-  public FileSystem() {
-    super.setName("FileSystem");
-    super.setVersion("0.0.1");
-  }
-
-  @Override
-  public FileNode moveTo(String nodeQuery, String ...keys)  {
-    FileNode file=new FileNode(this,nodeQuery,keys);
-    if (this.getStartNode()==null)
-      this.setStartNode(file);
-    return file;
+public class Holder<T> {
+  private T value;
+  
+  Holder() {
+    value=null;
   }
   
-  @Override
-  public FileSystem connect(String ... params) {
-    // TODO might make e.g. remote File systems accessible
-    return this;
+  boolean isPresent() {
+    return value!=null;
   }
-
-  @Override
-  public Class<? extends SimpleNode> getNodeClass() {
-    return FileNode.class;
+  
+  Holder(T value) {
+      setValue(value);
   }
-
+  
+  T getValue() {
+      return value;
+  }
+  
+  void setValue(T value) {
+      this.value = value;
+  }
 }

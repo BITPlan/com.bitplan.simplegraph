@@ -62,4 +62,9 @@ public class MediaWikiSystem extends SimpleSystemImpl implements SimpleSystem {
     return this;
   }
 
+  @Override
+  public Class<? extends SimpleNode> getNodeClass() {
+    return MediaWikiPageNode.class;
+  }
+
 }

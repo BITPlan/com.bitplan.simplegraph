@@ -20,6 +20,9 @@
  */
 package com.bitplan.simplegraph.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.bitplan.simplegraph.SimpleSystem;
 
 /**
@@ -32,6 +35,7 @@ public abstract class SimpleSystemImpl extends SimpleGraphImpl implements Simple
   
   String name;
   String version;
+  protected transient Map<String, Cache> cacheMap = new HashMap<String, Cache>();
   
   public SimpleSystemImpl() {
     super();
@@ -53,6 +57,29 @@ public abstract class SimpleSystemImpl extends SimpleGraphImpl implements Simple
   
   public void setVersion(String version) {
     this.version = version;
+  }
+  
+  /**
+   * flush the cache for the given purpose
+   * 
+   * @param purpose
+   * @throws Exception
+   */
+  public void flushCache(String purpose) throws Exception {
+    if (!cacheMap.containsKey(purpose))
+      throw new IllegalArgumentException(
+          "no cache for purpose " + purpose + " in use");
+    cacheMap.get(purpose).flush();
+  }
+  
+ 
+  
+  @Override
+  public SimpleSystem close(String ... closeParams) throws Exception {
+    for (String purpose:this.cacheMap.keySet()) {
+      this.flushCache(purpose);
+    }
+    return this;
   }
 
 }

@@ -65,5 +65,11 @@ public interface SimpleSystem extends SimpleGraph {
   public default SimpleSystem close(String ... closeParams)  throws Exception {
     return this;
   }
+  
+  /**
+   * get the main node class for this system
+   * @return the main node class
+   */
+  public Class<? extends SimpleNode> getNodeClass();
  
 }

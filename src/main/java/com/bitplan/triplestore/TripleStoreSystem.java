@@ -36,7 +36,7 @@ public class TripleStoreSystem extends SimpleSystemImpl {
   TripleQuery query;
 
   @Override
-  public SimpleNode moveTo(String nodeQuery, String ...keys) {
+  public SimpleNode moveTo(String nodeQuery, String... keys) {
     String[] parts = nodeQuery.split("=");
     String predicate = parts[0];
     String object = parts[1];
@@ -46,9 +46,10 @@ public class TripleStoreSystem extends SimpleSystemImpl {
   }
 
   @Override
-  public SimpleSystem connect(String ... params) throws Exception {
-    if (params.length!=1)
-      throw new IllegalArgumentException("only one connection parameter (path to SiDIF file) allowed at this time");
+  public SimpleSystem connect(String... params) throws Exception {
+    if (params.length != 1)
+      throw new IllegalArgumentException(
+          "only one connection parameter (path to SiDIF file) allowed at this time");
     File sidifFile = new File(params[0]);
     tripleStore = TripleStoreBuilder.fromFile(sidifFile);
     query = tripleStore.query();
@@ -60,5 +61,9 @@ public class TripleStoreSystem extends SimpleSystemImpl {
     super.setVersion("0.0.8");
   }
 
-}
+  @Override
+  public Class<? extends SimpleNode> getNodeClass() {
+    return TripleNode.class;
+  }
 
+}
