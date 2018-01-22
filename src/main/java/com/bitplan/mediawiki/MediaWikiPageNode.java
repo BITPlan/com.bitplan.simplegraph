@@ -53,8 +53,8 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
    * @param mediaWikiSystem
    * @param pageTitle
    */
-  public MediaWikiPageNode(MediaWikiSystem mediaWikiSystem, String pageTitle) {
-    super(mediaWikiSystem, "wikiPage");
+  public MediaWikiPageNode(MediaWikiSystem mediaWikiSystem, String pageTitle, String ...keys) {
+    super(mediaWikiSystem, "wikiPage",keys);
     this.ms = mediaWikiSystem;
     this.pageTitle = pageTitle;
     super.setVertexFromMap();

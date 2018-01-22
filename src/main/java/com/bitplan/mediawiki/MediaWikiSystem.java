@@ -35,8 +35,8 @@ public class MediaWikiSystem extends SimpleSystemImpl implements SimpleSystem {
 
   SSLWiki wiki;
   @Override
-  public SimpleNode moveTo(String nodeQuery) {
-    return new MediaWikiPageNode(this,nodeQuery);
+  public SimpleNode moveTo(String nodeQuery, String ...keys) {
+    return new MediaWikiPageNode(this,nodeQuery,keys);
   }
 
   @Override

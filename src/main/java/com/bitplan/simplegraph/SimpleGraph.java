@@ -25,8 +25,13 @@ import org.apache.tinkerpop.gremlin.structure.Graph;
 
 /**
  * The Simple Graph interface is inspired by the mathematical concept of a
- * directed graph: https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)
+ * graph: https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)
+ * 
  * it wraps an Apache Tinkerpop / Gremlin Graph
+ * and allows generic graph traversals
+ * 
+ * a graph can also be used in cases where you'd normally use lists, tables and trees - the graph
+ * is the more general concept
  *
  * @author wf
  *
@@ -43,8 +48,17 @@ public interface SimpleGraph {
   }
 
   // SimpleGraph API
+  /**
+   * get the "start" node of this graph
+   * @return the start node
+   */
   public SimpleNode getStartNode();
  
+  /**
+   * set the "start" node of this graph
+   * @param startNode
+   * @return
+   */
   public SimpleNode setStartNode(SimpleNode startNode);
 
 }

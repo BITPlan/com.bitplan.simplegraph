@@ -56,10 +56,10 @@ public class TestFileSystem extends BaseTest {
     long filecount = start.g().V().count().next().longValue();
     if (debug)
       LOGGER.log(Level.INFO,""+filecount);
-    assertEquals(61,filecount);
+    assertEquals(63,filecount);
     GraphTraversal<Vertex, Vertex> javaFiles = start.g().V().has("ext", "java");
     long javaFileCount=javaFiles.count().next().longValue();
-    assertEquals(32,javaFileCount);
+    assertEquals(34,javaFileCount);
     javaFiles = start.g().V().has("ext", "java");
     javaFiles.forEachRemaining(javaFile-> {
       logPropertyValues(javaFile);

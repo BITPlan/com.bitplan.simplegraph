@@ -21,6 +21,7 @@
 package com.bitplan.simplegraph;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -28,15 +29,18 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 //import org.junit.Ignore;
 import org.junit.Test;
 import org.wikidata.wdtk.datamodel.interfaces.EntityDocument;
+import org.wikidata.wdtk.datamodel.interfaces.EntityIdValue;
 import org.wikidata.wdtk.datamodel.json.jackson.datavalues.JacksonValueItemId;
 import org.wikidata.wdtk.wikibaseapi.WikibaseDataFetcher;
 import org.wikidata.wdtk.wikibaseapi.apierrors.MediaWikiApiErrorException;
 
+import com.bitplan.simplegraph.impl.KeysImpl;
 import com.bitplan.wikidata.WikiDataNode;
 import com.bitplan.wikidata.WikiDataSystem;
 
@@ -71,17 +75,47 @@ public class TestWikiData extends BaseTest {
   /**
    * get the WikiData node for QueenVictoria as a SimpleNode
    * 
-   * @return
+   * @propertyKeys - limit the properties to be initialized
+   * @return the node
    * @throws Exception
    */
-  public static SimpleNode getQueenVictoria() throws Exception {
+  public static SimpleNode getQueenVictoria(String... propertyKeys)
+      throws Exception {
     if (queenVictoria == null) {
       wikiDataSystem = new WikiDataSystem();
       wikiDataSystem.connect();
-      wikiDataSystem.useCache(new File("QueenVictoriaWikiData.xml"),"property");
-      queenVictoria = wikiDataSystem.moveTo("Q9439");
+      wikiDataSystem.useCache(new File("QueenVictoriaWikiDataProperties.xml"),
+          WikiDataSystem.PURPOSE_PROPERTY);
+      wikiDataSystem.useCache(new File("QueenVictoriaWikiDataItems.xml"),
+          WikiDataSystem.PURPOSE_ITEM);
+      queenVictoria = wikiDataSystem.moveTo("Q9439", propertyKeys);
     }
     return queenVictoria;
+  }
+
+  @Test
+  public void testKeys() {
+    Keys keys = new KeysImpl("P20", "P40");
+    assertTrue(keys.hasKey("P20"));
+    assertFalse(keys.hasKey("P60"));
+    Keys emptyKeys = new KeysImpl();
+    assertTrue(emptyKeys.hasKey("P20"));
+  }
+
+  @Test
+  public void testCreateEntityIdValue() {
+    debug=true;
+    Optional<EntityIdValue> optIdValue = WikiDataSystem.createEntityIdValue("P20");
+    assertTrue(optIdValue.isPresent());
+    EntityIdValue idValue = optIdValue.get();
+    assertEquals("P20", idValue.getId());
+    if (debug)
+      System.out.println(idValue.getIri());
+  }
+  
+  @Test
+  public void testUncachedAccess() {
+    
   }
 
   /**
@@ -94,21 +128,34 @@ public class TestWikiData extends BaseTest {
     debug = true;
     queenVictoria = getQueenVictoria();
     queenVictoria.getVertex().properties().forEachRemaining(prop -> {
-      SimpleNode propNode = wikiDataSystem.cache(prop.label(),false);
+      Optional<SimpleNode> propNode = wikiDataSystem.cache(prop.label(), false);
       if (debug) {
-        if (propNode != null) {
+        if (propNode.isPresent()) {
           System.out.println(
-              String.format("%s (%s)=%s", propNode.getMap().get("label_en"),
+              String.format("%s (%s)=%s", propNode.get().getMap().get("label_en"),
                   prop.label(), prop.value().toString()));
         }
       }
     });
-    wikiDataSystem.flushCache("property");
+    wikiDataSystem.flushCache(WikiDataSystem.PURPOSE_PROPERTY);
+  }
+
+  @Test
+  public void testItemCache() throws Exception {
+    debug = true;
+    // sex or gender (P21),father (P22),mother (P25),signature (P109), monogram
+    // (P1543), place of death
+    // (P20)
+    queenVictoria = getQueenVictoria("P21", "P22", "P25", "P109", "P20",
+        "P1543");
+    if (debug)
+      queenVictoria.printNameValues(System.out);
+    wikiDataSystem.flushCache(WikiDataSystem.PURPOSE_ITEM);
   }
 
   @Test
   public void testQueenVictoria() throws Exception {
-    debug = true;
+    // debug = true;
     queenVictoria = getQueenVictoria();
     if (debug)
       queenVictoria.printNameValues(System.out);
@@ -116,9 +163,9 @@ public class TestWikiData extends BaseTest {
     List<JacksonValueItemId> children = (List<JacksonValueItemId>) queenVictoria
         .getMap().get("P40");
     assertEquals(9, children.size());
-    assertEquals("Q9439",queenVictoria.getProperty("wikidata_id"));
-    Object image=queenVictoria.getProperty("P18");
-    assertEquals("Queen Victoria by Bassano.jpg",image); // image
+    assertEquals("Q9439", queenVictoria.getProperty("wikidata_id"));
+    Object image = queenVictoria.getProperty("P18");
+    assertEquals("Queen Victoria by Bassano.jpg", image); // image
     for (JacksonValueItemId child : children) {
       if (debug)
         System.out.println(child.getId());
@@ -128,7 +175,7 @@ public class TestWikiData extends BaseTest {
 
   @Test
   public void testQueenVictoriaFather() throws Exception {
-    //debug=true;
+    // debug=true;
     queenVictoria = getQueenVictoria();
     // first try to navigate via Property Id P22 father
     List<SimpleNode> fatherList = queenVictoria.out("P22")
@@ -143,7 +190,7 @@ public class TestWikiData extends BaseTest {
 
   @Test
   public void testQueenVictoriaChildren() throws Exception {
-    //debug=true;
+    debug=true;
     queenVictoria = getQueenVictoria();
     // first try to navigate via Property Id
     List<SimpleNode> childrenP40 = queenVictoria.out("P40")
@@ -154,13 +201,14 @@ public class TestWikiData extends BaseTest {
         .collect(Collectors.toCollection(ArrayList::new));
     assertEquals(9, children.size());
     if (debug) {
-      children.forEach(child->child.printNameValues(System.out));
+      children.forEach(child -> child.printNameValues(System.out));
     }
+    wikiDataSystem.close();
   }
 
   @Test
   public void testLanguages() throws Exception {
-    //debug = true;
+    // debug = true;
     String[] languages = { "zh", "en", "es", "ar", "hi", "pt", "fr", "ja", "ru",
         "de" };
     WikiDataSystem lwikiDataSystem = new WikiDataSystem(languages);

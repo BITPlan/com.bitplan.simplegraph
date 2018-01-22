@@ -36,12 +36,12 @@ public class TripleStoreSystem extends SimpleSystemImpl {
   TripleQuery query;
 
   @Override
-  public SimpleNode moveTo(String nodeQuery) {
+  public SimpleNode moveTo(String nodeQuery, String ...keys) {
     String[] parts = nodeQuery.split("=");
     String predicate = parts[0];
     String object = parts[1];
     Triple triple = query.selectSingle(null, predicate, object);
-    SimpleNode node = new TripleNode(this, triple);
+    SimpleNode node = new TripleNode(this, triple, keys);
     return node;
   }
 

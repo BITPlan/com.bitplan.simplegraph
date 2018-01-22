@@ -54,9 +54,10 @@ public class FileNode extends SimpleNodeImpl {
    * create me from a path
    * @param fileSystem - the FileSystem to create the FileNode for
    * @param path
+   * @param keys 
    */
-  public FileNode(FileSystem fileSystem,String path) {
-    this(fileSystem,new File(path));
+  public FileNode(FileSystem fileSystem,String path, String ... keys) {
+    this(fileSystem,new File(path),keys);
   }
 
   /**
@@ -64,8 +65,8 @@ public class FileNode extends SimpleNodeImpl {
    * @param fileSystem
    * @param file
    */
-  public FileNode(FileSystem fileSystem,File file) {
-    super(fileSystem,"file");
+  public FileNode(FileSystem fileSystem,File file,String ...keys) {
+    super(fileSystem,"file",keys);
     this.fileSystem=fileSystem;
     this.file = file;
     this.ext = FilenameUtils.getExtension(file.getName());

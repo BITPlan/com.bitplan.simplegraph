@@ -40,7 +40,7 @@ public class PowerPointSystem extends SimpleSystemImpl{
   }
   
   @Override
-  public SimpleNode moveTo(String nodeQuery)  {
+  public SimpleNode moveTo(String nodeQuery, String ...keys)  {
     SlideShowNode slideShow=new SlideShowNode(this,nodeQuery);
     if (this.getStartNode()==null)
       this.setStartNode(slideShow);

@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.1/graphml.xsd">
+  <key id="P269" for="node" attr.name="P269" attr.type="string"/>
+  <key id="P227" for="node" attr.name="P227" attr.type="string"/>
+  <key id="P149" for="node" attr.name="P149" attr.type="string"/>
+  <key id="P2559" for="node" attr.name="P2559" attr.type="string"/>
+  <key id="P625" for="node" attr.name="P625" attr.type="string"/>
+  <key id="P2753" for="node" attr.name="P2753" attr.type="string"/>
+  <key id="P21" for="node" attr.name="P21" attr.type="string"/>
+  <key id="P20" for="node" attr.name="P20" attr.type="string"/>
+  <key id="P1343" for="node" attr.name="P1343" attr.type="string"/>
+  <key id="P22" for="node" attr.name="P22" attr.type="string"/>
+  <key id="P25" for="node" attr.name="P25" attr.type="string"/>
+  <key id="mysimplenode" for="node" attr.name="mysimplenode" attr.type="string"/>
+  <key id="P27" for="node" attr.name="P27" attr.type="string"/>
+  <key id="P26" for="node" attr.name="P26" attr.type="string"/>
+  <key id="P214" for="node" attr.name="P214" attr.type="string"/>
+  <key id="P213" for="node" attr.name="P213" attr.type="string"/>
+  <key id="P1819" for="node" attr.name="P1819" attr.type="string"/>
+  <key id="P1816" for="node" attr.name="P1816" attr.type="string"/>
+  <key id="P2949" for="node" attr.name="P2949" attr.type="string"/>
+  <key id="P535" for="node" attr.name="P535" attr.type="string"/>
+  <key id="P1619" for="node" attr.name="P1619" attr.type="string"/>
+  <key id="P410" for="node" attr.name="P410" attr.type="string"/>
+  <key id="P1417" for="node" attr.name="P1417" attr.type="string"/>
+  <key id="P1813" for="node" attr.name="P1813" attr.type="string"/>
+  <key id="P1216" for="node" attr.name="P1216" attr.type="string"/>
+  <key id="P1415" for="node" attr.name="P1415" attr.type="string"/>
+  <key id="P735" for="node" attr.name="P735" attr.type="string"/>
+  <key id="P856" for="node" attr.name="P856" attr.type="string"/>
+  <key id="P1014" for="node" attr.name="P1014" attr.type="string"/>
+  <key id="wikidata_type" for="node" attr.name="wikidata_type" attr.type="string"/>
+  <key id="P935" for="node" attr.name="P935" attr.type="string"/>
+  <key id="P31" for="node" attr.name="P31" attr.type="string"/>
+  <key id="P3430" for="node" attr.name="P3430" attr.type="string"/>
+  <key id="labelV" for="node" attr.name="labelV" attr.type="string"/>
+  <key id="P461" for="node" attr.name="P461" attr.type="string"/>
+  <key id="P166" for="node" attr.name="P166" attr.type="string"/>
+  <key id="P1889" for="node" attr.name="P1889" attr.type="string"/>
+  <key id="P487" for="node" attr.name="P487" attr.type="string"/>
+  <key id="P244" for="node" attr.name="P244" attr.type="string"/>
+  <key id="P409" for="node" attr.name="P409" attr.type="string"/>
+  <key id="wikidata_id" for="node" attr.name="wikidata_id" attr.type="string"/>
+  <key id="P1602" for="node" attr.name="P1602" attr.type="string"/>
+  <key id="P1006" for="node" attr.name="P1006" attr.type="string"/>
+  <key id="P3029" for="node" attr.name="P3029" attr.type="string"/>
+  <key id="P40" for="node" attr.name="P40" attr.type="string"/>
+  <key id="P569" for="node" attr.name="P569" attr.type="string"/>
+  <key id="P646" for="node" attr.name="P646" attr.type="string"/>
+  <key id="P4159" for="node" attr.name="P4159" attr.type="string"/>
+  <key id="P4553" for="node" attr.name="P4553" attr.type="string"/>
+  <key id="P88" for="node" attr.name="P88" attr.type="string"/>
+  <key id="P373" for="node" attr.name="P373" attr.type="string"/>
+  <key id="P131" for="node" attr.name="P131" attr.type="string"/>
+  <key id="P571" for="node" attr.name="P571" attr.type="string"/>
+  <key id="P570" for="node" attr.name="P570" attr.type="string"/>
+  <key id="wiki_en" for="node" attr.name="wiki_en" attr.type="string"/>
+  <key id="P279" for="node" attr.name="P279" attr.type="string"/>
+  <key id="P1315" for="node" attr.name="P1315" attr.type="string"/>
+  <key id="P1711" for="node" attr.name="P1711" attr.type="string"/>
+  <key id="P1435" for="node" attr.name="P1435" attr.type="string"/>
+  <key id="label_en" for="node" attr.name="label_en" attr.type="string"/>
+  <key id="P119" for="node" attr.name="P119" attr.type="string"/>
+  <key id="P1430" for="node" attr.name="P1430" attr.type="string"/>
+  <key id="P53" for="node" attr.name="P53" attr.type="string"/>
+  <key id="P1552" for="node" attr.name="P1552" attr.type="string"/>
+  <key id="P1871" for="node" attr.name="P1871" attr.type="string"/>
+  <key id="P4146" for="node" attr.name="P4146" attr.type="string"/>
+  <key id="P3373" for="node" attr.name="P3373" attr.type="string"/>
+  <key id="P18" for="node" attr.name="P18" attr.type="string"/>
+  <key id="P17" for="node" attr.name="P17" attr.type="string"/>
+  <key id="P19" for="node" attr.name="P19" attr.type="string"/>
+  <key id="P241" for="node" attr.name="P241" attr.type="string"/>
+  <key id="labelE" for="edge" attr.name="labelE" attr.type="string"/>
+  <graph id="G" edgedefault="directed">
+    <node id="0">
+      <data key="labelV">wikidata</data>
+      <data key="P269">"069819459"</data>
+      <data key="P227">"137313160"</data>
+      <data key="P166">http://www.wikidata.org/entity/Q12177451 (item)</data>
+      <data key="P244">"n50035071"</data>
+      <data key="P409">"49865183"</data>
+      <data key="wikidata_id">Q157009</data>
+      <data key="P1006">"124619754"</data>
+      <data key="P40">[http://www.wikidata.org/entity/Q9439 (item), http://www.wikidata.org/entity/Q18528366 (item)]</data>
+      <data key="P569">1767-11-02 (Prec.: day [-0 .. +0], PCal: Gregorian)</data>
+      <data key="P646">"/m/01c50q"</data>
+      <data key="P2753">"edward_augustus_5"</data>
+      <data key="P21">http://www.wikidata.org/entity/Q6581097 (item)</data>
+      <data key="P4159">"Prince_Edward,_Duke_of_Kent_and_Strathearn_(1)"</data>
+      <data key="P20">http://www.wikidata.org/entity/Q995647 (item)</data>
+      <data key="P1343">[http://www.wikidata.org/entity/Q19084908 (item), http://www.wikidata.org/entity/Q15987216 (item)]</data>
+      <data key="P4553">"21435"</data>
+      <data key="P22">http://www.wikidata.org/entity/Q127318 (item)</data>
+      <data key="P25">http://www.wikidata.org/entity/Q161159 (item)</data>
+      <data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@560348e6</data>
+      <data key="P27">http://www.wikidata.org/entity/Q145 (item)</data>
+      <data key="P26">http://www.wikidata.org/entity/Q58067 (item)</data>
+      <data key="P373">"Prince Edward Augustus, Duke of Kent and Strathearn"</data>
+      <data key="P570">1820-01-23 (Prec.: day [-0 .. +0], PCal: Gregorian)</data>
+      <data key="wiki_en">"Prince Edward, Duke of Kent and Strathearn"</data>
+      <data key="P214">"60324510"</data>
+      <data key="P213">"0000 0000 7374 9873"</data>
+      <data key="P1819">"I00000188"</data>
+      <data key="P1816">"mp02518"</data>
+      <data key="P2949">"Hannover-22"</data>
+      <data key="P410">http://www.wikidata.org/entity/Q2703373 (item)</data>
+      <data key="P1417">"biography/Edward-Augustus-duke-of-Kent-and-Strathern-earl-of-Dublin"</data>
+      <data key="P1315">"1526315"</data>
+      <data key="P1711">"33657"</data>
+      <data key="P1415">"8526"</data>
+      <data key="label_en">Prince Edward Augustus, Duke of Kent and Strathearn</data>
+      <data key="P119">http://www.wikidata.org/entity/Q2449634 (item)</data>
+      <data key="P735">[http://www.wikidata.org/entity/Q18130894 (item), http://www.wikidata.org/entity/Q278835 (item)]</data>
+      <data key="wikidata_type">http://www.wikidata.org/ontology#Item</data>
+      <data key="P31">http://www.wikidata.org/entity/Q5 (item)</data>
+      <data key="P53">http://www.wikidata.org/entity/Q157217 (item)</data>
+      <data key="P3430">"w6z60v55"</data>
+      <data key="P3373">[http://www.wikidata.org/entity/Q130586 (item), http://www.wikidata.org/entity/Q130822 (item), http://www.wikidata.org/entity/Q162302 (item), http://www.wikidata.org/entity/Q2013921 (item), http://www.wikidata.org/entity/Q213573 (item), http://www.wikidata.org/entity/Q2140119 (item), http://www.wikidata.org/entity/Q313771 (item), http://www.wikidata.org/entity/Q375467 (item), http://www.wikidata.org/entity/Q234482 (item), http://www.wikidata.org/entity/Q236586 (item), http://www.wikidata.org/entity/Q241233 (item), http://www.wikidata.org/entity/Q257227 (item), http://www.wikidata.org/entity/Q257604 (item), http://www.wikidata.org/entity/Q57536 (item)]</data>
+      <data key="P18">"Edward, Duke of Kent and Strathearn by Sir William Beechey.jpg"</data>
+      <data key="P19">http://www.wikidata.org/entity/Q84 (item)</data>
+      <data key="P241">http://www.wikidata.org/entity/Q222595 (item)</data>
+    </node>
+    <node id="100">
+      <data key="labelV">wikidata</data>
+      <data key="P269">"035426454"</data>
+      <data key="P227">"4612530-9"</data>
+      <data key="P149">[http://www.wikidata.org/entity/Q502163 (item), http://www.wikidata.org/entity/Q1404472 (item), http://www.wikidata.org/entity/Q615196 (item)]</data>
+      <data key="P244">"n86045726"</data>
+      <data key="wikidata_id">Q565155</data>
+      <data key="P1602">"english-heritage-osborne-house-4664"</data>
+      <data key="P625">50.750547222222:-1.2697305555556 (Earth)</data>
+      <data key="P646">"/m/0k5sz"</data>
+      <data key="P88">[http://www.wikidata.org/entity/Q9439 (item), http://www.wikidata.org/entity/Q152245 (item)]</data>
+      <data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@1df8b5b8</data>
+      <data key="P373">"Osborne House"</data>
+      <data key="P131">http://www.wikidata.org/entity/Q2987335 (item)</data>
+      <data key="P571">1845-00-00 (Prec.: year [-0 .. +0], PCal: Gregorian)</data>
+      <data key="wiki_en">"Osborne House"</data>
+      <data key="P214">"129087998"</data>
+      <data key="P1619">1851-00-00 (Prec.: year [-0 .. +0], PCal: Gregorian)</data>
+      <data key="P1216">"1223802"</data>
+      <data key="P1435">http://www.wikidata.org/entity/Q15700818 (item)</data>
+      <data key="label_en">Osborne House</data>
+      <data key="P856">"http://www.english-heritage.org.uk/daysout/properties/osborne-house/"</data>
+      <data key="wikidata_type">http://www.wikidata.org/ontology#Item</data>
+      <data key="P31">[http://www.wikidata.org/entity/Q2087181 (item), http://www.wikidata.org/entity/Q1343246 (item)]</data>
+      <data key="P4146">"2171"</data>
+      <data key="P18">"Osborne House 02.jpg"</data>
+      <data key="P17">http://www.wikidata.org/entity/Q145 (item)</data>
+    </node>
+    <node id="85">
+      <data key="labelV">wikidata</data>
+      <data key="P279">http://www.wikidata.org/entity/Q43445 (item)</data>
+      <data key="P1889">http://www.wikidata.org/entity/Q467 (item)</data>
+      <data key="P487">"&#x1F6BA;"</data>
+      <data key="P1813">["&#x436;&#x456;&#x43D;" (uk), "&#x2640;" (zxx), "&#x436;&#x435;&#x43D;&#x441;&#x43A;&#x438;&#x439;" (ru)]</data>
+      <data key="wikidata_id">Q6581072</data>
+      <data key="P2559">["use with Property:P21 sex or gender. For groups of females use with subclass of (P279)" (en), "usar con la propiedad P21 sexo o g&#xE9;nero. Para grupos femeninos usar con subclase de (P279)" (es), "k pou&#x17E;it&#xED; s P21 (pohlav&#xED;). Pro skupiny &#x17E;en pou&#x17E;ijte nadt&#x159;&#xED;da (P279)" (cs), "&#x432;&#x438;&#x43A;&#x43E;&#x440;&#x438;&#x441;&#x442;&#x43E;&#x432;&#x443;&#x432;&#x430;&#x442;&#x438; &#x437; &#x432;&#x43B;&#x430;&#x441;&#x442;&#x438;&#x432;&#x456;&#x441;&#x442;&#x44E;: \"&#x441;&#x442;&#x430;&#x442;&#x44C; (P21)\". &#x414;&#x43B;&#x44F; &#x433;&#x440;&#x443;&#x43F;&#x438; &#x436;&#x456;&#x43D;&#x43E;&#x43A; &#x432;&#x438;&#x43A;&#x43E;&#x440;&#x438;&#x441;&#x442;&#x43E;&#x432;&#x443;&#x432;&#x430;&#x442;&#x438; \"&#x454; &#x43F;&#x456;&#x434;&#x43A;&#x43B;&#x430;&#x441;&#x43E;&#x43C; &#x43A;&#x43B;&#x430;&#x441;&#x443; (P279)\"" (uk)]</data>
+      <data key="label_en">female</data>
+      <data key="P1014">"300025943"</data>
+      <data key="wikidata_type">http://www.wikidata.org/ontology#Item</data>
+      <data key="P31">[http://www.wikidata.org/entity/Q48264 (item), http://www.wikidata.org/entity/Q4369513 (item), http://www.wikidata.org/entity/Q48277 (item)]</data>
+      <data key="P1552">http://www.wikidata.org/entity/Q11879590 (item)</data>
+      <data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@23202fce</data>
+      <data key="P18">"Venus symbol.svg"</data>
+      <data key="P461">http://www.wikidata.org/entity/Q6581097 (item)</data>
+    </node>
+    <node id="46">
+      <data key="labelV">wikidata</data>
+      <data key="P227">"116883022"</data>
+      <data key="P244">"no2002025993"</data>
+      <data key="wikidata_id">Q58067</data>
+      <data key="P3029">"F35242"</data>
+      <data key="P40">[http://www.wikidata.org/entity/Q9439 (item), http://www.wikidata.org/entity/Q63076 (item), http://www.wikidata.org/entity/Q60508 (item)]</data>
+      <data key="P569">1786-08-17 (Prec.: day [-0 .. +0], PCal: Gregorian)</data>
+      <data key="P646">"/m/024hvp"</data>
+      <data key="P21">http://www.wikidata.org/entity/Q6581072 (item)</data>
+      <data key="P4159">"Princess_Victoria_of_Saxe-Coburg-Saalfeld_(1)"</data>
+      <data key="P20">http://www.wikidata.org/entity/Q42646 (item)</data>
+      <data key="P1343">[http://www.wikidata.org/entity/Q19114046 (item), http://www.wikidata.org/entity/Q15987216 (item)]</data>
+      <data key="P4553">"12064"</data>
+      <data key="P22">http://www.wikidata.org/entity/Q455554 (item)</data>
+      <data key="P25">http://www.wikidata.org/entity/Q61489 (item)</data>
+      <data key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7b993c65</data>
+      <data key="P27">http://www.wikidata.org/entity/Q183 (item)</data>
+      <data key="P26">[http://www.wikidata.org/entity/Q62875 (item), http://www.wikidata.org/entity/Q157009 (item)]</data>
+      <data key="P373">"Victoria, Duchess of Kent"</data>
+      <data key="P570">1861-03-16 (Prec.: day [-0 .. +0], PCal: Gregorian)</data>
+      <data key="wiki_en">"Princess Victoria of Saxe-Coburg-Saalfeld"</data>
+      <data key="P214">"49988594"</data>
+      <data key="P213">"0000 0000 1017 8276"</data>
+      <data key="P2949">"Sachsen-Coburg-Saalfeld-2"</data>
+      <data key="P535">"3139"</data>
+      <data key="P1417">"biography/Mary-Louisa-Victoria-duchess-of-Kent"</data>
+      <data key="P1415">"28273"</data>
+      <data key="label_en">Princess Victoria of Saxe-Coburg-Saalfeld</data>
+      <data key="P735">http://www.wikidata.org/entity/Q590893 (item)</data>
+      <data key="wikidata_type">http://www.wikidata.org/ontology#Item</data>
+      <data key="P1430">"2860"</data>
+      <data key="P935">"Princess Victoria of Saxe-Coburg-Saalfeld"</data>
+      <data key="P31">http://www.wikidata.org/entity/Q5 (item)</data>
+      <data key="P53">http://www.wikidata.org/entity/Q152909 (item)</data>
+      <data key="P1871">"cnp01155698"</data>
+      <data key="P3430">"w68h8kz3"</data>
+      <data key="P3373">[http://www.wikidata.org/entity/Q60601 (item), http://www.wikidata.org/entity/Q62996 (item), http://www.wikidata.org/entity/Q71680 (item), http://www.wikidata.org/entity/Q12971 (item), http://www.wikidata.org/entity/Q58770 (item), http://www.wikidata.org/entity/Q63000 (item)]</data>
+      <data key="P18">"Victoria of Saxe-Coburg-Saalfeld - Rothwell 1832.jpg"</data>
+      <data key="P19">http://www.wikidata.org/entity/Q14821 (item)</data>
+    </node>
+  </graph>
+</graphml>

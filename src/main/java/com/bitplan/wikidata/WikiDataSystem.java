@@ -21,15 +21,22 @@
 package com.bitplan.wikidata;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
+import org.wikidata.wdtk.datamodel.implementation.ItemIdValueImpl;
+import org.wikidata.wdtk.datamodel.implementation.PropertyIdValueImpl;
 import org.wikidata.wdtk.datamodel.interfaces.EntityDocument;
+import org.wikidata.wdtk.datamodel.interfaces.EntityIdValue;
 import org.wikidata.wdtk.wikibaseapi.WikibaseDataFetcher;
 import org.wikidata.wdtk.wikibaseapi.apierrors.MediaWikiApiErrorException;
 
@@ -44,27 +51,36 @@ import com.bitplan.simplegraph.impl.SimpleSystemImpl;
  *
  */
 public class WikiDataSystem extends SimpleSystemImpl {
+  public static final String PURPOSE_PROPERTY = "http://www.wikidata.org/ontology#Property";
+  public static final String PURPOSE_ITEM = "http://www.wikidata.org/ontology#Item";
   transient WikibaseDataFetcher wbdf;
   List<String> languages = new ArrayList<String>();
-  transient Map<String,Cache> cacheMap=new HashMap<String,Cache>();
-  
+  transient Map<String, Cache> cacheMap = new HashMap<String, Cache>();
+  public static String siteiri = "http://www.wikidata.org/entity/";
+  transient static boolean debug = true;
+  transient protected static Logger LOGGER = Logger
+      .getLogger("com.bitplan.wikidata");
+
   class Cache {
     File file;
     String purpose;
     WikiDataSystem wds;
+
     /**
      * create a cache with the given file for the given purpose
+     * 
      * @param file
      * @param purpose
      */
-    public Cache(WikiDataSystem wds,File file, String purpose) {
-      this.wds=wds;
-      this.file=file;
-      this.purpose=purpose;
+    public Cache(WikiDataSystem wds, File file, String purpose) {
+      this.wds = wds;
+      this.file = file;
+      this.purpose = purpose;
     }
-    
+
     /**
      * flush the cache
+     * 
      * @throws Exception
      */
     public void flush() throws Exception {
@@ -73,10 +89,11 @@ public class WikiDataSystem extends SimpleSystemImpl {
 
     /**
      * reinitialize the cache
+     * 
      * @throws Exception
      */
     public void reinit() throws Exception {
-     // read it
+      // read it
       wds.graph().io(IoCore.graphml()).readGraph(file.getPath());
       // simple nodes references are not o.k.
       // <data
@@ -95,13 +112,12 @@ public class WikiDataSystem extends SimpleSystemImpl {
           node.property("mysimplenode", wikiDataNode);
         }
       });
-      
+
     }
   }
- 
 
   @Override
-  public SimpleNode moveTo(String entityId) {
+  public SimpleNode moveTo(String entityId, String... keys) {
     if (wbdf == null)
       throw new IllegalStateException("not connected");
     EntityDocument entityDocument;
@@ -113,7 +129,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
     if (entityDocument == null)
       throw new IllegalArgumentException(
           "Entity Document for " + entityId + " not found");
-    WikiDataNode node = new WikiDataNode(this, entityDocument);
+    WikiDataNode node = new WikiDataNode(this, entityDocument, keys);
     if (this.getStartNode() == null)
       this.setStartNode(node);
     return node;
@@ -132,23 +148,24 @@ public class WikiDataSystem extends SimpleSystemImpl {
    * @param languages
    */
   public WikiDataSystem(String... languageCodes) {
-    this(null,languageCodes);
+    this(null, languageCodes);
   }
-  
+
   /**
    * create a WikiDataSystem with a given fetcher
+   * 
    * @param wbdf
    * @param languageCodes
    */
-  private WikiDataSystem(WikibaseDataFetcher wbdf,String... languageCodes) {
+  private WikiDataSystem(WikibaseDataFetcher wbdf, String... languageCodes) {
     super.setName("WikiData");
     super.setVersion("0.0.8");
-    this.wbdf=wbdf;
+    this.wbdf = wbdf;
     for (String languageCode : languageCodes) {
       addLanguage(languageCode);
     }
   }
-  
+
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
     wbdf = WikibaseDataFetcher.getWikidataDataFetcher();
@@ -171,10 +188,11 @@ public class WikiDataSystem extends SimpleSystemImpl {
    * @return
    * @throws Exception
    */
-  public Cache useCache(File cacheFile,String purpose) throws Exception {
+  public Cache useCache(File cacheFile, String purpose) throws Exception {
     // create a new WikiDataSystem based on the same fetcher
-    WikiDataSystem cachews = new WikiDataSystem(wbdf,languages.toArray(new String[0]));
-    Cache cache=new Cache(cachews,cacheFile,purpose);
+    WikiDataSystem cachews = new WikiDataSystem(wbdf,
+        languages.toArray(new String[0]));
+    Cache cache = new Cache(cachews, cacheFile, purpose);
     cacheMap.put(purpose, cache);
     // is there propertyCacheFile?
     if (cacheFile.exists()) {
@@ -185,41 +203,102 @@ public class WikiDataSystem extends SimpleSystemImpl {
 
   /**
    * flush the cache for the given purpose
+   * 
    * @param purpose
    * @throws Exception
    */
   public void flushCache(String purpose) throws Exception {
     if (!cacheMap.containsKey(purpose))
-      throw new IllegalArgumentException("no cache for purpose "+purpose+" in use");
-    cacheMap.get(purpose).flush();   
+      throw new IllegalArgumentException(
+          "no cache for purpose " + purpose + " in use");
+    cacheMap.get(purpose).flush();
   }
 
   /**
-   * cache the property with the given id
+   * cache the entity with the given id
    * 
-   * @param propId
+   * @param entityId
+   *          - Property or Item
    * @param level
    */
-  public SimpleNode cache(String itemId, boolean optional) {
-    if (!itemId.matches("[QP][0-9]+")) {
-      return null;
-    }
-    String purpose="property";
-    if (itemId.startsWith("Q"))
-       purpose="entity";
-    if (!cacheMap.containsKey(purpose))
-      return null;
-    Cache cache=cacheMap.get(purpose);
-    GraphTraversal<Vertex, Vertex> propVertex = cache.wds.g().V().has("wikidata_id",
-        itemId);
+  public SimpleNode cache(EntityIdValue entityId, boolean optional) {
     SimpleNode node = null;
-    if (propVertex.hasNext()) {
-      node = propVertex.next().value("mysimplenode");
-    } else {
-      if (!optional)
-        node = cache.wds.moveTo(itemId);
+    String purpose = entityId.getEntityType();
+    // do we have a cache for the given purpose?
+    if (cacheMap.containsKey(purpose)) {
+      Cache cache = cacheMap.get(purpose);
+      String wikidata_id=entityId.getId();
+      // try to find the
+      GraphTraversal<Vertex, Vertex> propVertex = cache.wds.g().V()
+          .has("wikidata_id", wikidata_id);
+      if (propVertex.hasNext()) {
+        node = propVertex.next().value("mysimplenode");
+      } else {
+        // no cache entry
+        // if the caching is non optional get the value
+        if (!optional) {
+          node = cache.wds.moveTo(entityId.getId());
+          if (debug)
+            LOGGER.log(Level.INFO, String.format("caching %s=%s",
+                entityId.getIri(), node.getMap().get("label_en")));
+        }
+      }
     }
     return node;
+  }
+
+  /**
+   * create an EntityIdValue
+   * 
+   * @param id
+   *          - the id to create the entityId value for
+   * @return the EntityId Value
+   */
+  public static Optional<EntityIdValue> createEntityIdValue(String id) {
+    if (!id.matches("^[QP][0-9]+$")) {
+      return Optional.empty();
+    }
+    // https://wikidata.github.io/Wikidata-Toolkit/org/wikidata/wdtk/datamodel/implementation/PropertyIdValueImpl.html
+    // https://stackoverflow.com/a/2599471/1497139
+    try {
+      Constructor<? extends EntityIdValue> constructor;
+      Class<? extends EntityIdValue> clazz=ItemIdValueImpl.class;
+      if (id.startsWith("P")) {
+        clazz=PropertyIdValueImpl.class;
+      };
+      constructor=clazz.getDeclaredConstructor(String.class,String.class);
+      constructor.setAccessible(true);      
+      EntityIdValue idValue = constructor.newInstance(id, siteiri);
+      return Optional.of(idValue);
+    } catch (Throwable th) {
+      throw new RuntimeException(th);
+    }
+  }
+
+  /**
+   * get a cache result by id
+   * 
+   * @param id
+   *          - a property or item id
+   * @param optional
+   * @return the node
+   */
+  public Optional<SimpleNode> cache(String id, boolean optional) {
+    Optional<EntityIdValue> idValue = createEntityIdValue(id);
+    if (idValue.isPresent()) {
+      SimpleNode node = this.cache(idValue.get(), optional);
+      return Optional.of(node);
+    } else {
+      return Optional.empty();
+    }
+  }
+  
+  @Override
+  public SimpleSystem close(String ... closeParams) throws Exception {
+    for (String purpose:this.cacheMap.keySet()) {
+      this.flushCache(purpose);
+    }
+    return this;
   }
 
 }

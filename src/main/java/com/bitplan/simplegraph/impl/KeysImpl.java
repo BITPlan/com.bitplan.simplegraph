@@ -18,35 +18,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.filesystem;
+package com.bitplan.simplegraph.impl;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import com.bitplan.simplegraph.Keys;
+
 
 /**
- * implements FileSystem access via a simple graph
+ * default implementation for property keys
  * @author wf
  *
  */
-public class FileSystem extends com.bitplan.simplegraph.impl.SimpleSystemImpl {
+public class KeysImpl implements Keys {
+  private List<String> keys;
 
   /**
-   * initialize me
+   * initialize me from an array of keys
+   * @param keys
    */
-  public FileSystem() {
-    super.setName("FileSystem");
-    super.setVersion("0.0.1");
+  public KeysImpl(String... keys) {
+    this.keys = Arrays.asList(keys);
   }
 
   @Override
-  public FileNode moveTo(String nodeQuery, String ...keys)  {
-    FileNode file=new FileNode(this,nodeQuery,keys);
-    if (this.getStartNode()==null)
-      this.setStartNode(file);
-    return file;
-  }
-  
-  @Override
-  public FileSystem connect(String ... params) {
-    // TODO might make e.g. remote File systems accessible
-    return this;
+  public boolean hasKey(String key) {
+    if (keys.size() == 0)
+      return true;
+    else
+      return keys.contains(key);
   }
 
+  @Override
+  public Optional<List<String>> getKeys() {
+    if (keys.size()==0)
+      return Optional.empty();
+    else
+      return Optional.of(keys);
+  }
 }

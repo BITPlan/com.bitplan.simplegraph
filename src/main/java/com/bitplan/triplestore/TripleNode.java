@@ -46,8 +46,8 @@ public class TripleNode extends SimpleNodeImpl {
    * @param system
    * @param triple
    */
-  public TripleNode(TripleStoreSystem system, Triple triple) {
-    super(system,"triple");
+  public TripleNode(TripleStoreSystem system, Triple triple, String ...keys) {
+    super(system,"triple",keys);
     this.system = system;
     this.triple = triple;
     super.setVertexFromMap();

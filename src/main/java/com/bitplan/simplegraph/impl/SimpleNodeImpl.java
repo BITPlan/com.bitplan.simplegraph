@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 import org.apache.tinkerpop.gremlin.structure.T;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
+import com.bitplan.simplegraph.Keys;
 import com.bitplan.simplegraph.SimpleGraph;
 import com.bitplan.simplegraph.SimpleNode;
 
@@ -40,6 +41,7 @@ import com.bitplan.simplegraph.SimpleNode;
 public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNode {
   
   private Vertex vertex;
+  protected Keys keys;
   protected SimpleGraph simpleGraph;
   protected String kind;
   protected Map<String, Object> map = new HashMap<String, Object>();
@@ -53,8 +55,9 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
    * @param simpleGraph
    * @param kind 
    */
-  public SimpleNodeImpl(SimpleGraph simpleGraph, String kind) {
+  public SimpleNodeImpl(SimpleGraph simpleGraph, String kind, String ...keys) {
     super(simpleGraph);
+    this.keys=new KeysImpl(keys);
     this.simpleGraph=simpleGraph;
     this.kind=kind;
   }

@@ -72,8 +72,8 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
    * @param simpleGraph
    * @param slide
    */
-  public SlideNode(SimpleGraph simpleGraph, XSLFSlide slide) {
-    super(simpleGraph,"slide");
+  public SlideNode(SimpleGraph simpleGraph, XSLFSlide slide, String ...keys) {
+    super(simpleGraph,"slide",keys);
     this.slide = slide;
     super.setVertexFromMap();
   }

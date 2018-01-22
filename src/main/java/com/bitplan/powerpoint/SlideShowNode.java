@@ -40,6 +40,7 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
  * a slide show node wraps a power point slideshow
+ * 
  * @author wf
  *
  */
@@ -48,32 +49,33 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
   protected XMLSlideShow slideshow;
   protected String path;
   protected File pptFile;
-  
+
   public XMLSlideShow getSlideshow() {
     return slideshow;
   }
 
   /**
    * create a SlideShow
+   * 
    * @param simpleGraph
    * @param nodeQuery
    * @throws Exception
    */
-  public SlideShowNode(SimpleGraph simpleGraph, String path)  {
-    super(simpleGraph,"slideshow");
-    this.path=path;
-    pptFile=new File(path);
+  public SlideShowNode(SimpleGraph simpleGraph, String path, String... keys) {
+    super(simpleGraph, "slideshow", keys);
+    this.path = path;
+    pptFile = new File(path);
     try {
       if (pptFile.exists())
-        slideshow=new XMLSlideShow(new FileInputStream(path));
+        slideshow = new XMLSlideShow(new FileInputStream(path));
       else
-        slideshow=new XMLSlideShow();
+        slideshow = new XMLSlideShow();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
     super.setVertexFromMap();
   }
-  
+
   /**
    * get the core properties
    * 
@@ -88,7 +90,7 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
   @Override
   public Map<String, Object> initMap() {
     map.put("path", path);
-    CoreProperties cp=getCoreProperties();
+    CoreProperties cp = getCoreProperties();
     map.put("title", cp.getTitle());
     return map;
   }
@@ -97,7 +99,7 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
   public Stream<SimpleNode> out(String edgeName) {
     return inOrOut(edgeName);
   }
-  
+
   @Override
   public Stream<SimpleNode> in(String edgeName) {
     return inOrOut(edgeName);
@@ -107,16 +109,16 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
     Stream<SimpleNode> links = Stream.of();
     switch (edgeName) {
     case "slides":
-        List<SimpleNode> slideNodes = new ArrayList<SimpleNode>();
-        List<XSLFSlide> slides = slideshow.getSlides();
-        int pageNo=1;
-        for (XSLFSlide slide : slides ){
-          SlideNode slideNode=new SlideNode(this,slide);
-          slideNodes.add(slideNode);
-          slideNode.getMap().put("pageNo",pageNo++);
-          slideNode.getMap().put("pages", slides.size());
-        }
-        links = slideNodes.stream();
+      List<SimpleNode> slideNodes = new ArrayList<SimpleNode>();
+      List<XSLFSlide> slides = slideshow.getSlides();
+      int pageNo = 1;
+      for (XSLFSlide slide : slides) {
+        SlideNode slideNode = new SlideNode(this, slide);
+        slideNodes.add(slideNode);
+        slideNode.getMap().put("pageNo", pageNo++);
+        slideNode.getMap().put("pages", slides.size());
+      }
+      links = slideNodes.stream();
       break;
     }
     return links;
@@ -124,7 +126,11 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
 
   @Override
   public String getTitle() {
-    return map.get("title").toString();
+    Object titleObj = map.get("title");
+    if (titleObj != null)
+      return titleObj.toString();
+    else
+      return "";
   }
 
   @Override
@@ -144,7 +150,7 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
   @Override
   public Slide createSlide() {
     XSLFSlide xslide = slideshow.createSlide();
-    return new SlideNode(this,xslide);
+    return new SlideNode(this, xslide);
   }
- 
+
 }

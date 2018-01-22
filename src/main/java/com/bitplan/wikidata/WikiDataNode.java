@@ -33,7 +33,9 @@ import org.wikidata.wdtk.datamodel.interfaces.Claim;
 import org.wikidata.wdtk.datamodel.interfaces.EntityDocument;
 import org.wikidata.wdtk.datamodel.interfaces.EntityIdValue;
 import org.wikidata.wdtk.datamodel.interfaces.ItemDocument;
+import org.wikidata.wdtk.datamodel.interfaces.ItemIdValue;
 import org.wikidata.wdtk.datamodel.interfaces.MonolingualTextValue;
+import org.wikidata.wdtk.datamodel.interfaces.PropertyIdValue;
 import org.wikidata.wdtk.datamodel.interfaces.SiteLink;
 import org.wikidata.wdtk.datamodel.interfaces.Snak;
 import org.wikidata.wdtk.datamodel.interfaces.Statement;
@@ -54,7 +56,11 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  */
 public class WikiDataNode extends SimpleNodeImpl {
   private EntityDocument doc;
-  Map<String, String> propIdByName = new HashMap<String, String>();
+  /**
+   * lookup maps for EntityIds
+   */
+  Map<String, EntityIdValue> entityIdByName = new HashMap<String, EntityIdValue>();
+  Map<String, EntityIdValue> entityIdById = new HashMap<String, EntityIdValue>();
 
   /**
    * create a wiki Data node
@@ -62,8 +68,9 @@ public class WikiDataNode extends SimpleNodeImpl {
    * @param ws
    * @param entityDocument
    */
-  public WikiDataNode(WikiDataSystem ws, EntityDocument entityDocument) {
-    super(ws, "wikidata");
+  public WikiDataNode(WikiDataSystem ws, EntityDocument entityDocument,
+      String... keys) {
+    super(ws, "wikidata", keys);
     this.doc = entityDocument;
     super.setVertexFromMap();
   }
@@ -72,10 +79,12 @@ public class WikiDataNode extends SimpleNodeImpl {
    * create me from the given map
    * 
    * @param ws
+   * @param keys
+   * @param entityDocument
    * @param map
    */
-  public WikiDataNode(WikiDataSystem ws) {
-    super(ws, "wikidata");
+  public WikiDataNode(WikiDataSystem ws, String... keys) {
+    super(ws, "wikidata", keys);
   }
 
   protected WikiDataSystem getSystem() {
@@ -130,14 +139,15 @@ public class WikiDataNode extends SimpleNodeImpl {
           map.put("wikidata_type", subject.getEntityType());
         }
         Snak snak = claim.getMainSnak();
-        String propId = snak.getPropertyId().getId();
+        PropertyIdValue propId = snak.getPropertyId();
+        this.entityIdById.put(propId.getId(), propId);
         Value value = snak.getValue();
 
         // handle properties with multiple values
         // like child
-        if (map.containsKey(propId)) {
+        if (map.containsKey(propId.getId())) {
           // get the current property
-          Object prop = map.get(propId);
+          Object prop = map.get(propId.getId());
           // prepare for multiple entries
           List<Object> propList = null;
           // is the propery a list already?
@@ -147,49 +157,64 @@ public class WikiDataNode extends SimpleNodeImpl {
             // replace single element with list
             propList = new ArrayList<Object>();
             propList.add(prop);
-            map.put(propId, propList);
+            map.put(propId.getId(), propList);
           }
           propList.add(value);
           // System.out.println(propId);
         } else {
           // first time single value
-          map.put(propId, value);
+          map.put(propId.getId(), value);
         }
+        // optionally cache values
+        // first the property
         SimpleNode propNode = this.getSystem().cache(propId, true);
         if (propNode != null) {
           String propLabel = propNode.getMap().get("label_en").toString();
           if (propLabel != null) {
-            this.propIdByName.put(propLabel, propId);
+            this.entityIdByName.put(propLabel, propId);
           }
+        }
+        // potentially the value
+        // https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
+        // https://wikidata.github.io/Wikidata-Toolkit/org/wikidata/wdtk/datamodel/interfaces/EntityIdValue.html
+        if (value instanceof ItemIdValue) {
+          ItemIdValue itemIdValue = (ItemIdValue) value;
+          this.entityIdById.put(itemIdValue.getId(), itemIdValue);
+          boolean cacheOptional=true;
+          if (keys.getKeys().isPresent())
+            cacheOptional=!keys.hasKey(propId.getId());
+          SimpleNode itemNode=this.getSystem().cache(itemIdValue, cacheOptional);
         }
       }
     }
     return map;
   }
-  
+
   /**
    * get the property value for the given key
+   * 
    * @param key
    * @return - the property value
    */
   public Object getProperty(String key) {
-    String propId=key;
-    if (!key.startsWith("P") && propIdByName.containsKey(key)) {
-      propId=propIdByName.get(key);
+    String propId = key;
+    if (!key.startsWith("P") && entityIdByName.containsKey(key)) {
+      propId = entityIdByName.get(key).getId();
     }
-    Object value=map.get(propId);
+    Object value = map.get(propId);
     return typeConvert(value);
   }
-  
+
   /**
    * convert the types according to
    * https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
+   * 
    * @param value
    * @return the converted type
    */
   public Object typeConvert(Object value) {
     if (value instanceof StringValue) {
-      StringValue svalue = (StringValue)value;
+      StringValue svalue = (StringValue) value;
       return svalue.getString();
     }
     return value;
@@ -217,7 +242,7 @@ public class WikiDataNode extends SimpleNodeImpl {
     List<SimpleNode> outs = new ArrayList<SimpleNode>();
     String propertyId = edgeName;
     if (!edgeName.matches("P[0-9]+")) {
-      propertyId = this.propIdByName.get(edgeName);
+      propertyId = this.entityIdByName.get(edgeName).getId();
     }
     Object outValue = map.get(propertyId);
     if (outValue instanceof JacksonValueItemId) {
@@ -240,20 +265,37 @@ public class WikiDataNode extends SimpleNodeImpl {
   public void printNameValues(PrintStream out) {
     Map<String, Object> map = this.getMap();
     for (String key : map.keySet()) {
-      String label = key;
-      SimpleNode propNode = getSystem().cache(key, true);
-      if (propNode != null) {
-        label = propNode.getMap().get("label_en").toString();
+      if (this.keys.hasKey(key)) {
+        String label = key;
+        EntityIdValue entityId = this.entityIdById.get(key);
+        if (entityId != null) {
+          SimpleNode entityNode = getSystem().cache(entityId, true);
+          if (entityNode != null) {
+            label = entityNode.getMap().get("label_en").toString();
+          }
+        }
+        Object value = map.get(key);
+        String valueStr = "?";
+        String itemId="";
+        String valueType = value.getClass().getSimpleName();
+        if (value instanceof StringValue) {
+          valueStr = ((StringValue) value).getString();
+        } else if (value instanceof ItemIdValue) {
+          ItemIdValue itemIdValue = (ItemIdValue) value;
+          itemId=itemIdValue.getId();
+          valueStr=itemId;
+          SimpleNode itemNode = getSystem().cache(itemIdValue,true);
+          if (itemNode!=null) {
+            Map<String, Object> itemMap = itemNode.getMap();
+            if (itemMap.containsKey("label_en")) {
+            valueStr=itemMap.get("label_en").toString();
+            }
+          }
+        } else {
+          valueStr = value.toString();
+        }
+        out.println(String.format("%s (%s) = %s (%s)", label, key, valueStr, itemId));
       }
-      Object value = map.get(key);
-      String valueStr = "?";
-      String valueType = value.getClass().getSimpleName();
-      if (value instanceof StringValue) {
-        valueStr = ((StringValue) value).getString();
-      } else {
-        valueStr = value.toString();
-      }
-      out.println(String.format("%s (%s) = %s", label, key, valueStr));
     }
   }
 }

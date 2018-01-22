@@ -27,8 +27,43 @@ package com.bitplan.simplegraph;
  *
  */
 public interface SimpleSystem extends SimpleGraph {
+  /**
+   * get the name of this system
+   * @return the name
+   */
   String getName();
+  
+  /**
+   * get the version of this system
+   * @return the version
+   */
   String getVersion();
-  SimpleNode moveTo(String nodeQuery);
+  
+  /**
+   * connect to system 
+   * @param connectionParams - optionally specify system specific connection parameters
+   * @return - the SimpleSystem interface for the system connected to
+   * @throws Exception
+   */
   SimpleSystem connect(String ... connectionParams) throws Exception;
+  
+  /**
+   * move to the node specified by the system specific node query
+   * typically supplying the id of a node is sufficient
+   * @param nodeQuery
+   * @param keys - optionally limit the information to be gathered on the node to the given keys for properties/neighbours
+   * @return the node moved to
+   */
+  SimpleNode moveTo(String nodeQuery,String ...keys);
+  
+  /**
+   * close the system
+   * @param closeParams
+   * @return
+   * @throws Exception
+   */
+  public default SimpleSystem close(String ... closeParams)  throws Exception {
+    return this;
+  }
+ 
 }
