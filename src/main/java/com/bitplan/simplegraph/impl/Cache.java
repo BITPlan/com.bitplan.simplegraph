@@ -104,8 +104,9 @@ public class Cache {
             exceptionHolder.setValue(e);
           }
         });
+    // TODO - better collect all exeptions than throwing only one
     if (exceptionHolder.isPresent())
-      throw exceptionHolder.getValue();
+      throw exceptionHolder.getFirstValue();
   }
 
 }

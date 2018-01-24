@@ -39,11 +39,19 @@ public class Holder<T> {
     return values.size()>0;
   }
   
+  /**
+   * construct this holder from a value
+   * @param value
+   */
   public Holder(T value) {
     values.add(value);
   }
   
-  public T getValue() {
+  /**
+   * get the first held value or null if it is not present
+   * @return the first value
+   */
+  public T getFirstValue() {
     if (isPresent())
       return values.get(0);
     else
@@ -61,5 +69,13 @@ public class Holder<T> {
 
   public void add(T value) {
     values.add(value);
+  }
+
+  /**
+   * add all holded values from the other holder
+   * @param other
+   */
+  public void addAll(Holder<T> other) {
+    other.getValues().forEach(otherT->this.add(otherT));
   }
 }
