@@ -263,13 +263,13 @@ public class TestPowerPoint extends BaseTest {
       child.property("source", source);
       SlideNode slide = (SlideNode) slideForNode(sls, child, slideprops);
       assertEquals(slide.getTitle(), child.getMap().get("name"));
-      String text = slide.getText();
+      String text = slide.getText(SlideNode.SEPARATOR);
       if (debug)
-        System.out.println(text.replaceAll("<br>", "\n"));
+        System.out.println(text);
       assertTrue(text.contains(child.getMap().get("nobleTitle").toString()));
-      String notes = slide.getNotes();
+      String notes = slide.getNotes(SlideNode.SEPARATOR);
       if (debug)
-        System.out.println(notes.replaceAll("<br>", "\n"));
+        System.out.println(notes);
       // check that the newly set property value source is available wher expect
       String csource = slide.getMap().get("source").toString();
       assertEquals(source, csource);

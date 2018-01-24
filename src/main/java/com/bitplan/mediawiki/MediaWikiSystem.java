@@ -66,5 +66,9 @@ public class MediaWikiSystem extends SimpleSystemImpl implements SimpleSystem {
   public Class<? extends SimpleNode> getNodeClass() {
     return MediaWikiPageNode.class;
   }
+  
+  public SSLWiki getWiki() {
+    return wiki;
+  }
 
 }

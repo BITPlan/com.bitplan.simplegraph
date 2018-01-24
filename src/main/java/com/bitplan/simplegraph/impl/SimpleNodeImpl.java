@@ -35,31 +35,35 @@ import com.bitplan.simplegraph.SimpleNode;
 
 /**
  * default implementation of a SimpleNode wraps a Tinkerpop/Gremlin Vertex
+ * 
  * @author wf
  *
  */
-public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNode {
-  
+public abstract class SimpleNodeImpl extends SimpleGraphImpl
+    implements SimpleNode {
+
   private Vertex vertex;
   protected Keys keys;
   protected SimpleGraph simpleGraph;
   protected String kind;
   protected Map<String, Object> map = new HashMap<String, Object>();
-  
+  ArrayList<Object> keyValueList;
+
   public SimpleGraph getSimpleGraph() {
     return simpleGraph;
   }
 
   /**
    * initialize me for the given graph
+   * 
    * @param simpleGraph
-   * @param kind 
+   * @param kind
    */
-  public SimpleNodeImpl(SimpleGraph simpleGraph, String kind, String ...keys) {
+  public SimpleNodeImpl(SimpleGraph simpleGraph, String kind, String... keys) {
     super(simpleGraph);
-    this.keys=new KeysImpl(keys);
-    this.simpleGraph=simpleGraph;
-    this.kind=kind;
+    this.keys = new KeysImpl(keys);
+    this.simpleGraph = simpleGraph;
+    this.kind = kind;
   }
 
   /**
@@ -69,57 +73,60 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl implements SimpleNo
   public Vertex getVertex() {
     return vertex;
   }
-  
+
   @Override
   public Vertex setVertex(Vertex vertex) {
-    this.vertex=vertex;
+    this.vertex = vertex;
     return vertex;
   }
-  
+
   @Override
   public Map<String, Object> getMap() {
     return map;
   }
-  
+
   @Override
   public void setMap(Map<String, Object> map) {
-    this.map=map;
+    this.map = map;
   }
-  
+
   @Override
   public Vertex setVertexFromMap() {
     return setVertexFromMap(initMap());
   }
-  
+
   /**
    * set my vertex from the given map
+   * 
    * @param map
    * @return
    */
-  public Vertex setVertexFromMap(Map<String,Object> map) {   
-    List<Object> keyValueList=new ArrayList<Object>();
+  public Vertex setVertexFromMap(Map<String, Object> map) {
+    keyValueList = new ArrayList<Object>();
     // first add a key value pair for my kind
-    addKeyValue(keyValueList,T.label,this.kind);
+    addKeyValue(keyValueList, T.label, this.kind);
     // now add the pointer to me
     // TODO - filter / ignore me when saving
-    addKeyValue(keyValueList,"mysimplenode",this);
+    addKeyValue(keyValueList, "mysimplenode", this);
     // add all key values from my map
-    for (Entry<String, Object> entry:map.entrySet()) {
-      if (entry.getValue()!=null)
-        addKeyValue(keyValueList,entry.getKey(),entry.getValue());
+    for (Entry<String, Object> entry : map.entrySet()) {
+      if (entry.getValue() != null)
+        addKeyValue(keyValueList, entry.getKey(), entry.getValue());
     }
     // create a vertex with the given data for later traversal
-    vertex=this.graph.addVertex(keyValueList.toArray());
+    vertex = this.graph.addVertex(keyValueList.toArray());
     return vertex;
   }
-  
+
   /**
    * add a pair of values
+   * 
    * @param keyValueList
    * @param name
    * @param value
    */
-  private void addKeyValue(List<Object> keyValueList,Object name,Object value) {
+  private void addKeyValue(List<Object> keyValueList, Object name,
+      Object value) {
     keyValueList.add(name);
     keyValueList.add(value);
   }

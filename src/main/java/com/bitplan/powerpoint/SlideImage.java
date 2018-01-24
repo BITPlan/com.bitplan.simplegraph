@@ -23,11 +23,12 @@ package com.bitplan.powerpoint;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
@@ -38,22 +39,27 @@ import org.apache.poi.xslf.usermodel.XSLFSlide;
  *
  */
 public class SlideImage {
-  BufferedImage image;
-  public Graphics2D graphics;
+  transient BufferedImage image;
+  transient public Graphics2D graphics;
   double zoom;
-  XSLFSlide slide;
-  int width=800;
-  int height=600;
-  double pzoom=2.0;
-  private File imageFile;
-  static XMLSlideShow ppt = null;
+  transient XSLFSlide slide;
+  int width;
+  int height;
+  File imageFile;
+  transient static XMLSlideShow ppt = null;
   
   /**
    * create the slideImage
    * @param slide
+   * @param width
+   * @param height
+   * @param zoom
    */
-  public SlideImage(XSLFSlide slide) {
+  public SlideImage(XSLFSlide slide,int width,int height,double zoom) {
     this.slide=slide;
+    this.width=width;
+    this.height=height;
+    this.zoom=zoom;
   }
   
   /**
@@ -71,10 +77,15 @@ public class SlideImage {
     image = new BufferedImage((int) Math.ceil(dim.width * zoom),
         (int) Math.ceil(dim.height * zoom), BufferedImage.TYPE_INT_RGB);
     graphics = image.createGraphics();
-    AffineTransform at = new AffineTransform();
-    at.setToScale(zoom, zoom);
-    graphics.setTransform(at);
-    graphics.setPaint(Color.white);
+    graphics.scale(zoom, zoom);
+    graphics.setPaint(Color.LIGHT_GRAY);
+    // see http://grepcode.com/file/repo1.maven.org/maven2/org.apache.poi/poi-ooxml/3.10.1/org/apache/poi/xslf/util/PPTX2PNG.java
+    graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+    graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+    graphics.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+    graphics.setColor(Color.white);
+    graphics.clearRect(0, 0, width, height);
     graphics.fill(new Rectangle2D.Float(0, 0, dim.width, dim.height));
   }
   
@@ -109,9 +120,18 @@ public class SlideImage {
   public File save(String filepath) throws Exception {
     imageFile = new File(filepath);
     FileOutputStream out = new FileOutputStream(imageFile);
+    save(out);
+    return imageFile;
+  }
+  
+  /**
+   * save the image to the given outputstream
+   * @param out
+   * @throws Exception
+   */
+  public void save(OutputStream out) throws Exception {
     javax.imageio.ImageIO.write(image, "png", out);
     out.close();
-    return imageFile;
   }
   
 }

@@ -21,10 +21,12 @@
 package com.bitplan.powerpoint;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -59,6 +61,7 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  */
 public class SlideNode extends SimpleNodeImpl implements Slide {
 
+  public static String SEPARATOR="\n";
   boolean failSafe=true;
   private XSLFSlide slide;
   transient protected static Logger LOGGER = Logger.getLogger("com.bitplan.powerpoint");
@@ -72,6 +75,15 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
   }
   
   /**
+   * reinit constructor
+   * @param simpleGraph
+   * @param keys
+   */
+  public SlideNode(PowerPointSystem ps, String ...keys) {
+    this(ps,null,keys);
+  }
+  
+  /**
    * create a SlideNode from the given PowerPoint slide
    * @param simpleGraph
    * @param slide
@@ -79,7 +91,8 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
   public SlideNode(SimpleGraph simpleGraph, XSLFSlide slide, String ...keys) {
     super(simpleGraph,"slide",keys);
     this.slide = slide;
-    super.setVertexFromMap();
+    if (slide!=null)
+      super.setVertexFromMap();
   }
   
   public SlideShow getSlideShow() {
@@ -92,6 +105,8 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
     map.put("title", slide.getTitle());
     map.put("comments", slide.getComments());
     map.put("name", getName());
+    map.put("text", getText(SEPARATOR));
+    map.put("notes", getNotes(SEPARATOR));
     return map;
   }
 
@@ -192,12 +207,13 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
    * @param shapes
    * @return
    */
-  public String getShapesText(List<XSLFShape> shapes) {
+  public String getShapesText(List<XSLFShape> shapes,String sep) {
     String result = "";
     String delim = "";
     if (shapes != null) {
       for (XSLFShape shape : shapes) {
-        result+=this.getShapeText(shape, delim, "<br>");
+        result+=delim+this.getShapeText(shape, delim, sep);
+        delim=sep;
       }
     }
     return result;
@@ -239,22 +255,40 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
    * get the text of the notes
    * see e.g. https://stackoverflow.com/q/24873725/1497139
    */
-  public String getNotes() {
+  @Override
+  public String getNotes(String separator) {
     String result = "";
     String delim = "";
     XSLFNotes notes = slide.getNotes();
     if (notes != null) {
       for (XSLFShape shape : notes) {
-        result += getShapeText(shape, delim, "<br>");
+        result += delim+getShapeText(shape, delim, separator);
+        delim=separator;
       }
     }
     return result;
   }
 
   @Override
-  public String getText() {
-    String result = this.getShapesText(slide.getShapes());
+  public String getText(String separator) {
+    String result = this.getShapesText(slide.getShapes(),separator);
     return result;
+  }
+  
+  /**
+   * get the slide as an image
+   * @param out
+   * @param width
+   * @param height
+   * @param zoom
+   * @param withBackground
+   * @throws Exception 
+   */
+  public void outputSlideAsImage(OutputStream out,double zoom,boolean withBackground) throws Exception {
+    Dimension pageSize = this.getSlideShow().getSlideshow().getPageSize();
+    SlideImage slideImage=new SlideImage(getSlide(),pageSize.width,pageSize.height,zoom);
+    slideImage.drawImage(withBackground);
+    slideImage.save(out);    
   }
   
   public String getName() {

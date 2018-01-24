@@ -42,7 +42,10 @@ public interface SimpleNode extends SimpleGraph {
 
   // interface to Tinkertop/Gremlin wrapped Vertex
   public Vertex getVertex() ;
+  public Vertex setVertex(Vertex vertex);
   
+  
+  public void setMap(Map<String, Object> map);
   // fill my Vertex using my Map - this is the standard way to set the Nodes Vertex
   public Vertex setVertexFromMap();
   
@@ -106,7 +109,5 @@ public interface SimpleNode extends SimpleGraph {
     }
   }
 
-  Vertex setVertex(Vertex vertex);
-
-  void setMap(Map<String, Object> map);
+  
 }

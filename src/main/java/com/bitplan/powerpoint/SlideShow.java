@@ -20,6 +20,8 @@
  */
 package com.bitplan.powerpoint;
 
+import java.awt.Dimension;
+
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 
 /**

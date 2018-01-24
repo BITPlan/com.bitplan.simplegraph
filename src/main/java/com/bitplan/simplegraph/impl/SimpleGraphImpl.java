@@ -21,6 +21,7 @@
 package com.bitplan.simplegraph.impl;
 
 import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 
 import com.bitplan.simplegraph.SimpleGraph;
@@ -67,6 +68,16 @@ public class SimpleGraphImpl implements SimpleGraph {
   @Override
   public Graph graph() {
     return graph;
+  }
+  
+  @Override
+  public Vertex addVertex(SimpleNode other) {
+    if (other instanceof SimpleNodeImpl) {
+      SimpleNodeImpl sother = (SimpleNodeImpl) other;
+      Vertex vertex=graph.addVertex(sother.keyValueList.toArray());
+      return vertex;
+    }
+    throw new IllegalArgumentException("addVertex needs a SimpleNodeImpl argument but got "+other.getClass().getName());
   }
 
 }

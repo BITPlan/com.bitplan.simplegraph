@@ -23,6 +23,7 @@ package com.bitplan.powerpoint;
 import java.awt.Color;
 
 import org.apache.poi.xslf.usermodel.XSLFHyperlink;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextBox;
 import org.apache.poi.xslf.usermodel.XSLFTextRun;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
@@ -37,18 +38,16 @@ public interface Slide {
     public String getTitle();
     public void setTitle(String title);
 
-    public String getNotes();
+    public String getNotes(String separator);
     public void setNotes(String text);
     
     public String getName();
+    public String getText(String separator);
 
-    public String getText();
-
- 
     public int getPageNo();
-
     public int getPages();
     
+    public XSLFSlide getSlide();
     public XSLFTextBox addTextBox(int x,int y,int width,int height);
     public XSLFTextRun addText(XSLFTextShape shape,String text, double fontSize,Color color);
     public XSLFHyperlink addHyperlink(XSLFTextShape shape,String text,double fontSize, Color color, String link);

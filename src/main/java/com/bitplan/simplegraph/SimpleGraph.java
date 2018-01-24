@@ -22,6 +22,7 @@ package com.bitplan.simplegraph;
 
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 /**
  * The Simple Graph interface is inspired by the mathematical concept of a
@@ -46,6 +47,8 @@ public interface SimpleGraph {
   public default GraphTraversalSource g() {
     return this.graph().traversal();
   }
+  
+  public Vertex addVertex(SimpleNode other); 
 
   // SimpleGraph API
   /**

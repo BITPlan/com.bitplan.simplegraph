@@ -20,6 +20,9 @@
  */
 package com.bitplan.simplegraph.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * generic holder to be use in e.g. in lambdas to access outer scope variables which need to be final
  * @author wf
@@ -27,25 +30,36 @@ package com.bitplan.simplegraph.impl;
  * @param <T>
  */
 public class Holder<T> {
-  private T value;
+  private List<T> values=new ArrayList<T>();
   
-  Holder() {
-    value=null;
+  public Holder() {
   }
   
-  boolean isPresent() {
-    return value!=null;
+  public boolean isPresent() {
+    return values.size()>0;
   }
   
-  Holder(T value) {
-      setValue(value);
+  public Holder(T value) {
+    values.add(value);
   }
   
-  T getValue() {
-      return value;
+  public T getValue() {
+    if (isPresent())
+      return values.get(0);
+    else
+      return null;
   }
   
-  void setValue(T value) {
-      this.value = value;
+  public List<T> getValues() {
+    return values;
+  }
+  
+  public void setValue(T value) {
+    values=new ArrayList<T>();
+    add(value);
+  }
+
+  public void add(T value) {
+    values.add(value);
   }
 }

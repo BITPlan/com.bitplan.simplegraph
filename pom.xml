@@ -23,7 +23,7 @@
 		<!-- Java Code Coverage version -->
 		<jacoco.version>0.8.0</jacoco.version>
 		<!-- Apache POI e.g. for Powerpoint -->
-		<apache-poi.version>3.16</apache-poi.version>
+		<apache-poi.version>3.17</apache-poi.version>
 		<!-- <wikidata.toolkit.version>0.7.0</wikidata.toolkit.version> -->
 		<wikidata.toolkit.version>0.8.0</wikidata.toolkit.version>
 		<!--  mediawiki japi -->
