@@ -27,7 +27,7 @@
 		<!-- <wikidata.toolkit.version>0.7.0</wikidata.toolkit.version> -->
 		<wikidata.toolkit.version>0.8.0</wikidata.toolkit.version>
 		<!--  mediawiki japi -->
-		<mediawiki-japi.version>0.0.21</mediawiki-japi.version>
+		<mediawiki-japi.version>0.0.22</mediawiki-japi.version>
 	</properties>
 	<packaging>jar</packaging>
 	<url>https://github.com/BITPlan/com.bitplan.simplegraph</url>

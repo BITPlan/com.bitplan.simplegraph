@@ -29,6 +29,7 @@ import java.util.Optional;
  *
  */
 public interface Keys {
+  public static final String [] EMPTY_KEYS= {};
   public boolean hasKey(String key);
   Optional<List<String>> getKeysList();
   String[] getKeys();

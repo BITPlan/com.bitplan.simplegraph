@@ -1,0 +1,28 @@
+ {
+	"empId": 1001,
+	"firstName": "jonh",
+	"lastName": "Springer",
+	"title": "Engineer",
+	"address": {
+		"city": "Mumbai",
+		"street": "FadkeStreet",
+		"zipCode": "420125",
+		"privatePhoneNo": {
+			"privateMobile": "2564875421",
+			"privateLandLine": "251201546"
+		}
+	},
+	"salary": 150000,
+	"department": {
+		"departmentId": 10521,
+		"departmentName": "IT",
+		"companyPhoneNo": {
+			"cMobile": "8655340546",
+			"cLandLine": "10251215465"
+		},
+		"location": {
+			"name": "mulund",
+			"locationId": 14500
+		}
+	}
+}

@@ -32,11 +32,20 @@ import com.bitplan.simplegraph.SimpleSystem;
  *
  */
 public abstract class SimpleSystemImpl extends SimpleGraphImpl implements SimpleSystem {
-  
+ 
   String name;
   String version;
   protected transient Map<String, Cache> cacheMap = new HashMap<String, Cache>();
-  
+  transient private boolean debug = false;
+
+  public boolean isDebug() {
+    return debug;
+  }
+
+  public void setDebug(boolean debug) {
+    this.debug = debug;
+  }
+
   public SimpleSystemImpl() {
     super();
   }
