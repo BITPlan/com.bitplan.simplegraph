@@ -115,8 +115,8 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
       for (XSLFSlide slide : slides) {
         SlideNode slideNode = new SlideNode(this, slide);
         slideNodes.add(slideNode);
-        slideNode.getMap().put("pageNo", pageNo++);
-        slideNode.getMap().put("pages", slides.size());
+        slideNode.property("pageNo", pageNo++);
+        slideNode.property("pages", slides.size());
       }
       links = slideNodes.stream();
       break;
