@@ -83,44 +83,65 @@ public class TestRythm extends BaseTest {
     assertTrue(result.contains("step 4"));
   }
 
-
-  @Test
-  public void testGenerateGraphVizViaRythm() throws Exception {
-    //debug=true;
-    SimpleNode start = getFileNode("/src",Integer.MAX_VALUE);
+  /**
+   * generate a GraphViz graph for the given parameters
+   * @param start
+   * @param edge
+   * @param property
+   * @param idProperty
+   * @param urlPrefix
+   * @param rankDir
+   * @param graphname
+   * @return
+   * @throws Exception
+   */
+  public static String generateGraphViz(SimpleNode start, String edge,
+      String property, String idProperty, String urlPrefix, String rankDir,String graphname) throws Exception {
     // prepare the Map of information to be supplied for the Rythm template
     Map<String, Object> rootMap = new HashMap<String, Object>();
     // the SimpleNode to start with
     rootMap.put("start", start);
     // the edges to select
-    rootMap.put("edge", "parent");
+    rootMap.put("edge", edge);
     // the property to show (for edges/vertices)
-    rootMap.put("property", "name");
+    rootMap.put("property", property);
     // the property to derive the URL from
-    rootMap.put("idProperty", "path");
+    rootMap.put("idProperty", idProperty);
     // the prefix to prepend to the idProperty to get the final url
-    rootMap.put("urlPrefix", GITHUB_URL_PREFIX);
+    rootMap.put("urlPrefix", urlPrefix);
     // style of graph e.g. TB, BT, RL, LR (Top-Bottom, Bottom-Top, Right-Left,
     // Left-Right see. graphviz rankdir
-    rootMap.put("rankdir", "RL");
+    rootMap.put("rankdir", rankDir);
     // the name of the graph
     rootMap.put("graphname",
-        "FileSystemGraphForSrcDirectoryOfSimpleGraphGitHubOpenSourceProject");
+        graphname);
     // get us a Rythm context to be able to render via a template
     RythmContext rythmContext = RythmContext.getInstance();
     // choose a Rythm template that will work on our graph
     File template = new File("src/main/rythm/graphvizTree.rythm");
     // let Rythm do the rendering according to the template
     String graphViz = rythmContext.render(template, rootMap);
+    return graphViz;
+  }
+
+  @Test
+  public void testGenerateGraphVizViaRythm() throws Exception {
+    debug=true;
+    SimpleNode start = getFileNode("src", Integer.MAX_VALUE);
+    if (debug)
+      start.forAll(SimpleNode.printDebug);
+    String graphViz = generateGraphViz(start, "parent", "name", "path",
+        GITHUB_URL_PREFIX,"RL","FileSystemGraphForSrcDirectoryOfSimpleGraphGitHubOpenSourceProject");
     // debug = true;
+    assertTrue(graphViz.contains("TestRythm.java"));
     if (debug)
       System.out.println(graphViz.trim());
   }
 
   @Test
   public void testGenerateGraphVizManually() throws Exception {
-    //debug = true;
-    SimpleNode start = getFileNode("src",Integer.MAX_VALUE);
+    // debug = true;
+    SimpleNode start = getFileNode("src", Integer.MAX_VALUE);
     // get the gremlin starting point
     GraphTraversalSource g = start.g();
     // traverse using Apache Gremlin
@@ -134,7 +155,8 @@ public class TestRythm extends BaseTest {
       String url = GITHUB_URL_PREFIX + path;
       if (debug) {
         // do not use LOGGER since we might want to copy&paste the result
-        System.out.println(String.format("\"%s\" [ label=\"%s\" URL=\"%s\" ]", path,label, url));
+        System.out.println(String.format("\"%s\" [ label=\"%s\" URL=\"%s\" ]",
+            path, label, url));
       }
     });
     // then print all edges

@@ -32,6 +32,7 @@ import com.bitplan.mediawiki.japi.SSLWiki;
 import com.bitplan.mediawiki.japi.api.Api;
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
  * Semantic MediaWiki system wrapper
@@ -57,7 +58,7 @@ public class SMWSystem extends MediaWikiSystem {
       if (rawMode)
         return rawNode;
       else
-        return tagPrintRequests(nodeQuery, rawNode);
+        return conceptAlizePrintRequests(nodeQuery, rawNode);
     } else
       return new MediaWikiPageNode(this, nodeQuery, keys);
   }
@@ -115,18 +116,22 @@ public class SMWSystem extends MediaWikiSystem {
 
   /**
    * tag the print Requests with the concept from the nodeQuery (if any)
+   * and recreate nodes
    * 
    * @param nodeQuery
    * @param rawNode
    * @return
    */
-  private SimpleNode tagPrintRequests(String askQuery, SimpleNode rawNode) {
+  private SimpleNode conceptAlizePrintRequests(String askQuery, SimpleNode rawNode) {
     String concept = getConcept(askQuery);
     // if there is no concept we will not tag
     if (concept == null)
       return rawNode;
     this.g().V().hasLabel("printouts")
         .forEachRemaining(node -> node.property("isA", concept));
+    this.g().V().has("isA",concept).forEachRemaining(node->{
+      // SimpleNodeImpl newNode = new SimpleNodeImpl(this,"concept");
+    });
     /*
      * if (debug) { this.g().V().forEachRemaining(SimpleNode.printDebug); long
      * printOutCount =
