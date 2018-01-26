@@ -20,6 +20,7 @@
  */
 package com.bitplan.simplegraph;
 
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +38,7 @@ public class BaseTest {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph");
   protected SimpleSystem fs;
-
+  
   /**
    * get a File node for the given path
    * 

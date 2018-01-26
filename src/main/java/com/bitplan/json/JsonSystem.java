@@ -20,6 +20,7 @@
  */
 package com.bitplan.json;
 
+import com.bitplan.simplegraph.SimpleGraph;
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
@@ -34,6 +35,21 @@ import com.google.gson.JsonParser;
 public class JsonSystem extends SimpleSystemImpl {
   JsonParser parser = new JsonParser();
   String json;
+  
+  /**
+   * create a JsonSystem using the same simpleGraph
+   * @param graph
+   */
+  public JsonSystem(SimpleGraph graph) {
+    super(graph);
+  }
+
+  /**
+   * create a new JsonSystem with it's own graph
+   */
+  public JsonSystem() {
+    super();
+  }
 
   @Override
   public SimpleSystem connect(String... params) throws Exception {

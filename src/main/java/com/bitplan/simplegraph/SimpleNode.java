@@ -24,6 +24,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.apache.tinkerpop.gremlin.structure.Vertex;
@@ -36,9 +37,12 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
  *
  */
 public interface SimpleNode extends SimpleGraph {
+  static Consumer<Vertex> printDebug = 
+      vertex->vertex.properties().forEachRemaining(prop->System.out.println(String.format("%s.%s=%s",vertex.label(),prop.label(),prop.value())));
+
   public static enum EdgeDirection{IN,OUT
     //,BOTH
-    };
+  };
 
   // interface to Tinkertop/Gremlin wrapped Vertex
   public Vertex getVertex() ;
@@ -108,6 +112,12 @@ public interface SimpleNode extends SimpleGraph {
       out.println(String.format("%s = %s", key, map.get(key)));
     }
   }
-
   
+  /**
+   * printDebug
+   */
+  public default void forAll(Consumer<Vertex> consumer) {
+    g().V().forEachRemaining(consumer);
+  };
+
 }

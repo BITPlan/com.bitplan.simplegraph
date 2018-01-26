@@ -23,6 +23,7 @@ package com.bitplan.simplegraph.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bitplan.simplegraph.SimpleGraph;
 import com.bitplan.simplegraph.SimpleSystem;
 
 /**
@@ -36,7 +37,7 @@ public abstract class SimpleSystemImpl extends SimpleGraphImpl implements Simple
   String name;
   String version;
   protected transient Map<String, Cache> cacheMap = new HashMap<String, Cache>();
-  transient private boolean debug = false;
+  protected transient boolean debug = false;
 
   public boolean isDebug() {
     return debug;
@@ -49,6 +50,11 @@ public abstract class SimpleSystemImpl extends SimpleGraphImpl implements Simple
   public SimpleSystemImpl() {
     super();
   }
+  
+  public SimpleSystemImpl(SimpleGraph graph) {
+    super(graph);
+  }
+
 
   @Override
   public String getName() {

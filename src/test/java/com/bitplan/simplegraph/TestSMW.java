@@ -22,6 +22,7 @@ package com.bitplan.simplegraph;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -38,25 +39,44 @@ public class TestSMW extends BaseTest {
   @Test
   public void testAsk() throws Exception {
     SMWSystem smw = new SMWSystem();
+    debug=true;
     smw.setDebug(debug);
     smw.connect("https://www.semantic-mediawiki.org", "/w");
-    String query = "[[Docinfo language::de]][[Has datatype ID::+]]"
-        + " |?Docinfo language=language" + " |?Has datatype name=Datatype"
-        + " |?Has description=Description" + " |?Has datatype ID=ID"
-        + " |?Has component=Provided by|sort=Has datatype ID|order=desc|limit=200";
+    // see https://www.semantic-mediawiki.org/wiki/Help:Concepts
+    String query = "{{#ask:[[Concept:Semantic Web Events 2012]]\n" + 
+        "|?Has_Wikidata_item_ID=WikiDataId\n" +
+        "|?Has planned finish=finish\n"+
+        "|?Has planned start=start\n"+
+        "|?Has_location=location\n" + 
+        "|format=table\n" + 
+        "}}";
     SimpleNode askResult = smw.moveTo(query);
+    long printOutCount = askResult.g().V().hasLabel("printouts").count().next().longValue();
+    assertEquals(2,printOutCount);
     long nodeCount = askResult.g().V().count().next().longValue();
-    assertEquals(38, nodeCount);
+    assertEquals(17, nodeCount);
     Object metaCount = askResult.g().V().hasLabel("meta").next()
         .property("count").value();
     assertNotNull(metaCount);
-    assertEquals(14, Integer.parseInt(metaCount.toString()));
+    assertEquals(2, Integer.parseInt(metaCount.toString()));
     debug = true;
     if (debug)
-      askResult.g().V().has("fullurl")
-          .forEachRemaining(dt -> dt.properties().forEachRemaining(
-              prop -> System.out.println(String.format("%s.%s=%s", dt.label(),
-                  prop.label(), prop.value()))));
+      askResult.g().V().has("isA","Semantic Web Events 2012")
+          .forEachRemaining(SimpleNode.printDebug);
+  }
+  
+  @Test
+  public void testFixAsk() {
+    String askQuery = "{{#ask:[[Concept:Semantic Web Events 2012]]\n" + 
+        "|?Has_location\n" + 
+        "|format=table\n" + 
+        "}}";
+    String fixedAsk = SMWSystem.fixAsk(askQuery);
+    if (debug)
+      System.out.println(fixedAsk);
+    assertTrue("[[Concept:Semantic Web Events 2012]]|?Has_location|format=table".equals(fixedAsk));
+    String concept=SMWSystem.getConcept(askQuery);
+    assertEquals("Semantic Web Events 2012",concept);
   }
 
 }
