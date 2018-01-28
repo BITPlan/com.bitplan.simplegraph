@@ -112,6 +112,14 @@ public class TestTinkerPop3 extends BaseTest {
         .values("name").path();
     long pcount = p.count().next().longValue();
     assertEquals(2, pcount);
+    debug = true;
+    if (debug) {
+      graph.traversal().V().forEachRemaining(vertex -> System.out
+          .println(String.format("%s=%s %s", vertex.id(), vertex.label(),vertex.property("name").value())));
+      graph.traversal().E().forEachRemaining(
+          edge -> System.out.println(String.format("%s- %s >%s",
+              edge.inVertex().id(), edge.label(), edge.outVertex().id())));
+    }
   }
 
 }

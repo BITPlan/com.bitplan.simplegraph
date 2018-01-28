@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.bitplan.mediawiki.japi.api.Property;
 import com.bitplan.smw.SMWSystem;
 
 /**
@@ -75,7 +76,7 @@ public class TestSMW extends BaseTest {
         .longValue();
     assertEquals(2, printOutCount);
     long nodeCount = askResult.g().V().count().next().longValue();
-    assertEquals(17, nodeCount);
+    assertEquals(19, nodeCount);
     Object metaCount = askResult.g().V().hasLabel("meta").next()
         .property("count").value();
     assertNotNull(metaCount);
@@ -116,6 +117,35 @@ public class TestSMW extends BaseTest {
     });
     assertEquals(12, properties.size());
     assertTrue(properties.contains("Has_speaker"));
+  }
+
+  @Test
+  public void testDataTypes() throws Exception {
+    // https://www.semantic-mediawiki.org/wiki/Help:JSON_format
+    String query = "{{#ask:\n" + " [[Category:Datatypes]]\n"
+        + " [[Document status::effective]]\n" + " [[Document language::en]]\n"
+        + " |?Has datatype ID=typeid\n" + "|?Has datatype name=Datatype\n"
+        + " |?Has description=Description\n" + " |?=Help page\n"
+        + " |?Has component=Provided by\n" + " |format=table\n"
+        + " |mainlabel=-\n" + " |headers=plain\n" + "}}";
+    debug=true;
+    SMWSystem smwSystem = getSMWSystem();
+    SimpleNode dtNode = smwSystem.moveTo("ask=" + query);
+    long resultsCount=dtNode.g().V().hasLabel("results").count().next().longValue();
+    assertEquals(1,resultsCount);
+    long outEdges=dtNode.g().V().hasLabel("results").out().count().next().longValue();
+    assertEquals(17,outEdges);
+    dtNode.g().V().hasLabel("results").outE().forEachRemaining(node->System.out.println(node.getClass().getName()));
+    smwSystem.conceptAlizePrintRequests("datatype", dtNode);
+    assertNotNull(dtNode);
+    dtNode.g().V().hasLabel("datatype").order().by("Datatype").forEachRemaining(dt -> {
+      Object dataType = dt.property("Datatype").value();
+      System.out.println(
+          String.format("// %s\n// %s\n// %s: ", dataType,dt.property("fullurl").value(),dt.property("Description").value()));
+      System.out.println(String.format("case \"%s\": // %s",
+          dt.property("typeid").value(), dataType));
+      System.out.println("break;");
+    });
   }
 
 }
