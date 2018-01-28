@@ -24,11 +24,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.sidif.util.FileUtils;
 
+import com.bitplan.json.JsonPrettyPrinter;
 import com.bitplan.mediawiki.japi.api.Property;
 import com.bitplan.smw.SMWSystem;
 
@@ -131,11 +134,12 @@ public class TestSMW extends BaseTest {
     debug=true;
     SMWSystem smwSystem = getSMWSystem();
     SimpleNode dtNode = smwSystem.moveTo("ask=" + query);
+    FileUtils.writeStringToFile(new File("src/test/datatypes.json"), JsonPrettyPrinter.prettyPrint(smwSystem.getJson()));
     long resultsCount=dtNode.g().V().hasLabel("results").count().next().longValue();
     assertEquals(1,resultsCount);
     long outEdges=dtNode.g().V().hasLabel("results").out().count().next().longValue();
     assertEquals(17,outEdges);
-    dtNode.g().V().hasLabel("results").outE().forEachRemaining(node->System.out.println(node.getClass().getName()));
+    dtNode.g().V().hasLabel("results").outE().forEachRemaining(edge->SimpleNode.printDebug.accept(edge.outVertex()));
     smwSystem.conceptAlizePrintRequests("datatype", dtNode);
     assertNotNull(dtNode);
     dtNode.g().V().hasLabel("datatype").order().by("Datatype").forEachRemaining(dt -> {

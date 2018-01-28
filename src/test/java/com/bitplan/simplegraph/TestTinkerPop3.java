@@ -20,14 +20,17 @@
  */
 package com.bitplan.simplegraph;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
+import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.Path;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
@@ -36,6 +39,7 @@ import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.T;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.junit.Test;
 
@@ -83,11 +87,10 @@ public class TestTinkerPop3 extends BaseTest {
     g.V().has("code", "SAT").out().path().by("icao").fill(routes);
     if (debug)
       LOGGER.log(Level.INFO, routes.toString());
-
   }
 
-  @Test
-  public void testTinkerpop() {
+  public Graph getFirstGraph() {
+    // http://tinkerpop.apache.org/docs/3.1.8/tutorials/getting-started/
     Graph graph = TinkerGraph.open(); // 1
     Vertex marko = graph.addVertex(T.label, "person", T.id, 1, "name", "marko",
         "age", 29); // 2
@@ -108,18 +111,78 @@ public class TestTinkerPop3 extends BaseTest {
     josh.addEdge("created", ripple, T.id, 10, "weight", 1.0f);
     josh.addEdge("created", lop, T.id, 11, "weight", 0.4f);
     peter.addEdge("created", lop, T.id, 12, "weight", 0.2f);
-    GraphTraversal<Vertex, Path> p = graph.traversal().V(marko).out("knows")
-        .values("name").path();
-    long pcount = p.count().next().longValue();
-    assertEquals(2, pcount);
-    debug = true;
+    return graph;
+  }
+
+  /**
+   * dump the given graph
+   * 
+   * @param graph
+   */
+  public void dumpGraph(Graph graph) {
     if (debug) {
-      graph.traversal().V().forEachRemaining(vertex -> System.out
-          .println(String.format("%s=%s %s", vertex.id(), vertex.label(),vertex.property("name").value())));
+      graph.traversal().V().forEachRemaining(
+          vertex -> System.out.println(String.format("%s=%s %s", vertex.id(),
+              vertex.label(), vertex.property("name").value())));
       graph.traversal().E().forEachRemaining(
           edge -> System.out.println(String.format("%s- %s >%s",
               edge.inVertex().id(), edge.label(), edge.outVertex().id())));
     }
+  }
+
+  @Test
+  public void testTinkerpop() {
+    Graph graph = getFirstGraph();
+    // 1 is the id of the marko node
+    GraphTraversal<Vertex, Path> p = graph.traversal().V(1).out("knows")
+        .values("name").path();
+    long pcount = p.count().next().longValue();
+    assertEquals(2, pcount);
+    // debug = true;
+    dumpGraph(graph);
+  }
+
+  @Test
+  public void testTutorial() {
+    // see http://tinkerpop.apache.org/docs/3.3.1/tutorials/getting-started/
+    Graph graph = TinkerFactory.createModern();
+    assertEquals(28.0,
+        graph.traversal().V().has("name", P.within("vadas", "marko"))
+            .values("age").mean().next().doubleValue(),
+        0.001);
+    List<Object> creators = graph.traversal().V().has("name", "marko")
+        .out("created").in("created").values("name").toStream()
+        .collect(Collectors.toList());
+    assertEquals(3, creators.size());
+    String creatorNames = String.join(",",
+        creators.toArray(new String[creators.size()]));
+    assertEquals("marko,josh,peter", creatorNames);
+
+    List<Object> creatorsWithOutMarko = graph.traversal().V()
+        .has("name", "marko").as("exclude").out("created").in("created")
+        .where(P.neq("exclude")).values("name").toStream()
+        .collect(Collectors.toList());
+    assertEquals(2, creatorsWithOutMarko.size());
+    String creatorNamesWithOutMarko = String.join(",",
+        creatorsWithOutMarko.toArray(new String[creatorsWithOutMarko.size()]));
+    assertEquals("josh,peter", creatorNamesWithOutMarko);
+
+    List<Map<String, Object>> selected = graph.traversal().V().as("a").out()
+        .as("b").out().as("c").select("a", "b", "c").toStream()
+        .collect(Collectors.toList());
+    assertEquals(2, selected.size());
+    if (debug)
+      selected.forEach(SimpleNode.printMapDebug);
+    List<Map<Object, Object>> groups = graph.traversal().V().group().by(T.label)
+        .toStream().collect(Collectors.toList());
+    if (debug)
+      groups.forEach(SimpleNode.printMapDebug);
+    assertEquals(1,groups.size());
+    debug = true;
+    List<Map<Object, Object>> groupsByName = graph.traversal().V().group().by(T.label).by("name").
+    toStream().collect(Collectors.toList());
+    if (debug)
+      groupsByName.forEach(SimpleNode.printMapDebug);
   }
 
 }

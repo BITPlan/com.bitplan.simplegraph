@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 
+import com.bitplan.json.JsonNode;
 import com.bitplan.json.JsonPrettyPrinter;
 import com.bitplan.json.JsonSystem;
 import com.bitplan.map.MapNode;
@@ -53,7 +54,17 @@ import com.bitplan.simplegraph.impl.Holder;
 public class SMWSystem extends MediaWikiSystem {
   // shall we return the json result as a graph (raw mode)?
   boolean rawMode = false;
+  private String json;
+  private JsonSystem js;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.smwsystem");
+
+  public String getJson() {
+    return json;
+  }
+
+  protected void setJson(String json) {
+    this.json = json;
+  }
 
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
@@ -75,8 +86,8 @@ public class SMWSystem extends MediaWikiSystem {
       else
         return conceptAlizePrintRequests(getConcept(nodeQuery), rawNode);
     } else if ("browsebysubject".equals(mode)) {
-      String json = getActionJson("browsebysubject", "subject", nodeQuery);
-      JsonSystem js = JsonSystem.of(this, json);
+      setJson(getActionJson("browsebysubject", "subject", nodeQuery));
+      js = JsonSystem.of(this, getJson());
       return js.getStartNode();
     } else if (mode == null || "page".equals(mode)) {
       return new MediaWikiPageNode(this, nodeQuery, keys);
@@ -122,8 +133,8 @@ public class SMWSystem extends MediaWikiSystem {
   private SimpleNode moveToAsk(String askQuery, String[] keys) {
     // make Query fit for API
     askQuery = fixAsk(askQuery);
-    String json = this.getActionJson("ask", "query", askQuery);
-    JsonSystem js = JsonSystem.of(this, json);
+    setJson(this.getActionJson("ask", "query", askQuery));
+    js = JsonSystem.of(this, getJson());
     return js.getStartNode();
   }
 
@@ -218,27 +229,31 @@ public class SMWSystem extends MediaWikiSystem {
       String label = pr.property("label").value().toString();
       prMap.put(label, new PrintRequest(pr));
     });
-    this.g().V().hasLabel("printouts").forEachRemaining(node -> {
+    this.g().V().hasLabel("results").outE().forEachRemaining(edge -> {
+      Vertex jsonVertex = edge.outVertex();
+      JsonNode jsonNode = (JsonNode) jsonVertex.property("mysimplenode")
+          .value();
       Map<String, Object> conceptMap = new HashMap<String, Object>();
       conceptMap.put("isA", concept);
-      for (String key : prMap.keySet()) {
-        PrintRequest pr = prMap.get(key);
-        if (pr != null)
-          switch (pr.typeid) {
-          case "_wpg":
-            
-            break;
-          case "_txt":
-            putValue(node, key, conceptMap);
-            break;
-          default:
-            // unsupported type id
-            LOGGER.log(Level.WARNING, "unknown typeid " + pr.typeid);
-            putValue(node, key, conceptMap);
-          }
-      }
-      ;
-      conceptNodeHolder.add(new MapNode(this, concept, conceptMap));
+      jsonNode.g().V().hasLabel("printouts").forEachRemaining(node -> {
+        for (String key : prMap.keySet()) {
+          PrintRequest pr = prMap.get(key);
+          if (pr != null)
+            switch (pr.typeid) {
+            case "_wpg":
+
+              break;
+            case "_txt":
+              putValue(node, key, conceptMap);
+              break;
+            default:
+              // unsupported type id
+              LOGGER.log(Level.WARNING, "unknown typeid " + pr.typeid);
+              putValue(node, key, conceptMap);
+            }
+        }
+        conceptNodeHolder.add(new MapNode(this, concept, conceptMap));
+      });
     });
     /*
      * if (debug) { this.g().V().forEachRemaining(SimpleNode.printDebug); long
@@ -253,6 +268,7 @@ public class SMWSystem extends MediaWikiSystem {
 
   /**
    * put the given value
+   * 
    * @param node
    * @param key
    * @param conceptMap
@@ -261,7 +277,8 @@ public class SMWSystem extends MediaWikiSystem {
       Map<String, Object> conceptMap) {
     VertexProperty<Object> prop = node.property(key);
     if (!prop.isPresent()) {
-      LOGGER.log(Level.WARNING,String.format("proprerty %s does not exist",key));
+      LOGGER.log(Level.WARNING,
+          String.format("proprerty %s does not exist", key));
     } else {
       Object value = prop.value();
       if (value instanceof ArrayList) {
