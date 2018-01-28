@@ -22,8 +22,6 @@ package com.bitplan.mediawiki;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,10 +29,7 @@ import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
-import com.bitplan.mediawiki.japi.api.Api;
 import com.bitplan.mediawiki.japi.api.Ii;
-import com.bitplan.mediawiki.japi.api.Property;
-import com.bitplan.mediawiki.japi.api.Query;
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 

@@ -38,35 +38,39 @@ import com.bitplan.smw.SMWSystem;
  *
  */
 public class TestSMW extends BaseTest {
-  
+
   /**
    * get the Semantic Mediawiki System unde test
-   * @throws Exception 
+   * 
+   * @throws Exception
    */
-  public  SMWSystem getSMWSystem() throws Exception {
+  public SMWSystem getSMWSystem() throws Exception {
     SMWSystem smw = new SMWSystem();
     // debug=true;
     smw.setDebug(debug);
     smw.connect("https://www.semantic-mediawiki.org", "/w");
     return smw;
   }
-  
+
   @Test
   public void testPage() throws Exception {
-    SMWSystem smwSystem=getSMWSystem();
+    SMWSystem smwSystem = getSMWSystem();
     SimpleNode pageNode = smwSystem.moveTo("page=Sol");
     pageNode.forAll(SimpleNode.printDebug);
   }
 
   @Test
   public void testAsk() throws Exception {
-    SMWSystem smwSystem=getSMWSystem();
+    // debug = true;
+    SMWSystem smwSystem = getSMWSystem();
     // see https://www.semantic-mediawiki.org/wiki/Help:Concepts
-    String query = "{{#ask:[[Concept:Semantic Web Events 2012]]\n"
+    String query = "{{#ask:[[Concept:Semantic MediaWiki Cons 2012]]\n"
         + "|?Has_Wikidata_item_ID=WikiDataId\n"
         + "|?Has planned finish=finish\n" + "|?Has planned start=start\n"
         + "|?Has_location=location\n" + "|format=table\n" + "}}";
     SimpleNode askResult = smwSystem.moveTo(query);
+    if (debug)
+      askResult.forAll(SimpleNode.printDebug);
     long printOutCount = askResult.g().V().hasLabel("printouts").count().next()
         .longValue();
     assertEquals(2, printOutCount);
@@ -84,12 +88,13 @@ public class TestSMW extends BaseTest {
 
   @Test
   public void testFixAsk() {
+    // debug=true;
     String askQuery = "{{#ask:[[Concept:Semantic Web Events 2012]]\n"
         + "|?Has_location\n" + "|format=table\n" + "}}";
     String fixedAsk = SMWSystem.fixAsk(askQuery);
     if (debug)
       System.out.println(fixedAsk);
-    assertTrue("[[Concept:Semantic Web Events 2012]]|?Has_location|format=table"
+    assertTrue("[[Concept:Semantic_Web_Events_2012]]|?Has_location|format=table"
         .equals(fixedAsk));
     String concept = SMWSystem.getConcept(askQuery);
     assertEquals("Semantic Web Events 2012", concept);
@@ -97,10 +102,10 @@ public class TestSMW extends BaseTest {
 
   @Test
   public void testBrowseBySubject() throws Exception {
-    SMWSystem smwSystem=getSMWSystem();
+    SMWSystem smwSystem = getSMWSystem();
     String subject = "SMWCon_Fall_2012/Filtered_result_format";
-    SimpleNode browseNode = smwSystem.moveTo("browsebysubject="+subject);
-    List<String> properties=new ArrayList<String>();
+    SimpleNode browseNode = smwSystem.moveTo("browsebysubject=" + subject);
+    List<String> properties = new ArrayList<String>();
     browseNode.g().V().has("property").forEachRemaining(prop -> {
       String propName = prop.property("property").value().toString();
       if (!propName.startsWith("_")) {
@@ -109,7 +114,7 @@ public class TestSMW extends BaseTest {
           System.out.println(String.format("* [[Property:%s]]", propName));
       }
     });
-    assertEquals(12,properties.size());
+    assertEquals(12, properties.size());
     assertTrue(properties.contains("Has_speaker"));
   }
 
