@@ -33,7 +33,15 @@ import com.bitplan.simplegraph.SimpleNode;
  *
  */
 public class SimpleGraphImpl implements SimpleGraph {
+  protected transient boolean debug = false;
 
+  public boolean isDebug() {
+    return debug;
+  }
+
+  public void setDebug(boolean debug) {
+    this.debug = debug;
+  }
   // The TinkerPop 3 graph
   Graph graph;
   

@@ -63,5 +63,9 @@ public interface SimpleGraph {
    * @return
    */
   public SimpleNode setStartNode(SimpleNode startNode);
+  
+  public boolean isDebug();
+
+  public void setDebug(boolean debug);
 
 }

@@ -35,9 +35,10 @@ import com.google.gson.JsonParser;
 public class JsonSystem extends SimpleSystemImpl {
   JsonParser parser = new JsonParser();
   String json;
-  
+
   /**
    * create a JsonSystem using the same simpleGraph
+   * 
    * @param graph
    */
   public JsonSystem(SimpleGraph graph) {
@@ -56,9 +57,10 @@ public class JsonSystem extends SimpleSystemImpl {
     if (params.length >= 2 && ("json".equals(params[0]))) {
       this.json = params[1];
       this.setStartNode(new JsonNode(this, "jsonroot", parser.parse(json)));
-      /* if (params.length >= 3 && "tree".equals(params[2])) {
-        treeWalk((JsonNode) this.getStartNode());
-      }*/
+      /*
+       * if (params.length >= 3 && "tree".equals(params[2])) {
+       * treeWalk((JsonNode) this.getStartNode()); }
+       */
     }
     return this;
   }
@@ -75,4 +77,28 @@ public class JsonSystem extends SimpleSystemImpl {
     return null;
   }
 
+  /**
+   * create a new JsonSystem based on the given graph and json string
+   * 
+   * @param graph
+   *          - the graph to link to (may be null for creating an independent
+   *          system)
+   * @param json
+   *          - the json string to parse
+   * @return - the JsonSystem with it's start node set to the root of the parse
+   *         tree
+   * @throws Exception
+   */
+  public static JsonSystem of(SimpleGraph graph, String json) {
+    JsonSystem js = new JsonSystem(graph);
+    js.setDebug(graph.isDebug());
+    try {
+      js.connect("json", json);
+      if (graph.isDebug())
+        js.getStartNode().forAll(SimpleNode.printDebug);
+      return js;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

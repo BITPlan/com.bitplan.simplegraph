@@ -20,6 +20,7 @@
  */
 package com.bitplan.smw;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,7 +33,6 @@ import com.bitplan.mediawiki.japi.SSLWiki;
 import com.bitplan.mediawiki.japi.api.Api;
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
-import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
  * Semantic MediaWiki system wrapper
@@ -53,14 +53,52 @@ public class SMWSystem extends MediaWikiSystem {
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
-    if (fixAsk(nodeQuery).startsWith("[")) {
+    String mode=getPatternMatchGroup("^(.+)=",nodeQuery,1);
+    // remove the "<mode>=" part from the query if there is one
+    if (mode!=null)
+      nodeQuery=nodeQuery.substring(mode.length()+1);
+    if ("ask".equals(mode) || fixAsk(nodeQuery).startsWith("[")) {
       SimpleNode rawNode = moveToAsk(nodeQuery, keys);
       if (rawMode)
         return rawNode;
       else
         return conceptAlizePrintRequests(nodeQuery, rawNode);
-    } else
+    } else if ("browsebysubject".equals(mode)) {
+      String json = getActionJson("browsebysubject", "subject", nodeQuery);
+      JsonSystem js = JsonSystem.of(this, json);
+      return js.getStartNode();
+    } else if (mode==null || "page".equals(mode)){
       return new MediaWikiPageNode(this, nodeQuery, keys);
+    } else {
+      throw new IllegalArgumentException("invalid mode "+mode);
+    }
+  }
+
+  /**
+   * get the json result for the given action
+   * 
+   * @param action
+   * @param actionQuery
+   * @return the raw json string
+   * @throws Exception
+   * @throws UnsupportedEncodingException
+   */
+  public String getActionJson(String action,String param,String actionQuery) {
+    SSLWiki wiki = getWiki();
+    wiki.setFormat("json");
+    wiki.setDebug(isDebug());
+    Api result;
+    try {
+      result = wiki.getActionResult(action,
+          "&"+param+"=" + URLEncoder.encode(actionQuery, "UTF-8"));
+
+      String json = result.getRawJson();
+      if (this.isDebug())
+        System.out.println(JsonPrettyPrinter.prettyPrint(json));
+      return json;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -71,29 +109,31 @@ public class SMWSystem extends MediaWikiSystem {
    * @return
    */
   private SimpleNode moveToAsk(String askQuery, String[] keys) {
-    try {
-      SSLWiki wiki = getWiki();
-      wiki.setFormat("json");
-      wiki.setDebug(isDebug());
-      Api result;
-      // make Query fit for API
-      askQuery = fixAsk(askQuery);
-      result = wiki.getActionResult("ask",
-          "&query=" + URLEncoder.encode(askQuery, "UTF-8"));
-
-      String json = result.getRawJson();
-      if (this.isDebug())
-        System.out.println(JsonPrettyPrinter.prettyPrint(json));
-      // create a JsonSystem based on my graph
-      JsonSystem js = new JsonSystem(this);
-      js.setDebug(this.isDebug());
-      js.connect("json", json);
-      if (isDebug())
-        js.getStartNode().forAll(SimpleNode.printDebug);
-      return js.getStartNode();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    // make Query fit for API
+    askQuery = fixAsk(askQuery);
+    String json = this.getActionJson("ask","query",askQuery);
+    JsonSystem js = JsonSystem.of(this, json);
+    return js.getStartNode();
+  }
+  
+  /**
+   * get the group with the given index in the given regular expression when matched
+   * against the given string toMatch
+   * @param regex - the regular expession 
+   * @param toMatch - the String to match
+   * @param groupIndex - the index of the group to fetch
+   * @return - the result or null if there is no such group
+   */
+  public static String getPatternMatchGroup(String regex,String toMatch,int groupIndex) {
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(toMatch);
+    if (matcher.find()) {
+      if (matcher.groupCount() > 0) {
+        String concept = matcher.group(groupIndex);
+        return concept;
+      }
     }
+    return null;
   }
 
   /**
@@ -103,33 +143,26 @@ public class SMWSystem extends MediaWikiSystem {
    * @return -the concept
    */
   public static String getConcept(String askQuery) {
-    Pattern pattern = Pattern.compile("\\[\\[Concept:(.+)\\]\\]");
-    Matcher matcher = pattern.matcher(askQuery);
-    if (matcher.find()) {
-      if (matcher.groupCount() > 0) {
-        String concept = matcher.group(1);
-        return concept;
-      }
-    }
-    return null;
+    return getPatternMatchGroup("\\[\\[Concept:(.+)\\]\\]",askQuery,1);
   }
 
   /**
-   * tag the print Requests with the concept from the nodeQuery (if any)
-   * and recreate nodes
+   * tag the print Requests with the concept from the nodeQuery (if any) and
+   * recreate nodes
    * 
    * @param nodeQuery
    * @param rawNode
    * @return
    */
-  private SimpleNode conceptAlizePrintRequests(String askQuery, SimpleNode rawNode) {
+  private SimpleNode conceptAlizePrintRequests(String askQuery,
+      SimpleNode rawNode) {
     String concept = getConcept(askQuery);
     // if there is no concept we will not tag
     if (concept == null)
       return rawNode;
     this.g().V().hasLabel("printouts")
         .forEachRemaining(node -> node.property("isA", concept));
-    this.g().V().has("isA",concept).forEachRemaining(node->{
+    this.g().V().has("isA", concept).forEachRemaining(node -> {
       // SimpleNodeImpl newNode = new SimpleNodeImpl(this,"concept");
     });
     /*
@@ -169,7 +202,7 @@ public class SMWSystem extends MediaWikiSystem {
       // remove whitespace around assignment =
       part = part.replaceAll("\\s*=\\s*", "=");
       // replace blanks with _
-      part = part.replaceAll(" ","_");
+      part = part.replaceAll(" ", "_");
       fixedAsk += part;
     }
     return fixedAsk;

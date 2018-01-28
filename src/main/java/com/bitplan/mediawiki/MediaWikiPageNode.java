@@ -71,11 +71,6 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
     try {
       String pageContent = ms.wiki.getPageContent(pageTitle);
       map.put("pagecontent", pageContent);
-      List<Property> props = this.getSMWProperties();
-      if (props != null)
-        for (Property prop : props) {
-          map.put(prop.getProperty(), prop);
-        }
       // TODO -multi language ?
       if (pageTitle.startsWith("File:")) {
         Ii imageInfo = ms.wiki.getImageInfo(pageTitle);
@@ -88,26 +83,6 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
         throw new RuntimeException(e);
     }
     return map;
-  }
-
-  /**
-   * get the semantic MediaWiki properties of this page
-   * 
-   * @return
-   * @throws Exception
-   */
-  public List<Property> getSMWProperties() throws Exception {
-    String params = "&subject=" + URLEncoder.encode(pageTitle, "UTF-8");
-    Api api = ms.wiki.getActionResult("browsebysubject", params, null, null,
-        "json");
-    if (api != null) {
-      Query query = api.getQuery();
-      if (query != null) {
-        List<Property> data = query.getData();
-        return data;
-      }
-    }
-    return null;
   }
 
   @Override

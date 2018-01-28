@@ -39,10 +39,6 @@ public interface SimpleSystem extends SimpleGraph {
    */
   String getVersion();
   
-  public boolean isDebug();
-
-  public void setDebug(boolean debug);
-  
   /**
    * connect to system 
    * @param connectionParams - optionally specify system specific connection parameters
