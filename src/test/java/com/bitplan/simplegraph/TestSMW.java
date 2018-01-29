@@ -32,7 +32,6 @@ import org.junit.Test;
 import org.sidif.util.FileUtils;
 
 import com.bitplan.json.JsonPrettyPrinter;
-import com.bitplan.mediawiki.japi.api.Property;
 import com.bitplan.smw.SMWSystem;
 
 /**
@@ -144,8 +143,9 @@ public class TestSMW extends BaseTest {
     assertNotNull(dtNode);
     dtNode.g().V().hasLabel("datatype").order().by("Datatype").forEachRemaining(dt -> {
       Object dataType = dt.property("Datatype").value();
+      String help="https://www.semantic-mediawiki.org/wiki/Help:Type_"+dataType;
       System.out.println(
-          String.format("// %s\n// %s\n// %s: ", dataType,dt.property("fullurl").value(),dt.property("Description").value()));
+          String.format("// %s\n// %s\n// %s: ", dataType,help,dt.property("Description").value()));
       System.out.println(String.format("case \"%s\": // %s",
           dt.property("typeid").value(), dataType));
       System.out.println("break;");
