@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.Path;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.T;
@@ -143,6 +145,17 @@ public class TestTinkerPop3 extends BaseTest {
   }
 
   @Test
+  public void testSchema() {
+    Graph graph = TinkerFactory.createModern();
+    graph.traversal().V().next().properties()
+        .forEachRemaining(prop -> System.out.println(String.format("%s=%s",
+            prop.label(), prop.value().getClass().getSimpleName())));
+    graph.traversal().V().next().edges(Direction.OUT)
+        .forEachRemaining(edge -> System.out.println(
+            String.format("%s->%s", edge.label(), edge.outVertex().label())));
+  }
+
+  @Test
   public void testTutorial() {
     // see http://tinkerpop.apache.org/docs/3.3.1/tutorials/getting-started/
     Graph graph = TinkerFactory.createModern();
@@ -177,10 +190,10 @@ public class TestTinkerPop3 extends BaseTest {
         .toStream().collect(Collectors.toList());
     if (debug)
       groups.forEach(SimpleNode.printMapDebug);
-    assertEquals(1,groups.size());
+    assertEquals(1, groups.size());
     debug = true;
-    List<Map<Object, Object>> groupsByName = graph.traversal().V().group().by(T.label).by("name").
-    toStream().collect(Collectors.toList());
+    List<Map<Object, Object>> groupsByName = graph.traversal().V().group()
+        .by(T.label).by("name").toStream().collect(Collectors.toList());
     if (debug)
       groupsByName.forEach(SimpleNode.printMapDebug);
   }
