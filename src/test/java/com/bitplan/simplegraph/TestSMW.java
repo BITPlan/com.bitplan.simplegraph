@@ -33,6 +33,7 @@ import org.sidif.util.FileUtils;
 
 import com.bitplan.json.JsonPrettyPrinter;
 import com.bitplan.smw.SMWSystem;
+import com.bitplan.smw.SMWSystem.WikiPage;
 
 /**
  * test Semantic Mediawiki access
@@ -157,7 +158,11 @@ public class TestSMW extends BaseTest {
     final StringBuffer code=new StringBuffer();
     dtNode.g().V().hasLabel("datatype").order().by("Datatype").forEachRemaining(dt -> {
       Object dataType = dt.property("Datatype").value();
+      WikiPage wikiPage=(WikiPage)dt.property("wikipage").value();
+      assertNotNull(wikiPage);
       String help="https://www.semantic-mediawiki.org/wiki/Help:Type_"+dataType;
+      help=help.replaceAll(" ", "_");
+      assertEquals(help,wikiPage.getFullurl());
       code.append(String.format("// %s\n// %s\n// %s: \n", dataType,help,dt.property("Description").value()));
       code.append(String.format("case \"%s\": // %s\n",dt.property("typeid").value(), dataType));
       code.append("break;\n");

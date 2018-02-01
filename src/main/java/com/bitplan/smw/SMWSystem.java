@@ -34,7 +34,6 @@ import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 
-import com.bitplan.json.JsonNode;
 import com.bitplan.json.JsonPrettyPrinter;
 import com.bitplan.json.JsonSystem;
 import com.bitplan.map.MapNode;
@@ -174,42 +173,110 @@ public class SMWSystem extends MediaWikiSystem {
     return getPatternMatchGroup("\\[\\[Concept:(.+)\\]\\]", askQuery, 1);
   }
 
-  class PrintRequest {
+  public static class SMWVertex {
+    /**
+     * assign the value of the property with the given label to the given target
+     * 
+     * @param vertex
+     * @param label
+     * @param target
+     * @return the value
+     */
+    public Object get(Vertex vertex, String label) {
+      if (vertex.property(label).isPresent()) {
+        Object value = vertex.property(label).value();
+        return value;
+      }
+      return null;
+    }
+    
+    public String getString(Vertex vertex,String label) {
+      return (String)get(vertex,label);
+    }
+    
+    public Integer getInteger(Vertex vertex,String label) {
+      Number number = (Number) get(vertex, label);
+      if (number == null)
+        return null;
+      else
+        return number.intValue();
+    }
+  }
+  public static class PrintRequest extends SMWVertex {
     String label;
     String key;
     String redi;
     String typeid;
     Integer mode;
     String format;
-
-    /**
-     * assign the value of the property with the given label to the given target
-     * 
-     * @param pr
-     * @param label
-     * @param target
-     * @return the value
-     */
-    public Object get(Vertex pr, String label) {
-      if (pr.property(label).isPresent()) {
-        Object value = pr.property(label).value();
-        return value;
-      }
-      return null;
-    }
-
+   
     public PrintRequest(Vertex pr) {
-      label = (String) get(pr, "label");
-      key = (String) get(pr, "key");
-      redi = (String) get(pr, "redi");
-      typeid = (String) get(pr, "typeid");
-      Number modeNumber = (Number) get(pr, "mode");
-      if (modeNumber != null)
-        mode = modeNumber.intValue();
+      label = getString(pr, "label");
+      key =  getString(pr, "key");
+      redi = getString(pr, "redi");
+      typeid = getString(pr, "typeid");
+      mode=getInteger(pr,"mode");
       format = (String) get(pr, "format");
     }
   }
 
+  public static class WikiPage extends SMWVertex {
+    // see e.g. https://www.semantic-mediawiki.org/wiki/Serialization_(JSON)
+    /**
+     * "fulltext": "Help:Type URL",
+        "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_URL",
+        "namespace": 12,
+        "exists": "1",
+        "displaytitle": "Help:Datatype \"URL\""
+     */  
+    boolean exists;
+    String displayTitle;
+    Integer namespace;
+    private String fullurl;
+    String fulltext;
+    public boolean isExists() {
+      return exists;
+    }
+    public void setExists(boolean exists) {
+      this.exists = exists;
+    }
+    public String getDisplayTitle() {
+      return displayTitle;
+    }
+    public void setDisplayTitle(String displayTitle) {
+      this.displayTitle = displayTitle;
+    }
+    public Integer getNamespace() {
+      return namespace;
+    }
+    public void setNamespace(Integer namespace) {
+      this.namespace = namespace;
+    }
+    public String getFullurl() {
+      return fullurl;
+    }
+    public void setFullurl(String fullurl) {
+      this.fullurl = fullurl;
+    }
+    public String getFulltext() {
+      return fulltext;
+    }
+    public void setFulltext(String fulltext) {
+      this.fulltext = fulltext;
+    }
+    /**
+     * construct me from a vertex
+     * @param wp
+     */
+    public WikiPage(Vertex wp) {
+      displayTitle = getString(wp, "displayTitle");
+      setFullurl(getString(wp,"fullurl"));
+      fulltext=getString(wp,"fulltext");
+      namespace=getInteger(wp,"namespace");
+      exists="1".equals(getString(wp,"exists"));
+    }
+
+  }
   /**
    * tag the print Requests with the concept from the nodeQuery (if any) and
    * recreate nodes
@@ -218,7 +285,6 @@ public class SMWSystem extends MediaWikiSystem {
    * @param rawNode
    * @return
    */
-  @SuppressWarnings("rawtypes")
   public SimpleNode conceptAlizePrintRequests(String concept,
       SimpleNode rawNode) {
     // if there is no concept we will not tag
@@ -239,7 +305,7 @@ public class SMWSystem extends MediaWikiSystem {
     this.g().V().hasLabel("results").out().forEachRemaining(rNode -> {
       Map<String, Object> conceptMap = new HashMap<String, Object>();
       conceptMap.put("isA", concept);
-      conceptMap.put("fullurl", rNode.property("fullurl").value());
+      conceptMap.put("wikipage", new WikiPage(rNode));
       rNode.vertices(Direction.OUT, "printouts").forEachRemaining(node -> {
         for (String key : prMap.keySet()) {
           PrintRequest pr = prMap.get(key);
@@ -374,6 +440,7 @@ public class SMWSystem extends MediaWikiSystem {
    * @param key
    * @param conceptMap
    */
+  @SuppressWarnings("rawtypes")
   public void putValue(Vertex node, String key,
       Map<String, Object> conceptMap) {
     VertexProperty<Object> prop = node.property(key);

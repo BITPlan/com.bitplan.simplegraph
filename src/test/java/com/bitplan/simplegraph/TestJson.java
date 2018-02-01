@@ -26,7 +26,6 @@ import java.io.File;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.tinkerpop.gremlin.structure.Direction;
-import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
 import com.bitplan.json.JsonPrettyPrinter;
