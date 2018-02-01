@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 
@@ -230,125 +231,130 @@ public class SMWSystem extends MediaWikiSystem {
       prMap.put(label, new PrintRequest(pr));
     });
     /*
-     * this.g().V().hasLabel("results").outE().forEachRemaining(edge -> {
-     * Vertex jsonVertex = edge.outVertex();
-     * JsonNode jsonNode = (JsonNode) jsonVertex.property("mysimplenode")
-     * .value();
+     * this.g().V().hasLabel("results").outE().forEachRemaining(edge -> { Vertex
+     * jsonVertex = edge.outVertex(); JsonNode jsonNode = (JsonNode)
+     * jsonVertex.property("mysimplenode") .value();
      */
 
-    Map<String, Object> conceptMap = new HashMap<String, Object>();
-    conceptMap.put("isA", concept);
-    this.g().V().hasLabel("printouts").forEachRemaining(node -> {
-      for (String key : prMap.keySet()) {
-        PrintRequest pr = prMap.get(key);
-        if (pr != null)
-          switch (pr.typeid) {
-          // Annotation URI
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Annotation URI
-          // Holds URIs, but has some technical differences during export
-          // compared to the "URL" type:
-          case "_anu": // Annotation URI
-            break;
-          // Boolean
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Boolean
-          // Holds boolean (true/false) values:
-          case "_boo": // Boolean
-            break;
-          // Code
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Code
-          // Holds technical, pre-formatted texts (similar to type Text):
-          case "_cod": // Code
-            putValue(node, key, conceptMap);
-            break;
-          // Date
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Date
-          // Holds particular points in time:
-          case "_dat": // Date
-            break;
-          // Email
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Email
-          // Holds e-mail addresses:
-          case "_ema": // Email
-            break;
-          // External identifier
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_External
-          // identifier
-          // Holds a value that associates it with with a external URI for
-          // formatting:
-          case "_eid": // External identifier
-            break;
-          // Geographic coordinate
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Geographic
-          // coordinate
-          // Holds coordinates describing geographic locations:
-          case "_geo": // Geographic coordinate
-            break;
-          // Monolingual text
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Monolingual text
-          // Holds a text value that associates the annotation with a specific
-          // language code:
-          case "_mlt_rec": // Monolingual text
-            break;
-          // Number
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Number
-          // Holds integer and decimal numbers, with an optional exponent:
-          case "_num": // Number
-            break;
-          // Page
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Page
-          // Holds names of wiki pages, and displays them as a link:
-          case "_wpg": // Page
-            break;
-          // Quantity
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Quantity
-          // Holds values that describe quantities, containing both a number and
-          // a unit:
-          case "_qty": // Quantity
-            break;
-          // Record
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Record
-          // Holds compound property values that consist of a short list of
-          // values with fixed type and order:
-          case "_rec": // Record
-            break;
-          // Reference
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Reference
-          // Holds a value that associates it to individual defined provenance
-          // metadata record:
-          case "_ref_rec": // Reference
-            break;
-          // Telephone number
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Telephone number
-          // Holds international telephone numbers based on the <span
-          // class="plainlinks">[https://tools.ietf.org/html/rfc3966 RFC
-          // 3966]</span> standard:
-          case "_tel": // Telephone number
-            break;
-          // Temperature
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Temperature
-          // Holds temperature values (similar to type Quantity):
-          case "_tem": // Temperature
-            break;
-          // Text
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_Text
-          // Holds text of arbitrary length:
-          case "_txt": // Text
-            putValue(node, key, conceptMap);
-            break;
-          // URL
-          // https://www.semantic-mediawiki.org/wiki/Help:Type_URL
-          // Holds URIs, URNs and URLs:
-          case "_uri": // URL
-            break;
-          default:
-            // unsupported type id
-            LOGGER.log(Level.WARNING, "unknown typeid " + pr.typeid);
-            putValue(node, key, conceptMap);
-          }
-      }
-      conceptNodeHolder.add(new MapNode(this, concept, conceptMap));
+    this.g().V().hasLabel("results").out().forEachRemaining(rNode -> {
+      Map<String, Object> conceptMap = new HashMap<String, Object>();
+      conceptMap.put("isA", concept);
+      conceptMap.put("fullurl", rNode.property("fullurl").value());
+      rNode.vertices(Direction.OUT, "printouts").forEachRemaining(node -> {
+        for (String key : prMap.keySet()) {
+          PrintRequest pr = prMap.get(key);
+          if (pr != null)
+            switch (pr.typeid) {
+            // Annotation URI
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Annotation URI
+            // Holds URIs, but has some technical differences during export
+            // compared to the "URL" type:
+            case "_anu": // Annotation URI
+              break;
+            // Boolean
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Boolean
+            // Holds boolean (true/false) values:
+            case "_boo": // Boolean
+              break;
+            // Code
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Code
+            // Holds technical, pre-formatted texts (similar to type Text):
+            case "_cod": // Code
+              putValue(node, key, conceptMap);
+              break;
+            // Date
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Date
+            // Holds particular points in time:
+            case "_dat": // Date
+              break;
+            // Email
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Email
+            // Holds e-mail addresses:
+            case "_ema": // Email
+              break;
+            // External identifier
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_External
+            // identifier
+            // Holds a value that associates it with with a external URI for
+            // formatting:
+            case "_eid": // External identifier
+              break;
+            // Geographic coordinate
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Geographic
+            // coordinate
+            // Holds coordinates describing geographic locations:
+            case "_geo": // Geographic coordinate
+              break;
+            // Monolingual text
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Monolingual
+            // text
+            // Holds a text value that associates the annotation with a specific
+            // language code:
+            case "_mlt_rec": // Monolingual text
+              break;
+            // Number
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Number
+            // Holds integer and decimal numbers, with an optional exponent:
+            case "_num": // Number
+              break;
+            // Page
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Page
+            // Holds names of wiki pages, and displays them as a link:
+            case "_wpg": // Page
+              break;
+            // Quantity
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Quantity
+            // Holds values that describe quantities, containing both a number
+            // and
+            // a unit:
+            case "_qty": // Quantity
+              break;
+            // Record
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Record
+            // Holds compound property values that consist of a short list of
+            // values with fixed type and order:
+            case "_rec": // Record
+              break;
+            // Reference
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Reference
+            // Holds a value that associates it to individual defined provenance
+            // metadata record:
+            case "_ref_rec": // Reference
+              break;
+            // Telephone number
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Telephone
+            // number
+            // Holds international telephone numbers based on the <span
+            // class="plainlinks">[https://tools.ietf.org/html/rfc3966 RFC
+            // 3966]</span> standard:
+            case "_tel": // Telephone number
+              break;
+            // Temperature
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Temperature
+            // Holds temperature values (similar to type Quantity):
+            case "_tem": // Temperature
+              break;
+            // Text
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_Text
+            // Holds text of arbitrary length:
+            case "_txt": // Text
+              putValue(node, key, conceptMap);
+              break;
+            // URL
+            // https://www.semantic-mediawiki.org/wiki/Help:Type_URL
+            // Holds URIs, URNs and URLs:
+            case "_uri": // URL
+              break;
+            default:
+              // unsupported type id
+              LOGGER.log(Level.WARNING, "unknown typeid " + pr.typeid);
+              putValue(node, key, conceptMap);
+            }
+        } // for all properties
+        // add the concept
+        conceptNodeHolder.add(new MapNode(this, concept, conceptMap));
+      });
     });
-    // });
     /*
      * if (debug) { this.g().V().forEachRemaining(SimpleNode.printDebug); long
      * printOutCount =
@@ -358,6 +364,7 @@ public class SMWSystem extends MediaWikiSystem {
      * ); }
      */
     return conceptNodeHolder.getFirstValue();
+
   }
 
   /**

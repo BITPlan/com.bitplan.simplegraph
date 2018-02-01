@@ -57,9 +57,13 @@ public class TestSMW extends BaseTest {
 
   @Test
   public void testPage() throws Exception {
+    // debug=true;
     SMWSystem smwSystem = getSMWSystem();
     SimpleNode pageNode = smwSystem.moveTo("page=Sol");
-    pageNode.forAll(SimpleNode.printDebug);
+    if (debug)
+      pageNode.forAll(SimpleNode.printDebug);
+    String pageContent=pageNode.getProperty("pagecontent").toString();
+    assertTrue(pageContent.contains("star at the center"));
   }
 
   @Test
@@ -102,9 +106,18 @@ public class TestSMW extends BaseTest {
     String concept = SMWSystem.getConcept(askQuery);
     assertEquals("Semantic Web Events 2012", concept);
   }
+  
+  @Test
+  public void testBrowsToMap() throws Exception {
+    debug=true;
+    SMWSystem smwSystem = getSMWSystem();
+    String subject = "Help:List_of_datatypes";
+    SimpleNode browseNode = smwSystem.moveTo("browsebysubject=" + subject);
+  }
 
   @Test
   public void testBrowseBySubject() throws Exception {
+    debug=true;
     SMWSystem smwSystem = getSMWSystem();
     String subject = "SMWCon_Fall_2012/Filtered_result_format";
     SimpleNode browseNode = smwSystem.moveTo("browsebysubject=" + subject);
@@ -141,15 +154,16 @@ public class TestSMW extends BaseTest {
     dtNode.g().V().hasLabel("results").outE().forEachRemaining(edge->SimpleNode.printDebug.accept(edge.outVertex()));
     smwSystem.conceptAlizePrintRequests("datatype", dtNode);
     assertNotNull(dtNode);
+    final StringBuffer code=new StringBuffer();
     dtNode.g().V().hasLabel("datatype").order().by("Datatype").forEachRemaining(dt -> {
       Object dataType = dt.property("Datatype").value();
       String help="https://www.semantic-mediawiki.org/wiki/Help:Type_"+dataType;
-      System.out.println(
-          String.format("// %s\n// %s\n// %s: ", dataType,help,dt.property("Description").value()));
-      System.out.println(String.format("case \"%s\": // %s",
-          dt.property("typeid").value(), dataType));
-      System.out.println("break;");
+      code.append(String.format("// %s\n// %s\n// %s: \n", dataType,help,dt.property("Description").value()));
+      code.append(String.format("case \"%s\": // %s\n",dt.property("typeid").value(), dataType));
+      code.append("break;\n");
     });
+    if (debug)
+      System.out.print(code);
   }
 
 }

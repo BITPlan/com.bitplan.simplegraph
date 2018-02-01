@@ -56,7 +56,7 @@ public class TestFileSystem extends BaseTest {
     long filecount = start.g().V().count().next().longValue();
     if (debug)
       LOGGER.log(Level.INFO,""+filecount);
-    assertEquals(80,filecount);
+    assertEquals(81,filecount);
     GraphTraversal<Vertex, Vertex> javaFiles = start.g().V().has("ext", "java");
     long javaFileCount=javaFiles.count().next().longValue();
     assertEquals(45,javaFileCount);
@@ -71,7 +71,7 @@ public class TestFileSystem extends BaseTest {
     // debug=true;
     SimpleNode start=super.getFileNode("src",2);
     long nodeCount=start.g().V().count().next().longValue();
-    assertEquals(19,nodeCount);
+    assertEquals(20,nodeCount);
     if (debug) 
       LOGGER.log(Level.INFO,"src has "+nodeCount+" subdirectories on the next two levels");
     start.g().V().forEachRemaining(vertex->logPropertyValues(vertex));

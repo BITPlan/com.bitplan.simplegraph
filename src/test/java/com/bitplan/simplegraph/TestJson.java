@@ -25,6 +25,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.tinkerpop.gremlin.structure.Direction;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
 import com.bitplan.json.JsonPrettyPrinter;
@@ -47,7 +49,7 @@ public class TestJson extends BaseTest {
         new File("src/test/menu.json"), new File("src/test/employee.json"),
         new File("src/test/datatypes.json") };
 
-    long[] expectedNodes = { 4, 20, 6,50 };
+    long[] expectedNodes = { 4, 20, 6, 43 };
     int i = 0;
     for (File jsonFile : jsonFiles) {
       String json = FileUtils.readFileToString(jsonFile, "UTF-8");
@@ -59,6 +61,30 @@ public class TestJson extends BaseTest {
         js.getStartNode().forAll(SimpleNode.printDebug);
       long nodes = js.getStartNode().g().V().count().next().longValue();
       assertEquals(expectedNodes[i++], nodes);
+      switch (i) {
+      case 4: // datatypes
+        assertEquals(1,js.getStartNode().g().V().hasLabel("results").count().next().longValue());
+        long resultsCount = js.getStartNode().g().V().hasLabel("results").out().count().next().longValue();
+        assertEquals(17,resultsCount);
+        js.getStartNode().g().V().hasLabel("results").out().forEachRemaining(rNode->{
+          if (debug) {
+            /**
+             * "fulltext": "Help:Type URL",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_URL",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"URL\""
+             */
+            System.out.println(String.format("%s=%s (%s)",rNode.label(),rNode.property("fulltext").value(),rNode.property("displaytitle").value()));
+            rNode.vertices(Direction.OUT,"printouts").forEachRemaining(pr->{
+              pr.keys().forEach(key->{
+                System.out.println(String.format("\t%s=%s",key,pr.property(key).value()));
+              });
+            });
+          }
+        });
+        break;
+      }
     }
   }
 }
