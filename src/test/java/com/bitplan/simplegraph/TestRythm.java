@@ -32,6 +32,7 @@ import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSo
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
+import com.bitplan.map.MapSystem;
 import com.bitplan.rythm.RythmContext;
 
 /**
@@ -126,7 +127,7 @@ public class TestRythm extends BaseTest {
 
   @Test
   public void testGenerateGraphVizViaRythm() throws Exception {
-    debug=true;
+    //debug=true;
     SimpleNode start = getFileNode("src", Integer.MAX_VALUE);
     if (debug)
       start.forAll(SimpleNode.printDebug);
@@ -172,4 +173,17 @@ public class TestRythm extends BaseTest {
     });
   }
 
+  @Test
+  public void testGenerateFromVertex() throws Exception {
+    // get us a Rythm context to be able to render via a template
+    RythmContext rythmContext = RythmContext.getInstance();
+    // choose a Rythm template that will work on our graph
+    File template = new File("src/main/rythm/carmaphtml.rythm");
+    MapSystem ms = TestMapSystem.getCarMapSystem();
+    String html=rythmContext.render(template, ms.getStartNode().getVertex());
+    // debug=true;
+    if (debug)
+      System.out.println(html);
+    assertTrue(html.contains("<a href='https://www.wikidata.org/wiki/Q27586"));
+  }
 }

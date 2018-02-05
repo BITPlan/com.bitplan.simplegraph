@@ -26,36 +26,40 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.rythmengine.RythmEngine;
 import org.rythmengine.conf.RythmConfigurationKey;
 
 /**
  * Rythm Context
+ * 
  * @author wf
  *
  */
-public class RythmContext  {
+public class RythmContext {
   protected RythmEngine engine;
   Map<String, Object> conf = new HashMap<String, Object>();
   File templateRoot;
+
   /**
    * set the template Root
+   * 
    * @see http://rythmengine.org/doc/configuration.md#home_template_dir
    * @param path
    */
   public void setTemplateRoot(String path) {
     Object currentFile = conf.get(RythmConfigurationKey.HOME_TEMPLATE.getKey());
     // avoid resetting the engine if the path doesn't change
-    if (currentFile!=null && currentFile.equals(templateRoot)) {
+    if (currentFile != null && currentFile.equals(templateRoot)) {
       return;
     }
     System.getProperties().remove(HOME_TEMPLATE.getKey());
-    templateRoot=new File(path);
+    templateRoot = new File(path);
     conf.put(RythmConfigurationKey.HOME_TEMPLATE.getKey(), templateRoot);
-    engine=null;
+    engine = null;
     getEngine();
   }
-  
+
   /**
    * get the Rythm engine
    * 
@@ -67,6 +71,43 @@ public class RythmContext  {
       engine = new RythmEngine(conf);
     }
     return engine;
+  }
+
+  /**
+   * render a node
+   * 
+   * @param template
+   * @param node
+   * @param props
+   * @return the resulting string
+   * @throws Exception
+   */
+  public String render(File template, Vertex node, String... props)
+      throws Exception {
+    Map<String, Object> rootMap = new HashMap<String, Object>();
+    // is the property number not even?
+    // that is not allowed!
+    if (props.length % 2 != 0)
+      throw new IllegalArgumentException(
+          "property names have to be pairs for mapping but found odd "
+              + props.length + " number of props");
+    // if there is a property mapping
+    // use it
+    if (props.length > 0) {
+      for (int i = 0; i < props.length; i += 2) {
+        String src = props[i];
+        String target = props[i + 1];
+        if (node.property(src).isPresent())
+          rootMap.put(target, node.property(src).value());
+      }
+    } else {
+      // else use all properties
+      node.properties().forEachRemaining(prop->{
+        rootMap.put(prop.label(), prop.value());
+      });
+    }
+    String result = render(template, rootMap);
+    return result;
   }
 
   /**
@@ -83,9 +124,10 @@ public class RythmContext  {
     String result = engine.render(template, rootMap);
     return result;
   }
-  
+
   /**
    * render with the given template
+   * 
    * @param template
    * @param rootMap
    * @return
@@ -97,23 +139,25 @@ public class RythmContext  {
     String result = engine.render(template, rootMap);
     return result;
   }
-  
-  private static RythmContext instance=null;
+
+  private static RythmContext instance = null;
+
   /***
    * enforce singleton
    */
   private RythmContext() {
-    
+
   }
-  
+
   /**
-   * get the singleton 
+   * get the singleton
+   * 
    * @return the instance
    */
   public static RythmContext getInstance() {
-      if (instance==null) {
-        instance=new RythmContext();
-      }
-      return instance;
+    if (instance == null) {
+      instance = new RythmContext();
+    }
+    return instance;
   }
 }

@@ -22,9 +22,6 @@ package com.bitplan.simplegraph;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Test;
 
 import com.bitplan.map.MapNode;
@@ -36,51 +33,49 @@ import com.bitplan.map.MapSystem;
  */
 public class TestMapSystem extends BaseTest {
   private static final String WIKIDATA_URL_PREFIX = "https://www.wikidata.org/wiki/";
-  public Map<String,Object> initMap(Object ...keyValues) {
-    if (keyValues.length%2 !=0)
-      throw new IllegalArgumentException("keyValues should come in pairs but odd "+keyValues.length+" supplied");
-    Map<String,Object> map=new HashMap<String,Object>();
-    for (int i=0;i<keyValues.length;i+=2) {
-      map.put(keyValues[i].toString(), keyValues[i+1]);
-    }
-    return map;
-  }
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  @Test
-  public void testMapSystem() throws Exception {
+  
+  /**
+   * get the MapSystem example for Cars and their makes
+   * @return - the example carbarnd/carmake system
+   * @throws Exception
+   */
+  public static MapSystem getCarMapSystem() throws Exception {
     // create a map system and connect to init
     MapSystem ms=new MapSystem();
     ms.connect();
     // init some maps of carbrands and cars each map shall later represent a
     // vertex in the graph with it's properties
-    Map[] carbrandmaps= {
-        initMap("name","Ferrari","country","Italy","wikidataid","Q27586"),
-        initMap("name","Porsche","country","Germany","wikidataid","Q40993"),
-        initMap("name","Ford","cuntry","United States","wikidataid","Q44294")
-    };
-    Map[] carmakemaps= {
-        initMap("name","308","year",1984,"wikidataid","Q1407659","brand","Ferrari"),
-        initMap("name","328","year",1989,"wikidataid","Q1407669","brand","Ferrari"),
-        initMap("name","901","year",1964,"wikidataid","Q2104537","brand","Porsche"),
-        initMap("name","2017 GT","year",2017,"wikidataid","Q23856323","brand","Ford")
-    };
-    // create MapNodes with the given kind "carbrand" or "car" based on the maps
-    MapNode startNode=null;
-    for (Map map:carbrandmaps) {
-      startNode=new MapNode(ms,"carbrand",map);
-    }
-    for (Map map:carmakemaps) {
-      MapNode mapNode=new MapNode(ms,"car",map);
-      // link the node of this car to it's carbrand node using the Gremlin graph traversal
-      // language - this is the key action for this example
-      ms.g().V().hasLabel("carbrand").has("name",map.get("brand")).forEachRemaining(brandNode->{
-        brandNode.addEdge("brand", mapNode.getVertex());
+    MapNode startNode = 
+    ms.initMap("carbrand","name","Ferrari","country","Italy","wikidataid","Q27586");
+    ms.initMap("carbrand","name","Porsche","country","Germany","wikidataid","Q40993");
+    ms.initMap("carbrand","name","Ford","cuntry","United States","wikidataid","Q44294");
+    
+    ms.initMap("carmake","name","308","year",1984,"wikidataid","Q1407659","brand","Ferrari");
+    ms.initMap("carmake","name","328","year",1989,"wikidataid","Q1407669","brand","Ferrari");
+    ms.initMap("carmake","name","901","year",1964,"wikidataid","Q2104537","brand","Porsche");
+    ms.initMap("carmake","name","2017 GT","year",2017,"wikidataid","Q23856323","brand","Ford");
+    // link the node of each car to it's carbrand node using the Gremlin graph traversal
+    // language - this is the key action for this example
+    // debug=true;
+    ms.g().V().hasLabel("carbrand").dedup().forEachRemaining(carbrand->{
+      String brandname=carbrand.property("name").value().toString();
+      if (debug)
+        System.out.println("linking "+brandname);
+      ms.g().V().hasLabel("carbrand").has("name",brandname).forEachRemaining(brandNode->{
+        brandNode.addEdge("brand", carbrand);
       });
-    }
+    });
+      
     // set a start node for the system
     // any node will do and for this example it is not really necessary - each node
-    // has the full graph accesible
+    // has the full graph accessible
     ms.setStartNode(startNode);
+    return ms;
+  }
+  
+  @Test
+  public void testMapSystem() throws Exception {
+    MapSystem ms = getCarMapSystem();
     // uncomment if you'd like to see all the node details
     // debug=true;
     if (debug)

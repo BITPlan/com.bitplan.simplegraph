@@ -20,6 +20,9 @@
  */
 package com.bitplan.map;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
@@ -40,6 +43,21 @@ public class MapSystem extends SimpleSystemImpl {
   @Override
   public Class<? extends SimpleNode> getNodeClass() {
     return MapNode.class;
+  }
+  
+  /**
+   * initialize a mapNode with the given key/value pairs
+   * @param keyValues
+   * @return a mapNode
+   */
+  public MapNode initMap(String kind,Object ...keyValues) {
+    if (keyValues.length%2 !=0)
+      throw new IllegalArgumentException("keyValues should come in pairs but odd "+keyValues.length+" supplied");
+    Map<String,Object> map=new HashMap<String,Object>();
+    for (int i=0;i<keyValues.length;i+=2) {
+      map.put(keyValues[i].toString(), keyValues[i+1]);
+    }
+    return new MapNode(this,kind,map);
   }
 
 }

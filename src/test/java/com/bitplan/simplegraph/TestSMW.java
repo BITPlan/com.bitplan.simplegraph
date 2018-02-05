@@ -171,4 +171,33 @@ public class TestSMW extends BaseTest {
       System.out.print(code);
   }
 
+  @Test
+  public void testDataTypeAsConcept() throws Exception {
+    // see https://www.semantic-mediawiki.org/w/index.php?title=User:WolfgangFahl/Workdocumentation_2018-01-02&action=edit
+    String askQuery="{{#ask: [[Has_annotation_uri::+]]\n" + 
+        "|?Has_annotation_uri=anu\n" + 
+        "|?Has_boolean=boo\n" + 
+        "|?Has_code=cod\n" + 
+        "|?Has_date=dat\n" + 
+        "|?Has email address=ema\n" + 
+        "|?Has Wikidata item ID=eid\n" + 
+        "|?Has coordinates=geo\n" + 
+        "|?Has number=num\n" + 
+        "|?Has mlt=mlt\n" + 
+        "|?Has example=wpg\n" + 
+        "|?Telephone number=tel\n" + 
+        "|?Has temperatureExample=tem\n" + 
+        "|?Area=qty\n" + 
+        "|?SomeProperty=txt\n" + 
+        "|?Soccer result=rec\n" + 
+        "|?Has_URL=uri\n" + 
+        "|format=ol\n" + 
+        "}}";
+    SMWSystem smwSystem = getSMWSystem();
+    smwSystem.setDebug(true);
+    SimpleNode dtNode = smwSystem.moveTo("ask=" + askQuery);
+    smwSystem.conceptAlizePrintRequests("datatype", dtNode);
+    
+  }
+  
 }
