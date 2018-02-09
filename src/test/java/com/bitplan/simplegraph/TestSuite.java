@@ -26,7 +26,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ TestDebug.class, TestFileSystem.class,
     TestTinkerPop3.class, TestTripleStore.class, TestPowerPoint.class,
-    TestMediaWiki.class,TestMapSystem.class,TestSMW.class, TestWikiData.class, TestRythm.class })
+    TestMediaWiki.class,TestMapSystem.class,TestSQL.class,TestSMW.class, TestWikiData.class, TestRythm.class })
 /**
  * TestSuite
  * 
