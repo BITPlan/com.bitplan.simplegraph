@@ -1,0 +1,207 @@
+/**
+ * Copyright (c) 2018 BITPlan GmbH
+ *
+ * http://www.bitplan.com
+ *
+ * This file is part of the Opensource project at:
+ * https://github.com/BITPlan/com.bitplan.simplegraph
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.bitplan.rythm;
+
+import static org.rythmengine.conf.RythmConfigurationKey.HOME_TEMPLATE;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.tinkerpop.gremlin.structure.Vertex;
+import org.rythmengine.RythmEngine;
+import org.rythmengine.conf.RythmConfigurationKey;
+
+import com.bitplan.simplegraph.SimpleNode;
+
+/**
+ * Rythm Context
+ * 
+ * @author wf
+ *
+ */
+public class RythmContext {
+  protected RythmEngine engine;
+  Map<String, Object> conf = new HashMap<String, Object>();
+  File templateRoot;
+
+  /**
+   * set the template Root
+   * 
+   * @see http://rythmengine.org/doc/configuration.md#home_template_dir
+   * @param path
+   */
+  public void setTemplateRoot(String path) {
+    Object currentFile = conf.get(RythmConfigurationKey.HOME_TEMPLATE.getKey());
+    // avoid resetting the engine if the path doesn't change
+    if (currentFile != null && currentFile.equals(templateRoot)) {
+      return;
+    }
+    System.getProperties().remove(HOME_TEMPLATE.getKey());
+    templateRoot = new File(path);
+    conf.put(RythmConfigurationKey.HOME_TEMPLATE.getKey(), templateRoot);
+    engine = null;
+    getEngine();
+  }
+
+  /**
+   * get the Rythm engine
+   * 
+   * @return
+   */
+  public RythmEngine getEngine() {
+    if (engine == null) {
+      conf.put("codegen.compact.enabled", false);
+      engine = new RythmEngine(conf);
+    }
+    return engine;
+  }
+  
+  /**
+   * generate a GraphViz graph for the given parameters
+   * @param start
+   * @param edge
+   * @param property
+   * @param idProperty
+   * @param urlPrefix
+   * @param rankDir
+   * @param graphname
+   * @return
+   * @throws Exception
+   */
+  public String renderGraphViz(SimpleNode start, String edge,
+      String property, String idProperty, String urlPrefix, String rankDir,String graphname) throws Exception {
+    // prepare the Map of information to be supplied for the Rythm template
+    Map<String, Object> rootMap = new HashMap<String, Object>();
+    // the SimpleNode to start with
+    rootMap.put("start", start);
+    // the edges to select
+    rootMap.put("edge", edge);
+    // the property to show (for edges/vertices)
+    rootMap.put("property", property);
+    // the property to derive the URL from
+    rootMap.put("idProperty", idProperty);
+    // the prefix to prepend to the idProperty to get the final url
+    rootMap.put("urlPrefix", urlPrefix);
+    // style of graph e.g. TB, BT, RL, LR (Top-Bottom, Bottom-Top, Right-Left,
+    // Left-Right see. graphviz rankdir
+    rootMap.put("rankdir", rankDir);
+    // the name of the graph
+    rootMap.put("graphname",
+        graphname);
+    // get us a Rythm context to be able to render via a template
+    RythmContext rythmContext = RythmContext.getInstance();
+    // choose a Rythm template that will work on our graph
+    File template = new File("src/main/rythm/graphvizTree.rythm");
+    // let Rythm do the rendering according to the template
+    String graphViz = rythmContext.render(template, rootMap);
+    return graphViz;
+  }
+
+
+  /**
+   * render a node
+   * 
+   * @param template
+   * @param node
+   * @param props
+   * @return the resulting string
+   * @throws Exception
+   */
+  public String render(File template, Vertex node, String... props)
+      throws Exception {
+    Map<String, Object> rootMap = new HashMap<String, Object>();
+    // is the property number not even?
+    // that is not allowed!
+    if (props.length % 2 != 0)
+      throw new IllegalArgumentException(
+          "property names have to be pairs for mapping but found odd "
+              + props.length + " number of props");
+    // if there is a property mapping
+    // use it
+    if (props.length > 0) {
+      for (int i = 0; i < props.length; i += 2) {
+        String src = props[i];
+        String target = props[i + 1];
+        if (node.property(src).isPresent())
+          rootMap.put(target, node.property(src).value());
+      }
+    } else {
+      // else use all properties
+      node.properties().forEachRemaining(prop->{
+        rootMap.put(prop.label(), prop.value());
+      });
+    }
+    String result = render(template, rootMap);
+    return result;
+  }
+
+  /**
+   * render the given rootMap with the given File
+   * 
+   * @param template
+   * @param rootMap
+   * @return
+   * @throws Exception
+   */
+  public String render(File template, Map<String, Object> rootMap)
+      throws Exception {
+    RythmEngine engine = getEngine();
+    String result = engine.render(template, rootMap);
+    return result;
+  }
+
+  /**
+   * render with the given template
+   * 
+   * @param template
+   * @param rootMap
+   * @return
+   * @throws Exception
+   */
+  public String render(String template, Map<String, Object> rootMap)
+      throws Exception {
+    RythmEngine engine = getEngine();
+    String result = engine.render(template, rootMap);
+    return result;
+  }
+
+  private static RythmContext instance = null;
+
+  /***
+   * enforce singleton
+   */
+  private RythmContext() {
+
+  }
+
+  /**
+   * get the singleton
+   * 
+   * @return the instance
+   */
+  public static RythmContext getInstance() {
+    if (instance == null) {
+      instance = new RythmContext();
+    }
+    return instance;
+  }
+}

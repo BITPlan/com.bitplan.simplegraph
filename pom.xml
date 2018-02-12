@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bitplan.simplegraph</groupId>
 	<artifactId>com.bitplan.simplegraph</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>SimpleGraph</name>
 	<description>Wrapper for Apache TinkerPop</description>
 	<properties>
@@ -29,8 +29,20 @@
 		<!-- mediawiki japi -->
 		<mediawiki-japi.version>0.0.22</mediawiki-japi.version>
 	</properties>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<url>https://github.com/BITPlan/com.bitplan.simplegraph</url>
+	<modules>
+		<module>simplegraph-core</module>
+		<module>simplegraph-filesystem</module>
+		<module>simplegraph-json</module>
+		<module>simplegraph-map</module>
+		<module>simplegraph-mediawiki</module>
+		<!-- <module>simplegraph-powerpoint</module> -->
+		<module>simplegraph-smw</module>
+		<module>simplegraph-sql</module>
+		<module>simplegraph-triplestore</module>
+		<module>simplegraph-wikidata</module>
+	</modules>
 	<licenses>
 		<license>
 			<name>Apache 2.0 license</name>
@@ -67,17 +79,7 @@
 			<artifactId>tinkergraph-gremlin</artifactId>
 			<version>${tinkerpop.version}</version>
 		</dependency>
-		<!-- Wikidata access -->
-		<dependency>
-			<groupId>org.wikidata.wdtk</groupId>
-			<artifactId>wdtk-dumpfiles</artifactId>
-			<version>${wikidata.toolkit.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.wikidata.wdtk</groupId>
-			<artifactId>wdtk-wikibaseapi</artifactId>
-			<version>${wikidata.toolkit.version}</version>
-		</dependency>
+
 		<!-- commons io -->
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -124,23 +126,7 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.9.9</version>
 		</dependency>
-		<!-- Apache POI support -->
 
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>${apache-poi.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>${apache-poi.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-scratchpad</artifactId>
-			<version>${apache-poi.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>com.bitplan</groupId>
 			<artifactId>org.sidif.triplestore</artifactId>
@@ -158,14 +144,7 @@
 			<artifactId>mediawiki-japi</artifactId>
 			<version>${mediawiki-japi.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.h2database/h2 
-		     SQL System -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.4.196</version>
-			<scope>test</scope>
-		</dependency>
+
 
 	</dependencies>
 	<build>
@@ -206,6 +185,20 @@
 					<strictCheck>true</strictCheck>
 				</configuration>
 			</plugin>
+			<!-- potentially share test jars -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- Code Coverage of tests with Jacoco -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
