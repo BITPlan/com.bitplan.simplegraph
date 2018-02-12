@@ -131,7 +131,7 @@ public static enum EdgeDirection {
   }
 
   /**
-   * printDebug
+   * forAll
    */
   public default void forAll(Consumer<Vertex> consumer) {
     g().V().forEachRemaining(consumer);

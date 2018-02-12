@@ -75,6 +75,7 @@ public class SMWSystem extends MediaWikiSystem {
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
+    SimpleNode result=null;
     String mode = getPatternMatchGroup("^(.+?)=", nodeQuery, 1);
     // remove the "<mode>=" part from the query if there is one
     if (mode != null)
@@ -82,18 +83,21 @@ public class SMWSystem extends MediaWikiSystem {
     if ("ask".equals(mode) || fixAsk(nodeQuery).startsWith("[")) {
       SimpleNode rawNode = moveToAsk(nodeQuery, keys);
       if (rawMode)
-        return rawNode;
+        result=rawNode;
       else
-        return conceptAlizePrintRequests(getConcept(nodeQuery), rawNode);
+        result=conceptAlizePrintRequests(getConcept(nodeQuery), rawNode);
     } else if ("browsebysubject".equals(mode)) {
       setJson(getActionJson("browsebysubject", "subject", nodeQuery));
       js = JsonSystem.of(this, getJson());
-      return js.getStartNode();
+      result= js.getStartNode();
     } else if (mode == null || "page".equals(mode)) {
-      return new MediaWikiPageNode(this, nodeQuery, keys);
+      result=new MediaWikiPageNode(this, nodeQuery, keys);
     } else {
       throw new IllegalArgumentException("invalid mode " + mode);
     }
+    if (this.getStartNode()==null)
+      this.setStartNode(result);
+    return result;
   }
 
   /**

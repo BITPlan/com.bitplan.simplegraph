@@ -20,6 +20,8 @@
  */
 package com.bitplan.simplegraph;
 
+import java.util.function.Consumer;
+
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
@@ -67,5 +69,12 @@ public interface SimpleGraph {
   public boolean isDebug();
 
   public void setDebug(boolean debug);
+  
+  /**
+   * forAll
+   */
+  public default void forAll(Consumer<Vertex> consumer) {
+    g().V().forEachRemaining(consumer);
+  };
 
 }

@@ -37,6 +37,10 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  */
 public class SQLRecord extends SimpleNodeImpl {
 
+  public SQLRecord(SQLSystem sqlSystem,String... keys) {
+    super(sqlSystem,"record");
+  }
+  
   /**
    * get an SQL record
    * @param simpleGraph

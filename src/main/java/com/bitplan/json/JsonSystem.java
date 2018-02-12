@@ -20,11 +20,16 @@
  */
 package com.bitplan.json;
 
+import javax.ws.rs.core.MediaType;
+
 import com.bitplan.simplegraph.SimpleGraph;
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 import com.google.gson.JsonParser;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 
 /**
  * i wrap a Json Tree as a Gremlin Graph
@@ -35,6 +40,7 @@ import com.google.gson.JsonParser;
 public class JsonSystem extends SimpleSystemImpl {
   JsonParser parser = new JsonParser();
   String json;
+  Client client = null;
 
   /**
    * create a JsonSystem using the same simpleGraph
@@ -67,8 +73,19 @@ public class JsonSystem extends SimpleSystemImpl {
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
-    // TODO Auto-generated method stub
-    return null;
+    SimpleNode result=null;
+    if (client == null)
+      client = Client.create();
+    WebResource resource = client.resource(nodeQuery);
+    ClientResponse response = resource.accept(MediaType.APPLICATION_JSON_TYPE)
+        .get(ClientResponse.class);
+    if (response.getStatus() == 200) {
+      String json=response.getEntity(String.class);
+      result=new JsonNode(this, "jsonroot", parser.parse(json));
+      if (this.getStartNode()==null)
+        this.setStartNode(result);
+    }
+    return result;
   }
 
   @Override
