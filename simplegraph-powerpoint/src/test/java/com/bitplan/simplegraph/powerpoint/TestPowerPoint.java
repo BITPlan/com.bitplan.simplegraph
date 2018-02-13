@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.powerpoint;
+package com.bitplan.simplegraph.powerpoint;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -47,6 +47,11 @@ import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
 import com.bitplan.simplegraph.mediawiki.MediaWikiPageNode;
 import com.bitplan.simplegraph.mediawiki.MediaWikiSystem;
+import com.bitplan.simplegraph.powerpoint.PowerPointSystem;
+import com.bitplan.simplegraph.powerpoint.Slide;
+import com.bitplan.simplegraph.powerpoint.SlideNode;
+import com.bitplan.simplegraph.powerpoint.SlideShow;
+import com.bitplan.simplegraph.powerpoint.SlideShowNode;
 import com.bitplan.simplegraph.triplestore.TestTripleStore;
 import com.bitplan.simplegraph.wikidata.TestWikiData;
 
@@ -229,7 +234,7 @@ public class TestPowerPoint  {
     String props[] = { "P21", "P22", "P25", "P109", "P569", "P19", "P570",
         "P20", "P1543" };
     SimpleNode queenVictoria = TestWikiData.getQueenVictoria(props);
-    String pptFilePath = "QueenVictoria.pptx";
+    String pptFilePath = "../simplegraph-powerpoint/QueenVictoria.pptx";
     SlideShow sls = this.getPPT(pptFilePath, "Queen Victoria");
     if (debug)
       queenVictoria.printNameValues(System.out);
@@ -248,7 +253,7 @@ public class TestPowerPoint  {
     SimpleSystem royal92 = TestTripleStore.readSiDIF();
     // start with Queen Victoria (Person Id=I1)
     SimpleNode queenVictoria = royal92.moveTo("id=I1");
-    String pptFilePath = "QueenVictoriaRoyal92.pptx";
+    String pptFilePath = "../simplegraph-powerpoint/QueenVictoriaRoyal92.pptx";
     SlideShow sls = this.getPPT(pptFilePath, "Queen Victoria");
 
     /**
@@ -301,7 +306,7 @@ public class TestPowerPoint  {
     if (debug)
       slides.forEach(slide -> slide.printNameValues(System.out));
     assertEquals(10, slides.size());
-    pps.graph().io(IoCore.graphml()).writeGraph("QueenVictoriaPowerPoint.xml");
+    pps.graph().io(IoCore.graphml()).writeGraph("../simplegraph-powerpoint/QueenVictoriaPowerPoint.xml");
   }
 
 }

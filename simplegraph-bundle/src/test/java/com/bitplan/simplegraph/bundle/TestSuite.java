@@ -23,11 +23,11 @@ package com.bitplan.simplegraph.bundle;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import com.bitplan.powerpoint.TestPowerPoint;
 import com.bitplan.simplegraph.core.TestTinkerPop3;
 import com.bitplan.simplegraph.filesystem.TestFileSystem;
 import com.bitplan.simplegraph.map.TestMapSystem;
 import com.bitplan.simplegraph.mediawiki.TestMediaWiki;
+import com.bitplan.simplegraph.powerpoint.TestPowerPoint;
 import com.bitplan.simplegraph.smw.TestSMW;
 import com.bitplan.simplegraph.sql.TestSQL;
 import com.bitplan.simplegraph.triplestore.TestTripleStore;
