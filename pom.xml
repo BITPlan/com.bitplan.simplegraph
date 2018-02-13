@@ -37,11 +37,11 @@
 		<module>simplegraph-json</module>
 		<module>simplegraph-map</module>
 		<module>simplegraph-mediawiki</module>
-		<!-- <module>simplegraph-powerpoint</module> -->
 		<module>simplegraph-smw</module>
 		<module>simplegraph-sql</module>
 		<module>simplegraph-triplestore</module>
 		<module>simplegraph-wikidata</module>
+		<module>simplegraph-powerpoint</module> 
 	</modules>
 	<licenses>
 		<license>

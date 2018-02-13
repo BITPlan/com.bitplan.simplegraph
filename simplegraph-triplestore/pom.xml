@@ -9,7 +9,7 @@
     <artifactId>com.bitplan.simplegraph</artifactId>
     <version>0.0.2</version>
   </parent>
-  <artifactId>triplestore</artifactId>
+  <artifactId>com.bitplan.simplegraph.triplestore</artifactId>
   <packaging>jar</packaging>
   <dependencies>
     <dependency>

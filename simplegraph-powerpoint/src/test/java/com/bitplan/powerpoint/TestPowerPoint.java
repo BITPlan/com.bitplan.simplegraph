@@ -21,6 +21,7 @@
 package com.bitplan.powerpoint;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
@@ -46,6 +47,9 @@ import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
 import com.bitplan.simplegraph.mediawiki.MediaWikiPageNode;
 import com.bitplan.simplegraph.mediawiki.MediaWikiSystem;
+import com.bitplan.simplegraph.triplestore.TestTripleStore;
+import com.bitplan.simplegraph.wikidata.TestWikiData;
+
 
 /**
  * test the access to the PowerPoint System
@@ -258,6 +262,7 @@ public class TestPowerPoint  {
     String source = "Royal 92 GEDCOM file";
     queenVictoria.property("source", source);
     SlideNode qv = (SlideNode) slideForNode(sls, queenVictoria, slideprops);
+    assertNotNull(qv);
     // debug = true;
     for (SimpleNode child : TestTripleStore.children(queenVictoria, 1)) {
       child.property("source", source);

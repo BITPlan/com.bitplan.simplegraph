@@ -57,7 +57,7 @@ public class TestWikiData  {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.smw");
   static SimpleNode queenVictoria;
-  static WikiDataSystem wikiDataSystem;
+  public static WikiDataSystem wikiDataSystem;
 
   @Test
   public void testWikiDatabaseFetcher() throws MediaWikiApiErrorException {

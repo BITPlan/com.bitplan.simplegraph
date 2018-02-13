@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>Simplegraph wikidata</name>
+	<name>SimpleGraph WikiData</name>
 	<description>wikidata submodule of com.bitplan.simplegraph</description>
 
 	<parent>
@@ -10,7 +10,7 @@
 		<artifactId>com.bitplan.simplegraph</artifactId>
 		<version>0.0.2</version>
 	</parent>
-	<artifactId>wikidata</artifactId>
+	<artifactId>com.bitplan.simplegraph.wikidata</artifactId>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>

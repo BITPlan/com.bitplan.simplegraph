@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>Simplegraph powerpoint</name>
-	<description>powerpoint submodule of com.bitplan.simplegraph</description>
+	<name>SimpleGraph Powerpoint</name>
+	<description>Powerpoint submodule of com.bitplan.simplegraph</description>
 
 	<parent>
 		<groupId>com.bitplan.simplegraph</groupId>
@@ -22,6 +22,33 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>com.bitplan.simplegraph.mediawiki</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<!-- https://maven.apache.org/plugins/maven-jar-plugin/examples/create-test-jar.html -->
+		<!--  simplegraph-triplestor including test jar -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph.triplestore</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph.triplestore</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<!--  simplegraph-wikidata including test jar -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph.wikidata</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph.wikidata</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
 		</dependency>
 		<!-- Apache POI support -->
 
