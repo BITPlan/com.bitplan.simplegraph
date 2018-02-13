@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.bitplan.wikidata.TestWikiData
--------------------------------------------------------------------------------
-Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.975 sec - in com.bitplan.wikidata.TestWikiData
