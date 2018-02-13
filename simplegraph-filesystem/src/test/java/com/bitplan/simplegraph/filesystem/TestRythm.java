@@ -43,13 +43,12 @@ public class TestRythm  {
   
   // for the documentation we have to translate local file path to github path
   // just add the following PREFIX do so
-  public static final String GITHUB_URL_PREFIX = "https://github.com/BITPlan/com.bitplan.simplegraph/blob/master/";
-
+  public static final String GITHUB_URL_PREFIX = "https://github.com/BITPlan/com.bitplan.simplegraph/blob/master/simplegraph-filesystem/";
 
   @Test
   public void testGenerateGraphVizViaRythm() throws Exception {
-    //debug=true;
-    SimpleNode start = TestFileSystem.getFileNode("src", Integer.MAX_VALUE);
+    // debug=true;
+    SimpleNode start = TestFileSystem.getFileNode("../simplegraph-filesystem/src", Integer.MAX_VALUE);
     if (debug)
       start.forAll(SimpleNode.printDebug);
     String graphViz = RythmContext.getInstance().renderGraphViz(start, "parent", "name", "path",

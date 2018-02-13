@@ -163,6 +163,8 @@ public class TestPowerPoint  {
    */
   public BufferedImage getImage(MediaWikiSystem mws, SimpleNode personNode,
       int size) throws Exception {
+    if (personNode==null)
+      return null;
     String image = personNode.getProperty("image").toString();
     MediaWikiPageNode pageNode = (MediaWikiPageNode) mws
         .moveTo("File:" + image);

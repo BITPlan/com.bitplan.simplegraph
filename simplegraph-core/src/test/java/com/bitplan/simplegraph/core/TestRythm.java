@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.simplegraph;
+package com.bitplan.simplegraph.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -46,7 +46,7 @@ public class TestRythm  {
   @Test
   public void testRythmFromFile() throws Exception {
     RythmContext rythmContext = RythmContext.getInstance();
-    File templateDir = new File("src/main/rythm");
+    File templateDir = new File("../simplegraph-core/src/main/rythm");
     rythmContext.setTemplateRoot(templateDir.getAbsolutePath());
     // set it again - the engine should not be reconfigured
     rythmContext.setTemplateRoot(templateDir.getAbsolutePath());

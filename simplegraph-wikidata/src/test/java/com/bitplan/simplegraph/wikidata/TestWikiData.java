@@ -108,18 +108,13 @@ public class TestWikiData  {
 
   @Test
   public void testCreateEntityIdValue() {
-    debug=true;
+    // debug=true;
     Optional<EntityIdValue> optIdValue = WikiDataSystem.createEntityIdValue("P20");
     assertTrue(optIdValue.isPresent());
     EntityIdValue idValue = optIdValue.get();
     assertEquals("P20", idValue.getId());
     if (debug)
       System.out.println(idValue.getIri());
-  }
-  
-  @Test
-  public void testUncachedAccess() {
-    
   }
 
   /**
@@ -129,7 +124,7 @@ public class TestWikiData  {
    */
   @Test
   public void testPropertyCache() throws Exception {
-    debug = true;
+    // debug = true;
     queenVictoria = getQueenVictoria();
     queenVictoria.getVertex().properties().forEachRemaining(prop -> {
       Optional<SimpleNode> propNode = wikiDataSystem.cache(prop.label(), false);
@@ -146,7 +141,7 @@ public class TestWikiData  {
 
   @Test
   public void testItemCache() throws Exception {
-    debug = true;
+    // debug = true;
     // sex or gender (P21),father (P22),mother (P25),signature (P109), monogram
     // (P1543),date of birth(P569), place of birth (P19),date of death(P570), place of death
     // (P20)

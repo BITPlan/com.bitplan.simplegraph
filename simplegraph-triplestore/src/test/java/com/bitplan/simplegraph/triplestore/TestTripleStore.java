@@ -56,7 +56,7 @@ public class TestTripleStore  {
     if (royal92 == null) {
       royal92 = new TripleStoreSystem();
       // read the SiDIF file for Royal 92 GEDCOM conversion
-      royal92.connect("src/test/resources/sidif/royal92.sidif");
+      royal92.connect("../simplegraph-triplestore/src/test/resources/sidif/royal92.sidif");
     }
     return royal92;
   }

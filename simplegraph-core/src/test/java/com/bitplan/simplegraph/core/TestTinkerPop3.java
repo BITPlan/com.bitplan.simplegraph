@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.simplegraph;
+package com.bitplan.simplegraph.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -45,6 +45,8 @@ import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.junit.Test;
 
+import com.bitplan.simplegraph.SimpleNode;
+
 /**
  * get TinkerPop3 API
  * 
@@ -54,12 +56,12 @@ import org.junit.Test;
 public class TestTinkerPop3 {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph");
-  
+
   @Test
   // http://kelvinlawrence.net/book/Gremlin-Graph-Guide.html#beyond
   public void testAirRoutes() throws IOException {
     Graph graph = TinkerGraph.open();
-    graph.io(IoCore.graphml()).readGraph("src/test/air-routes.graphml");
+    graph.io(IoCore.graphml()).readGraph("../simplegraph-core/src/test/air-routes.graphml");
     if (debug)
       LOGGER.log(Level.INFO, graph.toString());
     GraphTraversalSource g = graph.traversal();
@@ -149,12 +151,14 @@ public class TestTinkerPop3 {
   @Test
   public void testSchema() {
     Graph graph = TinkerFactory.createModern();
-    graph.traversal().V().next().properties()
-        .forEachRemaining(prop -> System.out.println(String.format("%s=%s",
-            prop.label(), prop.value().getClass().getSimpleName())));
-    graph.traversal().V().next().edges(Direction.OUT)
-        .forEachRemaining(edge -> System.out.println(
-            String.format("%s->%s", edge.label(), edge.outVertex().label())));
+    if (debug) {
+      graph.traversal().V().next().properties()
+          .forEachRemaining(prop -> System.out.println(String.format("%s=%s",
+              prop.label(), prop.value().getClass().getSimpleName())));
+      graph.traversal().V().next().edges(Direction.OUT)
+          .forEachRemaining(edge -> System.out.println(
+              String.format("%s->%s", edge.label(), edge.outVertex().label())));
+    }
   }
 
   @Test
@@ -193,7 +197,7 @@ public class TestTinkerPop3 {
     if (debug)
       groups.forEach(SimpleNode.printMapDebug);
     assertEquals(1, groups.size());
-    debug = true;
+    // debug = true;
     List<Map<Object, Object>> groupsByName = graph.traversal().V().group()
         .by(T.label).by("name").toStream().collect(Collectors.toList());
     if (debug)

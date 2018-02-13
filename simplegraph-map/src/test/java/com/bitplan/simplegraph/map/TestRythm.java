@@ -45,7 +45,7 @@ public class TestRythm  {
     // get us a Rythm context to be able to render via a template
     RythmContext rythmContext = RythmContext.getInstance();
     // choose a Rythm template that will work on our graph
-    File template = new File("src/main/rythm/carmaphtml.rythm");
+    File template = new File("../simplegraph-map/src/main/rythm/carmaphtml.rythm");
     MapSystem ms = TestMapSystem.getCarMapSystem();
     String html=rythmContext.render(template, ms.getStartNode().getVertex());
     // debug=true;

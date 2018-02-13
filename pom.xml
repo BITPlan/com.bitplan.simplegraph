@@ -17,6 +17,7 @@
 		<!-- github server corresponds to entry in ~/.m2/settings.xml -->
 		<github.global.server>github</github.global.server>
 		<tinkerpop.version>3.3.1</tinkerpop.version>
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io/2.6  -->
 		<commons.io.version>2.6</commons.io.version>
 		<!-- Rythm Template Engine -->
 		<rythm.version>1.1.7</rythm.version>
@@ -28,6 +29,10 @@
 		<wikidata.toolkit.version>0.8.0</wikidata.toolkit.version>
 		<!-- mediawiki japi -->
 		<mediawiki-japi.version>0.0.22</mediawiki-japi.version>
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client-->
+		<jersey.version>1.19.4</jersey.version>
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<gson.version>2.8.2</gson.version>
 	</properties>
 	<packaging>pom</packaging>
 	<url>https://github.com/BITPlan/com.bitplan.simplegraph</url>
@@ -67,25 +72,6 @@
 		</developer>
 	</developers>
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.apache.tinkerpop/gremlin-core -->
-		<dependency>
-			<groupId>org.apache.tinkerpop</groupId>
-			<artifactId>gremlin-core</artifactId>
-			<version>${tinkerpop.version}</version>
-		</dependency>
-		<!-- in memory graph database -->
-		<dependency>
-			<groupId>org.apache.tinkerpop</groupId>
-			<artifactId>tinkergraph-gremlin</artifactId>
-			<version>${tinkerpop.version}</version>
-		</dependency>
-
-		<!-- commons io -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons.io.version}</version>
-		</dependency>
 		<!-- JUnit testing -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -106,12 +92,7 @@
 			<version>1.3</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- rythm engine -->
-		<dependency>
-			<groupId>org.rythmengine</groupId>
-			<artifactId>rythm-engine</artifactId>
-			<version>${rythm.version}</version>
-		</dependency>
+		
 		<!-- https://stackoverflow.com/a/48230713/1497139 -->
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
 		<dependency>
@@ -126,26 +107,6 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.9.9</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.bitplan</groupId>
-			<artifactId>org.sidif.triplestore</artifactId>
-			<version>0.0.9</version>
-			<exclusions>
-				<exclusion>  <!-- workaround the railroad diagrammer might not be found by travis -->
-					<groupId>nl-big-o</groupId>
-					<artifactId>rrd-anltr4</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- mediawiki-japi -->
-		<dependency>
-			<groupId>com.bitplan</groupId>
-			<artifactId>mediawiki-japi</artifactId>
-			<version>${mediawiki-japi.version}</version>
-		</dependency>
-
-
 	</dependencies>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>

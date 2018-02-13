@@ -23,9 +23,11 @@ package com.bitplan.rythm;
 import static org.rythmengine.conf.RythmConfigurationKey.HOME_TEMPLATE;
 
 import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.rythmengine.RythmEngine;
 import org.rythmengine.conf.RythmConfigurationKey;
@@ -107,12 +109,13 @@ public class RythmContext {
     // the name of the graph
     rootMap.put("graphname",
         graphname);
-    // get us a Rythm context to be able to render via a template
-    RythmContext rythmContext = RythmContext.getInstance();
     // choose a Rythm template that will work on our graph
-    File template = new File("src/main/rythm/graphvizTree.rythm");
+    String templatePath="/com/bitplan/rythm/graphvizTree.rythm";
+    URL templateResource = this.getClass().getResource(templatePath);
+    if (templateResource==null)
+      throw new RuntimeException("template "+templatePath+" not found");
     // let Rythm do the rendering according to the template
-    String graphViz = rythmContext.render(template, rootMap);
+    String graphViz = render(templateResource, rootMap);
     return graphViz;
   }
 
@@ -168,6 +171,23 @@ public class RythmContext {
     String result = engine.render(template, rootMap);
     return result;
   }
+  
+  /**
+   * render the given rootMap with the given template from the given URL
+   * 
+   * @param templateURL
+   * @param rootMap
+   * @return the rendered result
+   * @throws Exception
+   */
+  public String render(URL templateURL, Map<String, Object> rootMap)
+      throws Exception {
+    RythmEngine engine = getEngine();
+    String template=IOUtils.toString(templateURL,"UTF-8");
+    String result = engine.render(template, rootMap);
+    return result;
+  }
+  
 
   /**
    * render with the given template

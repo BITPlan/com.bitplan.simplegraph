@@ -1,16 +1,35 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" >
-  <modelVersion>4.0.0</modelVersion>
-  
-  <name>SimpleGraph Core</name>
-  <description>com.bitplan.simplegraph.core submodule of com.bitplan.simplegraph</description>
-  
-  <parent>
-    <groupId>com.bitplan.simplegraph</groupId>
-    <artifactId>com.bitplan.simplegraph</artifactId>
-    <version>0.0.2</version>
-  </parent>
-  <artifactId>com.bitplan.simplegraph-core</artifactId>
-  <packaging>jar</packaging>
-  <dependencies>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>SimpleGraph Core</name>
+	<description>com.bitplan.simplegraph.core submodule of com.bitplan.simplegraph</description>
+
+	<parent>
+		<groupId>com.bitplan.simplegraph</groupId>
+		<artifactId>com.bitplan.simplegraph</artifactId>
+		<version>0.0.2</version>
+	</parent>
+	<artifactId>com.bitplan.simplegraph-core</artifactId>
+	<packaging>jar</packaging>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.apache.tinkerpop/gremlin-core -->
+		<dependency>
+			<groupId>org.apache.tinkerpop</groupId>
+			<artifactId>gremlin-core</artifactId>
+			<version>${tinkerpop.version}</version>
+		</dependency>
+		<!-- in memory graph database -->
+		<dependency>
+			<groupId>org.apache.tinkerpop</groupId>
+			<artifactId>tinkergraph-gremlin</artifactId>
+			<version>${tinkerpop.version}</version>
+		</dependency>
+		<!-- rythm engine -->
+		<dependency>
+			<groupId>org.rythmengine</groupId>
+			<artifactId>rythm-engine</artifactId>
+			<version>${rythm.version}</version>
+		</dependency>
+	</dependencies>
 </project>

@@ -53,7 +53,7 @@ public class TestFileSystem {
     SimpleSystem fs=new FileSystem();
     assertEquals("FileSystem",fs.getName());
     assertEquals("0.0.1",fs.getVersion());
-    FileNode start = (FileNode) fs.connect("").moveTo("src");
+    FileNode start = (FileNode) fs.connect("").moveTo("../simplegraph-filesystem/src");
     if (debug)
       start.printNameValues(System.out);
     start.recursiveOut("files",Integer.MAX_VALUE).forEach(childFile->{
@@ -63,7 +63,7 @@ public class TestFileSystem {
     long filecount = start.g().V().count().next().longValue();
     if (debug)
       LOGGER.log(Level.INFO,""+filecount);
-    assertEquals(19,filecount);
+    assertEquals(18,filecount);
     GraphTraversal<Vertex, Vertex> javaFiles = start.g().V().has("ext", "java");
     long javaFileCount=javaFiles.count().next().longValue();
     assertEquals(4,javaFileCount);
@@ -93,9 +93,9 @@ public class TestFileSystem {
   @Test
   public void testFullyQualifiedPath() throws Exception {
     // debug=true;
-    SimpleNode start=getFileNode("src",2);
+    SimpleNode start=getFileNode("../simplegraph-filesystem/src",2);
     long nodeCount=start.g().V().count().next().longValue();
-    assertEquals(9,nodeCount);
+    assertEquals(8,nodeCount);
     if (debug) {
       LOGGER.log(Level.INFO,"src has "+nodeCount+" subdirectories on the next two levels");
       start.forAll(SimpleNode.printDebug);

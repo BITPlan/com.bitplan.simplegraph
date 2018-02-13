@@ -29,8 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-import org.sidif.util.FileUtils;
 
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.json.JsonPrettyPrinter;
@@ -150,7 +151,7 @@ public class TestSMW  {
     debug=true;
     SMWSystem smwSystem = getSMWSystem();
     SimpleNode dtNode = smwSystem.moveTo("ask=" + query);
-    FileUtils.writeStringToFile(new File("src/test/datatypes.json"), JsonPrettyPrinter.prettyPrint(smwSystem.getJson()));
+    FileUtils.writeStringToFile(new File("src/test/datatypes.json"),JsonPrettyPrinter.prettyPrint(smwSystem.getJson()),"UTF-8");
     long resultsCount=dtNode.g().V().hasLabel("results").count().next().longValue();
     assertEquals(1,resultsCount);
     long outEdges=dtNode.g().V().hasLabel("results").out().count().next().longValue();

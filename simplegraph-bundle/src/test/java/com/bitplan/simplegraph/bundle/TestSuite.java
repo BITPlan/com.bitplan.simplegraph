@@ -18,15 +18,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.simplegraph;
+package com.bitplan.simplegraph.bundle;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import com.bitplan.powerpoint.TestPowerPoint;
+import com.bitplan.simplegraph.core.TestTinkerPop3;
+import com.bitplan.simplegraph.filesystem.TestFileSystem;
+import com.bitplan.simplegraph.map.TestMapSystem;
+import com.bitplan.simplegraph.mediawiki.TestMediaWiki;
+import com.bitplan.simplegraph.smw.TestSMW;
+import com.bitplan.simplegraph.sql.TestSQL;
+import com.bitplan.simplegraph.triplestore.TestTripleStore;
+import com.bitplan.simplegraph.wikidata.TestWikiData;
+
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ TestDebug.class, TestFileSystem.class,
-    TestTinkerPop3.class, TestTripleStore.class, TestPowerPoint.class,
-    TestMediaWiki.class,TestMapSystem.class,TestSQL.class,TestSMW.class, TestWikiData.class, TestRythm.class })
+@Suite.SuiteClasses({ TestFileSystem.class, 
+    TestTinkerPop3.class,
+    TestTripleStore.class, 
+    TestPowerPoint.class, TestMediaWiki.class,
+    TestMapSystem.class, TestSQL.class, TestSMW.class, TestWikiData.class,
+    com.bitplan.simplegraph.core.TestRythm.class,
+    com.bitplan.simplegraph.filesystem.TestRythm.class,
+    com.bitplan.simplegraph.map.TestRythm.class
+    })
 /**
  * TestSuite
  * 

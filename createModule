@@ -11,7 +11,7 @@ cat << EOF
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" >
   <modelVersion>4.0.0</modelVersion>
   
-  <name>Simplegraph $l_artifactid</name>
+  <name>SimpleGraph $l_artifactid</name>
   <description>$l_artifactid submodule of com.bitplan.simplegraph</description>
   
   <parent>
@@ -93,30 +93,24 @@ cat << EOF
 EOF
 }
 
-for module in filesystem core json map mediawiki smw wikidata sql powerpoint triplestore
+#
+# loop over all modules
+#
+for module in filesystem core json map mediawiki smw wikidata sql powerpoint triplestore bundle
 do 
   moduleName=simplegraph-$module
   package=com.bitplan.$module
-  artifactId=$module
+  artifactId=com.bitplan.simplegraph.$module
   srcDir=src/main/java/com/bitplan
-  moduleSrcDir=$moduleName/src/main/java/com/bitplan
-  moduleTstDir=$moduleName/src/test/java/com/bitplan
-  if [ ! -d $moduleSrcDir ]
-  then
-    mkdir -p $moduleSrcDir
-  fi
-  if [ ! -d $moduleTstDir ]
-  then
-    mkdir -p $moduleTstDir
-  fi
-  if [ -d $srcDir/$module ]
-  then
-    mv $srcDir/$module $moduleSrcDir 
-  fi
-  if [ ! -d $moduleTstDir/$module ]
-  then
-    mkdir -p $moduleTstDir/$module
-  fi
+  # create the src/main and src/test java subdirectories if they do not exist yet
+  for area in main test
+  do
+    moduleSrcDir=$moduleName/src/$area/java/com/bitplan/simplegraph/$module
+    if [ ! -d $moduleSrcDir ]
+    then
+      mkdir -p $moduleSrcDir
+    fi
+  done
   if [ ! -f $moduleName/.project ]
   then
     eclipse_project $moduleName > $moduleName/.project
