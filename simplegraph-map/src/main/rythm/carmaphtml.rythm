@@ -1,0 +1,18 @@
+@// Rythm template
+@import com.bitplan.simplegraph.SimpleNode
+@args() {
+  String name,
+  String country,
+  String wikidataid;
+}
+<html>
+	<head>
+	</head>
+	<body>
+		<table>
+			<tr><th>Name:</th><td>@name<td></tr>
+			<tr><th>Country:</th><td>@country<td></tr>
+			<tr><th>Wikdata:</th><td><a href='https://www.wikidata.org/wiki/@wikidataid'>@wikidataid</a><td></tr>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>Simplegraph powerpoint</name>
+	<description>powerpoint submodule of com.bitplan.simplegraph</description>
+
+	<parent>
+		<groupId>com.bitplan.simplegraph</groupId>
+		<artifactId>com.bitplan.simplegraph</artifactId>
+		<version>0.0.2</version>
+	</parent>
+	<artifactId>com.bitplan.simplegraph.powerpoint</artifactId>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph.mediawiki</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- Apache POI support -->
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${apache-poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${apache-poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>${apache-poi.version}</version>
+		</dependency>
+	</dependencies>
+</project>

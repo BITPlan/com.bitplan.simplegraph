@@ -1,0 +1,414 @@
+{
+    "query": {
+        "printrequests": [
+            {
+                "label": "typeid",
+                "key": "Has_datatype_ID",
+                "redi": "",
+                "typeid": "_cod",
+                "mode": 1,
+                "format": ""
+            },
+            {
+                "label": "Datatype",
+                "key": "Has_datatype_name",
+                "redi": "",
+                "typeid": "_txt",
+                "mode": 1,
+                "format": ""
+            },
+            {
+                "label": "Description",
+                "key": "Has_description",
+                "redi": "",
+                "typeid": "_txt",
+                "mode": 1,
+                "format": ""
+            },
+            {
+                "label": "Help_page",
+                "key": "",
+                "redi": "",
+                "typeid": "_wpg",
+                "mode": 2,
+                "format": ""
+            },
+            {
+                "label": "Provided_by",
+                "key": "Has_component",
+                "redi": "",
+                "typeid": "_txt",
+                "mode": 1,
+                "format": ""
+            }
+        ],
+        "results": {
+            "Help:Type Annotation URI": {
+                "printouts": {
+                    "typeid": [
+                        "_anu"
+                    ],
+                    "Datatype": [
+                        "Annotation URI"
+                    ],
+                    "Description": [
+                        "Holds URIs, but has some technical differences during export compared to the \"URL\" type"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Annotation URI",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Annotation_URI",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Annotation URI\""
+            },
+            "Help:Type Boolean": {
+                "printouts": {
+                    "typeid": [
+                        "_boo"
+                    ],
+                    "Datatype": [
+                        "Boolean"
+                    ],
+                    "Description": [
+                        "Holds boolean (true/false) values"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Boolean",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Boolean",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Boolean\""
+            },
+            "Help:Type Code": {
+                "printouts": {
+                    "typeid": [
+                        "_cod"
+                    ],
+                    "Datatype": [
+                        "Code"
+                    ],
+                    "Description": [
+                        "Holds technical, pre-formatted texts (similar to type Text)"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Code",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Code",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Code\""
+            },
+            "Help:Type Date": {
+                "printouts": {
+                    "typeid": [
+                        "_dat"
+                    ],
+                    "Datatype": [
+                        "Date"
+                    ],
+                    "Description": [
+                        "Holds particular points in time"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Date",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Date",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Date\""
+            },
+            "Help:Type Email": {
+                "printouts": {
+                    "typeid": [
+                        "_ema"
+                    ],
+                    "Datatype": [
+                        "Email"
+                    ],
+                    "Description": [
+                        "Holds e-mail addresses"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Email",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Email",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Email\""
+            },
+            "Help:Type External identifier": {
+                "printouts": {
+                    "typeid": [
+                        "_eid"
+                    ],
+                    "Datatype": [
+                        "External identifier"
+                    ],
+                    "Description": [
+                        "Holds a value that associates it with with a external URI for formatting"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type External identifier",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_External_identifier",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"External identifier\""
+            },
+            "Help:Type Geographic coordinate": {
+                "printouts": {
+                    "typeid": [
+                        "_geo"
+                    ],
+                    "Datatype": [
+                        "Geographic coordinate"
+                    ],
+                    "Description": [
+                        "Holds coordinates describing geographic locations"
+                    ],
+                    "Provided_by": [
+                        "Maps (Semantic Maps)"
+                    ]
+                },
+                "fulltext": "Help:Type Geographic coordinate",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Geographic_coordinate",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Geographic coordinate\""
+            },
+            "Help:Type Monolingual text": {
+                "printouts": {
+                    "typeid": [
+                        "_mlt_rec"
+                    ],
+                    "Datatype": [
+                        "Monolingual text"
+                    ],
+                    "Description": [
+                        "Holds a text value that associates the annotation with a specific language code"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Monolingual text",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Monolingual_text",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Monolingual text\""
+            },
+            "Help:Type Number": {
+                "printouts": {
+                    "typeid": [
+                        "_num"
+                    ],
+                    "Datatype": [
+                        "Number"
+                    ],
+                    "Description": [
+                        "Holds integer and decimal numbers, with an optional exponent"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Number",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Number",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Number\""
+            },
+            "Help:Type Page": {
+                "printouts": {
+                    "typeid": [
+                        "_wpg"
+                    ],
+                    "Datatype": [
+                        "Page"
+                    ],
+                    "Description": [
+                        "Holds names of wiki pages, and displays them as a link"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Page",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Page",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Page\""
+            },
+            "Help:Type Quantity": {
+                "printouts": {
+                    "typeid": [
+                        "_qty"
+                    ],
+                    "Datatype": [
+                        "Quantity"
+                    ],
+                    "Description": [
+                        "Holds values that describe quantities, containing both a number and a unit"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Quantity",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Quantity",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Quantity\""
+            },
+            "Help:Type Record": {
+                "printouts": {
+                    "typeid": [
+                        "_rec"
+                    ],
+                    "Datatype": [
+                        "Record"
+                    ],
+                    "Description": [
+                        "Holds compound property values that consist of a short list of values with fixed type and order"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Record",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Record",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Record\""
+            },
+            "Help:Type Telephone number": {
+                "printouts": {
+                    "typeid": [
+                        "_tel"
+                    ],
+                    "Datatype": [
+                        "Telephone number"
+                    ],
+                    "Description": [
+                        "Holds international telephone numbers based on the <span class=\"plainlinks\">[https://tools.ietf.org/html/rfc3966 RFC 3966]</span> standard"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Telephone number",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Telephone_number",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Telephone number\""
+            },
+            "Help:Type Temperature": {
+                "printouts": {
+                    "typeid": [
+                        "_tem"
+                    ],
+                    "Datatype": [
+                        "Temperature"
+                    ],
+                    "Description": [
+                        "Holds temperature values (similar to type Quantity)"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Temperature",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Temperature",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Temperature\""
+            },
+            "Help:Type Text": {
+                "printouts": {
+                    "typeid": [
+                        "_txt"
+                    ],
+                    "Datatype": [
+                        "Text"
+                    ],
+                    "Description": [
+                        "Holds text of arbitrary length"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Text",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Text",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Text\""
+            },
+            "Help:Type Reference": {
+                "printouts": {
+                    "typeid": [
+                        "_ref_rec"
+                    ],
+                    "Datatype": [
+                        "Reference"
+                    ],
+                    "Description": [
+                        "Holds a value that associates it to individual defined provenance metadata record"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type Reference",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Reference",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"Reference\""
+            },
+            "Help:Type URL": {
+                "printouts": {
+                    "typeid": [
+                        "_uri"
+                    ],
+                    "Datatype": [
+                        "URL"
+                    ],
+                    "Description": [
+                        "Holds URIs, URNs and URLs"
+                    ],
+                    "Provided_by": [
+                        "Semantic MediaWiki"
+                    ]
+                },
+                "fulltext": "Help:Type URL",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_URL",
+                "namespace": 12,
+                "exists": "1",
+                "displaytitle": "Help:Datatype \"URL\""
+            }
+        },
+        "serializer": "SMW\\Serializers\\QueryResultSerializer",
+        "version": 2,
+        "meta": {
+            "hash": "921f1141ea179fd92c42b3dbdcddf51a",
+            "count": 17,
+            "offset": 0,
+            "source": "",
+            "time": "0.040390"
+        }
+    }
+}
