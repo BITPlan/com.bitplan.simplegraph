@@ -1,4 +1,1 @@
-com/bitplan/json/JsonNode.class
-com/bitplan/json/JsonPrettyPrinter$1.class
-com/bitplan/json/JsonPrettyPrinter.class
-com/bitplan/json/JsonSystem.class
+com/bitplan/simplegraph/json/JsonPrettyPrinter$1.class

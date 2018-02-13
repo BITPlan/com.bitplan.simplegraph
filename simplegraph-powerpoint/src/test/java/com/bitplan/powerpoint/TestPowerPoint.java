@@ -42,10 +42,10 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import com.bitplan.mediawiki.MediaWikiPageNode;
-import com.bitplan.mediawiki.MediaWikiSystem;
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.mediawiki.MediaWikiPageNode;
+import com.bitplan.simplegraph.mediawiki.MediaWikiSystem;
 
 /**
  * test the access to the PowerPoint System

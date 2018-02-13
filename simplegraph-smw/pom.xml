@@ -33,19 +33,5 @@
 			<artifactId>com.bitplan.simplegraph.map</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>com.bitplan.simplegraph.wikidata</artifactId>
-			<version>${project.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>com.bitplan.simplegraph.triplestore</artifactId>
-			<version>${project.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 </project>
