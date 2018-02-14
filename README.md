@@ -5,8 +5,10 @@ Allow Wrapping Systems with Apache TinkerPop
 [![Build Status](https://travis-ci.org/BITPlan/com.bitplan.simplegraph.svg?branch=master)](https://travis-ci.org/BITPlan/com.bitplan.simplegraph)
 [![Coverage Status](https://coveralls.io/repos/github/BITPlan/com.bitplan.simplegraph/badge.svg?branch=master)](https://coveralls.io/github/BITPlan/com.bitplan.simplegraph?branch=master)
 
-# Systems wrapped
-* FileSystem
+# available modules / Systems wrapped
+* [FileSystem](http://www.bitplan.com/index.php/SimpleGraph-FileSystem)
+* [JSON](http://www.bitplan.com/index.php/SimpleGraph-MapSystem)
+* [MapSystem](http://www.bitplan.com/index.php/SimpleGraph-MapSystem)
 * PowerPoint
 * [SiDIF TripleStore](http://www.bitplan.com/index.php/SiDIF-TripleStore)
 * [WikiData](https://www.wikidata.org/wiki/Wikidata:Main_Page)

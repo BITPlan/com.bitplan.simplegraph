@@ -21,17 +21,20 @@
 package com.bitplan.simplegraph.json;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.net.URL;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.junit.Test;
 
 import com.bitplan.simplegraph.SimpleNode;
-import com.bitplan.simplegraph.json.JsonPrettyPrinter;
-import com.bitplan.simplegraph.json.JsonSystem;
+import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.impl.Holder;
 
 /**
  * test the JSON system
@@ -44,7 +47,7 @@ public class TestJson  {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.json");
   @Test
   public void testJson() throws Exception {
-    debug = true;
+    // debug = true;
     // http://json.org/example.html
     // https://raw.githubusercontent.com/LearnWebCode/json-example/master/pets-data.json
     // https://stackoverflow.com/questions/33910605/how-to-convert-sample-json-into-json-schema-in-java
@@ -89,5 +92,24 @@ public class TestJson  {
         break;
       }
     }
+  }
+  
+  @Test
+  public void testGoogleMapsJsonApi() throws Exception {
+    String url="https://maps.googleapis.com/maps/api/geocode/json?address=Cologne%20Cathedral";
+    String json=IOUtils.toString(new URL(url),"UTF-8");
+    debug=true;
+    if (debug)
+      System.out.println(json);
+    JsonSystem js = new JsonSystem();
+    SimpleSystem dom = js.connect("json", json);
+    if (debug)
+      js.getStartNode().forAll(SimpleNode.printDebug);
+    Holder<String> latHolder=new Holder<String>();
+    dom.g().V().hasLabel("location").forEachRemaining(v->latHolder.add(v.property("lat").value().toString()));
+    String lat=latHolder.getFirstValue();
+    if (debug)
+      System.out.println(lat);
+    assertTrue(lat.startsWith("50.9412"));
   }
 }
