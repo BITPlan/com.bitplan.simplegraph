@@ -24,8 +24,8 @@ import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 
-import com.bitplan.simplegraph.SimpleGraph;
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleGraph;
+import com.bitplan.simplegraph.core.SimpleNode;
 
 /**
  * default implementation of SimpleGraph interface - wraps a TinkerPop 3 graph

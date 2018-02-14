@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 import org.junit.Test;
 
 import com.bitplan.rythm.RythmContext;
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.map.MapNode;
 import com.bitplan.simplegraph.map.MapSystem;
 

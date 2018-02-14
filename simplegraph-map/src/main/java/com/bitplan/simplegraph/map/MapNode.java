@@ -28,8 +28,8 @@ import java.util.stream.Stream;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
-import com.bitplan.simplegraph.SimpleGraph;
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleGraph;
+import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**

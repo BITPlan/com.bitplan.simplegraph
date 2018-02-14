@@ -27,8 +27,8 @@ import java.util.Map;
 
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 
-import com.bitplan.simplegraph.SimpleNode;
-import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleSystem;
 
 /**
  * Generic to Cache graphs

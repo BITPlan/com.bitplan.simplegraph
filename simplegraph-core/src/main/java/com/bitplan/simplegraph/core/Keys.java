@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.simplegraph;
+package com.bitplan.simplegraph.core;
 
 import java.util.List;
 import java.util.Optional;

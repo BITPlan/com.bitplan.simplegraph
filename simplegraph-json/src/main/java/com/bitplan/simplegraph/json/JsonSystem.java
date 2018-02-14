@@ -22,9 +22,9 @@ package com.bitplan.simplegraph.json;
 
 import javax.ws.rs.core.MediaType;
 
-import com.bitplan.simplegraph.SimpleGraph;
-import com.bitplan.simplegraph.SimpleNode;
-import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.core.SimpleGraph;
+import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 import com.google.gson.JsonParser;
 import com.sun.jersey.api.client.Client;

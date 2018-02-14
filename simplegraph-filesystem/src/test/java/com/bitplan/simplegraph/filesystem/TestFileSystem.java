@@ -32,8 +32,8 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
 import com.bitplan.gremlin.RegexPredicate;
-import com.bitplan.simplegraph.SimpleNode;
-import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.filesystem.FileNode;
 import com.bitplan.simplegraph.filesystem.FileSystem;
 

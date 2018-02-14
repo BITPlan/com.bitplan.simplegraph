@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 
 import com.bitplan.mediawiki.japi.api.Ii;
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**

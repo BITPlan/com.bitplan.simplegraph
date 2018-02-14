@@ -29,9 +29,9 @@ import java.util.Map.Entry;
 import org.apache.tinkerpop.gremlin.structure.T;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
-import com.bitplan.simplegraph.Keys;
-import com.bitplan.simplegraph.SimpleGraph;
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.Keys;
+import com.bitplan.simplegraph.core.SimpleGraph;
+import com.bitplan.simplegraph.core.SimpleNode;
 
 /**
  * default implementation of a SimpleNode wraps a Tinkerpop/Gremlin Vertex
@@ -49,6 +49,10 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl
   protected Map<String, Object> map = new HashMap<String, Object>();
   ArrayList<Object> keyValueList;
 
+  /**
+   * get my simple graph
+   * @return
+   */
   public SimpleGraph getSimpleGraph() {
     return simpleGraph;
   }

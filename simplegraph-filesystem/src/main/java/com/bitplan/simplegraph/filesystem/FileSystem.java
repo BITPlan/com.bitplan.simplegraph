@@ -20,7 +20,7 @@
  */
 package com.bitplan.simplegraph.filesystem;
 
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleNode;
 
 /**
  * implements FileSystem access via a simple graph

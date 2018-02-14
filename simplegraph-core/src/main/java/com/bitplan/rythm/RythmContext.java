@@ -32,7 +32,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.rythmengine.RythmEngine;
 import org.rythmengine.conf.RythmConfigurationKey;
 
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleNode;
 
 /**
  * Rythm Context

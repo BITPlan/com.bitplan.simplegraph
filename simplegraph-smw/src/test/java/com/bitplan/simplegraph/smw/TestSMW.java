@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.json.JsonPrettyPrinter;
 import com.bitplan.simplegraph.smw.SMWSystem.WikiPage;
 

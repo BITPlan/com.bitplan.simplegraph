@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import com.bitplan.simplegraph.Keys;
+import com.bitplan.simplegraph.core.Keys;
 
 
 /**

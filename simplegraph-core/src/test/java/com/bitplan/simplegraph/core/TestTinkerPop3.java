@@ -45,8 +45,6 @@ import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.junit.Test;
 
-import com.bitplan.simplegraph.SimpleNode;
-
 /**
  * get TinkerPop3 API
  * 

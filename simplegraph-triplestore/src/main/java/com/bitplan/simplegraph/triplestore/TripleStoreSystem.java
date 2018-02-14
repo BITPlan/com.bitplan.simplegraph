@@ -27,8 +27,8 @@ import org.sidif.triple.TripleQuery;
 import org.sidif.triple.TripleStore;
 import org.sidif.util.TripleStoreBuilder;
 
-import com.bitplan.simplegraph.SimpleNode;
-import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
 public class TripleStoreSystem extends SimpleSystemImpl {

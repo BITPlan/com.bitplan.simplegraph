@@ -37,8 +37,8 @@ import org.wikidata.wdtk.datamodel.interfaces.EntityIdValue;
 import org.wikidata.wdtk.wikibaseapi.WikibaseDataFetcher;
 import org.wikidata.wdtk.wikibaseapi.apierrors.MediaWikiApiErrorException;
 
-import com.bitplan.simplegraph.SimpleNode;
-import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.Cache;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 

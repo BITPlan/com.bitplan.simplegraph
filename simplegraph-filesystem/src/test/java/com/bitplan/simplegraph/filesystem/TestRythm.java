@@ -29,7 +29,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
 import com.bitplan.rythm.RythmContext;
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleNode;
 
 /**
  * test the rythm template engine

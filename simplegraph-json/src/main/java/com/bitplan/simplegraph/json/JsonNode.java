@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import com.bitplan.simplegraph.Keys;
-import com.bitplan.simplegraph.SimpleNode;
-import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.core.Keys;
+import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

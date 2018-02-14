@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.simplegraph;
+package com.bitplan.simplegraph.core;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -72,7 +72,30 @@ public static enum EdgeDirection {
   public Stream<SimpleNode> in(String edgeName);
 
   /**
+   * set the property value for the given key
+   * with traditional java style syntax
+   * 
+   * @param key
+   * @param value
+   */
+  public default void setProperty(String key,Object value) {
+    property(key,value);
+  }
+  
+  /**
+   * get the property value for the given key
+   * with traditional java style syntax
+   * 
+   * @param key
+   * @return - the property value
+   */
+  public default Object getProperty(String key) {
+    return property(key);  
+  }
+  
+  /**
    * add the key value pair to the vertex and map
+   * tinkerpop style syntax
    * 
    * @param key
    * @param value
@@ -81,14 +104,13 @@ public static enum EdgeDirection {
     getVertex().property(key, value);
     getMap().put(key, value);
   }
-
+  
   /**
-   * get the property value for the given key
-   * 
+   * tinkerpop compatible getter
    * @param key
-   * @return - the property value
+   * @return - the property
    */
-  public default Object getProperty(String key) {
+  public default Object property(String key) {
     return getMap().get(key);
   }
 

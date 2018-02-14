@@ -23,8 +23,8 @@ package com.bitplan.simplegraph.map;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.bitplan.simplegraph.SimpleNode;
-import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
 public class MapSystem extends SimpleSystemImpl {

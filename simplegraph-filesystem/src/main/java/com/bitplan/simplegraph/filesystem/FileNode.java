@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
 
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**

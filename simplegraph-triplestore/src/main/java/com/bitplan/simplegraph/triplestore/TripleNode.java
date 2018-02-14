@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 import org.sidif.triple.Triple;
 import org.sidif.triple.TripleQuery;
 
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**

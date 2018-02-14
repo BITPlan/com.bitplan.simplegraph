@@ -36,8 +36,8 @@ import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 
 import com.bitplan.mediawiki.japi.SSLWiki;
 import com.bitplan.mediawiki.japi.api.Api;
-import com.bitplan.simplegraph.SimpleNode;
-import com.bitplan.simplegraph.SimpleSystem;
+import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.Holder;
 import com.bitplan.simplegraph.json.JsonPrettyPrinter;
 import com.bitplan.simplegraph.json.JsonSystem;

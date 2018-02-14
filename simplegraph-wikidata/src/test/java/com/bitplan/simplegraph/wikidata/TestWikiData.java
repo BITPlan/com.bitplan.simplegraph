@@ -41,8 +41,8 @@ import org.wikidata.wdtk.datamodel.json.jackson.datavalues.JacksonValueItemId;
 import org.wikidata.wdtk.wikibaseapi.WikibaseDataFetcher;
 import org.wikidata.wdtk.wikibaseapi.apierrors.MediaWikiApiErrorException;
 
-import com.bitplan.simplegraph.Keys;
-import com.bitplan.simplegraph.SimpleNode;
+import com.bitplan.simplegraph.core.Keys;
+import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.KeysImpl;
 import com.bitplan.wikidata.WikiDataNode;
 import com.bitplan.wikidata.WikiDataSystem;
