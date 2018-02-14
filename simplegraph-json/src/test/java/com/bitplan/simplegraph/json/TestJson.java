@@ -98,7 +98,7 @@ public class TestJson  {
   public void testGoogleMapsJsonApi() throws Exception {
     String url="https://maps.googleapis.com/maps/api/geocode/json?address=Cologne%20Cathedral";
     String json=IOUtils.toString(new URL(url),"UTF-8");
-    debug=true;
+    //debug=true;
     if (debug)
       System.out.println(json);
     JsonSystem js = new JsonSystem();

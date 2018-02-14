@@ -22,6 +22,7 @@ package com.bitplan.simplegraph.mediawiki;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
@@ -41,10 +42,23 @@ import com.bitplan.simplegraph.mediawiki.MediaWikiSystem;
 public class TestMediaWiki  {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.mediawiki");
+  
+  @Test
+  public void testGetPage() throws Exception {
+    //debug=true;
+    MediaWikiSystem mws = new MediaWikiSystem();
+    MediaWikiPageNode pageNode = (MediaWikiPageNode) mws
+        .connect("https://en.wikipedia.org", "/w")
+        .moveTo("Cologne");
+    if (debug)
+      pageNode.printNameValues(System.out);
+    String pageContent=pageNode.getProperty("pagecontent").toString();
+    assertTrue(pageContent.contains("[[Category:Cities in North Rhine-Westphalia]]"));
+  }
 
   @Test
   public void testGetImageInfo() throws Exception {
-    debug = true;
+    // debug = true;
     MediaWikiSystem mws = new MediaWikiSystem();
     MediaWikiPageNode pageNode = (MediaWikiPageNode) mws
         .connect("https://commons.wikimedia.org", "/w")

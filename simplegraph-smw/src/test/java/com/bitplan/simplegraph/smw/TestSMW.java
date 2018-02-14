@@ -29,13 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import com.bitplan.simplegraph.SimpleNode;
 import com.bitplan.simplegraph.json.JsonPrettyPrinter;
-import com.bitplan.simplegraph.smw.SMWSystem;
 import com.bitplan.simplegraph.smw.SMWSystem.WikiPage;
 
 /**
@@ -114,10 +112,12 @@ public class TestSMW  {
   
   @Test
   public void testBrowseToMap() throws Exception {
-    debug=true;
+    // debug=true;
     SMWSystem smwSystem = getSMWSystem();
     String subject = "Help:List_of_datatypes";
     SimpleNode browseNode = smwSystem.moveTo("browsebysubject=" + subject);
+    if (debug)
+      browseNode.forAll(SimpleNode.printDebug);
   }
 
   @Test
