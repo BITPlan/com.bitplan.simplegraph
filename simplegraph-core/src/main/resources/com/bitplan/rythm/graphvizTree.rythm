@@ -1,5 +1,5 @@
 @// Rythm template
-@import com.bitplan.simplegraph.SimpleNode
+@import com.bitplan.simplegraph.core.SimpleNode
 @import org.apache.tinkerpop.gremlin.structure.Edge
 @import org.apache.tinkerpop.gremlin.structure.Vertex
 @import java.text.SimpleDateFormat

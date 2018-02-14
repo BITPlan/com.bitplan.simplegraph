@@ -1,5 +1,5 @@
 @// Rythm template
-@import com.bitplan.simplegraph.SimpleNode
+@import com.bitplan.simplegraph.core.SimpleNode
 @args() {
   String name,
   String country,
