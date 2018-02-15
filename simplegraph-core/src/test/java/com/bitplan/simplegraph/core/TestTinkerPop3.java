@@ -342,13 +342,37 @@ public class TestTinkerPop3 {
         g.V().hasLabel("airport").outE("route").count().next().longValue());
     // How many routes are there?
     // g.V().outE('route').count()
-    assertEquals(43400,
-        g.V().outE("route").count().next().longValue());
+    assertEquals(43400, g.V().outE("route").count().next().longValue());
     // // How many routes are there?
     // g.E().hasLabel('route').count()
-    assertEquals(43400,
-        g.E().hasLabel("route").count().next().longValue());
+    assertEquals(43400, g.E().hasLabel("route").count().next().longValue());
+  }
+
+  @Test
+  public void testCountingGroups() throws Exception {
     // 3.2.4. Counting groups of things
+    Graph graph = getAirRoutes();
+    GraphTraversalSource g = graph.traversal();
+    // How many of each type of vertex are there?
+    // g.V().groupCount().by(label)
+    Map<Object, Long> labelTypeCount = g.V().groupCount().by(T.label).next();
+    if (debug)
+      labelTypeCount.entrySet().forEach(entry -> System.out
+          .println(String.format("%s=%4d", entry.getKey(), entry.getValue())));
+    Long countries = labelTypeCount.get("country");
+    assertEquals(237, countries.longValue());
+    // How many of each type of vertex are there?
+    // g.V().label().groupCount()
+    // [continent:7,country:237,version:1,airport:3374]
+
+    Map<Object, Long> labelTypeCount2 = g.V().label().groupCount().next();
+    // check we have the same result
+    labelTypeCount2.entrySet().forEach(entry -> assertEquals(entry.getValue(),
+        labelTypeCount.get(entry.getKey())));
+    // How many of each type of edge are there?
+    // g.E().groupCount().by(label)
+    g.E().groupCount().by(T.label);
+    
   }
 
   @SuppressWarnings("rawtypes")
@@ -378,7 +402,7 @@ public class TestTinkerPop3 {
     rootMap.put("g", g);
     rootMap.put("title", "AirRoutes");
     String uml = RythmContext.getInstance().render(plantUMLTemplate, rootMap);
-    // debug=true;
+    debug=true;
     if (debug)
       System.out.println(uml);
 

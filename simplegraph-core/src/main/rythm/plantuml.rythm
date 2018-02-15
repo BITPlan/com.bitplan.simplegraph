@@ -11,6 +11,7 @@
   hide circle
   package @title @("{")
   	@for(String className:g.V().label().dedup().toList()) {	
+  	note top of @className: @(g.V().hasLabel(className).count().next().longValue())
   	class @className @("{")
 @{
   List<VertexProperty> vprops=new ArrayList<VertexProperty>();
@@ -27,5 +28,6 @@
   	  Edge edge=g.E().hasLabel(edgeName).next();
   	}
   @(edge.outVertex().label()) --> @(edge.inVertex().label()): @(edge.label())
+  note on link: @(g.E().hasLabel(edgeName).count().next().longValue())
   }
 </uml>
