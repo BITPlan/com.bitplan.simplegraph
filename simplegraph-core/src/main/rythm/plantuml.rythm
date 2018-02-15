@@ -1,0 +1,31 @@
+@// Rythm template
+@import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource
+@import org.apache.tinkerpop.gremlin.structure.VertexProperty
+@import org.apache.tinkerpop.gremlin.structure.Edge
+
+@args() {
+  GraphTraversalSource g,
+  String title;
+}
+<uml>
+  hide circle
+  package @title @("{")
+  	@for(String className:g.V().label().dedup().toList()) {	
+  	class @className @("{")
+@{
+  List<VertexProperty> vprops=new ArrayList<VertexProperty>();
+  g.V().hasLabel(className).next().properties().forEachRemaining(prop->vprops.add(prop));
+}  	
+  	  @for(VertexProperty vprop:vprops) {
+  	  	@(vprop.label()) 
+  	  }
+  	@("}")
+  	}
+  @("}")
+  @for(String edgeName:g.E().label().dedup().toList()) {
+    @{
+  	  Edge edge=g.E().hasLabel(edgeName).next();
+  	}
+  @(edge.outVertex().label()) --> @(edge.inVertex().label()): @(edge.label())
+  }
+</uml>

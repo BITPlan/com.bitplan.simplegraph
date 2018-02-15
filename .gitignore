@@ -27,3 +27,5 @@ target/
 
 # MAC
 .DS_Store
+# Office backups
+~$*

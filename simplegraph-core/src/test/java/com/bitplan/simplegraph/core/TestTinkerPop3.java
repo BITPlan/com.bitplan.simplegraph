@@ -23,7 +23,9 @@ package com.bitplan.simplegraph.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -34,15 +36,19 @@ import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.Path;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
 import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.T;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
+import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.junit.Test;
+
+import com.bitplan.rythm.RythmContext;
 
 /**
  * get TinkerPop3 API
@@ -222,15 +228,19 @@ public class TestTinkerPop3 {
   public void testGuide() throws Exception {
     Graph graph = getAirRoutes();
     GraphTraversalSource g = graph.traversal();
-    Map<Object, Long> groupCount = g.V().hasLabel("airport").groupCount().by("country").next();
+    // 3.1.1. A quick look at Gremlin and SQL
+    // g.V().hasLabel('airport').groupCount().by('country')
+    Map<Object, Long> groupCount = g.V().hasLabel("airport").groupCount()
+        .by("country").next();
     if (debug)
-      groupCount.entrySet().forEach(entry->System.out.println(String.format("%s=%s",entry.getKey(),entry.getValue())));
+      groupCount.entrySet().forEach(entry -> System.out
+          .println(String.format("%s=%s", entry.getKey(), entry.getValue())));
 
     // uncomment if you"d like to see all available ids
     // g.V().forEachRemaining(v->System.out.println(v.id()));
     // Query the properties of vertex 3
     GraphTraversal<Vertex, Object> unfolded1 = g.V("3").valueMap(true).unfold();
-    debug = true;
+    // debug = true;
     if (debug) {
       unfolded1.forEachRemaining(o -> System.out.println(o.toString()));
       /**
@@ -240,38 +250,148 @@ public class TestTinkerPop3 {
        * desc=[Austin Bergstrom International Airport]
        */
     }
-    assertEquals(14,  g.V("3").valueMap(true).unfold().count().next().longValue());
+    assertEquals(14,
+        g.V("3").valueMap(true).unfold().count().next().longValue());
 
     GraphTraversal<Vertex, Vertex> v3 = g.V(3);
     GraphTraversal<Vertex, Map<Object, Object>> vmap = v3.valueMap(true);
     GraphTraversal<Vertex, Object> unfolded = g.V(3).valueMap(true).unfold();
-    unfolded.forEachRemaining(o -> System.out.println(
-        String.format("%s (%s)", o.toString(), o.getClass().getName())));
-    g.V().hasLabel("airport").values("code")
-        .forEachRemaining(o -> System.out.println(o.toString()));
-    ;
+    if (debug)
+      unfolded.forEachRemaining(o -> System.out.println(
+          String.format("%s (%s)", o.toString(), o.getClass().getName())));
+    if (debug)
+      g.V().hasLabel("airport").values("code")
+          .forEachRemaining(o -> System.out.println(o.toString()));
+    // g.V().has('code','AUS').out().out().out().has('code','AGR').path().by('code')
+    GraphTraversal<Vertex, Path> paths = g.V().has("code", "AUS").out().out()
+        .out().has("code", "AGR").path().by("code");
+    assertEquals(4, paths.count().next().longValue());
+    paths = g.V().has("code", "AUS").out().out().out().has("code", "AGR").path()
+        .by("code");
+    if (debug)
+      paths.forEachRemaining(path -> {
+        System.out.println(path.toString());
+      });
+    // g.V().has('code','AUS').repeat(out()).times(3).has('code','AGR').path().by('code')
+    if (debug)
+      g.V().has("code", "AUS").repeat(__.out()).times(3).has("code", "AGR")
+          .path().by("code").forEachRemaining(path -> {
+            System.out.println(path.toString());
+          });
+    // Find vertices that are airports
+    // g.V().hasLabel('airport')
+    assertEquals(3374, g.V().hasLabel("airport").count().next().longValue());
+    // Find the DFW vertex
+    // g.V().has('code','DFW')
+    assertEquals("Dallas",
+        g.V().has("code", "DFW").next().property("city").value());
+    // Combining those two previous queries (two ways that are equivalent)
+    // g.V().hasLabel('airport').has('code','DFW')
+    assertEquals("8", g.V().hasLabel("airport").has("code", "DFW").next().id());
+    // g.V().has('airport','code','DFW')
+    assertEquals("8", g.V().has("airport", "code", "DFW").next().id());
+    // g.V().has('airport','code','DFW').next().getClass()
+    assertEquals("TinkerVertex",
+        g.V().has("airport", "code", "DFW").next().getClass().getSimpleName());
+    // 3.2.1. Retrieving property values from a vertex
+    // What property values are stored in the DFW vertex?
+    // g.V().has('airport','code','DFW').values()
+    List<Object> values = g.V().has("airport", "code", "DFW").values().toList();
+    assertEquals(12, values.size());
+    if (debug)
+      values.forEach(value -> System.out.println(value));
+    // Return just the city name property
+    // g.V().has('airport','code','DFW').values('city')
+    assertEquals("Dallas", g.V().has("code", "DFW").values("city").next());
+    // Return the 'runways' and 'icao' property values.
+    // g.V().has('airport','code','DFW').values('runways','icao')
+    GraphTraversal<Vertex, Object> rit = g.V().has("code", "DFW")
+        .values("runways", "icao");
+    assertEquals("KDFW", rit.next());
+    assertEquals(7, rit.next());
+    // Does a specific property exist on a given vertex or edge?
+
+    // Find all edges that have a 'dist' property
+    // g.E().has('dist')
+    g.E().has("dist").forEachRemaining(e -> {
+      if (debug) {
+        System.out.println(String.format("%s -> %s %3d miles",
+            e.inVertex().values("city").next(),
+            e.outVertex().values("city").next(), e.property("dist").value()));
+      }
+    });
+
+    // Find all vertices that have a 'region' property
+    // g.V().has('region')
+    assertEquals(3374, g.V().has("region").count().next().longValue());
+
+    // Find all the vertices that do not have a 'region' property
+    // g.V().hasNot('region')
+    assertEquals(245, g.V().hasNot("region").count().next().longValue());
+
+    // The above is shorthand for
+    // g.V().not(has('region'))
+    assertEquals(245, g.V().not(__.has("region")).count().next().longValue());
+    // 3.2.3. Counting things
+    // How many airports are there in the graph?
+    // g.V().hasLabel('airport').count()
+    assertEquals(3374, g.V().hasLabel("airport").count().next().longValue());
+    // How many routes are there?
+    // g.V().hasLabel('airport').outE('route').count()
+    assertEquals(43400,
+        g.V().hasLabel("airport").outE("route").count().next().longValue());
+    // How many routes are there?
+    // g.V().outE('route').count()
+    assertEquals(43400,
+        g.V().outE("route").count().next().longValue());
+    // // How many routes are there?
+    // g.E().hasLabel('route').count()
+    assertEquals(43400,
+        g.E().hasLabel("route").count().next().longValue());
+    // 3.2.4. Counting groups of things
   }
-  
+
+  @SuppressWarnings("rawtypes")
   @Test
-  public void testGremlin() throws Exception {
+  public void testUML() throws Exception {
     Graph graph = getAirRoutes();
     GraphTraversalSource g = graph.traversal();
-    GraphTraversal<Vertex, Path> paths = g.V().has("code","AUS").out().out().out().has("code","AGR").path().by("code");
-    assertEquals(4,paths.count().next().longValue());
-    paths = g.V().has("code","AUS").out().out().out().has("code","AGR").path().by("code");
-    paths.forEachRemaining(path->{System.out.println(path.toString());});
+    for (String className : g.V().label().dedup().toList()) {
+      List<VertexProperty> vprops = new ArrayList<VertexProperty>();
+      g.V().hasLabel(className).next().properties()
+          .forEachRemaining(prop -> vprops.add(prop));
+      for (VertexProperty vprop : vprops) {
+        if (debug)
+          System.out.println(String.format("%s.%s", className, vprop.label()));
+      }
+    }
+    for (String edgeName : g.E().label().dedup().toList()) {
+      Edge edge = g.E().hasLabel(edgeName).next();
+      if (debug)
+        System.out.println(String.format("%s -> %s: %s",
+            edge.outVertex().label(), edge.inVertex().label(), edge.label()));
+    }
+    ;
+    // .properties().forEachRemaining(prop->vprops.add(prop));
+    File plantUMLTemplate = new File("src/main/rythm/plantuml.rythm");
+    Map<String, Object> rootMap = new HashMap<String, Object>();
+    rootMap.put("g", g);
+    rootMap.put("title", "AirRoutes");
+    String uml = RythmContext.getInstance().render(plantUMLTemplate, rootMap);
+    // debug=true;
+    if (debug)
+      System.out.println(uml);
 
   }
-  
 
   @Test
   public void testLabels() throws Exception {
     Graph graph = getAirRoutes();
     GraphTraversalSource g = graph.traversal();
-    long vertexLabelCount=g.V().label().dedup().count().next().longValue();
-    assertEquals(4,vertexLabelCount);
-    long edgeLabelCount=g.E().label().dedup().count().next().longValue();
-    assertEquals(2,edgeLabelCount);
+    long vertexLabelCount = g.V().label().dedup().count().next().longValue();
+    assertEquals(4, vertexLabelCount);
+    long edgeLabelCount = g.E().label().dedup().count().next().longValue();
+    assertEquals(2, edgeLabelCount);
   }
 
 }
