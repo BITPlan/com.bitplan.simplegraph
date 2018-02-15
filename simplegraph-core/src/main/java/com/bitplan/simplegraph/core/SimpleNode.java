@@ -38,17 +38,18 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
  *
  */
 public interface SimpleNode extends SimpleGraph {
-  static Consumer<Vertex> printDebug = 
-    vertex->vertex.properties().forEachRemaining(prop->System.out.println(String.format("%s.%s=%s",vertex.label(),prop.label(),prop.value())));
+  static Consumer<Vertex> printDebug = vertex -> vertex.properties()
+      .forEachRemaining(prop -> System.out.println(String.format("%s.%s=%s",
+          vertex.label(), prop.label(), prop.value())));
 
   static Consumer<Map<?, Object>> printMapDebug = map -> {
     map.keySet().forEach(
         key -> System.out.println(String.format("%s=%s", key, map.get(key))));
   };
 
-public static enum EdgeDirection {
-  IN, OUT
-  // ,BOTH
+  public static enum EdgeDirection {
+    IN, OUT
+    // ,BOTH
   };
 
   // interface to Tinkertop/Gremlin wrapped Vertex
@@ -72,30 +73,27 @@ public static enum EdgeDirection {
   public Stream<SimpleNode> in(String edgeName);
 
   /**
-   * set the property value for the given key
-   * with traditional java style syntax
+   * set the property value for the given key with traditional java style syntax
    * 
    * @param key
    * @param value
    */
-  public default void setProperty(String key,Object value) {
-    property(key,value);
+  public default void setProperty(String key, Object value) {
+    property(key, value);
   }
-  
+
   /**
-   * get the property value for the given key
-   * with traditional java style syntax
+   * get the property value for the given key with traditional java style syntax
    * 
    * @param key
    * @return - the property value
    */
   public default Object getProperty(String key) {
-    return property(key);  
+    return property(key);
   }
-  
+
   /**
-   * add the key value pair to the vertex and map
-   * tinkerpop style syntax
+   * add the key value pair to the vertex and map tinkerpop style syntax
    * 
    * @param key
    * @param value
@@ -104,9 +102,10 @@ public static enum EdgeDirection {
     getVertex().property(key, value);
     getMap().put(key, value);
   }
-  
+
   /**
    * tinkerpop compatible getter
+   * 
    * @param key
    * @return - the property
    */

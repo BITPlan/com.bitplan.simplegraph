@@ -23,7 +23,6 @@ package com.bitplan.simplegraph.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,13 +54,25 @@ public class TestTinkerPop3 {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph");
 
-  @Test
-  // http://kelvinlawrence.net/book/Gremlin-Graph-Guide.html#beyond
-  public void testAirRoutes() throws IOException {
+  /**
+   * get the AirRoutes example graph
+   * 
+   * @return
+   * @throws Exception
+   */
+  public static Graph getAirRoutes() throws Exception {
     Graph graph = TinkerGraph.open();
-    graph.io(IoCore.graphml()).readGraph("../simplegraph-core/src/test/air-routes.graphml");
+    graph.io(IoCore.graphml())
+        .readGraph("../simplegraph-core/src/test/air-routes.graphml");
     if (debug)
       LOGGER.log(Level.INFO, graph.toString());
+    return graph;
+  }
+
+  @Test
+  // http://kelvinlawrence.net/book/Gremlin-Graph-Guide.html#beyond
+  public void testAirRoutes() throws Exception {
+    Graph graph = getAirRoutes();
     GraphTraversalSource g = graph.traversal();
     assertEquals(3619, g.V().count().next().longValue());
     Map<String, ?> aus = g.V().has("code", "AUS").valueMap().next();
@@ -200,6 +211,67 @@ public class TestTinkerPop3 {
         .by(T.label).by("name").toStream().collect(Collectors.toList());
     if (debug)
       groupsByName.forEach(SimpleNode.printMapDebug);
+  }
+
+  @Test
+  /**
+   * test according to https://github.com/krlawrence/graph
+   * http://kelvinlawrence.net/book/Gremlin-Graph-Guide.html
+   * http://kelvinlawrence.net/book/Gremlin-Graph-Guide.pdf
+   */
+  public void testGuide() throws Exception {
+    Graph graph = getAirRoutes();
+    GraphTraversalSource g = graph.traversal();
+    Map<Object, Long> groupCount = g.V().hasLabel("airport").groupCount().by("country").next();
+    if (debug)
+      groupCount.entrySet().forEach(entry->System.out.println(String.format("%s=%s",entry.getKey(),entry.getValue())));
+
+    // uncomment if you"d like to see all available ids
+    // g.V().forEachRemaining(v->System.out.println(v.id()));
+    // Query the properties of vertex 3
+    GraphTraversal<Vertex, Object> unfolded1 = g.V("3").valueMap(true).unfold();
+    debug = true;
+    if (debug) {
+      unfolded1.forEachRemaining(o -> System.out.println(o.toString()));
+      /**
+       * country=[US] code=[AUS] longest=[12250] city=[Austin] id=3
+       * lon=[-97.6698989868164] type=[airport] label=airport elev=[542]
+       * icao=[KAUS] region=[US-TX] runways=[2] lat=[30.1944999694824]
+       * desc=[Austin Bergstrom International Airport]
+       */
+    }
+    assertEquals(14,  g.V("3").valueMap(true).unfold().count().next().longValue());
+
+    GraphTraversal<Vertex, Vertex> v3 = g.V(3);
+    GraphTraversal<Vertex, Map<Object, Object>> vmap = v3.valueMap(true);
+    GraphTraversal<Vertex, Object> unfolded = g.V(3).valueMap(true).unfold();
+    unfolded.forEachRemaining(o -> System.out.println(
+        String.format("%s (%s)", o.toString(), o.getClass().getName())));
+    g.V().hasLabel("airport").values("code")
+        .forEachRemaining(o -> System.out.println(o.toString()));
+    ;
+  }
+  
+  @Test
+  public void testGremlin() throws Exception {
+    Graph graph = getAirRoutes();
+    GraphTraversalSource g = graph.traversal();
+    GraphTraversal<Vertex, Path> paths = g.V().has("code","AUS").out().out().out().has("code","AGR").path().by("code");
+    assertEquals(4,paths.count().next().longValue());
+    paths = g.V().has("code","AUS").out().out().out().has("code","AGR").path().by("code");
+    paths.forEachRemaining(path->{System.out.println(path.toString());});
+
+  }
+  
+
+  @Test
+  public void testLabels() throws Exception {
+    Graph graph = getAirRoutes();
+    GraphTraversalSource g = graph.traversal();
+    long vertexLabelCount=g.V().label().dedup().count().next().longValue();
+    assertEquals(4,vertexLabelCount);
+    long edgeLabelCount=g.E().label().dedup().count().next().longValue();
+    assertEquals(2,edgeLabelCount);
   }
 
 }

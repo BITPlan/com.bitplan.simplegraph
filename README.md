@@ -9,7 +9,8 @@ Allow Wrapping Systems with Apache TinkerPop
 * [FileSystem](http://www.bitplan.com/index.php/SimpleGraph-FileSystem)
 * [JSON](http://www.bitplan.com/index.php/SimpleGraph-MapSystem)
 * [MapSystem](http://www.bitplan.com/index.php/SimpleGraph-MapSystem)
-* PowerPoint
+* [Excel](http://www.bitplan.com/index.php/SimpleGraph-Excel)
+* [PowerPoint](http://www.bitplan.com/index.php/SimpleGraph-PowerPoint)
 * [SiDIF TripleStore](http://www.bitplan.com/index.php/SiDIF-TripleStore)
 * [WikiData](https://www.wikidata.org/wiki/Wikidata:Main_Page)
 * [MediaWiki](http://mediawiki-japi.bitplan.com/index.php/Main_Page)

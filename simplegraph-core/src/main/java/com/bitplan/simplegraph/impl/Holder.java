@@ -63,7 +63,7 @@ public class Holder<T> {
   }
   
   public void setValue(T value) {
-    values=new ArrayList<T>();
+    values.clear();
     add(value);
   }
 

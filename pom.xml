@@ -46,6 +46,7 @@
 		<module>simplegraph-sql</module>
 		<module>simplegraph-triplestore</module>
 		<module>simplegraph-wikidata</module>
+		<module>simplegraph-excel</module> 
 		<module>simplegraph-powerpoint</module> 
 	</modules>
 	<licenses>
