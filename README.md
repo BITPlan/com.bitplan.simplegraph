@@ -12,9 +12,9 @@ Allow Wrapping Systems with Apache TinkerPop
 * [MapSystem](http://www.bitplan.com/index.php/SimpleGraph-MapSystem)
 * [MediaWiki](http://www.bitplan.com/index.php/SimpleGraph-MediaWiki)
 * [PowerPoint](http://www.bitplan.com/index.php/SimpleGraph-PowerPoint)
-* [SiDIF TripleStore](http://www.bitplan.com/index.php/SimpleGraph-TripleStore)
 * [SMW Semantic MediaWiki](http://www.bitplan.com/index.php/SimpleGraph-SMW)
 * [SQL](http://www.bitplan.com/index.php/SimpleGraph-SQL)
+* [TripleStore](http://www.bitplan.com/index.php/SimpleGraph-TripleStore)
 * [WikiData](http://www.bitplan.com/index.php/SimpleGraph-WikiData)
 
 # Links
