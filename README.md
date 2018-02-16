@@ -6,14 +6,16 @@ Allow Wrapping Systems with Apache TinkerPop
 [![Coverage Status](https://coveralls.io/repos/github/BITPlan/com.bitplan.simplegraph/badge.svg?branch=master)](https://coveralls.io/github/BITPlan/com.bitplan.simplegraph?branch=master)
 
 # available modules / Systems wrapped
-* [FileSystem](http://www.bitplan.com/index.php/SimpleGraph-FileSystem)
-* [JSON](http://www.bitplan.com/index.php/SimpleGraph-MapSystem)
-* [MapSystem](http://www.bitplan.com/index.php/SimpleGraph-MapSystem)
 * [Excel](http://www.bitplan.com/index.php/SimpleGraph-Excel)
+* [FileSystem](http://www.bitplan.com/index.php/SimpleGraph-FileSystem)
+* [JSON](http://www.bitplan.com/index.php/SimpleGraph-JSON)
+* [MapSystem](http://www.bitplan.com/index.php/SimpleGraph-MapSystem)
+* [MediaWiki](http://www.bitplan.com/index.php/SimpleGraph-MediaWiki)
 * [PowerPoint](http://www.bitplan.com/index.php/SimpleGraph-PowerPoint)
-* [SiDIF TripleStore](http://www.bitplan.com/index.php/SiDIF-TripleStore)
-* [WikiData](https://www.wikidata.org/wiki/Wikidata:Main_Page)
-* [MediaWiki](http://mediawiki-japi.bitplan.com/index.php/Main_Page)
+* [SiDIF TripleStore](http://www.bitplan.com/index.php/SimpleGraph-TripleStore)
+* [SMW Semantic MediaWiki](http://www.bitplan.com/index.php/SimpleGraph-SMW)
+* [SQL](http://www.bitplan.com/index.php/SimpleGraph-SQL)
+* [WikiData](http://www.bitplan.com/index.php/SimpleGraph-WikiData)
 
 # Links
 * http://www.bitplan.com/index.php/SimpleGraph
