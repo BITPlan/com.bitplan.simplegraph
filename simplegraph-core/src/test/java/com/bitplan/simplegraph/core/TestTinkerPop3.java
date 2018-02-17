@@ -22,6 +22,7 @@ package com.bitplan.simplegraph.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -235,7 +236,6 @@ public class TestTinkerPop3 {
     if (debug)
       groupCount.entrySet().forEach(entry -> System.out
           .println(String.format("%s=%s", entry.getKey(), entry.getValue())));
-
     // uncomment if you"d like to see all available ids
     // g.V().forEachRemaining(v->System.out.println(v.id()));
     // Query the properties of vertex 3
@@ -252,7 +252,6 @@ public class TestTinkerPop3 {
     }
     assertEquals(14,
         g.V("3").valueMap(true).unfold().count().next().longValue());
-
     GraphTraversal<Vertex, Vertex> v3 = g.V(3);
     GraphTraversal<Vertex, Map<Object, Object>> vmap = v3.valueMap(true);
     GraphTraversal<Vertex, Object> unfolded = g.V(3).valueMap(true).unfold();
@@ -262,6 +261,7 @@ public class TestTinkerPop3 {
     if (debug)
       g.V().hasLabel("airport").values("code")
           .forEachRemaining(o -> System.out.println(o.toString()));
+
     // g.V().has('code','AUS').out().out().out().has('code','AGR').path().by('code')
     GraphTraversal<Vertex, Path> paths = g.V().has("code", "AUS").out().out()
         .out().has("code", "AGR").path().by("code");
@@ -273,11 +273,13 @@ public class TestTinkerPop3 {
         System.out.println(path.toString());
       });
     // g.V().has('code','AUS').repeat(out()).times(3).has('code','AGR').path().by('code')
+    
     if (debug)
       g.V().has("code", "AUS").repeat(__.out()).times(3).has("code", "AGR")
           .path().by("code").forEachRemaining(path -> {
             System.out.println(path.toString());
           });
+    //fail("tschüss");
     // Find vertices that are airports
     // g.V().hasLabel('airport')
     assertEquals(3374, g.V().hasLabel("airport").count().next().longValue());
@@ -298,9 +300,11 @@ public class TestTinkerPop3 {
     // g.V().has('airport','code','DFW').values()
     List<Object> values = g.V().has("airport", "code", "DFW").values().toList();
     assertEquals(12, values.size());
+    // debug=true;
     if (debug)
       values.forEach(value -> System.out.println(value));
     // Return just the city name property
+    // fail("tschüss");    
     // g.V().has('airport','code','DFW').values('city')
     assertEquals("Dallas", g.V().has("code", "DFW").values("city").next());
     // Return the 'runways' and 'icao' property values.
@@ -402,7 +406,7 @@ public class TestTinkerPop3 {
     rootMap.put("g", g);
     rootMap.put("title", "AirRoutes");
     String uml = RythmContext.getInstance().render(plantUMLTemplate, rootMap);
-    debug=true;
+    // debug=true;
     if (debug)
       System.out.println(uml);
 

@@ -8,9 +8,11 @@ Allow Wrapping Systems with Apache TinkerPop
 # available modules / Systems wrapped
 * [Excel](http://www.bitplan.com/index.php/SimpleGraph-Excel)
 * [FileSystem](http://www.bitplan.com/index.php/SimpleGraph-FileSystem)
+* [HTML](http://www.bitplan.com/index.php/SimpleGraph-HTML)
 * [JSON](http://www.bitplan.com/index.php/SimpleGraph-JSON)
 * [MapSystem](http://www.bitplan.com/index.php/SimpleGraph-MapSystem)
 * [MediaWiki](http://www.bitplan.com/index.php/SimpleGraph-MediaWiki)
+* [PDF](http://www.bitplan.com/index.php/SimpleGraph-PDF)
 * [PowerPoint](http://www.bitplan.com/index.php/SimpleGraph-PowerPoint)
 * [SMW Semantic MediaWiki](http://www.bitplan.com/index.php/SimpleGraph-SMW)
 * [SQL](http://www.bitplan.com/index.php/SimpleGraph-SQL)

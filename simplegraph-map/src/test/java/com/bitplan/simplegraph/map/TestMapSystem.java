@@ -57,7 +57,7 @@ public class TestMapSystem {
         "Italy", "wikidataid", "Q27586");
     ms.initMap("carbrand", "name", "Porsche", "country", "Germany",
         "wikidataid", "Q40993");
-    ms.initMap("carbrand", "name", "Ford", "cuntry", "United States",
+    ms.initMap("carbrand", "name", "Ford", "country", "United States",
         "wikidataid", "Q44294");
 
     ms.initMap("carmake", "name", "308", "year", 1984, "wikidataid", "Q1407659",
@@ -76,9 +76,9 @@ public class TestMapSystem {
       String brandname = carbrand.property("name").value().toString();
       if (debug)
         System.out.println("linking " + brandname);
-      ms.g().V().hasLabel("carbrand").has("name", brandname)
-          .forEachRemaining(brandNode -> {
-            brandNode.addEdge("brand", carbrand);
+      ms.g().V().hasLabel("carmake").has("brand", brandname)
+          .forEachRemaining(makeNode -> {
+            makeNode.addEdge("brand", carbrand);
           });
     });
 
@@ -94,7 +94,7 @@ public class TestMapSystem {
   public void testMapSystem() throws Exception {
     MapSystem ms = getCarMapSystem();
     // uncomment if you'd like to see all the node details
-    // debug=true;
+    debug=true;
     if (debug)
       ms.g().V().forEachRemaining(SimpleNode.printDebug);
     // generate a graphviz graph based on this start node
@@ -115,6 +115,8 @@ public class TestMapSystem {
     // check that the graph contains one of the expected graphviz code lines
     assertTrue(graphViz.contains(
         "\"Q27586\" [ label=\"Ferrari\" URL=\"https://www.wikidata.org/wiki/Q27586\"]"));
+    // check at least one edge
+    assertTrue(graphViz.contains("\"Q1407669\" -> \"Q27586\""));
   }
 
 }
