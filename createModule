@@ -96,7 +96,7 @@ EOF
 #
 # loop over all modules
 #
-for module in filesystem core html json map mediawiki pdf smw wikidata sql excel powerpoint triplestore bundle
+for module in bundle core excel filesystem html json mail map mediawiki pdf powerpoint sql smw triplestore wikidata word     
 do 
   moduleName=simplegraph-$module
   package=com.bitplan.$module

@@ -29,26 +29,43 @@ import org.apache.tinkerpop.gremlin.process.traversal.P;
 // https://groups.google.com/forum/#!topic/gremlin-users/heWLwz9xBQc
 // https://stackoverflow.com/a/45652897/1497139
 public class RegexPredicate implements BiPredicate<Object, Object> {
-  Pattern pattern = null;
+	Pattern pattern = null;
+	private Mode mode;
 
-  public RegexPredicate(String regex) {
-    pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-  };
+	enum Mode {
+		FIND, MATCH
+	}
 
-  @Override
-  public boolean test(final Object first, final Object second) {
-    String str = first.toString();
-    Matcher matcher = pattern.matcher(str);
-    return matcher.matches();
-  }
+	public RegexPredicate(String regex, Mode mode) {
+		this.mode = mode;
+		pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+	};
+	
+	public RegexPredicate(String regex) {
+		this(regex,Mode.FIND);
+	}
 
-  /**
-   * get a Regular expression predicate
-   * @param regex
-   * @return - the predicate
-   */
-  public static P<Object> regex(Object regex) {
-    BiPredicate<Object, Object> b = new RegexPredicate(regex.toString());
-    return new P<Object>(b, regex);
-  }
+	@Override
+	public boolean test(final Object first, final Object second) {
+		String str = first.toString();
+		Matcher matcher = pattern.matcher(str);
+		switch (mode) {
+		case FIND:
+			return matcher.find();
+		case MATCH:
+			return matcher.matches();
+		}
+		return false;
+	}
+
+	/**
+	 * get a Regular expression predicate
+	 * 
+	 * @param regex
+	 * @return - the predicate
+	 */
+	public static P<Object> regex(Object regex) {
+		BiPredicate<Object, Object> b = new RegexPredicate(regex.toString());
+		return new P<Object>(b, regex);
+	}
 }

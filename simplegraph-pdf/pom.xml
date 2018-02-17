@@ -1,21 +1,34 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" >
-  <modelVersion>4.0.0</modelVersion>
-  
-  <name>SimpleGraph com.bitplan.simplegraph.pdf</name>
-  <description>com.bitplan.simplegraph.pdf submodule of com.bitplan.simplegraph</description>
-  
-  <parent>
-    <groupId>com.bitplan.simplegraph</groupId>
-    <artifactId>com.bitplan.simplegraph</artifactId>
-    <version>0.0.2</version>
-  </parent>
-  <artifactId>com.bitplan.simplegraph.pdf</artifactId>
-  <packaging>jar</packaging>
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>com.bitplan.simplegraph-core</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>SimpleGraph com.bitplan.simplegraph.pdf</name>
+	<description>com.bitplan.simplegraph.pdf submodule of com.bitplan.simplegraph</description>
+
+	<parent>
+		<groupId>com.bitplan.simplegraph</groupId>
+		<artifactId>com.bitplan.simplegraph</artifactId>
+		<version>0.0.2</version>
+	</parent>
+	<artifactId>com.bitplan.simplegraph.pdf</artifactId>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!--apache pdfbox with lucene -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>2.10.0</version>
+			<type>pom</type>
+		</dependency>
+	</dependencies>
 </project>
