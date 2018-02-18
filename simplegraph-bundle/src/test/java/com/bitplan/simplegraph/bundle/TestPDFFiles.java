@@ -54,8 +54,8 @@ public class TestPDFFiles {
     assertEquals(69, fs.g().V().count().next().longValue());
     PdfSystem ps = new PdfSystem();
     ps.connect();
-    // potentially limit the number of files to be anal
-    int limit = 50;
+    // potentially limit the number of files to be analyzed
+    int limit = 42;
     fs.g().V().hasLabel("file").has("ext", "pdf").range(0, limit)
         .forEachRemaining(file -> {
           File pdfFile = new File(file.property("path").value().toString());
@@ -63,25 +63,28 @@ public class TestPDFFiles {
           pdfNode.out("pages");
           pdfNode.property("name", pdfFile.getName());
         });
-    debug = true;
-    ps.forAll(SimpleNode.printDebug);
-    // there should be 191 pages
-    assertEquals(85, ps.g().V().hasLabel("page").count().next().longValue());
+    // debug = true;
+    if (debug)
+      ps.forAll(SimpleNode.printDebug);
+    // there should be 71 pages
+    assertEquals(71, ps.g().V().hasLabel("page").count().next().longValue());
     // there should be 2 pages referencing George Gregg
     assertEquals(2,
         ps.g().V().hasLabel("page")
-            .has("text", RegexPredicate.regex(".*George Gregg.*")).count().next()
-            .longValue());
+            .has("text", RegexPredicate.regex(".*George Gregg.*")).count()
+            .next().longValue());
 
     // there should be one RFC mentioning George Gregg
     if (debug)
       ps.g().V().hasLabel("page")
-          .has("text", RegexPredicate.regex(".*George Gregg.*")).in("pages").dedup()
-          .forEachRemaining(
+          .has("text", RegexPredicate.regex(".*George Gregg.*")).in("pages")
+          .dedup().forEachRemaining(
               pdf -> System.out.println(pdf.property("name").value()));
-    List<Object> rfcs = ps.g().V().hasLabel("page").has("text", RegexPredicate.regex(".*George Gregg.*")).in("pages").dedup().values("name").toList();
-    assertEquals(1,rfcs.size());
-    assertEquals("rfc21.pdf",rfcs.get(0));    
+    List<Object> rfcs = ps.g().V().hasLabel("page")
+        .has("text", RegexPredicate.regex(".*George Gregg.*")).in("pages")
+        .dedup().values("name").toList();
+    assertEquals(1, rfcs.size());
+    assertEquals("rfc21.pdf", rfcs.get(0));
   }
 
 }
