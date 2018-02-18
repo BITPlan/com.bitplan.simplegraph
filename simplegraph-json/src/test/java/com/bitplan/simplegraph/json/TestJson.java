@@ -44,7 +44,7 @@ import com.bitplan.simplegraph.impl.Holder;
  */
 public class TestJson {
   public static boolean debug = false;
-  protected static Logger LOGGER = Logger.getLogger("com.bitplan.json");
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.json");
 
   @Test
   public void testJson() throws Exception {

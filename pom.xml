@@ -39,15 +39,19 @@
 	<modules>
 		<module>simplegraph-core</module>
 		<module>simplegraph-filesystem</module>
+		<module>simplegraph-html</module>
 		<module>simplegraph-json</module>
 		<module>simplegraph-map</module>
 		<module>simplegraph-mediawiki</module>
 		<module>simplegraph-smw</module>
+		<module>simplegraph-pdf</module> 
 		<module>simplegraph-sql</module>
 		<module>simplegraph-triplestore</module>
-		<module>simplegraph-wikidata</module>
 		<module>simplegraph-excel</module> 
+		<module>simplegraph-wikidata</module>
+		<module>simplegraph-word</module>
 		<module>simplegraph-powerpoint</module> 
+		<module>simplegraph-bundle</module>
 	</modules>
 	<licenses>
 		<license>

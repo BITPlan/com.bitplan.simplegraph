@@ -1,0 +1,20 @@
+#!/bin/bash
+# WF 2018-02-18
+# Download RFCs
+base=https://tools.ietf.org/pdf/
+
+rfc=1
+limit=150
+maxsize=10000
+while [ $rfc -le $limit ]
+do
+  rfcfile=rfc$rfc.pdf 
+  if  [ ! -f $rfcfile ] 
+	then
+	  echo "downloading RFC $rfc"
+	  curl -s --remote-time --max-filesize $maxsize $base$rfcfile -o $rfcfile
+	fi
+	(( rfc++ ))
+done
+#remove files with size zero
+find .  -size  0 -print0 |xargs -0 rm

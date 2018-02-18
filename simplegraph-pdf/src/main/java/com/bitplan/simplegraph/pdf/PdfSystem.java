@@ -1,77 +1,67 @@
+/**
+ * Copyright (c) 2018 BITPlan GmbH
+ *
+ * http://www.bitplan.com
+ *
+ * This file is part of the Opensource project at:
+ * https://github.com/BITPlan/com.bitplan.simplegraph
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bitplan.simplegraph.pdf;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
-import org.apache.pdfbox.cos.COSDocument;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
+/**
+ * wrapper for PDF Files
+ * 
+ * @author wf
+ *
+ */
 public class PdfSystem extends SimpleSystemImpl {
 
-	class PdfAnalysis {
-		PDDocument pdDoc = null;
-		PDFTextStripper pdfStripper = null;
-		COSDocument cosDoc = null;
-		int pages;
+  @Override
+  public SimpleSystem connect(String... connectionParams) throws Exception {
+    return this;
+  }
 
-		public PdfAnalysis(InputStream in) throws IOException {
-			pdDoc = PDDocument.load(in);
-			in.close();
-			pdfStripper = new PDFTextStripper();
-			pages = pdDoc.getNumberOfPages();
-		}
+  /**
+   * move to the given PDF File
+   * 
+   * @param pdfFile
+   *          - the pdfFile to analyze
+   * @return a simple node for this pdf file
+   */
+  public SimpleNode moveTo(File pdfFile) {
+    PdfNode pdfNode = new PdfNode(this, "pdf", new PDF(pdfFile), -1);
+    return pdfNode;
+  }
 
-		public String getPageText(int pageNo) throws IOException {
-			// https://stackoverflow.com/a/23814989/6204861
-			pdfStripper.setStartPage(pageNo);
-			pdfStripper.setEndPage(pageNo);
-			return pdfStripper.getText(pdDoc);
-		}
-	}
+  @Override
+  public SimpleNode moveTo(String nodeQuery, String... keys) {
+    PdfNode pdfNode = new PdfNode(this, "pdf", new PDF(nodeQuery), -1);
+    if (pdfNode != null && this.getStartNode() == null)
+      this.setStartNode(pdfNode);
+    return pdfNode;
+  }
 
-	@Override
-	public SimpleSystem connect(String... connectionParams) throws Exception {
-		return this;
-	}
-
-	public SimpleNode moveTo(File pdfFile) {
-		FileInputStream in;
-		try {
-			in = new FileInputStream(pdfFile);
-			PdfNode pdfNode = new PdfNode(this, "pdf", new PdfAnalysis(in), -1);
-			return pdfNode;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@Override
-	public SimpleNode moveTo(String nodeQuery, String... keys) {
-		PdfNode pdfNode = null;
-		InputStream in;
-		try {
-			in = new URL(nodeQuery).openStream();
-			pdfNode = new PdfNode(this, "pdf", new PdfAnalysis(in), -1);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		if (pdfNode != null && this.getStartNode() == null)
-			this.setStartNode(pdfNode);
-		return pdfNode;
-	}
-
-	@Override
-	public Class<? extends SimpleNode> getNodeClass() {
-		return PdfNode.class;
-	}
+  @Override
+  public Class<? extends SimpleNode> getNodeClass() {
+    return PdfNode.class;
+  }
 
 }
