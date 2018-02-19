@@ -52,9 +52,10 @@ public class PDF {
       error = th;
     }
   }
-  
+
   /**
    * construct this PDF from the given File
+   * 
    * @param file
    */
   public PDF(File file) {
@@ -74,6 +75,9 @@ public class PDF {
     init(is);
   }
 
+  /**
+   * initialize me for the given input stream
+   */
   public void init(InputStream is) {
     try {
       // might want to switch off logging here to improve performance
@@ -103,6 +107,21 @@ public class PDF {
   }
 
   /**
+   * get the text for this PDF
+   * @return
+   */
+  public String getText() {
+    String result = "?";
+    try {
+      result = pdfStripper.getText(doc);
+    } catch (Throwable th) {
+      error = th;
+      result = "Error: " + th.getMessage();
+    }
+    return result;
+  }
+
+  /**
    * get the page text for the given page
    * 
    * @param page
@@ -120,4 +139,20 @@ public class PDF {
     }
     return result;
   }
+
+  /**
+   * allows to modify the tolerance factors
+   * 
+   * @param sTolFactor
+   * @param aTolFactor
+   */
+  public void setTolerance(float sTolFactor, float aTolFactor) {
+    float stol = pdfStripper.getSpacingTolerance();
+    float atol = pdfStripper.getAverageCharTolerance();
+    stol = stol * sTolFactor;
+    atol = atol * aTolFactor;
+    pdfStripper.setSpacingTolerance(stol);
+    pdfStripper.setAverageCharTolerance(atol);
+  }
+
 }
