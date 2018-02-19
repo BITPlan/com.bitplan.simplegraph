@@ -22,7 +22,6 @@ package com.bitplan.simplegraph.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +58,7 @@ import com.bitplan.rythm.RythmContext;
  */
 public class TestTinkerPop3 {
   public static boolean debug = false;
-  protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph");
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.core");
 
   /**
    * get the AirRoutes example graph
