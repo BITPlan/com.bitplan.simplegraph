@@ -28,20 +28,25 @@ public class WordSystem extends SimpleSystemImpl {
 
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
-    // TODO Auto-generated method stub
-    return null;
+    return this;
   }
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
-    // TODO Auto-generated method stub
-    return null;
+    WordNode wordNode;
+    if (nodeQuery.endsWith(".doc")) {
+      wordNode=new WordNode(this,new Word97(nodeQuery),keys);
+    } else {
+      wordNode=new WordNode(this,new Word(nodeQuery),keys);     
+    }
+    if (wordNode != null && this.getStartNode() == null)
+      this.setStartNode(wordNode);
+    return wordNode;
   }
 
   @Override
   public Class<? extends SimpleNode> getNodeClass() {
-    // TODO Auto-generated method stub
-    return null;
+    return WordNode.class;
   }
 
 }

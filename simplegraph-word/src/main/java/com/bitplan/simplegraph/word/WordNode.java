@@ -29,15 +29,33 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 public class WordNode extends SimpleNodeImpl {
 
+  private Word word;
+  private Word97 word97;
+
   public WordNode(SimpleGraph simpleGraph, String kind, String[] keys) {
     super(simpleGraph, kind, keys);
-    // TODO Auto-generated constructor stub
+  }
+
+  public WordNode(WordSystem simpleGraph, Word word, String[] keys) {
+    super(simpleGraph,"word",keys);
+    this.word=word;
+    super.setVertexFromMap();
+  }
+
+  public WordNode(WordSystem simpleGraph, Word97 word97, String[] keys) {
+    super(simpleGraph,"word",keys);
+    this.word97=word97;
+    super.setVertexFromMap();
   }
 
   @Override
   public Map<String, Object> initMap() {
-    // TODO Auto-generated method stub
-    return null;
+    if (word!=null) {
+      map.put("text",word.we.getText());
+    } if (word97!=null) {
+      map.put("text",word97.we.getText());     
+    }
+    return map;
   }
 
   @Override

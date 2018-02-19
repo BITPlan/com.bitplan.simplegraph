@@ -25,19 +25,23 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.hwpf.usermodel.Range;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-public class Word {
-  public XWPFDocument doc;
+public class Word97 {
+  public HWPFDocument doc;
+  public WordExtractor we;
+  public Range range;
   public Throwable error;
-  XWPFWordExtractor we;
-  
+
   /**
    * construct a new Word document from a file
+   * 
    * @param file
    */
-  public Word(File file) {
+  public Word97(File file) {
     try {
       init(new FileInputStream(file));
     } catch (Throwable th) {
@@ -47,9 +51,10 @@ public class Word {
 
   /**
    * construct a new Word document from an URL
+   * 
    * @param url
    */
-  public Word(String url) {
+  public Word97(String url) {
     try {
       InputStream is = new URL(url).openStream();
       init(is);
@@ -57,24 +62,27 @@ public class Word {
       error = th;
     }
   }
-  
+
   /**
    * construct a new Worddocument from an inputStream
+   * 
    * @param is
    */
-  public Word(InputStream is) {
+  public Word97(InputStream is) {
     init(is);
   }
 
   /**
    * initialize the word document from an input stream
+   * 
    * @param is
    */
   public void init(InputStream is) {
     try {
-      doc = new XWPFDocument(is);
-      is.close();
-      we= new XWPFWordExtractor(doc);
+      POIFSFileSystem fs = new POIFSFileSystem(is);
+      doc = new HWPFDocument(fs);
+      we = new WordExtractor(doc);
+      range = doc.getRange();
     } catch (Throwable th) {
       error = th;
     }

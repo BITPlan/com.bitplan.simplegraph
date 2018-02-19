@@ -51,6 +51,15 @@ public class FileNode extends SimpleNodeImpl {
       "yyyy-MM-dd HH:mm:ss");
 
   /**
+   * default constructor for cache handling
+   * @param fileSystem
+   * @param keys
+   */
+  public FileNode(FileSystem fileSystem,String ... keys) {
+    super(fileSystem,"file",keys);
+  }
+  
+  /**
    * create me from a path
    * @param fileSystem - the FileSystem to create the FileNode for
    * @param path
@@ -68,8 +77,10 @@ public class FileNode extends SimpleNodeImpl {
   public FileNode(FileSystem fileSystem,File file,String ...keys) {
     super(fileSystem,"file",keys);
     this.fileSystem=fileSystem;
-    this.file = file;
-    this.ext = FilenameUtils.getExtension(file.getName());
+    if (file!=null) {
+      this.file = file;
+      this.ext = FilenameUtils.getExtension(file.getName());
+    }
     super.setVertexFromMap();
   }
 
@@ -98,7 +109,7 @@ public class FileNode extends SimpleNodeImpl {
     Stream<SimpleNode> links = Stream.of();
     switch (edgeName) {
     case "parent":
-      FileNode parent = new FileNode(fileSystem,file.getParent());
+      FileNode parent = new FileNode(fileSystem,file.getParentFile());
       knit(parent,this);
       links = Stream.of(parent);
       break;

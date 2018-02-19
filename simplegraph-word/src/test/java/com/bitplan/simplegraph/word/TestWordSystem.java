@@ -20,15 +20,32 @@
  */
 package com.bitplan.simplegraph.word;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+
+import java.util.logging.Logger;
 
 import org.junit.Test;
 
+import com.bitplan.simplegraph.core.SimpleNode;
+
+/**
+ * test the Word System
+ * @author wf
+ *
+ */
 public class TestWordSystem {
+  public static boolean debug = false;
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.word");
 
   @Test
-  public void testWordSystem() {
-    fail("Not yet implemented");
+  public void testWordSystem() throws Exception {
+    WordSystem ws=new WordSystem();
+    ws.connect();
+    ws.moveTo("https://www.benefits.va.gov/compensation/docs/shiplist.docx");
+    if (debug)
+      ws.forAll(SimpleNode.printDebug);
+    String text=ws.g().V().has("text").next().property("text").value().toString();
+    assertTrue(text.contains("USS Dewey (DLG-14)"));
   }
 
 }
