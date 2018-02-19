@@ -31,6 +31,11 @@ import org.junit.Test;
 import com.bitplan.gremlin.RegexPredicate;
 import com.bitplan.simplegraph.core.SimpleNode;
 
+/**
+ * test the HTML System
+ * @author wf
+ *
+ */
 public class TestHtmlSystem {
 	public static boolean debug = false;
 	protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.html");
