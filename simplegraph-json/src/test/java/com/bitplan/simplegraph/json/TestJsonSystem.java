@@ -42,7 +42,7 @@ import com.bitplan.simplegraph.impl.Holder;
  * @author wf
  *
  */
-public class TestJson {
+public class TestJsonSystem {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.json");
 
@@ -52,9 +52,10 @@ public class TestJson {
     // http://json.org/example.html
     // https://raw.githubusercontent.com/LearnWebCode/json-example/master/pets-data.json
     // https://stackoverflow.com/questions/33910605/how-to-convert-sample-json-into-json-schema-in-java
-    File[] jsonFiles = { new File("src/test/pets.json"),
-        new File("src/test/menu.json"), new File("src/test/employee.json"),
-        new File("src/test/datatypes.json") };
+    File jroot=new File("../simplegraph-json/src/test");
+    File[] jsonFiles = { new File(jroot,"pets.json"),
+        new File(jroot,"menu.json"), new File(jroot,"employee.json"),
+        new File(jroot,"datatypes.json") };
 
     long[] expectedNodes = { 4, 20, 6, 43 };
     int i = 0;

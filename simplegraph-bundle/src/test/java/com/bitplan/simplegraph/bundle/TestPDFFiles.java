@@ -67,7 +67,7 @@ public class TestPDFFiles {
     if (debug)
       ps.forAll(SimpleNode.printDebug);
     // there should be 71 pages
-    assertEquals(71, ps.g().V().hasLabel("page").count().next().longValue());
+    assertEquals(77, ps.g().V().hasLabel("page").count().next().longValue());
     // there should be 2 pages referencing George Gregg
     assertEquals(2,
         ps.g().V().hasLabel("page")

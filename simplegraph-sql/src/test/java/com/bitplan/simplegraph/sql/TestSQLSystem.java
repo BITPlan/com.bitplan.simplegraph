@@ -33,7 +33,7 @@ import com.bitplan.simplegraph.sql.SQLSystem;
  * @author wf
  *
  */
-public class TestSQL {
+public class TestSQLSystem {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.sql");
 

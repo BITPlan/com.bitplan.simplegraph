@@ -20,16 +20,21 @@
  */
 package com.bitplan.simplegraph.core;
 
-import static org.junit.Assert.*;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.*;
+import static org.apache.tinkerpop.gremlin.structure.T.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.logging.Logger;
-
-import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
+import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.apache.tinkerpop.gremlin.structure.T;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 /**
  * Testcases derived from
@@ -38,6 +43,7 @@ import org.junit.Test;
  * @author wf
  *
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestGremlinTutorial {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger
@@ -62,18 +68,23 @@ public class TestGremlinTutorial {
    * translated from Gremlin console to Java code
    */
   @Test
-  public void testTheFirstFiveMinutes() {
+  public void test1_TheFirstFiveMinutes() {
 
     /*-
      
      gremlin> graph = TinkerFactory.createModern()
      ==>tinkergraph[vertices:6 edges:6]
-     gremlin> g = graph.traversal()
-     ==>graphtraversalsource[tinkergraph[vertices:6 edges:6], standard]
-     
-     */
+    */
 
     Graph graph = TinkerFactory.createModern();
+    check(graph.toString(), "tinkergraph[vertices:6 edges:6]");
+
+    /*
+     * gremlin> g = graph.traversal()
+     * ==>graphtraversalsource[tinkergraph[vertices:6 edges:6], standard]
+     * 
+     */
+
     GraphTraversalSource g = graph.traversal();
     check(g.toString(),
         "graphtraversalsource[tinkergraph[vertices:6 edges:6], standard]");
@@ -148,8 +159,221 @@ public class TestGremlinTutorial {
       
      */
 
-    check(g.V("1").out("knows").has("age",P.gt(30)).values("name").toList().toString(),
-        "[josh]");
+    check(g.V("1").out("knows").has("age", gt(30)).values("name").toList()
+        .toString(), "[josh]");
   }
 
+  /**
+   * The Next Fifteen Minutes
+   * 
+   * translated from Gremlin console to Java code
+   */
+  @Test
+  public void test2_CreatingAGraph() {
+
+    /*-
+     gremlin> graph = TinkerGraph.open()
+    ==>tinkergraph[vertices:0 edges:0]
+    
+    */
+
+    TinkerGraph graph = TinkerGraph.open();
+    check(graph.toString(), "tinkergraph[vertices:0 edges:0]");
+
+    /*-
+     
+     gremlin> g = graph.traversal()
+    ==>graphtraversalsource[tinkergraph[vertices:0 edges:0], standard]
+    
+     */
+
+    GraphTraversalSource g = graph.traversal();
+
+    check(g.toString(),
+        "graphtraversalsource[tinkergraph[vertices:0 edges:0], standard]");
+
+    /*-
+     
+     gremlin> v1 = g.addV("person").property(id, 1).property("name", "marko").property("age", 29).next()
+    ==>v[1]
+       
+     */
+    Vertex v1 = g.addV("person").property(id, 1).property("name", "marko")
+        .property("age", 29).next();
+    check(v1.toString(), "v[1]");
+
+    /*-
+      
+    gremlin> v2 = g.addV("software").property(id, 3).property("name", "lop").property("lang", "java").next()
+    ==>v[3] 
+     
+     */
+
+    Vertex v2 = g.addV("software").property(id, 3).property("name", "lop")
+        .property("lang", "java").next();
+    check(v2.toString(), "v[3]");
+
+    /*-
+     
+     gremlin> g.addE("created").from(v1).to(v2).property(id, 9).property("weight", 0.4)
+    ==>e[9][1-created->3]
+     */
+
+    check(
+        g.addE("created").from(v1).to(v2).property(id, 9)
+            .property("weight", 0.4).toList().toString(),
+        "[e[9][1-created->3]]");
+
+    /*-
+     
+    gremlin> graph = TinkerGraph.open()
+        ==>tinkergraph[vertices:0 edges:0]
+        gremlin> g = graph.traversal()
+        ==>graphtraversalsource[tinkergraph[vertices:0 edges:0], standard]
+        gremlin> v1 = g.addV("person").property(T.id, 1).property("name", "marko").property("age", 29).next()
+        ==>v[1]
+        gremlin> v2 = g.addV("software").property(T.id, 3).property("name", "lop").property("lang", "java").next()
+        ==>v[3]
+        gremlin> g.addE("created").from(v1).to(v2).property(T.id, 9).property("weight", 0.4)
+        ==>e[9][1-created->3]
+    */
+
+    graph = TinkerGraph.open();
+    g = graph.traversal();
+    v1 = g.addV("person").property(T.id, 1).property("name", "marko")
+        .property("age", 29).next();
+    v2 = g.addV("software").property(T.id, 3).property("name", "lop")
+        .property("lang", "java").next();
+    Edge e = g.addE("created").from(v1).to(v2).property(id, 9)
+        .property("weight", 0.4).next();
+    assertEquals(e.toString(), "e[9][1-created->3]");
+
+  }
+
+  /**
+   * Graph Traversal - Staying Simple
+   */
+  @Test
+  public void test3_GraphTraversalStayingSimple() {
+    Graph graph = TinkerFactory.createModern();
+    GraphTraversalSource g = graph.traversal();
+
+    /*-
+     
+     gremlin> g.V().has('name','marko')
+    ==>v[1]
+    
+     */
+
+    check(g.V().has("name", "marko").toList().toString(), "[v[1]]");
+
+    /*-
+    
+     gremlin> g.V().has('name','marko').outE('created')
+    ==>e[9][1-created->3]
+     
+     */
+
+    check(g.V().has("name", "marko").outE("created").toList().toString(),
+        "[e[9][1-created->3]]");
+
+    /*-
+     
+     gremlin> g.V().has('name','marko').outE('created').inV()
+     
+     */
+
+    check(g.V().has("name", "marko").outE("created").inV().toList().toString(),
+        "[v[3]]");
+
+    /*-
+     
+     gremlin> g.V().has('name','marko').out('created')
+     
+     */
+
+    check(g.V().has("name", "marko").out("created").toList().toString(),
+        "[v[3]]");
+
+    /*-
+     
+     gremlin> g.V().has('name','marko').out('created').values('name')
+    ==>lop
+     
+     */
+
+    check(g.V().has("name", "marko").out("created").values("name").toList()
+        .toString(), "[lop]");
+
+  }
+
+  /**
+   * Graph Traversal- Increasing Complexity
+   */
+  @Test
+  public void test4_IncreasingComplexity() {
+    /*-
+     
+    gremlin> graph = TinkerFactory.createModern()
+    ==>tinkergraph[vertices:6 edges:6]
+    
+    gremlin> g = graph.traversal()
+    ==>graphtraversalsource[tinkergraph[vertices:6 edges:6], standard]
+    
+    */
+
+    Graph graph = TinkerFactory.createModern();
+    check(graph.toString(), "tinkergraph[vertices:6 edges:6]");
+    GraphTraversalSource g = graph.traversal();
+    check(g.toString(),
+        "graphtraversalsource[tinkergraph[vertices:6 edges:6], standard]");
+
+    /*-
+     
+    gremlin> g.V().has('name',within('vadas','marko')).values('age')
+    ==>29
+    ==>27
+    
+     */
+
+    check(g.V().has("name", within("vadas", "marko")).values("age").toList()
+        .toString(), "[29, 27]");
+
+    /*-
+     
+    gremlin> g.V().has('name',within('vadas','marko')).values('age').mean()
+    ==>28.0
+    
+     */
+
+    check(g.V().has("name", within("vadas", "marko")).values("age").mean()
+        .next().doubleValue(), 28.0);
+
+    /*-
+     
+    gremlin> g.V().has('name','marko').out('created')
+    ==>v[3]
+    
+     */
+
+    check(g.V().has("name", "marko").out("created").toList().toString(),
+        "[v[3]]");
+
+    /*-
+     
+     gremlin> g.V().has('name','marko').
+           out('created').in('created').
+           values('name')
+           
+    ==>marko
+    ==>josh
+    ==>peter
+    
+     */
+    
+    debug=true;
+    check(g.V().has("name", "marko").out("created").in("created").values("name").toList().toString(),
+        "[marko, josh, peter]");
+
+  }
 }

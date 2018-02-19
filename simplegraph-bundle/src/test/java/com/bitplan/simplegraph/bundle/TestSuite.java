@@ -24,25 +24,28 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import com.bitplan.simplegraph.core.TestTinkerPop3;
+import com.bitplan.simplegraph.excel.TestExcelSystem;
 import com.bitplan.simplegraph.filesystem.TestFileSystem;
+import com.bitplan.simplegraph.json.TestJsonSystem;
 import com.bitplan.simplegraph.map.TestMapSystem;
 import com.bitplan.simplegraph.mediawiki.TestMediaWiki;
+import com.bitplan.simplegraph.pdf.TestPdfSystem;
 import com.bitplan.simplegraph.powerpoint.TestPowerPoint;
 import com.bitplan.simplegraph.smw.TestSMW;
-import com.bitplan.simplegraph.sql.TestSQL;
+import com.bitplan.simplegraph.sql.TestSQLSystem;
 import com.bitplan.simplegraph.triplestore.TestTripleStore;
 import com.bitplan.simplegraph.wikidata.TestWikiData;
+import com.bitplan.simplegraph.word.TestWordSystem;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ TestFileSystem.class, 
-    TestTinkerPop3.class,
-    TestTripleStore.class, 
-    TestPowerPoint.class, TestMediaWiki.class,
-    TestMapSystem.class, TestSQL.class, TestSMW.class, TestWikiData.class,
+@Suite.SuiteClasses({ TestExcelSystem.class, TestFileSystem.class,
+    TestJsonSystem.class, TestTinkerPop3.class, TestTripleStore.class,
+    TestPowerPoint.class, TestMediaWiki.class, TestMapSystem.class,
+    TestPdfSystem.class, TestPDFFiles.class, TestSQLSystem.class, TestSMW.class,
+    TestWikiData.class, TestWordSystem.class,
     com.bitplan.simplegraph.core.TestRythm.class,
     com.bitplan.simplegraph.filesystem.TestRythm.class,
-    com.bitplan.simplegraph.map.TestRythm.class
-    })
+    com.bitplan.simplegraph.map.TestRythm.class })
 /**
  * TestSuite
  * 

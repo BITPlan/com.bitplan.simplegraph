@@ -400,7 +400,7 @@ public class TestTinkerPop3 {
     }
     ;
     // .properties().forEachRemaining(prop->vprops.add(prop));
-    File plantUMLTemplate = new File("src/main/rythm/plantuml.rythm");
+    File plantUMLTemplate = new File("../simplegraph-core/src/main/rythm/plantuml.rythm");
     Map<String, Object> rootMap = new HashMap<String, Object>();
     rootMap.put("g", g);
     rootMap.put("title", "AirRoutes");
