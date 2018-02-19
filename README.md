@@ -1,5 +1,5 @@
 # com.bitplan.simplegraph
-Allow Wrapping Systems with Apache TinkerPop
+Allows Wrapping Systems to make the available for Graph processing with Apache TinkerPop / Gremlin
 
 ### Project
 [![Build Status](https://travis-ci.org/BITPlan/com.bitplan.simplegraph.svg?branch=master)](https://travis-ci.org/BITPlan/com.bitplan.simplegraph)
@@ -18,6 +18,7 @@ Allow Wrapping Systems with Apache TinkerPop
 * [SQL](http://www.bitplan.com/index.php/SimpleGraph-SQL)
 * [TripleStore](http://www.bitplan.com/index.php/SimpleGraph-TripleStore)
 * [WikiData](http://www.bitplan.com/index.php/SimpleGraph-WikiData)
+* [Word](http://www.bitplan.com/index.php/SimpleGraph-Word)
 
 # Links
 * http://www.bitplan.com/index.php/SimpleGraph
@@ -27,3 +28,4 @@ Allow Wrapping Systems with Apache TinkerPop
 * 2018-01-11 initial showcase FileSystem
 * 2018-01-14 adds Powerpoint and SiDIF-TripleStore access
 * 2018-01-15 adds WikiData access
+* 2018-02-19 adds Excel,HTML,JSON,MapSystem,MediaWiki,PDF,SMW,SQL and Word
