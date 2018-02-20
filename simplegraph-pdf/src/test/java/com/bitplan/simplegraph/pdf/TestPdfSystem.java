@@ -41,7 +41,7 @@ public class TestPdfSystem {
 		ps.connect();
 		SimpleNode pdfNode = ps.moveTo("http://eprints.nottingham.ac.uk/249/1/cajun.pdf");
 		pdfNode.out("pages");
-		debug=true;
+		// debug=true;
 		if (debug) {
 			ps.forAll(SimpleNode.printDebug);
 			System.out.println(ps.getStartNode().g().V().hasLabel("pdf").next().property("NumberOfPages").value());
