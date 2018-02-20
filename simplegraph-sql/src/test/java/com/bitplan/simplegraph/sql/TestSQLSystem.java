@@ -35,7 +35,7 @@ import com.bitplan.simplegraph.sql.SQLSystem;
  */
 public class TestSQLSystem {
   public static boolean debug = false;
-  protected static Logger LOGGER = Logger.getLogger("com.bitplan.sql");
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.sql");
 
   private static final String DB_DRIVER = "org.h2.Driver";
   private static final String DB_CONNECTION = "jdbc:h2:mem:test";

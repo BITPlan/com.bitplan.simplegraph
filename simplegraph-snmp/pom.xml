@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>SimpleGraph SNMP</name>
+	<description>com.bitplan.simplegraph.snmp submodule of com.bitplan.simplegraph</description>
+
+	<parent>
+		<groupId>com.bitplan.simplegraph</groupId>
+		<artifactId>com.bitplan.simplegraph</artifactId>
+		<version>0.0.2</version>
+	</parent>
+	<artifactId>com.bitplan.simplegraph.snmp</artifactId>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.snmp4j/snmp4j -->
+		<dependency>
+			<groupId>org.snmp4j</groupId>
+			<artifactId>snmp4j</artifactId>
+			<version>2.5.11</version>
+		</dependency>
+	</dependencies>
+</project>

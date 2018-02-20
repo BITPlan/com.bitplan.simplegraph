@@ -45,6 +45,7 @@
 		<module>simplegraph-mediawiki</module>
 		<module>simplegraph-smw</module>
 		<module>simplegraph-pdf</module> 
+		<module>simplegraph-snmp</module>
 		<module>simplegraph-sql</module>
 		<module>simplegraph-triplestore</module>
 		<module>simplegraph-excel</module> 
