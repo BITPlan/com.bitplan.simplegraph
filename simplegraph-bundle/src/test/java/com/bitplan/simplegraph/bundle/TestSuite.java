@@ -31,7 +31,7 @@ import com.bitplan.simplegraph.map.TestMapSystem;
 import com.bitplan.simplegraph.mediawiki.TestMediaWikiSystem;
 import com.bitplan.simplegraph.pdf.TestPdfSystem;
 import com.bitplan.simplegraph.powerpoint.TestPowerPointSystem;
-import com.bitplan.simplegraph.smw.TestSMW;
+import com.bitplan.simplegraph.smw.TestSmwSystem;
 import com.bitplan.simplegraph.sql.TestSQLSystem;
 import com.bitplan.simplegraph.triplestore.TestTripleStore;
 import com.bitplan.simplegraph.wikidata.TestWikiData;
@@ -41,7 +41,7 @@ import com.bitplan.simplegraph.word.TestWordSystem;
 @Suite.SuiteClasses({ TestExcelSystem.class, TestFileSystem.class,
     TestJsonSystem.class, TestTinkerPop3.class, TestTripleStore.class,
     TestPowerPointSystem.class, TestMediaWikiSystem.class, TestMapSystem.class,
-    TestPdfSystem.class, TestPDFFiles.class, TestSQLSystem.class, TestSMW.class,
+    TestPdfSystem.class, TestPDFFiles.class, TestSQLSystem.class, TestSmwSystem.class,
     TestWikiData.class, TestWordSystem.class,
     com.bitplan.simplegraph.core.TestRythm.class,
     com.bitplan.simplegraph.filesystem.TestRythm.class,

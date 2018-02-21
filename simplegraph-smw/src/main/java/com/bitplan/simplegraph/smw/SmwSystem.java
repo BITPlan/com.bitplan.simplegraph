@@ -51,7 +51,7 @@ import com.bitplan.simplegraph.mediawiki.MediaWikiSystem;
  * @author wf
  *
  */
-public class SMWSystem extends MediaWikiSystem {
+public class SmwSystem extends MediaWikiSystem {
   // shall we return the json result as a graph (raw mode)?
   boolean rawMode = false;
   private String json;

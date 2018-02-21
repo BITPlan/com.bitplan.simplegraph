@@ -34,7 +34,7 @@ import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.json.JsonPrettyPrinter;
-import com.bitplan.simplegraph.smw.SMWSystem.WikiPage;
+import com.bitplan.simplegraph.smw.SmwSystem.WikiPage;
 
 /**
  * test Semantic Mediawiki access
@@ -42,7 +42,7 @@ import com.bitplan.simplegraph.smw.SMWSystem.WikiPage;
  * @author wf
  *
  */
-public class TestSMW  {
+public class TestSmwSystem  {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.smw");
   /**
@@ -50,8 +50,8 @@ public class TestSMW  {
    * 
    * @throws Exception
    */
-  public SMWSystem getSMWSystem() throws Exception {
-    SMWSystem smw = new SMWSystem();
+  public SmwSystem getSMWSystem() throws Exception {
+    SmwSystem smw = new SmwSystem();
     // debug=true;
     smw.setDebug(debug);
     smw.connect("https://www.semantic-mediawiki.org", "/w");
@@ -61,7 +61,7 @@ public class TestSMW  {
   @Test
   public void testPage() throws Exception {
     // debug=true;
-    SMWSystem smwSystem = getSMWSystem();
+    SmwSystem smwSystem = getSMWSystem();
     SimpleNode pageNode = smwSystem.moveTo("page=Sol");
     if (debug)
       pageNode.forAll(SimpleNode.printDebug);
@@ -72,7 +72,7 @@ public class TestSMW  {
   @Test
   public void testAsk() throws Exception {
     // debug = true;
-    SMWSystem smwSystem = getSMWSystem();
+    SmwSystem smwSystem = getSMWSystem();
     // see https://www.semantic-mediawiki.org/wiki/Help:Concepts
     String query = "{{#ask:[[Concept:Semantic MediaWiki Cons 2012]]\n"
         + "|?Has_Wikidata_item_ID=WikiDataId\n"
@@ -101,19 +101,19 @@ public class TestSMW  {
     // debug=true;
     String askQuery = "{{#ask:[[Concept:Semantic Web Events 2012]]\n"
         + "|?Has_location\n" + "|format=table\n" + "}}";
-    String fixedAsk = SMWSystem.fixAsk(askQuery);
+    String fixedAsk = SmwSystem.fixAsk(askQuery);
     if (debug)
       System.out.println(fixedAsk);
     assertTrue("[[Concept:Semantic_Web_Events_2012]]|?Has_location|format=table"
         .equals(fixedAsk));
-    String concept = SMWSystem.getConcept(askQuery);
+    String concept = SmwSystem.getConcept(askQuery);
     assertEquals("Semantic Web Events 2012", concept);
   }
   
   @Test
   public void testBrowseToMap() throws Exception {
     // debug=true;
-    SMWSystem smwSystem = getSMWSystem();
+    SmwSystem smwSystem = getSMWSystem();
     String subject = "Help:List_of_datatypes";
     SimpleNode browseNode = smwSystem.moveTo("browsebysubject=" + subject);
     if (debug)
@@ -123,7 +123,7 @@ public class TestSMW  {
   @Test
   public void testBrowseBySubject() throws Exception {
     debug=true;
-    SMWSystem smwSystem = getSMWSystem();
+    SmwSystem smwSystem = getSMWSystem();
     String subject = "SMWCon_Fall_2012/Filtered_result_format";
     SimpleNode browseNode = smwSystem.moveTo("browsebysubject=" + subject);
     List<String> properties = new ArrayList<String>();
@@ -149,7 +149,7 @@ public class TestSMW  {
         + " |?Has component=Provided by\n" + " |format=table\n"
         + " |mainlabel=-\n" + " |headers=plain\n" + "}}";
     debug=true;
-    SMWSystem smwSystem = getSMWSystem();
+    SmwSystem smwSystem = getSMWSystem();
     SimpleNode dtNode = smwSystem.moveTo("ask=" + query);
     FileUtils.writeStringToFile(new File("src/test/datatypes.json"),JsonPrettyPrinter.prettyPrint(smwSystem.getJson()),"UTF-8");
     long resultsCount=dtNode.g().V().hasLabel("results").count().next().longValue();
@@ -197,7 +197,7 @@ public class TestSMW  {
         "|?Has_URL=uri\n" + 
         "|format=ol\n" + 
         "}}";
-    SMWSystem smwSystem = getSMWSystem();
+    SmwSystem smwSystem = getSMWSystem();
     smwSystem.setDebug(true);
     SimpleNode dtNode = smwSystem.moveTo("ask=" + askQuery);
     smwSystem.conceptAlizePrintRequests("datatype", dtNode);
