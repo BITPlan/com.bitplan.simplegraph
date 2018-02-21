@@ -44,8 +44,6 @@ import org.wikidata.wdtk.wikibaseapi.apierrors.MediaWikiApiErrorException;
 import com.bitplan.simplegraph.core.Keys;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.KeysImpl;
-import com.bitplan.wikidata.WikiDataNode;
-import com.bitplan.wikidata.WikiDataSystem;
 
 /**
  * test access to WikiData toolkit
@@ -53,7 +51,7 @@ import com.bitplan.wikidata.WikiDataSystem;
  * @author wf
  *
  */
-public class TestWikiData  {
+public class TestWikiDataSystem  {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.smw");
   static SimpleNode queenVictoria;

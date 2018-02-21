@@ -53,7 +53,7 @@ import com.bitplan.simplegraph.powerpoint.SlideNode;
 import com.bitplan.simplegraph.powerpoint.SlideShow;
 import com.bitplan.simplegraph.powerpoint.SlideShowNode;
 import com.bitplan.simplegraph.triplestore.TestTripleStore;
-import com.bitplan.simplegraph.wikidata.TestWikiData;
+import com.bitplan.simplegraph.wikidata.TestWikiDataSystem;
 
 
 /**
@@ -233,7 +233,7 @@ public class TestPowerPointSystem  {
 
     String props[] = { "P21", "P22", "P25", "P109", "P569", "P19", "P570",
         "P20", "P1543" };
-    SimpleNode queenVictoria = TestWikiData.getQueenVictoria(props);
+    SimpleNode queenVictoria = TestWikiDataSystem.getQueenVictoria(props);
     String pptFilePath = "../simplegraph-powerpoint/QueenVictoria.pptx";
     SlideShow sls = this.getPPT(pptFilePath, "Queen Victoria");
     if (debug)
@@ -245,7 +245,7 @@ public class TestPowerPointSystem  {
     // add slides for children and grand children of queen victoria
     this.addSlides(sls, mws, queenVictoria, slideprops, 1, debug);
     sls.save();
-    TestWikiData.wikiDataSystem.close();
+    TestWikiDataSystem.wikiDataSystem.close();
   }
 
   @Test

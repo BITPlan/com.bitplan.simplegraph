@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.wikidata;
+package com.bitplan.simplegraph.wikidata;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
