@@ -52,7 +52,7 @@ import com.bitplan.simplegraph.powerpoint.Slide;
 import com.bitplan.simplegraph.powerpoint.SlideNode;
 import com.bitplan.simplegraph.powerpoint.SlideShow;
 import com.bitplan.simplegraph.powerpoint.SlideShowNode;
-import com.bitplan.simplegraph.triplestore.TestTripleStore;
+import com.bitplan.simplegraph.triplestore.TestTripleStoreSystem;
 import com.bitplan.simplegraph.wikidata.TestWikiDataSystem;
 
 
@@ -250,7 +250,7 @@ public class TestPowerPointSystem  {
 
   @Test
   public void testPowerPointCreateRoyal92() throws Exception {
-    SimpleSystem royal92 = TestTripleStore.readSiDIF();
+    SimpleSystem royal92 = TestTripleStoreSystem.readSiDIF();
     // start with Queen Victoria (Person Id=I1)
     SimpleNode queenVictoria = royal92.moveTo("id=I1");
     String pptFilePath = "../simplegraph-powerpoint/QueenVictoriaRoyal92.pptx";
@@ -271,7 +271,7 @@ public class TestPowerPointSystem  {
     SlideNode qv = (SlideNode) slideForNode(sls, queenVictoria, slideprops);
     assertNotNull(qv);
     // debug = true;
-    for (SimpleNode child : TestTripleStore.children(queenVictoria, 1)) {
+    for (SimpleNode child : TestTripleStoreSystem.children(queenVictoria, 1)) {
       child.property("source", source);
       SlideNode slide = (SlideNode) slideForNode(sls, child, slideprops);
       assertEquals(slide.getTitle(), child.getMap().get("name"));

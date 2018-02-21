@@ -40,7 +40,7 @@ import com.bitplan.simplegraph.triplestore.TripleStoreSystem;
  * @author wf
  *
  */
-public class TestTripleStore  {
+public class TestTripleStoreSystem  {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.triplestore");
   

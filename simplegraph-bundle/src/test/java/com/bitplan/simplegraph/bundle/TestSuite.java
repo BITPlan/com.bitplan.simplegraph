@@ -33,13 +33,13 @@ import com.bitplan.simplegraph.pdf.TestPdfSystem;
 import com.bitplan.simplegraph.powerpoint.TestPowerPointSystem;
 import com.bitplan.simplegraph.smw.TestSmwSystem;
 import com.bitplan.simplegraph.sql.TestSQLSystem;
-import com.bitplan.simplegraph.triplestore.TestTripleStore;
+import com.bitplan.simplegraph.triplestore.TestTripleStoreSystem;
 import com.bitplan.simplegraph.wikidata.TestWikiDataSystem;
 import com.bitplan.simplegraph.word.TestWordSystem;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ TestExcelSystem.class, TestFileSystem.class,
-    TestJsonSystem.class, TestTinkerPop3.class, TestTripleStore.class,
+    TestJsonSystem.class, TestTinkerPop3.class, TestTripleStoreSystem.class,
     TestPowerPointSystem.class, TestMediaWikiSystem.class, TestMapSystem.class,
     TestPdfSystem.class, TestPDFFiles.class, TestSQLSystem.class, TestSmwSystem.class,
     TestWikiDataSystem.class, TestWordSystem.class,
