@@ -48,7 +48,7 @@ public class TestRythm  {
   @Test
   public void testGenerateGraphVizViaRythm() throws Exception {
     // debug=true;
-    SimpleNode start = TestFileSystem.getFileNode("../simplegraph-filesystem/src", Integer.MAX_VALUE);
+    SimpleNode start = TestFileSystemSystem.getFileNode("../simplegraph-filesystem/src", Integer.MAX_VALUE);
     if (debug)
       start.forAll(SimpleNode.printDebug);
     String graphViz = RythmContext.getInstance().renderGraphViz(start, "parent", "name", "path",
@@ -62,7 +62,7 @@ public class TestRythm  {
   @Test
   public void testGenerateGraphVizManually() throws Exception {
     // debug = true;
-    SimpleNode start = TestFileSystem.getFileNode("src", Integer.MAX_VALUE);
+    SimpleNode start = TestFileSystemSystem.getFileNode("src", Integer.MAX_VALUE);
     // get the gremlin starting point
     GraphTraversalSource g = start.g();
     // traverse using Apache Gremlin

@@ -43,7 +43,7 @@ public class FileNode extends SimpleNodeImpl {
   // File to be wrapped in a Node
   File file;
   // System to be used
-  FileSystem fileSystem;
+  FileSystemSystem fileSystem;
   
   transient String ext;
   
@@ -55,7 +55,7 @@ public class FileNode extends SimpleNodeImpl {
    * @param fileSystem
    * @param keys
    */
-  public FileNode(FileSystem fileSystem,String ... keys) {
+  public FileNode(FileSystemSystem fileSystem,String ... keys) {
     super(fileSystem,"file",keys);
   }
   
@@ -65,7 +65,7 @@ public class FileNode extends SimpleNodeImpl {
    * @param path
    * @param keys 
    */
-  public FileNode(FileSystem fileSystem,String path, String ... keys) {
+  public FileNode(FileSystemSystem fileSystem,String path, String ... keys) {
     this(fileSystem,new File(path),keys);
   }
 
@@ -74,7 +74,7 @@ public class FileNode extends SimpleNodeImpl {
    * @param fileSystem
    * @param file
    */
-  public FileNode(FileSystem fileSystem,File file,String ...keys) {
+  public FileNode(FileSystemSystem fileSystem,File file,String ...keys) {
     super(fileSystem,"file",keys);
     this.fileSystem=fileSystem;
     if (file!=null) {

@@ -35,23 +35,23 @@ import com.bitplan.gremlin.RegexPredicate;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.filesystem.FileNode;
-import com.bitplan.simplegraph.filesystem.FileSystem;
+import com.bitplan.simplegraph.filesystem.FileSystemSystem;
 
 /**
  * test navigating the Filesystem with SimpleGraph approaches
  * @author wf
  *
  */
-public class TestFileSystem {
+public class TestFileSystemSystem {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.filesystem");
-  private static FileSystem fs;
+  private static FileSystemSystem fs;
 
  
   @Test
   public void testFileSystemTree() throws Exception {
-    SimpleSystem fs=new FileSystem();
-    assertEquals("FileSystem",fs.getName());
+    SimpleSystem fs=new FileSystemSystem();
+    assertEquals("FileSystemSystem",fs.getName());
     assertEquals("0.0.1",fs.getVersion());
     FileNode start = (FileNode) fs.connect("").moveTo("../simplegraph-filesystem/src");
     if (debug)
@@ -81,7 +81,7 @@ public class TestFileSystem {
   public static SimpleNode getFileNode(String path, int levels) throws Exception {
     // create a new FileSystem access supplying the result as a SimpleSystem API
     // the "global" variable "fs" is set as a side effect
-    fs = new FileSystem();
+    fs = new FileSystemSystem();
     // connect to this system with no extra information (e.g. no credentials)
     // and move to the path node
     SimpleNode start = fs.connect("").moveTo(path);
@@ -106,7 +106,7 @@ public class TestFileSystem {
   public void testFileSystemParent() throws Exception {
     // debug=true;
     // starting from the file "src/etc/header" move up the hierarchy to steps
-    SimpleSystem fs=new FileSystem();
+    SimpleSystem fs=new FileSystemSystem();
     FileNode start = (FileNode) fs.connect("").moveTo("src/etc/header.txt");
     FileNode src=(FileNode) start.in("parent").findFirst().get().in("parent").findFirst().get();
     if (debug)
@@ -124,7 +124,7 @@ public class TestFileSystem {
   
   @Test
   public void testInvalidEdgeName() throws Exception  {
-    SimpleSystem fs=new FileSystem();
+    SimpleSystem fs=new FileSystemSystem();
     FileNode start = (FileNode) fs.connect("").moveTo("src/test");
     // link is an invalid edge for Files
     try {
