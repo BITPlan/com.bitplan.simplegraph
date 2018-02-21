@@ -37,7 +37,7 @@ import com.bitplan.simplegraph.core.SimpleNode;
  * @author wf
  *
  */
-public class TestHTMLSystem {
+public class TestHtmlSystem {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger
       .getLogger("com.bitplan.simplegraph.html");
