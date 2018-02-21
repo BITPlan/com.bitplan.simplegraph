@@ -26,7 +26,7 @@ import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
-public class HTMLSystem extends SimpleSystemImpl {
+public class HtmlSystem extends SimpleSystemImpl {
 	HtmlCleaner cleaner;
 	/*
 	 * expose native API
@@ -44,7 +44,7 @@ public class HTMLSystem extends SimpleSystemImpl {
 
 	@Override
 	public SimpleNode moveTo(String nodeQuery, String... keys) {
-		SimpleNode htmlNode = new HTMLNode (this,nodeQuery,"html",keys);
+		SimpleNode htmlNode = new HtmlNode (this,nodeQuery,"html",keys);
 		if (this.getStartNode()==null)
 			this.setStartNode(htmlNode);
 		return htmlNode;
@@ -52,13 +52,13 @@ public class HTMLSystem extends SimpleSystemImpl {
 
 	@Override
 	public Class<? extends SimpleNode> getNodeClass() {
-		return HTMLNode.class;
+		return HtmlNode.class;
 	}
 	
-	public static HTMLSystem forUrl(String url) throws Exception {
-		HTMLSystem hs = new HTMLSystem();
+	public static HtmlSystem forUrl(String url) throws Exception {
+		HtmlSystem hs = new HtmlSystem();
 		hs.connect();
-		HTMLNode htmlNode = (HTMLNode) hs.moveTo(url);
+		HtmlNode htmlNode = (HtmlNode) hs.moveTo(url);
 		htmlNode.recursiveOut("child", Integer.MAX_VALUE);
 		return hs;
 	}
