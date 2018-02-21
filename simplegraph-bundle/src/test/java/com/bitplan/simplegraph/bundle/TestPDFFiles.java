@@ -32,7 +32,7 @@ import org.junit.Test;
 import com.bitplan.gremlin.RegexPredicate;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.filesystem.FileNode;
-import com.bitplan.simplegraph.filesystem.FileSystemSystem;
+import com.bitplan.simplegraph.filesystem.FileSystem;
 import com.bitplan.simplegraph.pdf.PdfSystem;
 
 /**
@@ -48,7 +48,7 @@ public class TestPDFFiles {
 
   @Test
   public void testPDFFiles() throws Exception {
-    FileSystemSystem fs = new FileSystemSystem();
+    FileSystem fs = new FileSystem();
     fs.connect();
     FileNode fileRoot = fs.moveTo("../simplegraph-pdf/src/test/data/rfcs");
     fileRoot.recursiveOut("files", Integer.MAX_VALUE);

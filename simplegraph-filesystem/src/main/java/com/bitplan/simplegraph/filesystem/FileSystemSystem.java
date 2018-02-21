@@ -27,13 +27,13 @@ import com.bitplan.simplegraph.core.SimpleNode;
  * @author wf
  *
  */
-public class FileSystemSystem extends com.bitplan.simplegraph.impl.SimpleSystemImpl {
+public class FileSystem extends com.bitplan.simplegraph.impl.SimpleSystemImpl {
 
   /**
    * initialize me
    */
-  public FileSystemSystem() {
-    super.setName("FileSystemSystem");
+  public FileSystem() {
+    super.setName("FileSystem");
     super.setVersion("0.0.1");
   }
 
@@ -46,7 +46,7 @@ public class FileSystemSystem extends com.bitplan.simplegraph.impl.SimpleSystemI
   }
   
   @Override
-  public FileSystemSystem connect(String ... params) {
+  public FileSystem connect(String ... params) {
     // TODO might make e.g. remote File systems accessible
     return this;
   }

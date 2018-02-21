@@ -25,7 +25,7 @@ import org.junit.runners.Suite;
 
 import com.bitplan.simplegraph.core.TestTinkerPop3;
 import com.bitplan.simplegraph.excel.TestExcelSystem;
-import com.bitplan.simplegraph.filesystem.TestFileSystemSystem;
+import com.bitplan.simplegraph.filesystem.TestFileSystem;
 import com.bitplan.simplegraph.json.TestJsonSystem;
 import com.bitplan.simplegraph.map.TestMapSystem;
 import com.bitplan.simplegraph.mediawiki.TestMediaWiki;
@@ -38,7 +38,7 @@ import com.bitplan.simplegraph.wikidata.TestWikiData;
 import com.bitplan.simplegraph.word.TestWordSystem;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ TestExcelSystem.class, TestFileSystemSystem.class,
+@Suite.SuiteClasses({ TestExcelSystem.class, TestFileSystem.class,
     TestJsonSystem.class, TestTinkerPop3.class, TestTripleStore.class,
     TestPowerPoint.class, TestMediaWiki.class, TestMapSystem.class,
     TestPdfSystem.class, TestPDFFiles.class, TestSQLSystem.class, TestSMW.class,
