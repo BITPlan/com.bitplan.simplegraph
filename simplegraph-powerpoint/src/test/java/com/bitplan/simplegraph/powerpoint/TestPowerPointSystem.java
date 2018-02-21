@@ -63,7 +63,7 @@ import com.bitplan.simplegraph.wikidata.TestWikiData;
  *
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestPowerPoint  {
+public class TestPowerPointSystem  {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.powerpoint");
   
