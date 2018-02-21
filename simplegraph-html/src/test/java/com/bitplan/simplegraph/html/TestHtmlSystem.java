@@ -44,8 +44,8 @@ public class TestHtmlSystem {
 
   @Test
   public void testRootNodeAttributes() throws Exception {
-    HtmlSystem hs = HtmlSystem.forUrl("http://agilemanifesto.org/");
-    HtmlNode htmlNode = (HtmlNode) hs.getStartNode();
+    HTMLSystem hs = HTMLSystem.forUrl("http://agilemanifesto.org/");
+    HTMLNode htmlNode = (HTMLNode) hs.getStartNode();
     assertEquals("html", htmlNode.getRootNode().getName());
     // debug = true;
     if (debug) {
@@ -63,9 +63,9 @@ public class TestHtmlSystem {
 
   @Test
   public void testGetRecipes() throws Exception {
-    HtmlSystem hs = HtmlSystem.forUrl(
+    HTMLSystem hs = HTMLSystem.forUrl(
         "https://www1.wdr.de/verbraucher/rezepte/alle-rezepte/sauerbraten-vom-rind-100.html");
-    HtmlNode htmlNode = (HtmlNode) hs.getStartNode();
+    HTMLNode htmlNode = (HTMLNode) hs.getStartNode();
     assertEquals("html", htmlNode.getRootNode().getName());
     // debug = true;
     if (debug) {

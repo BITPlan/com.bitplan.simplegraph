@@ -33,18 +33,18 @@ import com.bitplan.simplegraph.core.SimpleGraph;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
-public class HtmlNode extends SimpleNodeImpl {
+public class HTMLNode extends SimpleNodeImpl {
 	TagNode rootNode;
 
 	public TagNode getRootNode() {
 		return rootNode;
 	}
 
-	public HtmlNode(SimpleGraph simpleGraph, String kind, String... keys) {
+	public HTMLNode(SimpleGraph simpleGraph, String kind, String... keys) {
 		super(simpleGraph, kind, keys);
 	}
 	
-	public HtmlNode(SimpleGraph simpleGraph, TagNode rootNode) {
+	public HTMLNode(SimpleGraph simpleGraph, TagNode rootNode) {
 		super(simpleGraph,rootNode.getName(),Keys.EMPTY_KEYS);
 		initRootNode(rootNode);
 	}
@@ -61,7 +61,7 @@ public class HtmlNode extends SimpleNodeImpl {
 	 * @param kind - always "html"
 	 * @param keys
 	 */
-	public HtmlNode(HtmlSystem htmlSystem, String nodeQuery, String kind, String... keys) {
+	public HTMLNode(HTMLSystem htmlSystem, String nodeQuery, String kind, String... keys) {
 		this(htmlSystem, kind, keys);
 		URL url;
 		try {
@@ -85,7 +85,7 @@ public class HtmlNode extends SimpleNodeImpl {
 		List<SimpleNode> children=new ArrayList<SimpleNode>();
 		if ("child".equals(edgeName)) {
 			rootNode.getChildren().forEach(child -> {
-				HtmlNode childNode=new HtmlNode (this,child);
+				HTMLNode childNode=new HTMLNode (this,child);
 				children.add(childNode);
 			});
 			return children.stream();
