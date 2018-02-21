@@ -39,7 +39,7 @@ import com.bitplan.simplegraph.mediawiki.MediaWikiSystem;
  * @author wf
  *
  */
-public class TestMediaWiki  {
+public class TestMediaWikiSystem  {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.mediawiki");
   
