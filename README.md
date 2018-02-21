@@ -1,19 +1,22 @@
 # com.bitplan.simplegraph
-Allows Wrapping Systems to make the available for Graph processing with Apache TinkerPop / Gremlin
+Allows Wrapping Systems to make them available for Graph processing with [Apache TinkerPop / Gremlin](http://tinkerpop.apache.org/)
 
 ### Project
 [![Build Status](https://travis-ci.org/BITPlan/com.bitplan.simplegraph.svg?branch=master)](https://travis-ci.org/BITPlan/com.bitplan.simplegraph)
 [![Coverage Status](https://coveralls.io/repos/github/BITPlan/com.bitplan.simplegraph/badge.svg?branch=master)](https://coveralls.io/github/BITPlan/com.bitplan.simplegraph?branch=master)
 
 # available modules / Systems wrapped
-* [Excel](http://www.bitplan.com/index.php/SimpleGraph-Excel)
-* [FileSystem](http://www.bitplan.com/index.php/SimpleGraph-FileSystem)
-* [HTML](http://www.bitplan.com/index.php/SimpleGraph-HTML)
+| Icon          | Name                                                                  | System wrapped   | API exposed |
+| ------------- |---------------------------------------------------------------------- | ---------------- | ----------- |
+|               | [Excel](http://www.bitplan.com/index.php/SimpleGraph-Excel)           | Microsoft Excel  |             |
+|               | [FileSystem](http://www.bitplan.com/index.php/SimpleGraph-FileSystem) | File System      |             |
+|               | [HTML](http://www.bitplan.com/index.php/SimpleGraph-HTML)             |                  |             |   
 * [JSON](http://www.bitplan.com/index.php/SimpleGraph-JSON)
 * [MapSystem](http://www.bitplan.com/index.php/SimpleGraph-MapSystem)
 * [MediaWiki](http://www.bitplan.com/index.php/SimpleGraph-MediaWiki)
 * [PDF](http://www.bitplan.com/index.php/SimpleGraph-PDF)
 * [PowerPoint](http://www.bitplan.com/index.php/SimpleGraph-PowerPoint)
+* [SNMP](http://www.bitplan.com/index.php/SimpleGraph-SNMP)
 * [SMW Semantic MediaWiki](http://www.bitplan.com/index.php/SimpleGraph-SMW)
 * [SQL](http://www.bitplan.com/index.php/SimpleGraph-SQL)
 * [TripleStore](http://www.bitplan.com/index.php/SimpleGraph-TripleStore)
