@@ -360,7 +360,7 @@ public class SmwSystem extends MediaWikiSystem {
               // https://www.semantic-mediawiki.org/wiki/Help:Type_Date
               // Holds particular points in time:
               case "_dat": // Date
-                Iterator<Edge> datE = node.edges(Direction.OUT, "dat");
+                Iterator<Edge> datE = node.edges(Direction.OUT, key);
                 if (datE.hasNext()) {
                   Vertex datV = datE.next().inVertex();
                   String dateStr = datV.property("raw").value().toString();
