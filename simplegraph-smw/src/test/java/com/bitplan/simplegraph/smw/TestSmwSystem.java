@@ -222,8 +222,7 @@ public class TestSmwSystem {
         dtV.property("anu").value().toString());
     assertTrue((Boolean) dtV.property("boo").value());
     assertTrue(dtV.property("cod").value().toString().startsWith("Code"));
-    assertEquals("Fri May 22 17:32:00 CEST 2015",
-        dtV.property("dat").value().toString());
+    assertTrue(dtV.property("dat").value().toString().startsWith("Fri May 22 17:32:00"));
     if (dtV.property("eid").isPresent())
       assertEquals("Q9682", dtV.property("eid").value().toString());
     assertEquals("mailto:president@whitehouse.gov",
