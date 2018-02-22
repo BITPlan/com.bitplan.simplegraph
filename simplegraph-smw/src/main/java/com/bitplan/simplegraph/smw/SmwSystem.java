@@ -22,8 +22,11 @@ package com.bitplan.simplegraph.smw;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.tinkerpop.gremlin.structure.Direction;
+import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 
@@ -75,7 +79,7 @@ public class SmwSystem extends MediaWikiSystem {
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
-    SimpleNode result=null;
+    SimpleNode result = null;
     String mode = getPatternMatchGroup("^(.+?)=", nodeQuery, 1);
     // remove the "<mode>=" part from the query if there is one
     if (mode != null)
@@ -83,19 +87,19 @@ public class SmwSystem extends MediaWikiSystem {
     if ("ask".equals(mode) || fixAsk(nodeQuery).startsWith("[")) {
       SimpleNode rawNode = moveToAsk(nodeQuery, keys);
       if (rawMode)
-        result=rawNode;
+        result = rawNode;
       else
-        result=conceptAlizePrintRequests(getConcept(nodeQuery), rawNode);
+        result = conceptAlizePrintRequests(getConcept(nodeQuery), rawNode);
     } else if ("browsebysubject".equals(mode)) {
       setJson(getActionJson("browsebysubject", "subject", nodeQuery));
       js = JsonSystem.of(this, getJson());
-      result= js.getStartNode();
+      result = js.getStartNode();
     } else if (mode == null || "page".equals(mode)) {
-      result=new MediaWikiPageNode(this, nodeQuery, keys);
+      result = new MediaWikiPageNode(this, nodeQuery, keys);
     } else {
       throw new IllegalArgumentException("invalid mode " + mode);
     }
-    if (this.getStartNode()==null)
+    if (this.getStartNode() == null)
       this.setStartNode(result);
     return result;
   }
@@ -174,7 +178,10 @@ public class SmwSystem extends MediaWikiSystem {
    * @return -the concept
    */
   public static String getConcept(String askQuery) {
-    return getPatternMatchGroup("\\[\\[Concept:(.+)\\]\\]", askQuery, 1);
+    // non greedy search!
+    // see
+    // https://stackoverflow.com/questions/5319840/greedy-vs-reluctant-vs-possessive-quantifiers
+    return getPatternMatchGroup("\\[\\[Concept:(.+?)\\]\\]", askQuery, 1);
   }
 
   public static class SMWVertex {
@@ -193,12 +200,12 @@ public class SmwSystem extends MediaWikiSystem {
       }
       return null;
     }
-    
-    public String getString(Vertex vertex,String label) {
-      return (String)get(vertex,label);
+
+    public String getString(Vertex vertex, String label) {
+      return (String) get(vertex, label);
     }
-    
-    public Integer getInteger(Vertex vertex,String label) {
+
+    public Integer getInteger(Vertex vertex, String label) {
       Number number = (Number) get(vertex, label);
       if (number == null)
         return null;
@@ -206,6 +213,7 @@ public class SmwSystem extends MediaWikiSystem {
         return number.intValue();
     }
   }
+
   public static class PrintRequest extends SMWVertex {
     String label;
     String key;
@@ -213,13 +221,13 @@ public class SmwSystem extends MediaWikiSystem {
     String typeid;
     Integer mode;
     String format;
-   
+
     public PrintRequest(Vertex pr) {
       label = getString(pr, "label");
-      key =  getString(pr, "key");
+      key = getString(pr, "key");
       redi = getString(pr, "redi");
       typeid = getString(pr, "typeid");
-      mode=getInteger(pr,"mode");
+      mode = getInteger(pr, "mode");
       format = (String) get(pr, "format");
     }
   }
@@ -227,60 +235,71 @@ public class SmwSystem extends MediaWikiSystem {
   public static class WikiPage extends SMWVertex {
     // see e.g. https://www.semantic-mediawiki.org/wiki/Serialization_(JSON)
     /**
-     * "fulltext": "Help:Type URL",
-        "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_URL",
-        "namespace": 12,
-        "exists": "1",
-        "displaytitle": "Help:Datatype \"URL\""
-     */  
+     * "fulltext": "Help:Type URL", "fullurl":
+     * "https://www.semantic-mediawiki.org/wiki/Help:Type_URL", "namespace": 12,
+     * "exists": "1", "displaytitle": "Help:Datatype \"URL\""
+     */
     boolean exists;
     String displayTitle;
     Integer namespace;
     private String fullurl;
     String fulltext;
+
     public boolean isExists() {
       return exists;
     }
+
     public void setExists(boolean exists) {
       this.exists = exists;
     }
+
     public String getDisplayTitle() {
       return displayTitle;
     }
+
     public void setDisplayTitle(String displayTitle) {
       this.displayTitle = displayTitle;
     }
+
     public Integer getNamespace() {
       return namespace;
     }
+
     public void setNamespace(Integer namespace) {
       this.namespace = namespace;
     }
+
     public String getFullurl() {
       return fullurl;
     }
+
     public void setFullurl(String fullurl) {
       this.fullurl = fullurl;
     }
+
     public String getFulltext() {
       return fulltext;
     }
+
     public void setFulltext(String fulltext) {
       this.fulltext = fulltext;
     }
+
     /**
      * construct me from a vertex
+     * 
      * @param wp
      */
     public WikiPage(Vertex wp) {
       displayTitle = getString(wp, "displayTitle");
-      setFullurl(getString(wp,"fullurl"));
-      fulltext=getString(wp,"fulltext");
-      namespace=getInteger(wp,"namespace");
-      exists="1".equals(getString(wp,"exists"));
+      setFullurl(getString(wp, "fullurl"));
+      fulltext = getString(wp, "fulltext");
+      namespace = getInteger(wp, "namespace");
+      exists = "1".equals(getString(wp, "exists"));
     }
 
   }
+
   /**
    * tag the print Requests with the concept from the nodeQuery (if any) and
    * recreate nodes
@@ -311,118 +330,137 @@ public class SmwSystem extends MediaWikiSystem {
       conceptMap.put("isA", concept);
       conceptMap.put("wikipage", new WikiPage(rNode));
       rNode.vertices(Direction.OUT, "printouts").forEachRemaining(node -> {
-        for (String key : prMap.keySet()) {
-          PrintRequest pr = prMap.get(key);
-          if (pr != null)
-            switch (pr.typeid) {
-            // Annotation URI
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Annotation URI
-            // Holds URIs, but has some technical differences during export
-            // compared to the "URL" type:
-            case "_anu": // Annotation URI
-              break;
-            // Boolean
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Boolean
-            // Holds boolean (true/false) values:
-            case "_boo": // Boolean
-              break;
-            // Code
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Code
-            // Holds technical, pre-formatted texts (similar to type Text):
-            case "_cod": // Code
-              putValue(node, key, conceptMap);
-              break;
-            // Date
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Date
-            // Holds particular points in time:
-            case "_dat": // Date
-              break;
-            // Email
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Email
-            // Holds e-mail addresses:
-            case "_ema": // Email
-              break;
-            // External identifier
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_External
-            // identifier
-            // Holds a value that associates it with with a external URI for
-            // formatting:
-            case "_eid": // External identifier
-              break;
-            // Geographic coordinate
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Geographic
-            // coordinate
-            // Holds coordinates describing geographic locations:
-            case "_geo": // Geographic coordinate
-              break;
-            // Monolingual text
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Monolingual
-            // text
-            // Holds a text value that associates the annotation with a specific
-            // language code:
-            case "_mlt_rec": // Monolingual text
-              break;
-            // Number
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Number
-            // Holds integer and decimal numbers, with an optional exponent:
-            case "_num": // Number
-              break;
-            // Page
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Page
-            // Holds names of wiki pages, and displays them as a link:
-            case "_wpg": // Page
-              break;
-            // Quantity
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Quantity
-            // Holds values that describe quantities, containing both a number
-            // and
-            // a unit:
-            case "_qty": // Quantity
-              break;
-            // Record
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Record
-            // Holds compound property values that consist of a short list of
-            // values with fixed type and order:
-            case "_rec": // Record
-              break;
-            // Reference
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Reference
-            // Holds a value that associates it to individual defined provenance
-            // metadata record:
-            case "_ref_rec": // Reference
-              break;
-            // Telephone number
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Telephone
-            // number
-            // Holds international telephone numbers based on the <span
-            // class="plainlinks">[https://tools.ietf.org/html/rfc3966 RFC
-            // 3966]</span> standard:
-            case "_tel": // Telephone number
-              break;
-            // Temperature
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Temperature
-            // Holds temperature values (similar to type Quantity):
-            case "_tem": // Temperature
-              break;
-            // Text
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_Text
-            // Holds text of arbitrary length:
-            case "_txt": // Text
-              putValue(node, key, conceptMap);
-              break;
-            // URL
-            // https://www.semantic-mediawiki.org/wiki/Help:Type_URL
-            // Holds URIs, URNs and URLs:
-            case "_uri": // URL
-              break;
-            default:
-              // unsupported type id
-              LOGGER.log(Level.WARNING, "unknown typeid " + pr.typeid);
-              putValue(node, key, conceptMap);
-            }
-        } // for all properties
-        // add the concept
-        conceptNodeHolder.add(new MapNode(this, concept, conceptMap));
+        try {
+          for (String key : prMap.keySet()) {
+            PrintRequest pr = prMap.get(key);
+            if (pr != null)
+              switch (pr.typeid) {
+              // Annotation URI
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Annotation
+              // URI
+              // Holds URIs, but has some technical differences during export
+              // compared to the "URL" type:
+              case "_anu": // Annotation URI
+                putValue(node, key, conceptMap);
+                break;
+              // Boolean
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Boolean
+              // Holds boolean (true/false) values:
+              case "_boo": // Boolean
+                String bString = node.property("boo").value().toString();
+                conceptMap.put(key, "[t]".equals(bString));
+                break;
+              // Code
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Code
+              // Holds technical, pre-formatted texts (similar to type Text):
+              case "_cod": // Code
+                putValue(node, key, conceptMap);
+                break;
+              // Date
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Date
+              // Holds particular points in time:
+              case "_dat": // Date
+                Iterator<Edge> datE = node.edges(Direction.OUT, "dat");
+                if (datE.hasNext()) {
+                  Vertex datV = datE.next().inVertex();
+                  String dateStr = datV.property("raw").value().toString();
+                  Date date = SmwSystem.getTime(dateStr);
+                  conceptMap.put(key, date);
+                }
+                break;
+              // Email
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Email
+              // Holds e-mail addresses:
+              case "_ema": // Email
+                putValue(node, key, conceptMap);
+                break;
+              // External identifier
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_External
+              // identifier
+              // Holds a value that associates it with with a external URI for
+              // formatting:
+              case "_eid": // External identifier
+                putValue(node, key, conceptMap);
+                break;
+              // Geographic coordinate
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Geographic
+              // coordinate
+              // Holds coordinates describing geographic locations:
+              case "_geo": // Geographic coordinate
+                break;
+              // Monolingual text
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Monolingual
+              // text
+              // Holds a text value that associates the annotation with a
+              // specific
+              // language code:
+              case "_mlt_rec": // Monolingual text
+                break;
+              // Number
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Number
+              // Holds integer and decimal numbers, with an optional exponent:
+              case "_num": // Number
+                break;
+              // Page
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Page
+              // Holds names of wiki pages, and displays them as a link:
+              case "_wpg": // Page
+                break;
+              // Quantity
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Quantity
+              // Holds values that describe quantities, containing both a number
+              // and
+              // a unit:
+              case "_qty": // Quantity
+                break;
+              // Record
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Record
+              // Holds compound property values that consist of a short list of
+              // values with fixed type and order:
+              case "_rec": // Record
+                break;
+              // Reference
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Reference
+              // Holds a value that associates it to individual defined
+              // provenance
+              // metadata record:
+              case "_ref_rec": // Reference
+                break;
+              // Telephone number
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Telephone
+              // number
+              // Holds international telephone numbers based on the <span
+              // class="plainlinks">[https://tools.ietf.org/html/rfc3966 RFC
+              // 3966]</span> standard:
+              case "_tel": // Telephone number
+                break;
+              // Temperature
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Temperature
+              // Holds temperature values (similar to type Quantity):
+              case "_tem": // Temperature
+                break;
+              // Text
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_Text
+              // Holds text of arbitrary length:
+              case "_txt": // Text
+                putValue(node, key, conceptMap);
+                break;
+              // URL
+              // https://www.semantic-mediawiki.org/wiki/Help:Type_URL
+              // Holds URIs, URNs and URLs:
+              case "_uri": // URL
+                break;
+              default:
+                // unsupported type id
+                LOGGER.log(Level.WARNING, "unknown typeid " + pr.typeid);
+                putValue(node, key, conceptMap);
+              }
+          } // for all properties
+          // add the concept
+          conceptNodeHolder.add(new MapNode(this, concept, conceptMap));
+        } catch (Throwable th) {
+          LOGGER.log(Level.SEVERE, th.getMessage(), th);
+        }
       });
     });
     /*
@@ -434,7 +472,29 @@ public class SmwSystem extends MediaWikiSystem {
      * ); }
      */
     return conceptNodeHolder.getFirstValue();
+  }
 
+  /**
+   * convert an SMW timeString to a Java Date
+   * 
+   * @param timeString
+   * @return the Date
+   */
+  public static Date getTime(String timeString) {
+    timeString = timeString.substring(2);
+    String formats[] = { "yyyy/M/d/H/m/s/S", "yyyy/M/d" };
+    Date timeRawDate = null;
+    for (String format : formats) {
+      SimpleDateFormat sdf = new SimpleDateFormat(format);
+      try {
+        timeRawDate = sdf.parse(timeString);
+      } catch (java.text.ParseException jtpe) {
+        // ignore - just leave null
+      }
+      if (timeRawDate != null)
+        break;
+    }
+    return timeRawDate;
   }
 
   /**
@@ -450,7 +510,7 @@ public class SmwSystem extends MediaWikiSystem {
     VertexProperty<Object> prop = node.property(key);
     if (!prop.isPresent()) {
       LOGGER.log(Level.WARNING,
-          String.format("proprerty %s does not exist", key));
+          String.format("property %s does not exist", key));
     } else {
       Object value = prop.value();
       if (value instanceof ArrayList) {
@@ -467,7 +527,7 @@ public class SmwSystem extends MediaWikiSystem {
   }
 
   /**
-   * fix an ask String to be useable for the API
+   * fix an ask String to be usable for the API
    * 
    * @param ask
    *          - a "normal" ask query
@@ -491,6 +551,8 @@ public class SmwSystem extends MediaWikiSystem {
       part = part.replaceAll("\\s*\\|\\s*", "|");
       // remove whitespace around assignment =
       part = part.replaceAll("\\s*=\\s*", "=");
+      // remove whitespace in query parts
+      part = part.replaceAll("\\]\\s*\\[", "][");
       // replace blanks with _
       part = part.replaceAll(" ", "_");
       fixedAsk += part;
