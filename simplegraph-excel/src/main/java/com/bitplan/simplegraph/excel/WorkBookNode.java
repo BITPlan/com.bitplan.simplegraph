@@ -20,11 +20,14 @@
  */
 package com.bitplan.simplegraph.excel;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.bitplan.simplegraph.core.Keys;
 import com.bitplan.simplegraph.core.SimpleGraph;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
@@ -36,6 +39,8 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  */
 public class WorkBookNode extends SimpleNodeImpl {
   XSSFWorkbook workbook =null;
+  private Excel excel;
+  private String query;
   
   /**
    * create a Work Book Node
@@ -45,13 +50,43 @@ public class WorkBookNode extends SimpleNodeImpl {
    */
   public WorkBookNode(SimpleGraph simpleGraph, String kind, String[] keys) {
     super(simpleGraph, kind, keys);
-    // TODO Auto-generated constructor stub
+  }
+
+  /**
+   * create a workbook
+   * @param excelSystem
+   * @param nodeQuery
+   */
+  public WorkBookNode(ExcelSystem excelSystem, String nodeQuery) {
+    this(excelSystem,"workbook",Keys.EMPTY_KEYS);
+    this.query=nodeQuery;
+    excel=new Excel(nodeQuery);
+    super.setVertexFromMap();
+    init();
+  }
+
+  private void init() {
+    List<XSSFSheet> sheets = excel.getSheets();
+    for (XSSFSheet sheet:sheets) {
+      SimpleNode sheetNode=new SheetNode(this.getSimpleGraph(),sheet);
+      this.getVertex().addEdge(sheetNode.property("sheetname").toString(), sheetNode.getVertex());
+      List<List<String>> sheetContent = excel.getSheetContent(sheet);
+      if (sheetContent.size()>0) {
+        List<String> titleRow = sheetContent.get(0);
+        if (sheetContent.size()>1) {
+          for (int rowIndex=1;rowIndex<sheetContent.size();rowIndex++) {
+            List<String> row = sheetContent.get(rowIndex);
+            SimpleNode rowNode=new RowNode(this,titleRow,row,rowIndex);
+          }
+        }
+      }
+    }
   }
 
   @Override
   public Map<String, Object> initMap() {
-    // TODO Auto-generated method stub
-    return null;
+    map.put("query", query);
+    return map;
   }
 
   @Override
