@@ -70,13 +70,14 @@ public class WorkBookNode extends SimpleNodeImpl {
     for (XSSFSheet sheet:sheets) {
       SimpleNode sheetNode=new SheetNode(this.getSimpleGraph(),sheet);
       this.getVertex().addEdge(sheetNode.property("sheetname").toString(), sheetNode.getVertex());
-      List<List<String>> sheetContent = excel.getSheetContent(sheet);
+      List<List<Object>> sheetContent = excel.getSheetContent(sheet);
       if (sheetContent.size()>0) {
-        List<String> titleRow = sheetContent.get(0);
+        List<Object> titleRow = sheetContent.get(0);
         if (sheetContent.size()>1) {
           for (int rowIndex=1;rowIndex<sheetContent.size();rowIndex++) {
-            List<String> row = sheetContent.get(rowIndex);
+            List<Object> row = sheetContent.get(rowIndex);
             SimpleNode rowNode=new RowNode(this,titleRow,row,rowIndex);
+            sheetNode.getVertex().addEdge("rows", rowNode.getVertex());
           }
         }
       }

@@ -271,7 +271,7 @@ public class TestPowerPointSystem  {
     SlideNode qv = (SlideNode) slideForNode(sls, queenVictoria, slideprops);
     assertNotNull(qv);
     // debug = true;
-    for (SimpleNode child : TestTripleStoreSystem.children(queenVictoria, 1)) {
+    for (SimpleNode child : TestTripleStoreSystem.children(queenVictoria, 2)) {
       child.property("source", source);
       SlideNode slide = (SlideNode) slideForNode(sls, child, slideprops);
       assertEquals(slide.getTitle(), child.getMap().get("name"));

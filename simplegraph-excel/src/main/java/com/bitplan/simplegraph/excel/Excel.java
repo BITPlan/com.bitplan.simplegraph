@@ -1,6 +1,25 @@
+/**
+ * Copyright (c) 2018 BITPlan GmbH
+ *
+ * http://www.bitplan.com
+ *
+ * This file is part of the Opensource project at:
+ * https://github.com/BITPlan/com.bitplan.simplegraph
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bitplan.simplegraph.excel;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -11,11 +30,13 @@ import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -31,31 +52,38 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 import com.bitplan.simplegraph.impl.Holder;
 
+/**
+ * Microsoft Excel helper utilities
+ * 
+ * @author wf
+ *
+ */
 public class Excel {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger
       .getLogger("com.bitplan.simplegraph.excel");
-  
+
   public XSSFWorkbook workbook = null;
   public Throwable error;
+  private FormulaEvaluator evaluator;
 
   /**
    * get the contents of a sheet
+   * 
    * @param sheet
    * @return
    */
-  public List<List<String>> getSheetContent(XSSFSheet sheet) {
-    List<List<String>> result = new ArrayList<List<String>>();
+  public List<List<Object>> getSheetContent(XSSFSheet sheet) {
+    List<List<Object>> result = new ArrayList<List<Object>>();
     Iterator<Row> rows = sheet.rowIterator();
     while (rows.hasNext()) {
       XSSFRow row = (XSSFRow) rows.next();
       Iterator<Cell> cells = row.cellIterator();
-      List<String> rowList = new ArrayList<String>();
+      List<Object> rowList = new ArrayList<Object>();
       while (cells.hasNext()) {
         XSSFCell cell = (XSSFCell) cells.next();
-        String cellValue = cell.toString();
-        if (!"".equals(cellValue))
-          rowList.add(cellValue);
+        Object cellValue = getCellValue(cell);
+        rowList.add(cellValue);
       }
       if (rowList.size() > 0)
         result.add(rowList);
@@ -63,16 +91,50 @@ public class Excel {
     return result;
   }
 
+  private Object getCellValue(XSSFCell cell) {
+    Object cellValue = null;
+    CellType cellType = cell.getCellTypeEnum();
+    if (CellType.FORMULA == cellType)
+      cellType = cell.getCachedFormulaResultTypeEnum();
+    switch (cellType) {
+    case BOOLEAN:
+      cellValue = cell.getBooleanCellValue();
+      break;
+    case NUMERIC:
+      cellValue = cell.getNumericCellValue();
+      break;
+    case STRING:
+      cellValue = cell.getStringCellValue();
+      break;
+    case BLANK:
+      break;
+    case ERROR:
+      cellValue = cell.getErrorCellValue();
+      break;
+
+    // CELL_TYPE_FORMULA will never occur
+    case FORMULA:
+      break;
+    case _NONE:
+      cellValue = cell.toString();
+      break;
+    default:
+      break;
+    }
+    return cellValue;
+  }
+
   public Excel(String url) {
     // http://stackoverflow.com/questions/5836965/how-to-open-xlsx-files-with-poi-ss
     try {
       InputStream is = new URL(url).openStream();
       workbook = new XSSFWorkbook(is);
+      evaluator = workbook.getCreationHelper().createFormulaEvaluator();
     } catch (Throwable th) {
       error = th;
     }
   }
-  
+
   /**
    * set the cellComment for the given cell to the given text see
    * https://stackoverflow.com/q/16099912/1497139
@@ -108,9 +170,11 @@ public class Excel {
     // https://poi.apache.org/spreadsheet/quick-guide.html#NewSheet
     Workbook wb = new XSSFWorkbook();
     // add a sheet of vertices per vertex Label
-    g.V().label().dedup().forEachRemaining(vertexLabel->addSheet(wb,vertexLabel, g.V()));
+    g.V().label().dedup()
+        .forEachRemaining(vertexLabel -> addSheet(wb, vertexLabel, g.V()));
     // add a sheet of edges per edge Label
-    g.E().label().dedup().forEachRemaining(edgeLabel->addSheet(wb, edgeLabel, g.E()));
+    g.E().label().dedup()
+        .forEachRemaining(edgeLabel -> addSheet(wb, edgeLabel, g.E()));
     return wb;
   }
 
@@ -145,7 +209,7 @@ public class Excel {
         // add cells for the given row
         Holder<Integer> colIndex = new Holder<Integer>(0);
         if (item instanceof Vertex) {
-          addCell(headerRow,"id",colIndex.getFirstValue(),boldStyle);
+          addCell(headerRow, "id", colIndex.getFirstValue(), boldStyle);
           colIndex.setValue(colIndex.getFirstValue() + 1);
           Vertex vertex = (Vertex) item;
           vertex.properties().forEachRemaining(prop -> {
@@ -160,9 +224,9 @@ public class Excel {
                 boldStyle);
             colIndex.setValue(colIndex.getFirstValue() + 1);
           });
-          int col=colIndex.getFirstValue();
-          addCell(headerRow,"in",col,boldStyle);
-          addCell(headerRow,"out",col+1,boldStyle);
+          int col = colIndex.getFirstValue();
+          addCell(headerRow, "in", col, boldStyle);
+          addCell(headerRow, "out", col + 1, boldStyle);
         }
         // create a new Row
         rowHolder.setValue(sheet.createRow(++rowNumber));
@@ -172,7 +236,7 @@ public class Excel {
       Holder<Integer> colIndex = new Holder<Integer>(0);
       if (item instanceof Vertex) {
         Vertex vertex = (Vertex) item;
-        addCell(row,vertex.id(),colIndex.getFirstValue(),null);
+        addCell(row, vertex.id(), colIndex.getFirstValue(), null);
         colIndex.setValue(colIndex.getFirstValue() + 1);
         vertex.properties().forEachRemaining(prop -> {
           addCell(row, prop.value(), colIndex.getFirstValue(), null);
@@ -184,9 +248,9 @@ public class Excel {
           addCell(row, prop.value(), colIndex.getFirstValue(), null);
           colIndex.setValue(colIndex.getFirstValue() + 1);
         });
-        int col=colIndex.getFirstValue();
-        addCell(row,edge.inVertex().id(),col,null);
-        addCell(row,edge.outVertex().id(),col+1,null);    
+        int col = colIndex.getFirstValue();
+        addCell(row, edge.inVertex().id(), col, null);
+        addCell(row, edge.outVertex().id(), col + 1, null);
       }
       rowIndex.setValue(rowIndex.getFirstValue() + 1);
     });
@@ -194,15 +258,17 @@ public class Excel {
 
   /**
    * get sheets
+   * 
    * @return
    */
   public List<XSSFSheet> getSheets() {
-    List<XSSFSheet> sheets=new ArrayList<XSSFSheet>();
-    for (int index=0;index<workbook.getNumberOfSheets();index++) {
-     sheets.add(workbook.getSheetAt(index));
+    List<XSSFSheet> sheets = new ArrayList<XSSFSheet>();
+    for (int index = 0; index < workbook.getNumberOfSheets(); index++) {
+      sheets.add(workbook.getSheetAt(index));
     }
     return sheets;
   }
+
   /**
    * add a Cell with the given value at the given column Index to the given row
    * if a cellStyle is given the the cell's style to it
@@ -239,7 +305,7 @@ public class Excel {
    * @throws Exception
    */
   public void save(String path) throws Exception {
-    save(workbook,path);
+    save(workbook, path);
   }
 
   public static void save(Workbook wb, String path) throws Exception {
