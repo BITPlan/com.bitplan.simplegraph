@@ -22,6 +22,7 @@ Allows Wrapping Systems to make them available for Graph processing with [Apache
 |![TripleStore](http://wiki.bitplan.com/images/wiki/thumb/5/52/TripleStore-Icon.png/100px-TripleStore-Icon.png)[TripleStore](http://www.bitplan.com/index.php/SimpleGraph-TripleStore) |[TripleStore](https://en.wikipedia.org/wiki/Triplestore) |[SiDIF-TripleStore](https://github.com/BITPlan/org.sidif.triplestore)
 |![WikiData](https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Wikidata-logo-en.svg/100px-Wikidata-logo-en.svg.png)[WikiData](http://www.bitplan.com/index.php/SimpleGraph-WikiData) |[WikiData](https://en.wikipedia.org/wiki/Wikidata) |[WikiData Toolkit](https://github.com/Wikidata/Wikidata-Toolkit)
 |![Word](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Microsoft_Word_2013_logo.svg/100px-Microsoft_Word_2013_logo.svg.png)[Word](http://www.bitplan.com/index.php/SimpleGraph-Word) |[Word](https://en.wikipedia.org/wiki/Word) |[Apache POI XWPF/HWPF](https://poi.apache.org/document/quick-guide-xwpf.html) 
+|![XML](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Xml_logo.svg/150px-Xml_logo.svg.png)[XML](http://www.bitplan.com/index.php/SimpleGraph-XML) |[XML](https://en.wikipedia.org/wiki/XML) |[org.w3c.dom](https://docs.oracle.com/javase/7/docs/api/org/w3c/dom/package-summary.html) 
 
 # Links
 * http://www.bitplan.com/index.php/SimpleGraph

@@ -18,56 +18,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.simplegraph.excel;
+package com.bitplan.simplegraph.xml;
 
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+import java.io.IOException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
 /**
- * allows Access to Microsoft Excel Tables
- * 
+ * wraps an XML document
  * @author wf
  *
  */
-public class ExcelSystem extends SimpleSystemImpl {
-  /**
-   * initialize me
-   */
-  public ExcelSystem() {
-    super.setName("ExcelSystem");
-    super.setVersion("0.0.1");
-  }
+public class XmlSystem extends SimpleSystemImpl {
+
+  private DocumentBuilderFactory dbFactory;
+  private DocumentBuilder docBuilder;
 
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
+    dbFactory = DocumentBuilderFactory.newInstance();
+    docBuilder = dbFactory.newDocumentBuilder();
     return this;
   }
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
-    WorkBookNode workBookNode=new WorkBookNode(this,nodeQuery);
-    if (this.getStartNode()==null) {
-      this.setStartNode(workBookNode);
+    XmlNode node;
+    try {
+      Document doc = docBuilder.parse(nodeQuery);
+      node = new XmlNode(this,doc,doc.getDocumentElement());
+    } catch (SAXException | IOException e) {
+      throw new RuntimeException(e);
     }
-    return workBookNode;
+    return node;
   }
 
   @Override
   public Class<? extends SimpleNode> getNodeClass() {
-    return WorkBookNode.class;
-  }
-
-  public Workbook createWorkBook(GraphTraversalSource g) {
-    // delegate the call to static function of Excel
-    return Excel.createWorkBook(g);
-  }
-
-  public void save(Workbook wb, String fileName) throws Exception {
-    Excel.save(wb,fileName);
+    return XmlNode.class;
   }
 
 }

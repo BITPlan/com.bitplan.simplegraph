@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.bitplan.simplegraph.core.SimpleGraph;
+import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 
 /**
@@ -79,7 +80,14 @@ public abstract class SimpleSystemImpl extends SimpleGraphImpl implements Simple
     cacheMap.get(purpose).flush();
   }
   
- 
+  /**
+   * optionally stet the StartNode if it has not been set yet
+   * @param simpleNode
+   */
+  protected void optionalStartNode(SimpleNode simpleNode) {
+    if (this.startNode==null)
+      this.startNode=simpleNode;
+  }
   
   @Override
   public SimpleSystem close(String ... closeParams) throws Exception {

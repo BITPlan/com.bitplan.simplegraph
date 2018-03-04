@@ -89,7 +89,7 @@ public class JsonNode extends SimpleNodeImpl {
   }
   
   /**
-   * add the subnodes for the given element
+   * add the sub nodes for the given element
    * @param pElement
    */
   private void addSubNodes(JsonElement pElement) {

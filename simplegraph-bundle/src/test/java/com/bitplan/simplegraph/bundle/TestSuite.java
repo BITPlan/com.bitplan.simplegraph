@@ -26,24 +26,28 @@ import org.junit.runners.Suite;
 import com.bitplan.simplegraph.core.TestTinkerPop3;
 import com.bitplan.simplegraph.excel.TestExcelSystem;
 import com.bitplan.simplegraph.filesystem.TestFileSystem;
+import com.bitplan.simplegraph.java.TestJavaSystem;
 import com.bitplan.simplegraph.json.TestJsonSystem;
 import com.bitplan.simplegraph.map.TestMapSystem;
 import com.bitplan.simplegraph.mediawiki.TestMediaWikiSystem;
 import com.bitplan.simplegraph.pdf.TestPdfSystem;
 import com.bitplan.simplegraph.powerpoint.TestPowerPointSystem;
 import com.bitplan.simplegraph.smw.TestSmwSystem;
+import com.bitplan.simplegraph.snmp.TestSNMPSystem;
 import com.bitplan.simplegraph.sql.TestSQLSystem;
 import com.bitplan.simplegraph.triplestore.TestTripleStoreSystem;
 import com.bitplan.simplegraph.wikidata.TestWikiDataSystem;
 import com.bitplan.simplegraph.word.TestWordSystem;
+import com.bitplan.simplegraph.xml.TestXmlSystem;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ TestExcelSystem.class, TestFileSystem.class,
-    TestJsonSystem.class, TestTinkerPop3.class, TestTripleStoreSystem.class,
-    TestPowerPointSystem.class, TestMediaWikiSystem.class, TestMapSystem.class,
-    TestPdfSystem.class, TestPDFFiles.class, TestSQLSystem.class, TestSmwSystem.class,
-    TestWikiDataSystem.class, TestWordSystem.class,
-    com.bitplan.simplegraph.core.TestRythm.class,
+    TestJavaSystem.class, TestJsonSystem.class, TestTinkerPop3.class,
+    TestTripleStoreSystem.class, TestPowerPointSystem.class,
+    TestMediaWikiSystem.class, TestMapSystem.class, TestPdfSystem.class,
+    TestPDFFiles.class, TestSNMPSystem.class, TestSQLSystem.class,
+    TestSmwSystem.class, TestWikiDataSystem.class, TestWordSystem.class,
+    TestXmlSystem.class, com.bitplan.simplegraph.core.TestRythm.class,
     com.bitplan.simplegraph.filesystem.TestRythm.class,
     com.bitplan.simplegraph.map.TestRythm.class })
 /**

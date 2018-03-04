@@ -18,36 +18,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.simplegraph.pdf;
+package com.bitplan.simplegraph.xml;
 
-import java.util.logging.Logger;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
 
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 
 /**
- * test the PDF System
+ * test the XML System
  * @author wf
  *
  */
-public class TestPdfSystem {
-	public static boolean debug = false;
-	protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.pdf");
+public class TestXmlSystem {
 
-	@Test
-	public void testPDF() throws Exception {
-		PdfSystem ps = new PdfSystem();
-		ps.connect();
-		SimpleNode pdfNode = ps.moveTo("http://eprints.nottingham.ac.uk/249/1/cajun.pdf");
-		pdfNode.out("pages");
-		//debug=true;
-		if (debug) {
-			ps.forAll(SimpleNode.printDebug);
-			System.out.println(ps.getStartNode().g().V().hasLabel("pdf").next().property("NumberOfPages").value());
-			ps.getStartNode().g().V().hasLabel("page")
-					.forEachRemaining(page -> System.out.println(page.property("text").value()));
-		}
-	}
+  @Test
+  public void testXml() throws Exception {
+    File pomFile=new File("../simplegraph-xml/pom.xml");
+    assertTrue(pomFile.exists());
+    XmlSystem xs=new XmlSystem();
+    xs.connect();
+    xs.moveTo(pomFile.toURI().toString());
+    xs.forAll(SimpleNode.printDebug);
+  }
 
 }

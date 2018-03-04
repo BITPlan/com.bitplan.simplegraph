@@ -45,8 +45,8 @@ public class TestExcelSystem {
   protected static Logger LOGGER = Logger
       .getLogger("com.bitplan.simplegraph.excel");
 
-  String testAirRouteFileName = "air-routes.xlsx";
-  String testModernFileName="modern.xlsx";
+  String testAirRouteFileName = "../simplegraph-excel/air-routes.xlsx";
+  String testModernFileName="../simplegraph-excel/modern.xlsx";
 
   @Test
   public void testCreateExcelAirRoutes() throws Exception {

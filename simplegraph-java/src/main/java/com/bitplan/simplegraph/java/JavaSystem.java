@@ -18,29 +18,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.simplegraph.excel;
-
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+package com.bitplan.simplegraph.java;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
-/**
- * allows Access to Microsoft Excel Tables
- * 
- * @author wf
- *
- */
-public class ExcelSystem extends SimpleSystemImpl {
-  /**
-   * initialize me
-   */
-  public ExcelSystem() {
-    super.setName("ExcelSystem");
-    super.setVersion("0.0.1");
-  }
+public class JavaSystem extends SimpleSystemImpl {
 
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
@@ -49,25 +33,15 @@ public class ExcelSystem extends SimpleSystemImpl {
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
-    WorkBookNode workBookNode=new WorkBookNode(this,nodeQuery);
-    if (this.getStartNode()==null) {
-      this.setStartNode(workBookNode);
-    }
-    return workBookNode;
+    SimpleNode javaSourceNode=new JavaSourceNode(this,nodeQuery,keys);
+    optionalStartNode(javaSourceNode);
+    return javaSourceNode;
   }
+
 
   @Override
   public Class<? extends SimpleNode> getNodeClass() {
-    return WorkBookNode.class;
-  }
-
-  public Workbook createWorkBook(GraphTraversalSource g) {
-    // delegate the call to static function of Excel
-    return Excel.createWorkBook(g);
-  }
-
-  public void save(Workbook wb, String fileName) throws Exception {
-    Excel.save(wb,fileName);
+    return JavaSourceNode.class;
   }
 
 }
