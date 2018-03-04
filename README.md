@@ -11,6 +11,7 @@ Allows Wrapping Systems to make them available for Graph processing with [Apache
 |![Excel](https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Microsoft_Excel_2013_logo.svg/100px-Microsoft_Excel_2013_logo.svg.png)[Excel](http://www.bitplan.com/index.php/SimpleGraph-Excel) |[Excel](https://en.wikipedia.org/wiki/Microsoft_Excel) |[Apache POI XSSF/HSSF](https://poi.apache.org/spreadsheet/quick-guide.html)
 |![FileSystem](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Folder.svg/100px-Folder.svg.png)[FileSystem](http://www.bitplan.com/index.php/SimpleGraph-FileSystem) |[FileSystem](https://en.wikipedia.org/wiki/File_system) |[java.io.File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html)
 |![HTML](https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/100px-HTML5_logo_and_wordmark.svg.png)[HTML](http://www.bitplan.com/index.php/SimpleGraph-HTML) |[HTML](https://en.wikipedia.org/wiki/HTML) |[HTML Cleaner](http://htmlcleaner.sourceforge.net/)
+|![Java](http://wiki.bitplan.com/images/wiki/e/e1/Java-Logo.svg)[Java](http://www.bitplan.com/index.php/SimpleGraph-Java) |[Java](https://en.wikipedia.org/wiki/Java_(programming_language)) |[javaparser](https://github.com/javaparser/javaparser) 
 |![JSON](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/JSON_vector_logo.svg/100px-JSON_vector_logo.svg.png)[JSON](http://www.bitplan.com/index.php/SimpleGraph-JSON) |[JSON](https://en.wikipedia.org/wiki/JavaScript_Object_Notation) |[JSON](https://www.json.org/)
 |![MapSystem](http://wiki.bitplan.com/images/wiki/thumb/4/43/Map.png/100px-Map.png)[MapSystem](http://www.bitplan.com/index.php/SimpleGraph-MapSystem) |[MapSystem](https://en.wikipedia.org/wiki/Hash_table) |[java.api.Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)
 |![MediaWiki](https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Mediawiki_logo_reworked.svg/100px-Mediawiki_logo_reworked.svg.png)[MediaWiki](http://www.bitplan.com/index.php/SimpleGraph-MediaWiki) |[MediaWiki](https://www.mediawiki.org/wiki/API:Main_page_MediaWiki) |[MediaWiki API](https://www.mediawiki.org/wiki/API:Main_page)
@@ -24,8 +25,14 @@ Allows Wrapping Systems to make them available for Graph processing with [Apache
 |![Word](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Microsoft_Word_2013_logo.svg/100px-Microsoft_Word_2013_logo.svg.png)[Word](http://www.bitplan.com/index.php/SimpleGraph-Word) |[Word](https://en.wikipedia.org/wiki/Word) |[Apache POI XWPF/HWPF](https://poi.apache.org/document/quick-guide-xwpf.html) 
 |![XML](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Xml_logo.svg/150px-Xml_logo.svg.png)[XML](http://www.bitplan.com/index.php/SimpleGraph-XML) |[XML](https://en.wikipedia.org/wiki/XML) |[org.w3c.dom](https://docs.oracle.com/javase/7/docs/api/org/w3c/dom/package-summary.html) 
 
-# Links
+# Documentation
 * http://www.bitplan.com/index.php/SimpleGraph
+
+# Discussion group
+* https://groups.google.com/forum/#!forum/simplegraph
+
+
+# Links
 * https://stackoverflow.com/questions/48213256/gremlin-interface-for-filesystem
 
 # History
@@ -33,3 +40,4 @@ Allows Wrapping Systems to make them available for Graph processing with [Apache
 * 2018-01-14 adds Powerpoint and SiDIF-TripleStore access
 * 2018-01-15 adds WikiData access
 * 2018-02-19 adds Excel,HTML,JSON,MapSystem,MediaWiki,PDF,SMW,SQL and Word
+* 2018-03-04 adds SNMP, Java and XML
