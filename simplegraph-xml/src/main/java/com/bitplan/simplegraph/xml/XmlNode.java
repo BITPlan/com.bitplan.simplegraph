@@ -69,7 +69,10 @@ public class XmlNode extends SimpleNodeImpl {
     NodeList nodeList = node.getChildNodes();
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node subNode = nodeList.item(i);
-      XmlNode xmlNode = new XmlNode(this.getSimpleGraph(), subNode);
+      if (subNode instanceof Element) {
+        XmlNode xmlNode = new XmlNode(this.getSimpleGraph(), subNode);
+        this.getVertex().addEdge("child", xmlNode.getVertex());
+      }
     }
   }
 
@@ -81,7 +84,8 @@ public class XmlNode extends SimpleNodeImpl {
         Node attr = attrs.item(i);
         map.put(attr.getNodeName(), attr.getNodeValue());
       }
-    map.put("text", node.getTextContent());
+    if (node.getChildNodes().getLength() == 1)
+      map.put("text", node.getTextContent());
     return map;
   }
 

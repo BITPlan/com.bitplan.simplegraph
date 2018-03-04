@@ -23,6 +23,7 @@ package com.bitplan.simplegraph.xml;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 import org.junit.Test;
 
@@ -30,19 +31,30 @@ import com.bitplan.simplegraph.core.SimpleNode;
 
 /**
  * test the XML System
+ * 
  * @author wf
  *
  */
 public class TestXmlSystem {
+  public static boolean debug = false;
+  protected static Logger LOGGER = Logger
+      .getLogger("com.bitplan.simplegraph.xml");
 
   @Test
   public void testXml() throws Exception {
-    File pomFile=new File("../simplegraph-xml/pom.xml");
+    File pomFile = new File("../simplegraph-xml/pom.xml");
     assertTrue(pomFile.exists());
-    XmlSystem xs=new XmlSystem();
+    XmlSystem xs = new XmlSystem();
     xs.connect();
     xs.moveTo(pomFile.toURI().toString());
-    xs.forAll(SimpleNode.printDebug);
+    // debug = true;
+    if (debug)
+      xs.forAll(SimpleNode.printDebug);
+    xs.getStartNode().g().V().hasLabel("artifactId")
+        .forEachRemaining(xmlnode -> {
+          assertTrue(xmlnode.property("text").value().toString()
+              .startsWith("com.bitplan.simplegraph"));
+        });
   }
 
 }

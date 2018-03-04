@@ -55,6 +55,7 @@ public class XmlSystem extends SimpleSystemImpl {
     try {
       Document doc = docBuilder.parse(nodeQuery);
       node = new XmlNode(this,doc,doc.getDocumentElement());
+      super.optionalStartNode(node);
     } catch (SAXException | IOException e) {
       throw new RuntimeException(e);
     }
