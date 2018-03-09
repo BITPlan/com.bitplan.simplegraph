@@ -94,6 +94,10 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl
     this.map = map;
   }
 
+  public Keys getKeys() {
+    return keys;
+  }
+
   @Override
   public Vertex setVertexFromMap() {
     return setVertexFromMap(initMap());
@@ -111,7 +115,7 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl
     addKeyValue(keyValueList, T.label, this.kind);
     // now add the pointer to me
     // TODO - filter / ignore me when saving
-    addKeyValue(keyValueList, "mysimplenode", this);
+    addKeyValue(keyValueList, getSelfLabel(), this);
     // add all key values from my map
     for (Entry<String, Object> entry : map.entrySet()) {
       if (entry.getValue() != null)
@@ -133,6 +137,23 @@ public abstract class SimpleNodeImpl extends SimpleGraphImpl
       Object value) {
     keyValueList.add(name);
     keyValueList.add(value);
+  }
+
+  /**
+   * convert vertex property contents to a map
+   * @param vertex
+   * @param keys
+   * @return a map
+   */
+  public static Map<String, Object> vertexToMap(Vertex vertex, String ... keys) {
+    Map<String,Object> map=new HashMap<String,Object>();
+    if (keys.length==0)
+      keys=vertex.keys().toArray(new String[vertex.keys().size()]);
+    for (String key:keys) {
+      if (vertex.property(key).isPresent())
+        map.put(key, vertex.property(key).value());
+    }
+    return map;
   }
 
 }

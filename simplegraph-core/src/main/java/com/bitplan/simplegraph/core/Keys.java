@@ -25,12 +25,23 @@ import java.util.Optional;
 
 /**
  * filter for property keys
+ * 
  * @author wf
  *
  */
 public interface Keys {
-  public static final String [] EMPTY_KEYS= {};
+  public static final String[] EMPTY_KEYS = {};
+
   public boolean hasKey(String key);
+
+  public default boolean isEmpty() {
+    if (this.getKeysList().isPresent())
+      return this.getKeysList().get().size() == 0;
+    else
+      return true;
+  }
+
   Optional<List<String>> getKeysList();
+
   String[] getKeys();
 }

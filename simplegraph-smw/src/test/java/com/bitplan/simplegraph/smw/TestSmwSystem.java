@@ -29,15 +29,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
+import com.bitplan.rythm.RythmContext;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.json.JsonPrettyPrinter;
+import com.bitplan.simplegraph.smw.SmwSystem.Geo;
 import com.bitplan.simplegraph.smw.SmwSystem.WikiPage;
 
 /**
@@ -173,25 +177,29 @@ public class TestSmwSystem {
           edge -> SimpleNode.printDebug.accept(edge.outVertex()));
     smwSystem.conceptAlizePrintRequests("datatype", dtNode);
     assertNotNull(dtNode);
-    final StringBuffer code = new StringBuffer();
-    dtNode.g().V().hasLabel("datatype").order().by("Datatype")
-        .forEachRemaining(dt -> {
-          Object dataType = dt.property("Datatype").value();
-          WikiPage wikiPage = (WikiPage) dt.property("wikipage").value();
-          assertNotNull(wikiPage);
-          String help = "https://www.semantic-mediawiki.org/wiki/Help:Type_"
-              + dataType;
-          help = help.replaceAll(" ", "_");
-          assertEquals(help, wikiPage.getFullurl());
-          code.append(String.format("// %s\n// %s\n// %s: \n", dataType, help,
-              dt.property("Description").value()));
-          code.append(String.format("case \"%s\": // %s\n",
-              dt.property("typeid").value(), dataType));
-          code.append("break;\n");
-        });
-    if (debug)
-      System.out.print(code);
+    // this.generateSwitchCases(dtNode);
   }
+
+  /**
+   * generate switch Cases
+   * 
+   * @param dtNode
+   */
+  /*
+   * public void generateSwitchCases(SimpleNode dtNode) { final StringBuffer
+   * code = new StringBuffer();
+   * dtNode.g().V().hasLabel("datatype").order().by("Datatype")
+   * .forEachRemaining(dt -> { Object dataType =
+   * dt.property("Datatype").value(); WikiPage wikiPage = (WikiPage)
+   * dt.property("wikipage").value(); assertNotNull(wikiPage); String help =
+   * "https://www.semantic-mediawiki.org/wiki/Help:Type_" + dataType; help =
+   * help.replaceAll(" ", "_"); assertEquals(help, wikiPage.getFullurl());
+   * code.append(String.format("// %s\n// %s\n// %s: \n", dataType, help,
+   * dt.property("Description").value()));
+   * code.append(String.format("case \"%s\": // %s\n",
+   * dt.property("typeid").value(), dataType)); code.append("break;\n"); });
+   * debug=true; if (debug) System.out.print(code); }
+   */
 
   @Test
   public void testDataTypeAsConcept() throws Exception {
@@ -206,6 +214,7 @@ public class TestSmwSystem {
         + "|?Area=qty\n" + "|?SomeProperty=txt\n" + "|?Soccer result=rec\n"
         + "|?Has_URL=uri\n" + "|format=ol\n" + "}}";
     SmwSystem smwSystem = getSMWSystem();
+    // debug = true;
     smwSystem.setDebug(debug);
     SimpleNode dtNode = smwSystem.moveTo("ask=" + askQuery);
     smwSystem.conceptAlizePrintRequests("datatype", dtNode);
@@ -222,11 +231,17 @@ public class TestSmwSystem {
         dtV.property("anu").value().toString());
     assertTrue((Boolean) dtV.property("boo").value());
     assertTrue(dtV.property("cod").value().toString().startsWith("Code"));
-    assertTrue(dtV.property("dat").value().toString().startsWith("Fri May 22 17:32:00"));
+    assertTrue(dtV.property("dat").value().toString()
+        .startsWith("Fri May 22 17:32:00"));
     if (dtV.property("eid").isPresent())
       assertEquals("Q9682", dtV.property("eid").value().toString());
     assertEquals("mailto:president@whitehouse.gov",
         dtV.property("ema").value().toString());
+    assertTrue(dtV.property("geo").value() instanceof Geo);
+    assertEquals("  32° 42’ 54.00” N  117°  9’ 45.00” W",
+        dtV.property("geo").value().toString());
+    assertTrue(dtV.property("wpg").value() instanceof WikiPage);
+    assertEquals("Semantic MediaWiki", dtV.property("wpg").value().toString());
     assertEquals("Did you create the page for Tokyo 東京 ? Yes ✓",
         dtV.property("txt").value().toString());
   }
@@ -248,7 +263,76 @@ public class TestSmwSystem {
         System.out.println(isoDate.format(timeStampDate));
         System.out.println(isoDate.format(timeRawDate));
       }
+    }
+  }
 
+  @Test
+  public void testSimpleGraphModules() throws Exception {
+    String askQuery = "{{#ask: [[Concept:SimpleGraphModule]]\n"
+        + "|mainlabel=SimpleGraphModule\n"
+        + "| ?SimpleGraphModule name = name\n"
+        + "| ?SimpleGraphModule logo = logo\n"
+        + "| ?SimpleGraphModule modulename = modulename\n"
+        + "| ?SimpleGraphModule systemname = systemname\n"
+        + "| ?SimpleGraphModule url = url\n"
+        + "| ?SimpleGraphModule apiname = apiname\n"
+        + "| ?SimpleGraphModule apiurl = apiurl\n"
+        + "| ?SimpleGraphModule documentation = documentation\n" + "}}";
+    SmwSystem smw = new SmwSystem();
+    // debug = true;
+    smw.setDebug(debug);
+    smw.connect("http://wiki.bitplan.com", "/");
+    smw.moveTo("ask=" + askQuery);
+    if (debug)
+      smw.forAll(SimpleNode.printDebug);
+    List<Vertex> moduleVs = smw.getStartNode().g().V()
+        .hasLabel("SimpleGraphModule").toList();
+    RythmContext rythmContext = RythmContext.getInstance();
+    Map<String, Object> rootMap = new HashMap<String, Object>();
+    rootMap.put("moduleVs", moduleVs);
+    String template = "@import org.apache.tinkerpop.gremlin.structure.Vertex\n"
+        + "@import com.bitplan.simplegraph.smw.SmwSystem.WikiPage\n"
+        + "@args {\n" + "  List<Vertex> moduleVs\n" + "}\n"
+        + "@def WikiPage wikipage(Vertex v, String propname){\n"
+        + " return (WikiPage)v.property(propname).value();\n" + "}\n"
+        + "@def link(Vertex v, String propname) {\n@{ WikiPage wp=wikipage(v,propname)} URL=\"[[@(wp.fulltext)]]\"}\n"
+        + "@def image(Vertex v, String propname){\n@{ WikiPage wp=wikipage(v,propname)} image=\"@(wp.fulltext.replace(\"File:\",\"\"))\"}\n"
+        + "@def prop(Vertex v, String propname){\n"
+        + " @(v.property(propname).value().toString())\n" + "}\n"
+        + "<graphviz>\n" + "digraph hubandspoke @(\"{\")\n"
+        + "  edge [dir=\"both\"]\n" + "  layout=\"circo\";\n"
+        + "node [shape=circle,\n"
+        + "      fixedsize=true, # don't allow nodes to change sizes dynamically\n"
+        + "      width=1]\n" + "@for (Vertex mA:moduleVs) {\n"
+        + " @(prop(mA,\"name\")) [ @link(mA,\"wikipage\") @image(mA,\"logo\") ]\n"
+        + "}\n" + "@for (Vertex mA:moduleVs) {\n"
+        + "@for (Vertex mB:moduleVs) {\n" + " @if (mA!=mB) {\n"
+        + "@(prop(mA,\"name\")) ->@(prop(mB,\"name\"))\n" + "}\n" + "}\n"
+        + "}\n" + "@(\"}\")\n" + "</graphviz>\n";
+    String graphVizCode = rythmContext.render(template, rootMap);
+    // debug = true;
+    if (debug) {
+      System.out.println(graphVizCode);
+
+      for (Vertex moduleV : moduleVs) {
+        System.out.println(String.format("# [[%s]]",
+            ((WikiPage) (moduleV.property("logo").value())).fulltext));
+      }
+    }
+  }
+
+  @Test
+  public void testGeoConversion() {
+    Geo[] geos = { new Geo(0.0, 0.0), new Geo(30.0, 30.0),
+        new Geo(-45.0, -45.0) };
+    String[] expected = { "   0°  0’  0.00” N    0°  0’  0.00” E",
+        "  30°  0’  0.00” N   30°  0’  0.00” E",
+        "  45°  0’  0.00” S   45°  0’  0.00” W" };
+    int i = 0;
+    for (Geo geo : geos) {
+      if (debug)
+        System.out.println(geo.toString());
+      assertEquals(expected[i++], geo.toString());
     }
   }
 

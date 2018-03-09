@@ -41,9 +41,10 @@ public class MapNode extends SimpleNodeImpl {
  
   /**
    * initialize me from a map
+   * @param keys 
    */
-  public MapNode(SimpleGraph graph,String kind,Map<String, Object> map) {
-    super(graph,kind);
+  public MapNode(SimpleGraph graph,String kind,Map<String, Object> map, String ... keys) {
+    super(graph,kind,keys);
     super.setVertexFromMap(map);
   }
   

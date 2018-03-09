@@ -38,6 +38,9 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
  *
  */
 public interface SimpleNode extends SimpleGraph {
+  
+  static String SELF_LABEL="mysimplenode";
+  
   static Consumer<Vertex> printDebug = vertex -> vertex.properties()
       .forEachRemaining(prop -> System.out.println(String.format("%s.%s=%s",
           vertex.label(), prop.label(), prop.value())));
@@ -157,5 +160,31 @@ public interface SimpleNode extends SimpleGraph {
   public default void forAll(Consumer<Vertex> consumer) {
     g().V().forEachRemaining(consumer);
   };
+  
+  /**
+   * get the selfLabel for this Node
+   * @return - the self label
+   */
+  public default String getSelfLabel() {
+    return SELF_LABEL;
+  }
+  
+  /**
+   * get the Keys
+   * @return the keys
+   */
+  public Keys getKeys();
+
+  /**
+   * get the SimpleNode of a Vertex 
+   * @param vertex
+   * @return - the simpleNode if available or null if not
+   */
+  public static SimpleNode of(Vertex vertex) {
+    if (vertex.property(SimpleNode.SELF_LABEL).isPresent()) {
+      return (SimpleNode) vertex.property(SimpleNode.SELF_LABEL).value();
+    }
+    return null;
+  }
 
 }

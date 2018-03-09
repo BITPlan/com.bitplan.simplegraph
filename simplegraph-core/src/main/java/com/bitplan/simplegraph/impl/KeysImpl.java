@@ -26,7 +26,6 @@ import java.util.Optional;
 
 import com.bitplan.simplegraph.core.Keys;
 
-
 /**
  * default implementation for property keys
  * @author wf

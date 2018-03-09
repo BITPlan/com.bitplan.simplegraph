@@ -61,11 +61,22 @@ public class ExcelSystem extends SimpleSystemImpl {
     return WorkBookNode.class;
   }
 
+  /**
+   * create a workbook based on the given GraphTraversalSource
+   * @param g
+   * @return the Workbook
+   */
   public Workbook createWorkBook(GraphTraversalSource g) {
     // delegate the call to static function of Excel
     return Excel.createWorkBook(g);
   }
 
+  /**
+   * save the workbook with the given filename
+   * @param wb
+   * @param fileName
+   * @throws Exception
+   */
   public void save(Workbook wb, String fileName) throws Exception {
     Excel.save(wb,fileName);
   }

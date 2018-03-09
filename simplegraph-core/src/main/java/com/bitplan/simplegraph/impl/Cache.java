@@ -82,10 +82,10 @@ public class Cache {
     // simple nodes references are not o.k.
     // <data
     // key="mysimplenode">com.bitplan.wikidata.WikiDataNode@7905a0b8</data>
-    system.graph().traversal().V().has("mysimplenode")
+    system.graph().traversal().V().has(SimpleNode.SELF_LABEL)
         .forEachRemaining(node -> {
           try {
-            Object simpleNodeObject = node.property("mysimplenode").value();
+            Object simpleNodeObject = node.property(SimpleNode.SELF_LABEL).value();
             if (simpleNodeObject instanceof String) {
               Map<String, Object> map = new HashMap<String, Object>();
               node.properties().forEachRemaining(nodeprop -> {
@@ -97,8 +97,8 @@ public class Cache {
               SimpleNode newNode = constructor.newInstance(system,varargs);
               newNode.setVertex(node);
               newNode.setMap(map);
-              map.put("mysimplenode", newNode);
-              node.property("mysimplenode", newNode);
+              map.put(SimpleNode.SELF_LABEL, newNode);
+              node.property(SimpleNode.SELF_LABEL, newNode);
             }
           } catch (Exception e) {
             exceptionHolder.setValue(e);

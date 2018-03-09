@@ -36,7 +36,6 @@ import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -50,6 +49,8 @@ import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSo
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
+import com.bitplan.simplegraph.core.Keys;
+import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.Holder;
 
 /**
@@ -62,10 +63,11 @@ public class Excel {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger
       .getLogger("com.bitplan.simplegraph.excel");
+  private static CellStyle boldStyle;
 
   public XSSFWorkbook workbook = null;
   public Throwable error;
-  private FormulaEvaluator evaluator;
+  // private FormulaEvaluator evaluator;
 
   /**
    * get the contents of a sheet
@@ -124,12 +126,17 @@ public class Excel {
     return cellValue;
   }
 
+  /**
+   * create an Excel sheet from the given url
+   * 
+   * @param url
+   */
   public Excel(String url) {
     // http://stackoverflow.com/questions/5836965/how-to-open-xlsx-files-with-poi-ss
     try {
       InputStream is = new URL(url).openStream();
       workbook = new XSSFWorkbook(is);
-      evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+      // evaluator = workbook.getCreationHelper().createFormulaEvaluator();
     } catch (Throwable th) {
       error = th;
     }
@@ -187,13 +194,13 @@ public class Excel {
    */
   private static <T> void addSheet(Workbook wb, String itemLabel,
       GraphTraversal<T, T> items) {
-    CellStyle boldStyle = wb.createCellStyle();
+    boldStyle = wb.createCellStyle();
     Font font = wb.createFont();
     font.setBold(true);
     boldStyle.setFont(font);
 
     // create one sheet per Label
-    Sheet sheet = wb.createSheet(itemLabel);
+    Sheet sheet = wb.createSheet(fixSheetName(itemLabel));
     // rowIndex to be used in Lambda starting from 0
     Holder<Integer> rowIndex = new Holder<Integer>(0);
     // look for nodes/vertices with the given vertexLabel
@@ -209,24 +216,16 @@ public class Excel {
         // add cells for the given row
         Holder<Integer> colIndex = new Holder<Integer>(0);
         if (item instanceof Vertex) {
-          addCell(headerRow, "id", colIndex.getFirstValue(), boldStyle);
-          colIndex.setValue(colIndex.getFirstValue() + 1);
+          addCell(headerRow, "id", colIndex, boldStyle);
           Vertex vertex = (Vertex) item;
-          vertex.properties().forEachRemaining(prop -> {
-            addCell(headerRow, prop.label(), colIndex.getFirstValue(),
-                boldStyle);
-            colIndex.setValue(colIndex.getFirstValue() + 1);
-          });
+          addCells(headerRow, vertex, colIndex, true);
         } else if (item instanceof Edge) {
           Edge edge = (Edge) item;
           edge.properties().forEachRemaining(prop -> {
-            addCell(headerRow, edge.label(), colIndex.getFirstValue(),
-                boldStyle);
-            colIndex.setValue(colIndex.getFirstValue() + 1);
+            addCell(headerRow, edge.label(), colIndex, boldStyle);
           });
-          int col = colIndex.getFirstValue();
-          addCell(headerRow, "in", col, boldStyle);
-          addCell(headerRow, "out", col + 1, boldStyle);
+          addCell(headerRow, "in", colIndex, boldStyle);
+          addCell(headerRow, "out", colIndex, boldStyle);
         }
         // create a new Row
         rowHolder.setValue(sheet.createRow(++rowNumber));
@@ -236,24 +235,69 @@ public class Excel {
       Holder<Integer> colIndex = new Holder<Integer>(0);
       if (item instanceof Vertex) {
         Vertex vertex = (Vertex) item;
-        addCell(row, vertex.id(), colIndex.getFirstValue(), null);
-        colIndex.setValue(colIndex.getFirstValue() + 1);
-        vertex.properties().forEachRemaining(prop -> {
-          addCell(row, prop.value(), colIndex.getFirstValue(), null);
-          colIndex.setValue(colIndex.getFirstValue() + 1);
-        });
+        addCell(row, vertex.id(), colIndex, null);
+        addCells(row, vertex, colIndex, false);
       } else if (item instanceof Edge) {
         Edge edge = (Edge) item;
         edge.properties().forEachRemaining(prop -> {
-          addCell(row, prop.value(), colIndex.getFirstValue(), null);
-          colIndex.setValue(colIndex.getFirstValue() + 1);
+          addCell(row, prop.value(), colIndex, null);
         });
-        int col = colIndex.getFirstValue();
-        addCell(row, edge.inVertex().id(), col, null);
-        addCell(row, edge.outVertex().id(), col + 1, null);
+        addCell(row, edge.inVertex().id(), colIndex, null);
+        addCell(row, edge.outVertex().id(), colIndex, null);
       }
       rowIndex.setValue(rowIndex.getFirstValue() + 1);
     });
+  }
+
+  /**
+   * add the cells for the given vertex to the given row
+   * 
+   * @param row
+   * @param vertex
+   * @param colIndex
+   * @param header
+   */
+  private static void addCells(Row row, Vertex vertex, Holder<Integer> colIndex,
+      boolean header) {
+    SimpleNode simpleNode = SimpleNode.of(vertex);
+    boolean done=false;
+    // do we have SimpleNode with a predefined order of keys?
+    if (simpleNode != null) {
+      Keys keys = simpleNode.getKeys();
+      if (!keys.isEmpty()) {
+        for (String key:keys.getKeysList().get()) {
+          Object value=null;
+          if (vertex.property(key).isPresent())
+            value=vertex.property(key).value();
+          addCell(row,header?key:value,colIndex,header?boldStyle:null);
+        }
+        // ordered mode done
+        done=true;
+      }
+    }
+    // their is no order - try our luck with the set of properties
+    if (!done) {
+      vertex.properties().forEachRemaining(prop -> {
+        if (prop.label() != SimpleNode.SELF_LABEL)
+          addCell(row, header ? prop.label() : prop.value(), colIndex,
+              header ? boldStyle : null);
+      });
+    }
+  }
+
+  /**
+   * https://stackoverflow.com/questions/451452/valid-characters-for-excel-sheet-names
+   * 
+   * @param sheetName
+   * @return a valid sheetName
+   */
+  private static String fixSheetName(String sheetName) {
+    String invalid = "[]*/\\?";
+    for (int i = 0; i < invalid.length(); i++) {
+      char invalidChar = invalid.charAt(i);
+      sheetName = sheetName.replace(invalidChar, '_');
+    }
+    return sheetName;
   }
 
   /**
@@ -278,16 +322,18 @@ public class Excel {
    * @param colIndex
    * @param cellStyle
    */
-  private static void addCell(Row row, Object value, int colIndex,
+  private static void addCell(Row row, Object value, Holder<Integer> colIndex,
       CellStyle cellStyle) {
-    Cell cell = row.createCell(colIndex);
+    Cell cell = row.createCell(colIndex.getFirstValue());
+    colIndex.setValue(colIndex.getFirstValue() + 1);
     if (value instanceof Integer) {
       Integer intValue = (Integer) value;
       cell.setCellValue(intValue.doubleValue());
     } else if (value instanceof Double) {
       cell.setCellValue((Double) value);
     } else {
-      cell.setCellValue(value.toString()); // type handling!
+      if (value!=null)
+        cell.setCellValue(value.toString()); // type handling!
     }
     if (cellStyle != null)
       cell.setCellStyle(cellStyle);
@@ -308,6 +354,13 @@ public class Excel {
     save(workbook, path);
   }
 
+  /**
+   * save the given work book to the given path
+   * 
+   * @param wb
+   * @param path
+   * @throws Exception
+   */
   public static void save(Workbook wb, String path) throws Exception {
     FileOutputStream fileOut = new FileOutputStream(path);
     wb.write(fileOut);

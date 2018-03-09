@@ -49,6 +49,8 @@ import com.bitplan.simplegraph.map.MapNode;
 import com.bitplan.simplegraph.mediawiki.MediaWikiPageNode;
 import com.bitplan.simplegraph.mediawiki.MediaWikiSystem;
 
+import gov.nasa.worldwind.geom.Angle;
+
 /**
  * Semantic MediaWiki system wrapper
  * 
@@ -184,6 +186,12 @@ public class SmwSystem extends MediaWikiSystem {
     return getPatternMatchGroup("\\[\\[Concept:(.+?)\\]\\]", askQuery, 1);
   }
 
+  /**
+   * base class for SemanticMediaWiki Json serialization values
+   * 
+   * @author wf
+   *
+   */
   public static class SMWVertex {
     /**
      * assign the value of the property with the given label to the given target
@@ -201,16 +209,45 @@ public class SmwSystem extends MediaWikiSystem {
       return null;
     }
 
+    /**
+     * get the string value for the given vertex and label
+     * 
+     * @param vertex
+     * @param label
+     * @return the string
+     */
     public String getString(Vertex vertex, String label) {
       return (String) get(vertex, label);
     }
 
+    /**
+     * get the integer number from the given vertex with the given label
+     * 
+     * @param vertex
+     * @param label
+     * @return the Integer number or null
+     */
     public Integer getInteger(Vertex vertex, String label) {
       Number number = (Number) get(vertex, label);
       if (number == null)
         return null;
       else
         return number.intValue();
+    }
+
+    /**
+     * get the double number from the given vertex with the given label
+     * 
+     * @param vertex
+     * @param label
+     * @return the Double number or null
+     */
+    public Double getDouble(Vertex vertex, String label) {
+      Number number = (Number) get(vertex, label);
+      if (number == null)
+        return null;
+      else
+        return number.doubleValue();
     }
   }
 
@@ -232,6 +269,63 @@ public class SmwSystem extends MediaWikiSystem {
     }
   }
 
+  public static class Geo extends SMWVertex {
+    Double lat;
+    Double lon;
+    private Angle angle;
+    private Angle latangle;
+    private Angle lonangle;
+
+    public Double getLat() {
+      return lat;
+    }
+
+    public void setLat(Double lat) {
+      this.lat = lat;
+    }
+
+    public Double getLon() {
+      return lon;
+    }
+
+    public void setLon(Double lon) {
+      this.lon = lon;
+    }
+
+    public Geo(Vertex v) {
+      lat = this.getDouble(v, "lat");
+      lon = this.getDouble(v, "lon");
+      init();
+    }
+
+    public Geo(double lat, double lon) {
+      this.lat = lat;
+      this.lon = lon;
+      init();
+    }
+
+    public void init() {
+      latangle = Angle.fromDegreesLatitude(Math.abs(lat));
+      lonangle = Angle.fromDegreesLongitude(Math.abs(lon));
+    }
+
+    /**
+     * return the GEO coordinates
+     */
+    public String toString() {
+      String dmsString = String.format("%s %s %s %s", latangle.toFormattedDMSString(),
+          lat >= 0.0 ? "N" : "S", lonangle.toFormattedDMSString(),
+          lon >= 0.0 ? "E" : "W");
+      return dmsString;
+    }
+  }
+
+  /**
+   * a WikiPage serialization
+   * 
+   * @author wf
+   *
+   */
   public static class WikiPage extends SMWVertex {
     // see e.g. https://www.semantic-mediawiki.org/wiki/Serialization_(JSON)
     /**
@@ -242,8 +336,8 @@ public class SmwSystem extends MediaWikiSystem {
     boolean exists;
     String displayTitle;
     Integer namespace;
-    private String fullurl;
-    String fulltext;
+    public String fullurl;
+    public String fulltext;
 
     public boolean isExists() {
       return exists;
@@ -298,6 +392,9 @@ public class SmwSystem extends MediaWikiSystem {
       exists = "1".equals(getString(wp, "exists"));
     }
 
+    public String toString() {
+      return fulltext;
+    }
   }
 
   /**
@@ -317,7 +414,8 @@ public class SmwSystem extends MediaWikiSystem {
     final Map<String, PrintRequest> prMap = new HashMap<String, PrintRequest>();
     this.g().V().hasLabel("printrequests").forEachRemaining(pr -> {
       String label = pr.property("label").value().toString();
-      prMap.put(label, new PrintRequest(pr));
+      PrintRequest prq = new PrintRequest(pr);
+      prMap.put(label, prq);
     });
     /*
      * this.g().V().hasLabel("results").outE().forEachRemaining(edge -> { Vertex
@@ -347,8 +445,11 @@ public class SmwSystem extends MediaWikiSystem {
               // https://www.semantic-mediawiki.org/wiki/Help:Type_Boolean
               // Holds boolean (true/false) values:
               case "_boo": // Boolean
-                String bString = node.property("boo").value().toString();
-                conceptMap.put(key, "[t]".equals(bString));
+                VertexProperty<Object> bProperty = node.property("boo");
+                if (bProperty.isPresent()) {
+                  String bString = bProperty.value().toString();
+                  conceptMap.put(key, "[t]".equals(bString));
+                }
                 break;
               // Code
               // https://www.semantic-mediawiki.org/wiki/Help:Type_Code
@@ -387,6 +488,11 @@ public class SmwSystem extends MediaWikiSystem {
               // coordinate
               // Holds coordinates describing geographic locations:
               case "_geo": // Geographic coordinate
+                Iterator<Edge> geoEdges = node.edges(Direction.OUT, key);
+                if (geoEdges.hasNext()) {
+                  Geo geo = new Geo(geoEdges.next().inVertex());
+                  conceptMap.put(key, geo);
+                }
                 break;
               // Monolingual text
               // https://www.semantic-mediawiki.org/wiki/Help:Type_Monolingual
@@ -405,6 +511,11 @@ public class SmwSystem extends MediaWikiSystem {
               // https://www.semantic-mediawiki.org/wiki/Help:Type_Page
               // Holds names of wiki pages, and displays them as a link:
               case "_wpg": // Page
+                Iterator<Edge> pageEdges = node.edges(Direction.OUT, key);
+                if (pageEdges.hasNext()) {
+                  WikiPage wikiPage = new WikiPage(pageEdges.next().inVertex());
+                  conceptMap.put(key, wikiPage);
+                }
                 break;
               // Quantity
               // https://www.semantic-mediawiki.org/wiki/Help:Type_Quantity

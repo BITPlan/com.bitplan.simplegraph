@@ -23,10 +23,18 @@ package com.bitplan.simplegraph.map;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tinkerpop.gremlin.structure.Vertex;
+
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
+import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
+/**
+ * simple system with works based on nodes that are key/value maps
+ * @author wf
+ *
+ */
 public class MapSystem extends SimpleSystemImpl {
 
   @Override
@@ -36,8 +44,7 @@ public class MapSystem extends SimpleSystemImpl {
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new IllegalStateException("moveTo with nodeQuery not implemented");
   }
 
   @Override
@@ -57,7 +64,22 @@ public class MapSystem extends SimpleSystemImpl {
     for (int i=0;i<keyValues.length;i+=2) {
       map.put(keyValues[i].toString(), keyValues[i+1]);
     }
-    return new MapNode(this,kind,map);
+    MapNode mapNode=new MapNode(this,kind,map);
+    super.optionalStartNode(mapNode);
+    return mapNode;
+  }
+
+  /**
+   * create a new MapNode based on an existing vertex
+   * @param vertex
+   * @param keys 
+   * @return the mapNode
+   */
+  public MapNode moveTo(Vertex vertex, String ... keys) {
+    String kind=vertex.label();
+    MapNode mapNode=new MapNode(this,kind,SimpleNodeImpl.vertexToMap(vertex,keys),keys);
+    super.optionalStartNode(mapNode);
+    return mapNode;
   }
 
 }
