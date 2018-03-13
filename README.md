@@ -10,6 +10,7 @@ Allows Wrapping Systems to make them available for Graph processing with [Apache
 |---------------------------------------------------------------------- | ---------------- | ----------- |
 |![Excel](https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Microsoft_Excel_2013_logo.svg/100px-Microsoft_Excel_2013_logo.svg.png)[Excel](http://www.bitplan.com/index.php/SimpleGraph-Excel) |[Excel](https://en.wikipedia.org/wiki/Microsoft_Excel) |[Apache POI XSSF/HSSF](https://poi.apache.org/spreadsheet/quick-guide.html)
 |![FileSystem](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Folder.svg/100px-Folder.svg.png)[FileSystem](http://www.bitplan.com/index.php/SimpleGraph-FileSystem) |[FileSystem](https://en.wikipedia.org/wiki/File_system) |[java.io.File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html)
+|![GitHub](http://wiki.bitplan.com/images/wiki/6/61/Octocat.png)[GitHub](http://www.bitplan.com/index.php/SimpleGraph-GitHub) |[GitHub](https://github.com) |[GitHub GraphQL API v4](https://developer.github.com/v4/) 
 |![HTML](https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/100px-HTML5_logo_and_wordmark.svg.png)[HTML](http://www.bitplan.com/index.php/SimpleGraph-HTML) |[HTML](https://en.wikipedia.org/wiki/HTML) |[HTML Cleaner](http://htmlcleaner.sourceforge.net/)
 |![Java](http://wiki.bitplan.com/images/wiki/e/e1/Java-Logo.svg)[Java](http://www.bitplan.com/index.php/SimpleGraph-Java) |[Java](https://en.wikipedia.org/wiki/Java_(programming_language)) |[javaparser](https://github.com/javaparser/javaparser) 
 |![JSON](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/JSON_vector_logo.svg/100px-JSON_vector_logo.svg.png)[JSON](http://www.bitplan.com/index.php/SimpleGraph-JSON) |[JSON](https://en.wikipedia.org/wiki/JavaScript_Object_Notation) |[JSON](https://www.json.org/)
@@ -41,3 +42,4 @@ Allows Wrapping Systems to make them available for Graph processing with [Apache
 * 2018-01-15 adds WikiData access
 * 2018-02-19 adds Excel,HTML,JSON,MapSystem,MediaWiki,PDF,SMW,SQL and Word
 * 2018-03-04 adds SNMP, Java and XML
+* 2018-03-09 adds GitHub

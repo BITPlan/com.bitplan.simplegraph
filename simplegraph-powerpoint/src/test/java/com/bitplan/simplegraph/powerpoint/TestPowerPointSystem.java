@@ -243,7 +243,7 @@ public class TestPowerPointSystem  {
         "father", "mother", "date of birth", "place of birth", "date of death",
         "place of death", "wiki_en", "label_en", "source" };
     // add slides for children and grand children of queen victoria
-    this.addSlides(sls, mws, queenVictoria, slideprops, 1, debug);
+    this.addSlides(sls, mws, queenVictoria, slideprops, 2, debug);
     sls.save();
     TestWikiDataSystem.wikiDataSystem.close();
   }
@@ -307,6 +307,19 @@ public class TestPowerPointSystem  {
       slides.forEach(slide -> slide.printNameValues(System.out));
     assertEquals(10, slides.size());
     pps.graph().io(IoCore.graphml()).writeGraph("../simplegraph-powerpoint/QueenVictoriaPowerPoint.xml");
+  }
+  
+  @Test
+  public void testReadPowerpoint() throws Exception {
+    PowerPointSystem pps=new PowerPointSystem();
+    pps.connect();
+    SimpleNode slideShowNode = pps.moveTo("https://www.its.leeds.ac.uk/fileadmin/documents/alumni/Michele_Dix_Leeds_University_-_FINAL.PPTX");
+    List<SimpleNode> slides = slideShowNode.out("slides")
+        .collect(Collectors.toCollection(ArrayList::new));
+    // debug=true;
+    if (debug)
+      slides.forEach(slide -> slide.printNameValues(System.out));
+    assertEquals(44, slides.size());
   }
 
 }

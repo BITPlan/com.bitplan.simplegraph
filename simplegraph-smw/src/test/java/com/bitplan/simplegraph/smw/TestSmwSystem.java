@@ -206,6 +206,7 @@ public class TestSmwSystem {
     // see
     // https://www.semantic-mediawiki.org/w/index.php?title=User:WolfgangFahl/Workdocumentation_2018-01-02&action=edit
     String askQuery = "{{#ask: [[Has_annotation_uri::+]]\n"
+        + "|mainlabel=page\n"
         + "|?Has_annotation_uri=anu\n" + "|?Has_boolean=boo\n"
         + "|?Has_code=cod\n" + "|?Has_date=dat\n" + "|?Has email address=ema\n"
         + "|?Has Wikidata item ID=eid\n" + "|?Has coordinates=geo\n"
@@ -214,7 +215,7 @@ public class TestSmwSystem {
         + "|?Area=qty\n" + "|?SomeProperty=txt\n" + "|?Soccer result=rec\n"
         + "|?Has_URL=uri\n" + "|format=ol\n" + "}}";
     SmwSystem smwSystem = getSMWSystem();
-    // debug = true;
+    debug = true;
     smwSystem.setDebug(debug);
     SimpleNode dtNode = smwSystem.moveTo("ask=" + askQuery);
     smwSystem.conceptAlizePrintRequests("datatype", dtNode);

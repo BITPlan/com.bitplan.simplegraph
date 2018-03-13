@@ -24,6 +24,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +50,12 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
 
   protected XMLSlideShow slideshow;
-  protected String path;
+  protected String pathOrUl;
   protected File pptFile;
 
+  /**
+   * get the SlideShow
+   */
   public XMLSlideShow getSlideshow() {
     return slideshow;
   }
@@ -61,13 +67,22 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
    * @param nodeQuery
    * @throws Exception
    */
-  public SlideShowNode(SimpleGraph simpleGraph, String path, String... keys) {
+  public SlideShowNode(SimpleGraph simpleGraph, String pathOrUrl,
+      String... keys) {
     super(simpleGraph, "slideshow", keys);
-    this.path = path;
-    pptFile = new File(path);
+    InputStream is = null;
     try {
-      if (pptFile.exists())
-        slideshow = new XMLSlideShow(new FileInputStream(path));
+      try {
+        URL url = new URL(pathOrUrl);
+        is = url.openStream();
+      } catch (MalformedURLException e1) {
+        this.pathOrUl = pathOrUrl;
+        pptFile = new File(pathOrUl);
+        if (pptFile.canRead())
+          is = new FileInputStream(pathOrUl);
+      }
+      if (is != null)
+        slideshow = new XMLSlideShow(is);
       else
         slideshow = new XMLSlideShow();
     } catch (IOException e) {
@@ -89,7 +104,7 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
 
   @Override
   public Map<String, Object> initMap() {
-    map.put("path", path);
+    map.put("path", pathOrUl);
     CoreProperties cp = getCoreProperties();
     map.put("title", cp.getTitle());
     return map;
@@ -141,7 +156,7 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
 
   @Override
   public void save() throws Exception {
-    FileOutputStream out = new FileOutputStream(path);
+    FileOutputStream out = new FileOutputStream(pathOrUl);
     slideshow.write(out);
     out.close();
     slideshow.close();
