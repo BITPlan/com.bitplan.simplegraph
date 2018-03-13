@@ -26,6 +26,8 @@ import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 
+import graphql.GraphQL;
+
 /**
  * test the GitHub System
  * 
@@ -51,6 +53,9 @@ public class TestGitHubSystem {
     // https://developer.github.com/v4/guides/forming-calls/#the-graphql-endpoint
     // https://api.github.com/graphql
     // https://stackoverflow.com/questions/tagged/graphql-java
+    // https://github.com/graphcool/get-graphql-schema
+    // https://developer.github.com/v4/guides/forming-calls/#example-query
+    // GraphQL.newGraphQL(graphQLSchema);
   }
 
  
