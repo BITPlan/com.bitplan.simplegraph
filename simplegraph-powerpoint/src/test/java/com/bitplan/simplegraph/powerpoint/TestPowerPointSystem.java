@@ -226,7 +226,7 @@ public class TestPowerPointSystem  {
 
   @Test
   public void testPowerPointCreateWikiData() throws Exception {
-    debug = true;
+    // debug = true;
     // prepare access to wikimedia for getting pictures
     MediaWikiSystem mws = new MediaWikiSystem();
     mws.connect("https://commons.wikimedia.org", "/w");
@@ -243,7 +243,7 @@ public class TestPowerPointSystem  {
         "father", "mother", "date of birth", "place of birth", "date of death",
         "place of death", "wiki_en", "label_en", "source" };
     // add slides for children and grand children of queen victoria
-    this.addSlides(sls, mws, queenVictoria, slideprops, 2, debug);
+    this.addSlides(sls, mws, queenVictoria, slideprops, 1, debug);
     sls.save();
     TestWikiDataSystem.wikiDataSystem.close();
   }
