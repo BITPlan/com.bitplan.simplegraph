@@ -215,7 +215,7 @@ public class TestSmwSystem {
         + "|?Area=qty\n" + "|?SomeProperty=txt\n" + "|?Soccer result=rec\n"
         + "|?Has_URL=uri\n" + "|format=ol\n" + "}}";
     SmwSystem smwSystem = getSMWSystem();
-    debug = true;
+    // debug = true;
     smwSystem.setDebug(debug);
     SimpleNode dtNode = smwSystem.moveTo("ask=" + askQuery);
     smwSystem.conceptAlizePrintRequests("datatype", dtNode);
