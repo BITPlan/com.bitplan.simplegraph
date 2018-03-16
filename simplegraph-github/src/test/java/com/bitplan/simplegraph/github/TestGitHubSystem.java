@@ -25,8 +25,9 @@ import java.util.logging.Logger;
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.impl.PropertiesImpl;
+import com.bitplan.simplegraph.json.JsonSystem;
 
-import graphql.GraphQL;
 
 /**
  * test the GitHub System
@@ -48,15 +49,22 @@ public class TestGitHubSystem {
   }
 
   @Test
-  public void testGitHubGraphQLApi() {
+  public void testGitHubGraphQLApi() throws Exception {
     // https://developer.github.com/v4/explorer/
     // https://developer.github.com/v4/guides/forming-calls/#the-graphql-endpoint
-    // https://api.github.com/graphql
-    // https://stackoverflow.com/questions/tagged/graphql-java
-    // https://github.com/graphcool/get-graphql-schema
     // https://developer.github.com/v4/guides/forming-calls/#example-query
-    // GraphQL.newGraphQL(graphQLSchema);
+    // https://api.github.com/graphql
+    // https://stackoverflow.com/questions/49324611/github-v4-graphql-api-with-java-using-graphql-java
+    debug=true;
+    PropertiesImpl properties=new PropertiesImpl("github");
+    String token=(String) properties.getProperty("oauth");
+    
+    JsonSystem js=new JsonSystem();
+    js.setDebug(debug);
+    js.connect("Authorization: bearer "+token);
+    js.moveTo("https://api.github.com/graphql");
+    js.forAll(SimpleNode.printDebug);
+    js.getStartNode().g().V().hasLabel("fields").forEachRemaining(node->System.out.println(node.property("name").value().toString()));;
   }
 
- 
 }

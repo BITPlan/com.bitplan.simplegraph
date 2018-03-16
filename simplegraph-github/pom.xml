@@ -18,11 +18,10 @@
 			<artifactId>com.bitplan.simplegraph-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.graphql-java/graphql-java -->
 		<dependency>
-			<groupId>com.graphql-java</groupId>
-			<artifactId>graphql-java</artifactId>
-			<version>${graphql.version}</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph.json</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

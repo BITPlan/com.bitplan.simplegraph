@@ -20,6 +20,9 @@
  */
 package com.bitplan.simplegraph.json;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.ws.rs.core.MediaType;
 
 import com.bitplan.simplegraph.core.SimpleGraph;
@@ -30,6 +33,7 @@ import com.google.gson.JsonParser;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.WebResource.Builder;
 
 /**
  * i wrap a Json Tree as a Gremlin Graph
@@ -38,9 +42,14 @@ import com.sun.jersey.api.client.WebResource;
  *
  */
 public class JsonSystem extends SimpleSystemImpl {
+  protected static Logger LOGGER = Logger
+      .getLogger("com.bitplan.simplegraph.json");
+  
   JsonParser parser = new JsonParser();
   String json;
   Client client = null;
+
+  private String[] params;
 
   /**
    * create a JsonSystem using the same simpleGraph
@@ -67,6 +76,8 @@ public class JsonSystem extends SimpleSystemImpl {
        * if (params.length >= 3 && "tree".equals(params[2])) {
        * treeWalk((JsonNode) this.getStartNode()); }
        */
+    } else {
+      this.params=params;
     }
     return this;
   }
@@ -76,14 +87,25 @@ public class JsonSystem extends SimpleSystemImpl {
     SimpleNode result=null;
     if (client == null)
       client = Client.create();
-    WebResource resource = client.resource(nodeQuery);
-    ClientResponse response = resource.accept(MediaType.APPLICATION_JSON_TYPE)
-        .get(ClientResponse.class);
+    WebResource resource = client.resource(nodeQuery);  
+    Builder builder = resource.accept(MediaType.APPLICATION_JSON_TYPE);
+    // add headers from connection parameters
+    for (String param:params) {
+      String[] paramparts = param.split(":"); 
+      if (paramparts.length==2) {
+        String name=paramparts[0];
+        String value=paramparts[1];
+        builder.header(name,value);
+      }
+    }
+    ClientResponse response = builder.get(ClientResponse.class);
     if (response.getStatus() == 200) {
       String json=response.getEntity(String.class);
       result=new JsonNode(this, "jsonroot", parser.parse(json));
       if (this.getStartNode()==null)
         this.setStartNode(result);
+    } else {
+      LOGGER.log(Level.WARNING, String.format("moveto '%s' failed - status: %3d",nodeQuery,response.getStatus()));
     }
     return result;
   }
