@@ -81,13 +81,16 @@ public class JsonSystem extends SimpleSystemImpl {
     }
     return this;
   }
-
-  @Override
-  public SimpleNode moveTo(String nodeQuery, String... keys) {
-    SimpleNode result=null;
+  
+  /**
+   * get a builder for the given url
+   * @param url
+   * @return - the Builder
+   */
+  public Builder getBuilder(String url) {
     if (client == null)
       client = Client.create();
-    WebResource resource = client.resource(nodeQuery);  
+    WebResource resource = client.resource(url);  
     Builder builder = resource.accept(MediaType.APPLICATION_JSON_TYPE);
     // add headers from connection parameters
     for (String param:params) {
@@ -98,22 +101,49 @@ public class JsonSystem extends SimpleSystemImpl {
         builder.header(name,value);
       }
     }
-    ClientResponse response = builder.get(ClientResponse.class);
+    return builder;
+  }
+  
+  /**
+   * post the given postJson json data to the given url
+   * @param url
+   * @param postJson
+   * @return a SimpleNode with the result graph
+   */
+  public SimpleNode post(String url,String postJson) {
+    Builder builder = this.getBuilder(url);
+    ClientResponse response=builder.post(ClientResponse.class,postJson);
+    return of(url,response);
+  }
+  
+  /**
+   * get a SimpleNode of the given url and response
+   * @param url
+   * @param response
+   * @return
+   */
+  public SimpleNode of(String url,ClientResponse response) {
+    SimpleNode result=null;
     if (response.getStatus() == 200) {
       String json=response.getEntity(String.class);
       result=new JsonNode(this, "jsonroot", parser.parse(json));
-      if (this.getStartNode()==null)
-        this.setStartNode(result);
+      this.optionalStartNode(result);
     } else {
-      LOGGER.log(Level.WARNING, String.format("moveto '%s' failed - status: %3d",nodeQuery,response.getStatus()));
+      LOGGER.log(Level.WARNING, String.format("response for '%s' failed - status: %3d",url,response.getStatus()));
     }
     return result;
   }
 
   @Override
+  public SimpleNode moveTo(String nodeQuery, String... keys) {
+    Builder builder = this.getBuilder(nodeQuery);
+    ClientResponse response = builder.get(ClientResponse.class);
+    return of(nodeQuery,response);
+  }
+
+  @Override
   public Class<? extends SimpleNode> getNodeClass() {
-    // TODO Auto-generated method stub
-    return null;
+    return JsonNode.class;
   }
 
   /**

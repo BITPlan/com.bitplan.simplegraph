@@ -20,14 +20,14 @@
  */
 package com.bitplan.simplegraph.github;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
-import com.bitplan.simplegraph.impl.PropertiesImpl;
-import com.bitplan.simplegraph.json.JsonSystem;
-
 
 /**
  * test the GitHub System
@@ -42,29 +42,37 @@ public class TestGitHubSystem {
 
   @Test
   public void testGitHubSystem() throws Exception {
-    GitHubSystem ghs = new GitHubSystem();
-    ghs.connect();
-    ghs.moveTo("");
-    ghs.forAll(SimpleNode.printDebug);
-  }
-
-  @Test
-  public void testGitHubGraphQLApi() throws Exception {
     // https://developer.github.com/v4/explorer/
     // https://developer.github.com/v4/guides/forming-calls/#the-graphql-endpoint
     // https://developer.github.com/v4/guides/forming-calls/#example-query
     // https://api.github.com/graphql
     // https://stackoverflow.com/questions/49324611/github-v4-graphql-api-with-java-using-graphql-java
-    debug=true;
-    PropertiesImpl properties=new PropertiesImpl("github");
-    String token=(String) properties.getProperty("oauth");
-    
-    JsonSystem js=new JsonSystem();
-    js.setDebug(debug);
-    js.connect("Authorization: bearer "+token);
-    js.moveTo("https://api.github.com/graphql");
-    js.forAll(SimpleNode.printDebug);
-    js.getStartNode().g().V().hasLabel("fields").forEachRemaining(node->System.out.println(node.property("name").value().toString()));;
+    GitHubSystem ghs = new GitHubSystem();
+    ghs.connect();
+    ghs.moveTo("");
+    if (debug) {
+      ghs.forAll(SimpleNode.printDebug);
+      ghs.js.getStartNode().g().V().hasLabel("fields").forEachRemaining(
+          node -> System.out.println(node.property("name").value().toString()));
+    }
+    long fieldCount = ghs.js.getStartNode().g().V().hasLabel("fields").count().next().longValue();
+    assertEquals(1592,fieldCount);
+  }
+
+  @Test
+  public void testViewerLogin() throws Exception {
+    String query = "{ \"query\": \"query { viewer { login } }\" }";
+    GitHubSystem ghs = new GitHubSystem();
+    // debug=true;
+    ghs.connect();
+    ghs.js.setDebug(debug);
+    ghs.moveTo(query);
+    if (debug) {
+      ghs.js.forAll(SimpleNode.printDebug);
+    }
+    List<Object> logins = ghs.js.g().V().hasLabel("viewer").values("login").toList();
+    assertEquals(1,logins.size());
+   
   }
 
 }

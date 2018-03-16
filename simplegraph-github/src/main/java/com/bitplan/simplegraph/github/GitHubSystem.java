@@ -23,7 +23,10 @@ package com.bitplan.simplegraph.github;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
+import com.bitplan.simplegraph.impl.PropertiesImpl;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
+import com.bitplan.simplegraph.json.JsonNode;
+import com.bitplan.simplegraph.json.JsonSystem;
 
 /**
  * wraps the GitHub access via the GitHub Java API 
@@ -33,23 +36,44 @@ import com.bitplan.simplegraph.impl.SimpleSystemImpl;
  */
 public class GitHubSystem extends SimpleSystemImpl {
 
+  private static final String GITHUB_APIV4 = "https://api.github.com/graphql";
+  JsonSystem js;
+  
+  /**
+   * get the GitHub JsonSystem
+   * @return the JsonSystem
+   * @throws Exception
+   */
+  public JsonSystem getGitHubJsonSystem() throws Exception {
+    PropertiesImpl properties = new PropertiesImpl("github");
+    String token = (String) properties.getProperty("oauth");
 
+    JsonSystem js = new JsonSystem();
+    js.setDebug(debug);
+    js.connect("Authorization: bearer " + token);
+    return js;
+  }
+  
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
-  
+    js=getGitHubJsonSystem();
     return this;
   }
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
-    // TODO Auto-generated method stub
-    return null;
+    SimpleNode result=null;
+    if ("".equals(nodeQuery))
+      result=js.moveTo(GITHUB_APIV4);
+    else
+      result=js.post(GITHUB_APIV4,nodeQuery);
+    this.optionalStartNode(result);
+    return result;
   }
 
   @Override
   public Class<? extends SimpleNode> getNodeClass() {
-    // TODO Auto-generated method stub
-    return null;
+    return JsonNode.class;
   }
 
 
