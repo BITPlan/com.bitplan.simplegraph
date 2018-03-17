@@ -22,6 +22,7 @@ package com.bitplan.simplegraph.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.bitplan.simplegraph.core.SimpleGraph;
 import com.bitplan.simplegraph.core.SimpleNode;
@@ -34,7 +35,9 @@ import com.bitplan.simplegraph.core.SimpleSystem;
  *
  */
 public abstract class SimpleSystemImpl extends SimpleGraphImpl implements SimpleSystem {
- 
+  protected static Logger LOGGER = Logger
+      .getLogger("com.bitplan.simplegraph.impl");
+  
   String name;
   String version;
   protected transient Map<String, Cache> cacheMap = new HashMap<String, Cache>();

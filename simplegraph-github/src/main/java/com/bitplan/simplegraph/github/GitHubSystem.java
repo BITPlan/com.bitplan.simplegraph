@@ -21,6 +21,8 @@
 package com.bitplan.simplegraph.github;
 
 
+import java.util.logging.Level;
+
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.PropertiesImpl;
@@ -65,8 +67,12 @@ public class GitHubSystem extends SimpleSystemImpl {
     SimpleNode result=null;
     if ("".equals(nodeQuery))
       result=js.moveTo(GITHUB_APIV4);
-    else
-      result=js.post(GITHUB_APIV4,nodeQuery);
+    else {
+      String queryJson=String.format("{ \"query\": \"%s\" }",nodeQuery.replaceAll("\"","\\\\\"").replaceAll("\n",""));
+      if (debug)
+        LOGGER.log(Level.INFO, queryJson);
+      result=js.post(GITHUB_APIV4,queryJson);
+    }
     this.optionalStartNode(result);
     return result;
   }
@@ -75,6 +81,5 @@ public class GitHubSystem extends SimpleSystemImpl {
   public Class<? extends SimpleNode> getNodeClass() {
     return JsonNode.class;
   }
-
 
 }

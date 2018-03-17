@@ -21,13 +21,17 @@
 package com.bitplan.simplegraph.github;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.impl.Holder;
 
 /**
  * test the GitHub System
@@ -40,13 +44,24 @@ public class TestGitHubSystem {
   protected static Logger LOGGER = Logger
       .getLogger("com.bitplan.simplegraph.github");
 
+  // https://developer.github.com/v4/explorer/
+  // https://developer.github.com/v4/guides/forming-calls/#the-graphql-endpoint
+  // https://developer.github.com/v4/guides/forming-calls/#example-query
+  // https://api.github.com/graphql
+  // https://stackoverflow.com/questions/49324611/github-v4-graphql-api-with-java-using-graphql-java
+  public GraphTraversalSource doquery(String query) throws Exception {
+    GitHubSystem ghs = new GitHubSystem();
+    ghs.connect();
+    ghs.js.setDebug(debug);
+    ghs.moveTo(query);
+    if (debug) {
+      ghs.js.forAll(SimpleNode.printDebug);
+    }
+    return ghs.js.g();
+  }
+
   @Test
   public void testGitHubSystem() throws Exception {
-    // https://developer.github.com/v4/explorer/
-    // https://developer.github.com/v4/guides/forming-calls/#the-graphql-endpoint
-    // https://developer.github.com/v4/guides/forming-calls/#example-query
-    // https://api.github.com/graphql
-    // https://stackoverflow.com/questions/49324611/github-v4-graphql-api-with-java-using-graphql-java
     GitHubSystem ghs = new GitHubSystem();
     ghs.connect();
     ghs.moveTo("");
@@ -55,24 +70,52 @@ public class TestGitHubSystem {
       ghs.js.getStartNode().g().V().hasLabel("fields").forEachRemaining(
           node -> System.out.println(node.property("name").value().toString()));
     }
-    long fieldCount = ghs.js.getStartNode().g().V().hasLabel("fields").count().next().longValue();
-    assertEquals(1592,fieldCount);
+    long fieldCount = ghs.js.getStartNode().g().V().hasLabel("fields").count()
+        .next().longValue();
+    assertEquals(1592, fieldCount);
   }
 
   @Test
   public void testViewerLogin() throws Exception {
-    String query = "{ \"query\": \"query { viewer { login } }\" }";
-    GitHubSystem ghs = new GitHubSystem();
+    String query = "query { viewer { login } }";
+    debug = true;
+    GraphTraversalSource g = doquery(query);
+    List<Object> logins = g.V().hasLabel("viewer").values("login").toList();
+    assertEquals(1, logins.size());
+  }
+
+  /**
+   * see
+   * https://developer.github.com/v4/guides/forming-calls/#communicating-with-graphql
+   * 
+   * @throws Exception
+   */
+  @Test
+  public void testFindIssues() throws Exception {
+    String query = "query {\n"
+        + "  repository(owner:\"octocat\", name:\"Hello-World\") {\n"
+        + "    issues(last:20, states:CLOSED) {\n" + "      edges {\n"
+        + "        node {\n" + "          title\n" + "          url\n"
+        + "          labels(first:5) {\n" + "            edges {\n"
+        + "              node {\n" + "                name\n"
+        + "              }\n" + "            }\n" + "          }\n"
+        + "        }\n" + "      }\n" + "    }\n" + "  }\n" + "}";
     // debug=true;
-    ghs.connect();
-    ghs.js.setDebug(debug);
-    ghs.moveTo(query);
-    if (debug) {
-      ghs.js.forAll(SimpleNode.printDebug);
-    }
-    List<Object> logins = ghs.js.g().V().hasLabel("viewer").values("login").toList();
-    assertEquals(1,logins.size());
-   
+    GraphTraversalSource g = doquery(query);
+    long issueCount = g.V().hasLabel("node").count().next().longValue();
+    assertEquals(21, issueCount);
+    Holder<Integer> countIssuesWithNoUrl=new Holder<Integer>(0);
+    g.V().hasLabel("node").forEachRemaining(node -> {
+      if (node.property("url").isPresent()) {
+        assertTrue(node.property("url").value().toString()
+            .startsWith("https://github.com/octocat/Hello-World/issues/"));
+      } else {
+        countIssuesWithNoUrl.setValue(countIssuesWithNoUrl.getFirstValue()+1);
+        if (debug)
+          Stream.of(node).forEach(SimpleNode.printDebug);
+      }
+    });
+    assertEquals(1,countIssuesWithNoUrl.getFirstValue().intValue());
   }
 
 }
