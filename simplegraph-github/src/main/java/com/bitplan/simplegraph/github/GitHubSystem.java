@@ -21,6 +21,7 @@
 package com.bitplan.simplegraph.github;
 
 
+import java.io.File;
 import java.util.logging.Level;
 
 import com.bitplan.simplegraph.core.SimpleNode;
@@ -81,5 +82,18 @@ public class GitHubSystem extends SimpleSystemImpl {
   public Class<? extends SimpleNode> getNodeClass() {
     return JsonNode.class;
   }
-
+  static boolean first=true;
+  /**
+   * is the authentication available?
+   * @return
+   */
+  public static boolean hasAuthentication() {
+    File authFile=PropertiesImpl.getPropertyFile("github");
+    boolean result=authFile.canRead();
+    if (first) {
+      first=false;
+      LOGGER.log(Level.WARNING, String.format("To use the github System you might want to create the file %s with an entry oauth=<token>\nThe token can be obtained from https://github.com/settings/tokens",authFile.getAbsolutePath()));
+    }
+    return result;
+  }
 }

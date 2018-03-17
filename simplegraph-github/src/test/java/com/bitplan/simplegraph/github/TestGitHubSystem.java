@@ -59,9 +59,13 @@ public class TestGitHubSystem {
     }
     return ghs.js.g();
   }
+  
+ 
 
   @Test
   public void testGitHubSystem() throws Exception {
+    if (!GitHubSystem.hasAuthentication())
+      return;
     GitHubSystem ghs = new GitHubSystem();
     ghs.connect();
     ghs.moveTo("");
@@ -77,6 +81,8 @@ public class TestGitHubSystem {
 
   @Test
   public void testViewerLogin() throws Exception {
+    if (!GitHubSystem.hasAuthentication())
+      return;
     String query = "query { viewer { login } }";
     debug = true;
     GraphTraversalSource g = doquery(query);
@@ -92,6 +98,8 @@ public class TestGitHubSystem {
    */
   @Test
   public void testFindIssues() throws Exception {
+    if (!GitHubSystem.hasAuthentication())
+      return;
     String query = "query {\n"
         + "  repository(owner:\"octocat\", name:\"Hello-World\") {\n"
         + "    issues(last:20, states:CLOSED) {\n" + "      edges {\n"
@@ -116,6 +124,36 @@ public class TestGitHubSystem {
       }
     });
     assertEquals(1,countIssuesWithNoUrl.getFirstValue().intValue());
+  }
+  
+  @Test
+  public void testMutation() throws Exception {
+    if (!GitHubSystem.hasAuthentication())
+      return;
+    String query="query FindIssueID {\n" + 
+        "  repository(owner:\"octocat\", name:\"Hello-World\") {\n" + 
+        "    issue(number:349) {\n" + 
+        "      id\n" + 
+        "    }\n" + 
+        "  }\n" + 
+        "}";
+    debug=true;
+    GraphTraversalSource g = doquery(query);
+    String id=g.V().hasLabel("issue").values("id").next().toString();
+    assertEquals(id,"MDU6SXNzdWUyMzEzOTE1NTE=");
+    String mutation="{\n" + 
+        "  \"data\": {\n" + 
+        "    \"addReaction\": {\n" + 
+        "      \"reaction\": {\n" + 
+        "        \"content\": \"HOORAY\"\n" + 
+        "      },\n" + 
+        "      \"subject\": {\n" + 
+        "        \"id\": \""+id+"\"\n" + 
+        "      }\n" + 
+        "    }\n" + 
+        "  }\n" + 
+        "}";
+    g = doquery(mutation);
   }
 
 }
