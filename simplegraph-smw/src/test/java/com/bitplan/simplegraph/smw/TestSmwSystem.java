@@ -232,6 +232,7 @@ public class TestSmwSystem {
     assertEquals("datatype", dtV.property("isA").value().toString());
     assertEquals("https://www.semantic-mediawiki.org",
         dtV.property("anu").value().toString());
+    assertTrue(dtV.property("boo").value() instanceof Boolean);
     assertTrue((Boolean) dtV.property("boo").value());
     assertTrue(dtV.property("cod").value().toString().startsWith("Code"));
     assertTrue(dtV.property("dat").value().toString()
