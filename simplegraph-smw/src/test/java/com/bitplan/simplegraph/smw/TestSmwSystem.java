@@ -242,7 +242,8 @@ public class TestSmwSystem {
     assertTrue(dtV.property("geo").value() instanceof Geo);
     assertEquals("  32° 42’ 54.00” N  117°  9’ 45.00” W",
         dtV.property("geo").value().toString());
-    // assertTrue(dtV.property("page").value() instanceof WikiPage);
+    assertTrue(dtV.property("page").value() instanceof WikiPage);
+    assertTrue(dtV.property("page").value().toString().startsWith("Help:"));
     assertTrue(dtV.property("qty").value() instanceof Qty);
     assertEquals(" 1052.00 km²",dtV.property("qty").value().toString());   
     assertTrue(dtV.property("wpg").value() instanceof WikiPage);

@@ -294,13 +294,12 @@ public class SmwSystem extends MediaWikiSystem {
       unit = this.getString(v, "unit");
       value = this.getDouble(v, "value");
     }
-    
+
     /**
      * return the Quantity as a string
      */
     public String toString() {
-      String qtyString = String.format(Locale.US,"%8.2f %s",
-          value,unit);
+      String qtyString = String.format(Locale.US, "%8.2f %s", value, unit);
       return qtyString;
     }
   }
@@ -547,9 +546,25 @@ public class SmwSystem extends MediaWikiSystem {
               // https://www.semantic-mediawiki.org/wiki/Help:Type_Page
               // Holds names of wiki pages, and displays them as a link:
               case "_wpg": // Page
-                Iterator<Edge> pageEdges = node.edges(Direction.OUT, key);
-                if (pageEdges.hasNext()) {
-                  WikiPage wikiPage = new WikiPage(pageEdges.next().inVertex());
+                Iterator<Edge> pageEdges = null;
+                Vertex pageVertex=null;
+                // mode 2 is for the main label
+                if (pr.mode == 2) {
+                  // WikiPage information is in node "above" results - we do not know the label of it
+                  // but since there is only one we can safely use it anyway
+                  pageEdges = node.edges(Direction.IN);
+                  if (pageEdges.hasNext()) {
+                    pageVertex=pageEdges.next().outVertex();
+                  }
+                } else {
+                  // WikiPage information is in the node below us the label is in key
+                  pageEdges = node.edges(Direction.OUT, key);
+                  if (pageEdges.hasNext()) {
+                    pageVertex=pageEdges.next().inVertex();
+                  }
+                }
+                if (pageVertex!=null) {
+                  WikiPage wikiPage = new WikiPage(pageVertex);
                   conceptMap.put(key, wikiPage);
                 }
                 break;
