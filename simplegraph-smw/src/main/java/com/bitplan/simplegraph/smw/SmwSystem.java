@@ -565,6 +565,8 @@ public class SmwSystem extends MediaWikiSystem {
                 }
                 if (pageVertex!=null) {
                   WikiPage wikiPage = new WikiPage(pageVertex);
+                  if ("".equals(key))
+                    key="page"; // convention
                   conceptMap.put(key, wikiPage);
                 }
                 break;
