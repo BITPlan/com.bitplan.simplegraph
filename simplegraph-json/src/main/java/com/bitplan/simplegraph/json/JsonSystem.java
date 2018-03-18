@@ -160,10 +160,11 @@ public class JsonSystem extends SimpleSystemImpl {
    */
   public static JsonSystem of(SimpleGraph graph, String json) {
     JsonSystem js = new JsonSystem(graph);
-    js.setDebug(graph.isDebug());
+    if (graph!=null)
+      js.setDebug(graph.isDebug());
     try {
       js.connect("json", json);
-      if (graph.isDebug())
+      if (graph!=null && graph.isDebug())
         js.getStartNode().forAll(SimpleNode.printDebug);
       return js;
     } catch (Exception e) {

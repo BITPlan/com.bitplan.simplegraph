@@ -88,11 +88,11 @@ public class SmwSystem extends MediaWikiSystem {
     if (mode != null)
       nodeQuery = nodeQuery.substring(mode.length() + 1);
     if ("ask".equals(mode) || fixAsk(nodeQuery).startsWith("[")) {
-      SimpleNode rawNode = moveToAsk(nodeQuery, keys);
+      JsonSystem askJson = getAskJsonResult(nodeQuery);
       if (rawMode)
-        result = rawNode;
+        result = askJson.getStartNode();
       else
-        result = conceptAlizePrintRequests(getConcept(nodeQuery), rawNode);
+        result = conceptAlizePrintRequests(getConcept(nodeQuery), askJson);
     } else if ("browsebysubject".equals(mode)) {
       setJson(getActionJson("browsebysubject", "subject", nodeQuery));
       js = JsonSystem.of(this, getJson());
@@ -138,15 +138,14 @@ public class SmwSystem extends MediaWikiSystem {
    * get the result of an ask query
    * 
    * @param askQuery
-   * @param keys
-   * @return
-   */
-  private SimpleNode moveToAsk(String askQuery, String[] keys) {
+   * @return the JsonSystem
+   */ 
+  protected JsonSystem getAskJsonResult(String askQuery) {
     // make Query fit for API
     askQuery = fixAsk(askQuery);
     setJson(this.getActionJson("ask", "query", askQuery));
-    js = JsonSystem.of(this, getJson());
-    return js.getStartNode();
+    JsonSystem result = JsonSystem.of(null, getJson());
+    return result;
   }
 
   /**
@@ -437,17 +436,17 @@ public class SmwSystem extends MediaWikiSystem {
    * recreate nodes
    * 
    * @param concept
-   * @param rawNode
+   * @param askJson.
    * @return
    */
   public SimpleNode conceptAlizePrintRequests(String concept,
-      SimpleNode rawNode) {
+      JsonSystem askJson) {
     // if there is no concept we will not tag
     if (concept == null)
-      return rawNode;
+      return askJson.getStartNode();
     Holder<MapNode> conceptNodeHolder = new Holder<MapNode>();
     final Map<String, PrintRequest> prMap = new HashMap<String, PrintRequest>();
-    this.g().V().hasLabel("printrequests").forEachRemaining(pr -> {
+    askJson.g().V().hasLabel("printrequests").forEachRemaining(pr -> {
       String label = pr.property("label").value().toString();
       PrintRequest prq = new PrintRequest(pr);
       prMap.put(label, prq);
@@ -458,7 +457,7 @@ public class SmwSystem extends MediaWikiSystem {
      * jsonVertex.property("mysimplenode") .value();
      */
 
-    this.g().V().hasLabel("results").out().forEachRemaining(rNode -> {
+    askJson.g().V().hasLabel("results").out().forEachRemaining(rNode -> {
       Map<String, Object> conceptMap = new HashMap<String, Object>();
       conceptMap.put("isA", concept);
       conceptMap.put("wikipage", new WikiPage(rNode));
