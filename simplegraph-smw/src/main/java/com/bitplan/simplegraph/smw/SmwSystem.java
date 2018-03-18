@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -269,10 +270,45 @@ public class SmwSystem extends MediaWikiSystem {
     }
   }
 
+  public static class Qty extends SMWVertex {
+    String unit;
+    Double value;
+
+    public String getUnit() {
+      return unit;
+    }
+
+    public void setUnit(String unit) {
+      this.unit = unit;
+    }
+
+    public Double getValue() {
+      return value;
+    }
+
+    public void setValue(Double value) {
+      this.value = value;
+    }
+
+    public Qty(Vertex v) {
+      unit = this.getString(v, "unit");
+      value = this.getDouble(v, "value");
+    }
+    
+    /**
+     * return the Quantity as a string
+     */
+    public String toString() {
+      String qtyString = String.format(Locale.US,"%8.2f %s",
+          value,unit);
+      return qtyString;
+    }
+  }
+
   public static class Geo extends SMWVertex {
     Double lat;
     Double lon;
-    private Angle angle;
+
     private Angle latangle;
     private Angle lonangle;
 
@@ -313,9 +349,9 @@ public class SmwSystem extends MediaWikiSystem {
      * return the GEO coordinates
      */
     public String toString() {
-      String dmsString = String.format("%s %s %s %s", latangle.toFormattedDMSString(),
-          lat >= 0.0 ? "N" : "S", lonangle.toFormattedDMSString(),
-          lon >= 0.0 ? "E" : "W");
+      String dmsString = String.format("%s %s %s %s",
+          latangle.toFormattedDMSString(), lat >= 0.0 ? "N" : "S",
+          lonangle.toFormattedDMSString(), lon >= 0.0 ? "E" : "W");
       return dmsString;
     }
   }
@@ -523,6 +559,11 @@ public class SmwSystem extends MediaWikiSystem {
               // and
               // a unit:
               case "_qty": // Quantity
+                Iterator<Edge> qtyEdges = node.edges(Direction.OUT, key);
+                if (qtyEdges.hasNext()) {
+                  Qty qty = new Qty(qtyEdges.next().inVertex());
+                  conceptMap.put(key, qty);
+                }
                 break;
               // Record
               // https://www.semantic-mediawiki.org/wiki/Help:Type_Record
@@ -560,6 +601,7 @@ public class SmwSystem extends MediaWikiSystem {
               // https://www.semantic-mediawiki.org/wiki/Help:Type_URL
               // Holds URIs, URNs and URLs:
               case "_uri": // URL
+                putValue(node, key, conceptMap);
                 break;
               default:
                 // unsupported type id

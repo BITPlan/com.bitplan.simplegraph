@@ -42,10 +42,11 @@ import com.bitplan.rythm.RythmContext;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.json.JsonPrettyPrinter;
 import com.bitplan.simplegraph.smw.SmwSystem.Geo;
+import com.bitplan.simplegraph.smw.SmwSystem.Qty;
 import com.bitplan.simplegraph.smw.SmwSystem.WikiPage;
 
 /**
- * test Semantic Mediawiki access
+ * test Semantic MediaWiki access
  * 
  * @author wf
  *
@@ -241,10 +242,14 @@ public class TestSmwSystem {
     assertTrue(dtV.property("geo").value() instanceof Geo);
     assertEquals("  32° 42’ 54.00” N  117°  9’ 45.00” W",
         dtV.property("geo").value().toString());
+    // assertTrue(dtV.property("page").value() instanceof WikiPage);
+    assertTrue(dtV.property("qty").value() instanceof Qty);
+    assertEquals(" 1052.00 km²",dtV.property("qty").value().toString());   
     assertTrue(dtV.property("wpg").value() instanceof WikiPage);
     assertEquals("Semantic MediaWiki", dtV.property("wpg").value().toString());
     assertEquals("Did you create the page for Tokyo 東京 ? Yes ✓",
         dtV.property("txt").value().toString());
+    assertEquals("http://www.whitehouse.gov",dtV.property("uri").value().toString());
   }
 
   @Test

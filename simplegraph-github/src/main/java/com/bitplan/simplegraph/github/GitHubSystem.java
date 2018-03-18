@@ -90,7 +90,7 @@ public class GitHubSystem extends SimpleSystemImpl {
   public static boolean hasAuthentication() {
     File authFile=PropertiesImpl.getPropertyFile("github");
     boolean result=authFile.canRead();
-    if (first) {
+    if (first && !result) {
       first=false;
       LOGGER.log(Level.WARNING, String.format("To use the github System you might want to create the file %s with an entry oauth=<token>\nThe token can be obtained from https://github.com/settings/tokens",authFile.getAbsolutePath()));
     }

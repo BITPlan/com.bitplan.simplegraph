@@ -127,6 +127,24 @@ public class TestGitHubSystem {
   }
   
   @Test
+  public void testVariables() throws Exception {
+    if (!GitHubSystem.hasAuthentication())
+      return;
+    String query="query($number_of_repos:Int!) {\n" + 
+        "  viewer {\n" + 
+        "    name\n" + 
+        "     repositories(last: $number_of_repos) {\n" + 
+        "       nodes {\n" + 
+        "         name\n" + 
+        "       }\n" + 
+        "     }\n" + 
+        "   }\n" + 
+        "}";
+    debug=true;
+    GraphTraversalSource g = doquery(query);
+  }
+  
+  @Test
   public void testMutation() throws Exception {
     if (!GitHubSystem.hasAuthentication())
       return;
