@@ -479,7 +479,7 @@ public class SmwSystem extends MediaWikiSystem {
               // https://www.semantic-mediawiki.org/wiki/Help:Type_Boolean
               // Holds boolean (true/false) values:
               case "_boo": // Boolean
-                VertexProperty<Object> bProperty = node.property("boo");
+                VertexProperty<Object> bProperty = node.property(key);
                 if (bProperty.isPresent()) {
                   String bString = bProperty.value().toString();
                   conceptMap.put(key, "[t]".equals(bString));
