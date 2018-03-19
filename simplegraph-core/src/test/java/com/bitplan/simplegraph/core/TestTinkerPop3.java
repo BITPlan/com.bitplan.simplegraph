@@ -27,6 +27,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -40,6 +41,7 @@ import org.apache.tinkerpop.gremlin.process.traversal.Scope;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
+import org.apache.tinkerpop.gremlin.structure.Column;
 import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
@@ -431,20 +433,15 @@ public class TestTinkerPop3 {
     Graph graph = getAirRoutes();
     GraphTraversalSource g = graph.traversal();
     Map<Object, Long> counts = g.V().hasLabel("airport").groupCount()
-        .by("region").order().by(Order.decr).next();
+        .by("region").order(Scope.local).by(Column.values,Order.decr).next();
     // https://stackoverflow.com/a/49361250/1497139
     assertEquals(1473, counts.size());
+    assertEquals("LinkedHashMap",counts.getClass().getSimpleName());
+    debug=true;
     if (debug)
       for (Object key : counts.keySet()) {
         System.out.println(String.format("%s=%3d", key, counts.get(key)));
       }
-    try {
-      counts = g.V().hasLabel("airport").groupCount().by("region")
-          .order(Scope.local).by(Order.decr).next();
-      fail("See we don't get here!");
-    } catch (ClassCastException cce) {
-      System.err.println("we don't want to end up here!");
-    }
   }
 
 }
