@@ -22,6 +22,7 @@ package com.bitplan.simplegraph.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 import org.apache.tinkerpop.gremlin.process.traversal.Order;
 import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.Path;
+import org.apache.tinkerpop.gremlin.process.traversal.Scope;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
@@ -430,11 +432,19 @@ public class TestTinkerPop3 {
     GraphTraversalSource g = graph.traversal();
     Map<Object, Long> counts = g.V().hasLabel("airport").groupCount()
         .by("region").order().by(Order.decr).next();
+    // https://stackoverflow.com/a/49361250/1497139
     assertEquals(1473, counts.size());
     if (debug)
       for (Object key : counts.keySet()) {
         System.out.println(String.format("%s=%3d", key, counts.get(key)));
       }
+    try {
+      counts = g.V().hasLabel("airport").groupCount().by("region")
+          .order(Scope.local).by(Order.decr).next();
+      fail("See we don't get here!");
+    } catch (ClassCastException cce) {
+      System.err.println("we don't want to end up here!");
+    }
   }
 
 }

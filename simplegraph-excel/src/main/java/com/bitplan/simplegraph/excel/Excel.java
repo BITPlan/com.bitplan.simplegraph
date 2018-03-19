@@ -218,16 +218,16 @@ public class Excel {
         // add cells for the given row
         Holder<Integer> colIndex = new Holder<Integer>(0);
         if (item instanceof Vertex) {
-          addCell(wb,headerRow, "id", colIndex, boldStyle);
+          addCell(wb, headerRow, "id", colIndex, boldStyle);
           Vertex vertex = (Vertex) item;
-          addCells(wb,headerRow, vertex, colIndex, true);
+          addCells(wb, headerRow, vertex, colIndex, true);
         } else if (item instanceof Edge) {
           Edge edge = (Edge) item;
           edge.properties().forEachRemaining(prop -> {
-            addCell(wb,headerRow, edge.label(), colIndex, boldStyle);
+            addCell(wb, headerRow, edge.label(), colIndex, boldStyle);
           });
-          addCell(wb,headerRow, "in", colIndex, boldStyle);
-          addCell(wb,headerRow, "out", colIndex, boldStyle);
+          addCell(wb, headerRow, "in", colIndex, boldStyle);
+          addCell(wb, headerRow, "out", colIndex, boldStyle);
         }
         // create a new Row
         rowHolder.setValue(sheet.createRow(++rowNumber));
@@ -237,15 +237,15 @@ public class Excel {
       Holder<Integer> colIndex = new Holder<Integer>(0);
       if (item instanceof Vertex) {
         Vertex vertex = (Vertex) item;
-        addCell(wb,row, vertex.id(), colIndex, null);
-        addCells(wb,row, vertex, colIndex, false);
+        addCell(wb, row, vertex.id(), colIndex, null);
+        addCells(wb, row, vertex, colIndex, false);
       } else if (item instanceof Edge) {
         Edge edge = (Edge) item;
         edge.properties().forEachRemaining(prop -> {
-          addCell(wb,row, prop.value(), colIndex, null);
+          addCell(wb, row, prop.value(), colIndex, null);
         });
-        addCell(wb,row, edge.inVertex().id(), colIndex, null);
-        addCell(wb,row, edge.outVertex().id(), colIndex, null);
+        addCell(wb, row, edge.inVertex().id(), colIndex, null);
+        addCell(wb, row, edge.outVertex().id(), colIndex, null);
       }
       rowIndex.setValue(rowIndex.getFirstValue() + 1);
     });
@@ -253,36 +253,38 @@ public class Excel {
 
   /**
    * add the cells for the given vertex to the given row
-   * @param wb 
+   * 
+   * @param wb
    * 
    * @param row
    * @param vertex
    * @param colIndex
    * @param header
    */
-  private static void addCells(Workbook wb, Row row, Vertex vertex, Holder<Integer> colIndex,
-      boolean header) {
+  private static void addCells(Workbook wb, Row row, Vertex vertex,
+      Holder<Integer> colIndex, boolean header) {
     SimpleNode simpleNode = SimpleNode.of(vertex);
-    boolean done=false;
+    boolean done = false;
     // do we have SimpleNode with a predefined order of keys?
     if (simpleNode != null) {
       Keys keys = simpleNode.getKeys();
       if (!keys.isEmpty()) {
-        for (String key:keys.getKeysList().get()) {
-          Object value=null;
+        for (String key : keys.getKeysList().get()) {
+          Object value = null;
           if (vertex.property(key).isPresent())
-            value=vertex.property(key).value();
-          addCell(wb,row,header?key:value,colIndex,header?boldStyle:null);
+            value = vertex.property(key).value();
+          addCell(wb, row, header ? key : value, colIndex,
+              header ? boldStyle : null);
         }
         // ordered mode done
-        done=true;
+        done = true;
       }
     }
     // their is no order - try our luck with the set of properties
     if (!done) {
       vertex.properties().forEachRemaining(prop -> {
         if (prop.label() != SimpleNode.SELF_LABEL)
-          addCell(wb,row, header ? prop.label() : prop.value(), colIndex,
+          addCell(wb, row, header ? prop.label() : prop.value(), colIndex,
               header ? boldStyle : null);
       });
     }
@@ -319,35 +321,40 @@ public class Excel {
   /**
    * add a Cell with the given value at the given column Index to the given row
    * if a cellStyle is given the the cell's style to it
-   * @param wb 
+   * 
+   * @param wb
    * 
    * @param row
    * @param value
    * @param colIndex
    * @param cellStyle
    */
-  private static void addCell(Workbook wb, Row row, Object value, Holder<Integer> colIndex,
-      CellStyle cellStyle) {
+  private static void addCell(Workbook wb, Row row, Object value,
+      Holder<Integer> colIndex, CellStyle cellStyle) {
     Cell cell = row.createCell(colIndex.getFirstValue());
-    CreationHelper createHelper = wb.getCreationHelper();;
+    CreationHelper createHelper = wb.getCreationHelper();
+    ;
     colIndex.setValue(colIndex.getFirstValue() + 1);
     if (value instanceof Integer) {
       Integer intValue = (Integer) value;
       cell.setCellValue(intValue.doubleValue());
+    } else if (value instanceof Long) {
+      Long longValue = (Long) value;
+      cell.setCellValue(longValue.doubleValue());
     } else if (value instanceof Double) {
       cell.setCellValue((Double) value);
     } else if (value instanceof Date) {
-      if (cellStyle==null)
-        cellStyle=wb.createCellStyle();
+      if (cellStyle == null)
+        cellStyle = wb.createCellStyle();
       cellStyle.setDataFormat(
           createHelper.createDataFormat().getFormat(DATE_FORMAT));
-      Date date=(Date)value;
+      Date date = (Date) value;
       cell.setCellValue(date);
     } else if (value instanceof Boolean) {
-      Boolean bool=(Boolean)value;
+      Boolean bool = (Boolean) value;
       cell.setCellValue(bool);
     } else {
-      if (value!=null)
+      if (value != null)
         cell.setCellValue(value.toString()); // type handling!
     }
     if (cellStyle != null)
