@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.apache.tinkerpop.gremlin.process.traversal.Order;
 import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.Path;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
@@ -58,7 +59,8 @@ import com.bitplan.rythm.RythmContext;
  */
 public class TestTinkerPop3 {
   public static boolean debug = false;
-  protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.core");
+  protected static Logger LOGGER = Logger
+      .getLogger("com.bitplan.simplegraph.core");
 
   /**
    * get the AirRoutes example graph
@@ -272,13 +274,13 @@ public class TestTinkerPop3 {
         System.out.println(path.toString());
       });
     // g.V().has('code','AUS').repeat(out()).times(3).has('code','AGR').path().by('code')
-    
+
     if (debug)
       g.V().has("code", "AUS").repeat(__.out()).times(3).has("code", "AGR")
           .path().by("code").forEachRemaining(path -> {
             System.out.println(path.toString());
           });
-    //fail("tschüss");
+    // fail("tschüss");
     // Find vertices that are airports
     // g.V().hasLabel('airport')
     assertEquals(3374, g.V().hasLabel("airport").count().next().longValue());
@@ -303,7 +305,7 @@ public class TestTinkerPop3 {
     if (debug)
       values.forEach(value -> System.out.println(value));
     // Return just the city name property
-    // fail("tschüss");    
+    // fail("tschüss");
     // g.V().has('airport','code','DFW').values('city')
     assertEquals("Dallas", g.V().has("code", "DFW").values("city").next());
     // Return the 'runways' and 'icao' property values.
@@ -375,7 +377,7 @@ public class TestTinkerPop3 {
     // How many of each type of edge are there?
     // g.E().groupCount().by(label)
     g.E().groupCount().by(T.label);
-    
+
   }
 
   @SuppressWarnings("rawtypes")
@@ -400,7 +402,8 @@ public class TestTinkerPop3 {
     }
     ;
     // .properties().forEachRemaining(prop->vprops.add(prop));
-    File plantUMLTemplate = new File("../simplegraph-core/src/main/rythm/plantuml.rythm");
+    File plantUMLTemplate = new File(
+        "../simplegraph-core/src/main/rythm/plantuml.rythm");
     Map<String, Object> rootMap = new HashMap<String, Object>();
     rootMap.put("g", g);
     rootMap.put("title", "AirRoutes");
@@ -419,6 +422,19 @@ public class TestTinkerPop3 {
     assertEquals(4, vertexLabelCount);
     long edgeLabelCount = g.E().label().dedup().count().next().longValue();
     assertEquals(2, edgeLabelCount);
+  }
+
+  @Test
+  public void testSortedGroupCount() throws Exception {
+    Graph graph = getAirRoutes();
+    GraphTraversalSource g = graph.traversal();
+    Map<Object, Long> counts = g.V().hasLabel("airport").groupCount()
+        .by("region").order().by(Order.decr).next();
+    assertEquals(1473, counts.size());
+    if (debug)
+      for (Object key : counts.keySet()) {
+        System.out.println(String.format("%s=%3d", key, counts.get(key)));
+      }
   }
 
 }
