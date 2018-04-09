@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.1/graphml.xsd"><key id="path" for="node" attr.name="path" attr.type="string"></key><key id="number" for="node" attr.name="number" attr.type="int"></key><key id="labelV" for="node" attr.name="labelV" attr.type="string"></key><key id="mysimplenode" for="node" attr.name="mysimplenode" attr.type="string"></key><key id="notes" for="node" attr.name="notes" attr.type="string"></key><key id="pages" for="node" attr.name="pages" attr.type="int"></key><key id="pageNo" for="node" attr.name="pageNo" attr.type="int"></key><key id="name" for="node" attr.name="name" attr.type="string"></key><key id="text" for="node" attr.name="text" attr.type="string"></key><key id="title" for="node" attr.name="title" attr.type="string"></key><key id="labelE" for="edge" attr.name="labelE" attr.type="string"></key><graph id="G" edgedefault="directed"><node id="0"><data key="labelV">slideshow</data><data key="path">QueenVictoria.pptx</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideShowNode@444dcee2</data><data key="title">Queen Victoria</data></node><node id="4"><data key="labelV">slide</data><data key="number">1</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@339486ff</data><data key="notes">
+<?xml version="1.0" ?><graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.1/graphml.xsd"><key id="path" for="node" attr.name="path" attr.type="string"></key><key id="number" for="node" attr.name="number" attr.type="int"></key><key id="labelV" for="node" attr.name="labelV" attr.type="string"></key><key id="mysimplenode" for="node" attr.name="mysimplenode" attr.type="string"></key><key id="notes" for="node" attr.name="notes" attr.type="string"></key><key id="pages" for="node" attr.name="pages" attr.type="int"></key><key id="pageNo" for="node" attr.name="pageNo" attr.type="int"></key><key id="name" for="node" attr.name="name" attr.type="string"></key><key id="text" for="node" attr.name="text" attr.type="string"></key><key id="title" for="node" attr.name="title" attr.type="string"></key><key id="labelE" for="edge" attr.name="labelE" attr.type="string"></key><graph id="G" edgedefault="directed"><node id="0"><data key="labelV">slideshow</data><data key="path">QueenVictoria.pptx</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideShowNode@3fa0984a</data><data key="title">Queen Victoria</data></node><node id="4"><data key="labelV">slide</data><data key="number">1</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@24cfc5af</data><data key="notes">
 
 1.7.2013
 
@@ -93,7 +93,7 @@ Queen Victoria
 source:
 
 
-WikiData</data></node><node id="20"><data key="labelV">slide</data><data key="number">3</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@771c3860</data><data key="notes">
+WikiData</data></node><node id="20"><data key="labelV">slide</data><data key="number">3</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@3e592eea</data><data key="notes">
 
 1.7.2013
 
@@ -188,7 +188,7 @@ Edward VII
 source:
 
 
-WikiData</data></node><node id="36"><data key="labelV">slide</data><data key="number">5</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@45ca305f</data><data key="notes">
+WikiData</data></node><node id="36"><data key="labelV">slide</data><data key="number">5</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@25ac3c19</data><data key="notes">
 
 1.7.2013
 
@@ -275,7 +275,7 @@ Alfred, Duke of Saxe-Coburg and Gotha
 source:
 
 
-WikiData</data></node><node id="52"><data key="labelV">slide</data><data key="number">7</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@6f5accda</data><data key="notes">
+WikiData</data></node><node id="52"><data key="labelV">slide</data><data key="number">7</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@1ef5822e</data><data key="notes">
 
 1.7.2013
 
@@ -369,7 +369,7 @@ Princess Louise, Duchess of Argyll
 source:
 
 
-WikiData</data></node><node id="68"><data key="labelV">slide</data><data key="number">9</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@786e1cb0</data><data key="notes">
+WikiData</data></node><node id="68"><data key="labelV">slide</data><data key="number">9</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@444dcee2</data><data key="notes">
 
 1.7.2013
 
@@ -462,7 +462,7 @@ Prince Leopold, Duke of Albany
 source:
 
 
-WikiData</data></node><node id="12"><data key="labelV">slide</data><data key="number">2</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@6ea7e4e5</data><data key="notes">
+WikiData</data></node><node id="12"><data key="labelV">slide</data><data key="number">2</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@339486ff</data><data key="notes">
 
 1.7.2013
 
@@ -549,7 +549,7 @@ Victoria, Princess Royal
 source:
 
 
-WikiData</data></node><node id="28"><data key="labelV">slide</data><data key="number">4</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@7a7b79a6</data><data key="notes">
+WikiData</data></node><node id="28"><data key="labelV">slide</data><data key="number">4</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@771c3860</data><data key="notes">
 
 1.7.2013
 
@@ -642,7 +642,7 @@ Princess Alice of the United Kingdom
 source:
 
 
-WikiData</data></node><node id="44"><data key="labelV">slide</data><data key="number">6</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@43fe562f</data><data key="notes">
+WikiData</data></node><node id="44"><data key="labelV">slide</data><data key="number">6</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@45ca305f</data><data key="notes">
 
 1.7.2013
 
@@ -729,7 +729,7 @@ Princess Helena of the United Kingdom
 source:
 
 
-WikiData</data></node><node id="60"><data key="labelV">slide</data><data key="number">8</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@4bfd597c</data><data key="notes">
+WikiData</data></node><node id="60"><data key="labelV">slide</data><data key="number">8</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@6f5accda</data><data key="notes">
 
 1.7.2013
 
@@ -822,7 +822,7 @@ Prince Arthur, Duke of Connaught and Strathearn
 source:
 
 
-WikiData</data></node><node id="76"><data key="labelV">slide</data><data key="number">10</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@1aac1c2a</data><data key="notes">
+WikiData</data></node><node id="76"><data key="labelV">slide</data><data key="number">10</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@786e1cb0</data><data key="notes">
 
 1.7.2013
 
