@@ -164,7 +164,6 @@
 				<version>3.0.2</version>
 				<executions>
 					<execution>
-						<id>default-jar</id>
 						<phase>package</phase>
 						<goals>
 							<goal>test-jar</goal>
