@@ -31,6 +31,7 @@ import java.util.List;
  */
 public class Holder<T> {
   private List<T> values=new ArrayList<T>();
+  private Class<T> clazz;
   
   public Holder() {
   }
@@ -45,6 +46,7 @@ public class Holder<T> {
    */
   public Holder(T value) {
     values.add(value);
+    clazz=(Class<T>) value.getClass();
   }
   
   /**
@@ -77,5 +79,23 @@ public class Holder<T> {
    */
   public void addAll(Holder<T> other) {
     other.getValues().forEach(otherT->this.add(otherT));
+  }
+  public static <T> T convertInstanceOfObject(Object o, Class<T> clazz) {
+    try {
+      return clazz.cast(o);
+  } catch(ClassCastException e) {
+      return null;
+  }
+  }
+
+  public void increment() {
+    if (this.isPresent()) {
+      Object o=this.getFirstValue();
+      if (o instanceof Integer) {
+        int i=(Integer)o;
+        Integer i1 = i+1;
+        this.setValue(convertInstanceOfObject(i1,clazz));
+      }
+    }
   }
 }

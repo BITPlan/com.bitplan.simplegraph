@@ -76,7 +76,7 @@ public class TestGitHubSystem {
     }
     long fieldCount = ghs.js.getStartNode().g().V().hasLabel("fields").count()
         .next().longValue();
-    assertEquals(1592, fieldCount);
+    assertEquals(1595, fieldCount);
   }
 
   @Test
