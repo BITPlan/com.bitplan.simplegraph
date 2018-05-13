@@ -38,6 +38,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
+import com.bitplan.gremlin.ToStringEqualsPredicate;
 import com.bitplan.rythm.RythmContext;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.json.JsonPrettyPrinter;
@@ -273,6 +274,24 @@ public class TestSmwSystem {
         System.out.println(isoDate.format(timeRawDate));
       }
     }
+  }
+  
+  @Test
+  public void testPageQuery() throws Exception {
+    SmwSystem smw = new SmwSystem();
+    // debug = true;
+    smw.setDebug(debug);
+    smw.connect("http://wiki.bitplan.com", "/");
+    String askQuery = "{{#ask: [[Concept:SimpleGraphModule]]\n"
+        + "|mainlabel=SimpleGraphModule\n"
+        + "| ?SimpleGraphModule name = name\n"
+        + "| ?SimpleGraphModule logo = logo\n" + "}}";
+    smw.moveTo("ask=" + askQuery);
+    // debug=true;
+    if (debug)
+      smw.forAll(SimpleNode.printDebug);
+    Long logoCount = smw.g().V().has("logo",ToStringEqualsPredicate.compare("File:Java-Logo.svg")).count().next();
+    assertEquals(1,logoCount.longValue());
   }
 
   @Test

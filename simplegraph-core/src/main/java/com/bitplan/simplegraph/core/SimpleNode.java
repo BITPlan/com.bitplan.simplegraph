@@ -44,6 +44,10 @@ public interface SimpleNode extends SimpleGraph {
   static Consumer<Vertex> printDebug = vertex -> vertex.properties()
       .forEachRemaining(prop -> System.out.println(String.format("%s.%s=%s",
           vertex.label(), prop.label(), prop.value())));
+  
+  static Consumer<Vertex> printObjectDebug = vertex -> vertex.properties()
+      .forEachRemaining(prop -> System.out.println(String.format("%s.%s=%s (%s)",
+          vertex.label(), prop.label(), prop.value(),prop.value().getClass().getName())));
 
   static Consumer<Map<?, Object>> printMapDebug = map -> {
     map.keySet().forEach(
