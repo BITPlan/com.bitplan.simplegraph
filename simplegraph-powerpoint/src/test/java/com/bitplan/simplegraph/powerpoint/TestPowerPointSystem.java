@@ -319,7 +319,11 @@ public class TestPowerPointSystem  {
     // debug=true;
     if (debug)
       slides.forEach(slide -> slide.printNameValues(System.out));
-    assertEquals(44, slides.size());
+    long expected=44;
+    assertEquals(expected, slides.size());
+    assertEquals(expected, pps.g().V().hasLabel("slide").count().next().longValue());
+    assertEquals(expected, pps.g().V().hasLabel("slide").out("slideshow").count().next().longValue());
+
   }
 
 }

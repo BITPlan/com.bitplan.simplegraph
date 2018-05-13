@@ -120,6 +120,11 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
     return inOrOut(edgeName);
   }
 
+  /**
+   * link me via the given edgeName
+   * @param edgeName
+   * @return - a stream of nodes
+   */
   private Stream<SimpleNode> inOrOut(String edgeName) {
     Stream<SimpleNode> links = Stream.of();
     switch (edgeName) {
@@ -132,6 +137,9 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
         slideNodes.add(slideNode);
         slideNode.property("pageNo", pageNo++);
         slideNode.property("pages", slides.size());
+        this.getVertex().addEdge("slides", slideNode.getVertex());
+        // redundant backpointer?
+        slideNode.getVertex().addEdge("slideshow", this.getVertex());
       }
       links = slideNodes.stream();
       break;
