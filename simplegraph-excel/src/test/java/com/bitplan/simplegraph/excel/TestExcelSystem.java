@@ -23,11 +23,15 @@ package com.bitplan.simplegraph.excel;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.junit.Test;
 
@@ -76,11 +80,15 @@ public class TestExcelSystem {
     es.connect();
     File testFile = new File(testModernFileName);
     es.moveTo(testFile.toURI().toString());
-    // debug=true;
+    debug=true;
     if (debug)
       es.forAll(SimpleNode.printDebug);
     long nodeCount = es.g().V().count().next().longValue();
     assertEquals(17,nodeCount);
+    List<Map<String, Object>> sheetMapList = es.g().V().has("sheetname").valueMap("sheetname").toList();
+    assertEquals(4,sheetMapList.size()); 
+    assertEquals(12,es.g().V().has("row").count().next().longValue());
+    assertEquals(4,es.g().V().has("row").out("sheet").dedup().count().next().longValue());
   }
 
 }

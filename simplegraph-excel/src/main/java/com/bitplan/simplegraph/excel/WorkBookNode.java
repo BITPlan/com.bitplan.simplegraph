@@ -78,6 +78,7 @@ public class WorkBookNode extends SimpleNodeImpl {
             List<Object> row = sheetContent.get(rowIndex);
             SimpleNode rowNode=new RowNode(this,titleRow,row,rowIndex);
             sheetNode.getVertex().addEdge("rows", rowNode.getVertex());
+            rowNode.getVertex().addEdge("sheet",sheetNode.getVertex());
           }
         }
       }
