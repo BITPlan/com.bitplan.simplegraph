@@ -62,9 +62,9 @@ public class TestHtmlSystem {
   }
 
   @Test
-  public void testGetRecipes() throws Exception {
+  public void testPDFLinks() throws Exception {
     HtmlSystem hs = HtmlSystem.forUrl(
-        "https://www1.wdr.de/verbraucher/rezepte/alle-rezepte/sauerbraten-vom-rind-100.html");
+        "http://unec.edu.az/application/uploads/2014/12/");
     HtmlNode htmlNode = (HtmlNode) hs.getStartNode();
     assertEquals("html", htmlNode.getRootNode().getName());
     // debug = true;
@@ -73,7 +73,7 @@ public class TestHtmlSystem {
     }
     GraphTraversal<Vertex, Vertex> links = hs.g().V().hasLabel("a").has("href",
         RegexPredicate.regex(".*pdf"));
-    assertEquals(2, links.count().next().longValue());
+    assertEquals(4, links.count().next().longValue());
     links = hs.g().V().hasLabel("a").has("href", RegexPredicate.regex(".*pdf"));
     links.forEachRemaining(
         link -> System.out.println(link.property("href").value()));
