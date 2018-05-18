@@ -240,7 +240,7 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
    * @param sep
    * @return
    */
-  public String getShapeText(XSLFShape shape, String delim, String sep) {
+  public static String getShapeText(XSLFShape shape, String delim, String sep) {
     String result = "";
     if (shape instanceof XSLFTextShape) {
       XSLFTextShape txShape = (XSLFTextShape) shape;
@@ -251,7 +251,10 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
     }
     return result;
   }
-
+  
+  /**
+   * set the notes to a given text
+   */
   public void setNotes(String text) {
     // get or create notes
     XSLFNotes note = this.getSlideShow().getSlideshow().getNotesSlide(slide);
