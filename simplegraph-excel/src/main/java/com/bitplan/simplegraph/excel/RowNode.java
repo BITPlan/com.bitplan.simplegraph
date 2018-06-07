@@ -52,7 +52,7 @@ public class RowNode extends SimpleNodeImpl {
   public Map<String, Object> initMap() {
     map.put("row", this.rowIndex);
     for (int colIndex=0;colIndex<=titleRow.size();colIndex++) {
-      if (row.size()>colIndex) {
+      if (row.size()>colIndex && titleRow.size()>colIndex) {
          String name="?";
          Object nameO=titleRow.get(colIndex);
          if (nameO!=null)
