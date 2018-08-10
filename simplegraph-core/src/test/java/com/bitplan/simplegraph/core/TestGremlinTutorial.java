@@ -23,8 +23,14 @@ package com.bitplan.simplegraph.core;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.*;
 import static org.apache.tinkerpop.gremlin.structure.T.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.logging.Logger;
+
+import org.apache.commons.configuration.BaseConfiguration;
+import org.apache.commons.configuration.Configuration;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
@@ -86,7 +92,8 @@ public class TestGremlinTutorial {
      */
 
     GraphTraversalSource g = graph.traversal();
-    check(g.toString(),
+    String gstring = g.toString();
+    check(gstring,
         "graphtraversalsource[tinkergraph[vertices:6 edges:6], standard]");
 
     /*-
@@ -370,10 +377,58 @@ public class TestGremlinTutorial {
     ==>peter
     
      */
-    
-    debug=true;
-    check(g.V().has("name", "marko").out("created").in("created").values("name").toList().toString(),
-        "[marko, josh, peter]");
 
+    // debug = true;
+    check(g.V().has("name", "marko").out("created").in("created").values("name")
+        .toList().toString(), "[marko, josh, peter]");
+
+  }
+
+  @Test
+  public void testDuplicateId() {
+    TinkerGraph g1 = TinkerFactory.createClassic();
+    TinkerGraph g2 = null;
+    try {
+      g2 = createMyClassicWithDuplicateIds();
+      fail("there should be an exception!");
+    } catch (IllegalArgumentException iae) {
+
+    }
+    assertNotNull(g1);
+    assertNull(g2);
+  }
+
+  @Test
+  public void testAddEdge() {
+    TinkerGraph g1 = TinkerFactory.createClassic();
+    Vertex josh = g1.traversal().V("4").next();
+    Vertex ripple = g1.traversal().V("5").next();
+    josh.addEdge("knows", ripple, T.id, 13, "weight", 1.0f);
+    assertEquals("tinkergraph[vertices:6 edges:7]", g1.toString());
+  }
+
+  public static TinkerGraph createMyClassicWithDuplicateIds() {
+    final Configuration conf = new BaseConfiguration();
+    conf.setProperty(TinkerGraph.GREMLIN_TINKERGRAPH_VERTEX_ID_MANAGER,
+        TinkerGraph.DefaultIdManager.INTEGER.name());
+    conf.setProperty(TinkerGraph.GREMLIN_TINKERGRAPH_EDGE_ID_MANAGER,
+        TinkerGraph.DefaultIdManager.INTEGER.name());
+    conf.setProperty(TinkerGraph.GREMLIN_TINKERGRAPH_VERTEX_PROPERTY_ID_MANAGER,
+        TinkerGraph.DefaultIdManager.INTEGER.name());
+    final TinkerGraph g = TinkerGraph.open(conf);
+    final Vertex marko = g.addVertex(T.id, 1, "name", "marko", "age", 29);
+    final Vertex vadas = g.addVertex(T.id, 1, "name", "vadas", "age", 27);
+    final Vertex lop = g.addVertex(T.id, 3, "name", "lop", "lang", "java");
+    final Vertex josh = g.addVertex(T.id, 4, "name", "josh", "age", 32);
+    final Vertex ripple = g.addVertex(T.id, 5, "name", "ripple", "lang",
+        "java");
+    final Vertex peter = g.addVertex(T.id, 6, "name", "peter", "age", 35);
+    marko.addEdge("knows", vadas, T.id, 7, "weight", 0.5f);
+    marko.addEdge("knows", josh, T.id, 8, "weight", 1.0f);
+    marko.addEdge("created", lop, T.id, 9, "weight", 0.4f);
+    josh.addEdge("created", ripple, T.id, 10, "weight", 1.0f);
+    josh.addEdge("created", lop, T.id, 11, "weight", 0.4f);
+    peter.addEdge("created", lop, T.id, 12, "weight", 0.2f);
+    return g;
   }
 }
