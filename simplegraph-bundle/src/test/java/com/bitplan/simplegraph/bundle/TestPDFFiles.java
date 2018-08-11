@@ -21,10 +21,15 @@
 package com.bitplan.simplegraph.bundle;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import org.junit.Test;
@@ -46,17 +51,37 @@ public class TestPDFFiles {
   protected static Logger LOGGER = Logger
       .getLogger("com.bitplan.simplegraph.bundle");
 
-  @Test
-  public void testPDFFiles() throws Exception {
+  public static final String RFC_DIRECTORY = "../simplegraph-pdf/src/test/data/rfcs";
+
+  /**
+   * get the filesystem for the given path
+   * 
+   * @param -
+   *          the path
+   * @return - the graph for the path containing all files and subdirectories
+   */
+  public FileSystem getFileSystem(String path) {
     FileSystem fs = new FileSystem();
     fs.connect();
-    FileNode fileRoot = fs.moveTo("../simplegraph-pdf/src/test/data/rfcs");
+    FileNode fileRoot = fs.moveTo(path);
     fileRoot.recursiveOut("files", Integer.MAX_VALUE);
-    assertEquals(69, fs.g().V().count().next().longValue());
+    return fs;
+  }
+
+  /**
+   * get the PDF files from a FileSystem and retrieve pages with text
+   * 
+   * @param fs
+   *          - the filesystem in which to look for the PDF files
+   * @param limit
+   *          - limit the result to the number if files given
+   * @return the PDF System
+   * @throws Exception
+   */
+  public PdfSystem getPdfSystemForFileSystem(FileSystem fs, int limit)
+      throws Exception {
     PdfSystem ps = new PdfSystem();
     ps.connect();
-    // potentially limit the number of files to be analyzed
-    int limit = 42;
     fs.g().V().hasLabel("file").has("ext", "pdf").range(0, limit)
         .forEachRemaining(file -> {
           File pdfFile = new File(file.property("path").value().toString());
@@ -64,29 +89,99 @@ public class TestPDFFiles {
           pdfNode.out("pages");
           pdfNode.property("name", pdfFile.getName());
         });
+    return ps;
+  }
+
+  /**
+   * get Index for the given keyWords
+   * 
+   * @param pdfSystem
+   *          - the pdfSystem to search
+   * @param keyWords
+   * @return - the map of filenames
+   */
+  public Map<String, List<String>> getIndex(PdfSystem pdfSystem,
+      String... keyWords) {
+    // create a sorted map of results
+    Map<String, List<String>> index = new TreeMap<String, List<String>>();
+    for (String keyWord : keyWords) {
+      List<Object> founds = pdfSystem.g().V().hasLabel("page")
+          .has("text", RegexPredicate.regex(".*" + keyWord + ".*")).in("pages")
+          .dedup().values("name").toList();
+      // create a list of file names for the keywords found (basically this only
+      // converst List of object to list of string
+      List<String> foundList = new ArrayList<String>();
+      for (Object found : founds) {
+        foundList.add((String) found);
+      }
+      // put the result into the hash map using keyword as the index
+      index.put(keyWord, foundList);
+    }
+    return index;
+  }
+
+  @Test
+  public void testPDFFiles() throws Exception {
+    FileSystem fs = getFileSystem(RFC_DIRECTORY);
+    assertEquals(69, fs.g().V().count().next().longValue());
+
+    // potentially limit the number of files to be analyzed
+    int limit = 42;
+    PdfSystem pdfSystem = getPdfSystemForFileSystem(fs, limit);
     // debug = true;
     if (debug)
-      ps.forAll(SimpleNode.printDebug);
-    long pageCount = ps.g().V().hasLabel("page").count().next().longValue();
-    // there should be at least 71 pages (for some reasons 77 might also show up ... might be page length A4/US letter dependent)
-    assertTrue(pageCount>=71);
+      pdfSystem.forAll(SimpleNode.printDebug);
+    long pageCount = pdfSystem.g().V().hasLabel("page").count().next()
+        .longValue();
+    // there should be at least 71 pages (for some reasons 77 might also show up
+    // ... might be page length A4/US letter dependent)
+    assertTrue(pageCount >= 71);
     // there should be 2 pages referencing George Gregg
     assertEquals(2,
-        ps.g().V().hasLabel("page")
+        pdfSystem.g().V().hasLabel("page")
             .has("text", RegexPredicate.regex(".*George Gregg.*")).count()
             .next().longValue());
 
     // there should be one RFC mentioning George Gregg
     if (debug)
-      ps.g().V().hasLabel("page")
+      pdfSystem.g().V().hasLabel("page")
           .has("text", RegexPredicate.regex(".*George Gregg.*")).in("pages")
           .dedup().forEachRemaining(
               pdf -> System.out.println(pdf.property("name").value()));
-    List<Object> rfcs = ps.g().V().hasLabel("page")
+    List<Object> rfcs = pdfSystem.g().V().hasLabel("page")
         .has("text", RegexPredicate.regex(".*George Gregg.*")).in("pages")
         .dedup().values("name").toList();
     assertEquals(1, rfcs.size());
     assertEquals("rfc21.pdf", rfcs.get(0));
+    Map<String, List<String>> index = this.getIndex(pdfSystem, "George Gregg");
+    assertNotNull(index);
+    assertEquals(index.size(), 1);
+    List<String> fileNameList = index.get("George Gregg");
+    assertEquals(1, fileNameList.size());
+  }
+
+  @Test
+  /**
+   * test for https://github.com/BITPlan/com.bitplan.simplegraph/issues/12
+   */
+  public void testPDFIndexing() throws Exception {
+    FileSystem fs = getFileSystem(RFC_DIRECTORY);
+    int limit = Integer.MAX_VALUE;
+    PdfSystem pdfSystem = getPdfSystemForFileSystem(fs, limit);
+    Map<String, List<String>> index = this.getIndex(pdfSystem, "ARPA",
+        "proposal", "plan");
+    // debug=true;
+    if (debug) {
+      for (Entry<String, List<String>> indexEntry : index.entrySet()) {
+        List<String> fileNameList = indexEntry.getValue();
+        System.out.println(String.format("%15s=%3d %s", indexEntry.getKey(),
+            fileNameList.size(), fileNameList));
+      }
+    }
+    assertEquals(14,index.get("ARPA").size());
+    assertEquals(9,index.get("plan").size());
+    assertEquals(8,index.get("proposal").size());
+       
   }
 
 }

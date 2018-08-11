@@ -96,7 +96,7 @@ EOF
 #
 # loop over all modules
 #
-for module in bundle core excel filesystem github html java json mail map mediawiki pdf powerpoint snmp sql smw triplestore wikidata word xml    
+for module in bundle caldav carddav core excel filesystem github html java json mail map mediawiki pdf powerpoint snmp sql smw triplestore wikidata word xml    
 do 
   moduleName=simplegraph-$module
   package=com.bitplan.$module
