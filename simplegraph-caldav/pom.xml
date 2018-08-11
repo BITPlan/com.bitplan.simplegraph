@@ -1,21 +1,38 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" >
-  <modelVersion>4.0.0</modelVersion>
-  
-  <name>SimpleGraph com.bitplan.simplegraph.caldav</name>
-  <description>com.bitplan.simplegraph.caldav submodule of com.bitplan.simplegraph</description>
-  
-  <parent>
-    <groupId>com.bitplan.simplegraph</groupId>
-    <artifactId>com.bitplan.simplegraph</artifactId>
-    <version>0.0.2</version>
-  </parent>
-  <artifactId>com.bitplan.simplegraph.caldav</artifactId>
-  <packaging>jar</packaging>
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>com.bitplan.simplegraph-core</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>SimpleGraph com.bitplan.simplegraph.caldav</name>
+	<description>com.bitplan.simplegraph.caldav submodule of com.bitplan.simplegraph</description>
+
+	<parent>
+		<groupId>com.bitplan.simplegraph</groupId>
+		<artifactId>com.bitplan.simplegraph</artifactId>
+		<version>0.0.2</version>
+	</parent>
+	<artifactId>com.bitplan.simplegraph.caldav</artifactId>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- we are not interested in caldav functionality yet https://mvnrepository.com/artifact/com.github.caldav4j/caldav4j 
+			<dependency> <groupId>com.github.caldav4j</groupId> <artifactId>caldav4j</artifactId> 
+			<version>0.9.1</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.mnode.ical4j/ical4j -->
+		<dependency>
+			<groupId>org.mnode.ical4j</groupId>
+			<artifactId>ical4j</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.cache/cache-api -->
+		<dependency>
+			<groupId>javax.cache</groupId>
+			<artifactId>cache-api</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+	</dependencies>
 </project>
