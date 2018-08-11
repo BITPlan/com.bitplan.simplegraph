@@ -170,7 +170,15 @@ public class TestPDFFiles {
     PdfSystem pdfSystem = getPdfSystemForFileSystem(fs, limit);
     Map<String, List<String>> index = this.getIndex(pdfSystem, "ARPA",
         "proposal", "plan");
-    // debug=true;
+    debug=true;
+    showIndex(index,debug);
+    assertEquals(14,index.get("ARPA").size());
+    assertEquals(9,index.get("plan").size());
+    assertEquals(8,index.get("proposal").size());
+       
+  }
+
+  static void showIndex(Map<String, List<String>> index, boolean debug) {
     if (debug) {
       for (Entry<String, List<String>> indexEntry : index.entrySet()) {
         List<String> fileNameList = indexEntry.getValue();
@@ -178,10 +186,7 @@ public class TestPDFFiles {
             fileNameList.size(), fileNameList));
       }
     }
-    assertEquals(14,index.get("ARPA").size());
-    assertEquals(9,index.get("plan").size());
-    assertEquals(8,index.get("proposal").size());
-       
+    
   }
 
 }
