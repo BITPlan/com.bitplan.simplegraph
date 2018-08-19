@@ -59,8 +59,6 @@ public class TestGitHubSystem {
     }
     return ghs.js.g();
   }
-  
- 
 
   @Test
   public void testGitHubSystem() throws Exception {
@@ -77,6 +75,20 @@ public class TestGitHubSystem {
     long fieldCount = ghs.js.getStartNode().g().V().hasLabel("fields").count()
         .next().longValue();
     assertEquals(1642, fieldCount);
+  }
+
+  /**
+   * get the login of the viewer
+   * @return the github username
+   * @throws Exception
+   */
+  protected String getViewerLogin() throws Exception {
+    String query = "query { viewer { login } }";
+    GraphTraversalSource g = doquery(query);
+    List<Object> logins = g.V().hasLabel("viewer").values("login").toList();
+    if (logins.size() == 1)
+      return (String) logins.get(0);
+    return null;
   }
 
   @Test
@@ -112,65 +124,56 @@ public class TestGitHubSystem {
     GraphTraversalSource g = doquery(query);
     long issueCount = g.V().hasLabel("node").count().next().longValue();
     assertEquals(20, issueCount);
-    Holder<Integer> countIssuesWithNoUrl=new Holder<Integer>(0);
+    Holder<Integer> countIssuesWithNoUrl = new Holder<Integer>(0);
     g.V().hasLabel("node").forEachRemaining(node -> {
       if (node.property("url").isPresent()) {
         assertTrue(node.property("url").value().toString()
             .startsWith("https://github.com/octocat/Hello-World/issues/"));
       } else {
-        countIssuesWithNoUrl.setValue(countIssuesWithNoUrl.getFirstValue()+1);
+        countIssuesWithNoUrl.setValue(countIssuesWithNoUrl.getFirstValue() + 1);
         if (debug)
           Stream.of(node).forEach(SimpleNode.printDebug);
       }
     });
-    assertEquals(0,countIssuesWithNoUrl.getFirstValue().intValue());
+    assertEquals(0, countIssuesWithNoUrl.getFirstValue().intValue());
   }
-  
+
   @Test
-  public void testVariables() throws Exception {
+  public void testRepositories() throws Exception {
     if (!GitHubSystem.hasAuthentication())
       return;
-    String query="query($number_of_repos:Int!) {\n" + 
-        "  viewer {\n" + 
+    String login=this.getViewerLogin();
+    String query = "query {\n" + 
+        "  repository(owner: \"facebook\", name: \"react\") {\n" + 
         "    name\n" + 
-        "     repositories(last: $number_of_repos) {\n" + 
-        "       nodes {\n" + 
-        "         name\n" + 
-        "       }\n" + 
-        "     }\n" + 
-        "   }\n" + 
-        "}";
-    debug=true;
+        "    nameWithOwner\n" + 
+        "    description\n" + 
+        "    createdAt\n" + 
+        "    updatedAt\n" + 
+        "    isFork\n" + 
+        "  }\n" + 
+        "}\n";
+    System.out.println(query);
+    debug = true;
     GraphTraversalSource g = doquery(query);
   }
-  
+
   @Test
   public void testMutation() throws Exception {
     if (!GitHubSystem.hasAuthentication())
       return;
-    String query="query FindIssueID {\n" + 
-        "  repository(owner:\"octocat\", name:\"Hello-World\") {\n" + 
-        "    issue(number:349) {\n" + 
-        "      id\n" + 
-        "    }\n" + 
-        "  }\n" + 
-        "}";
-    debug=true;
+    String query = "query FindIssueID {\n"
+        + "  repository(owner:\"octocat\", name:\"Hello-World\") {\n"
+        + "    issue(number:349) {\n" + "      id\n" + "    }\n" + "  }\n"
+        + "}";
+    debug = true;
     GraphTraversalSource g = doquery(query);
-    String id=g.V().hasLabel("issue").values("id").next().toString();
-    assertEquals(id,"MDU6SXNzdWUyMzEzOTE1NTE=");
-    String mutation="{\n" + 
-        "  \"data\": {\n" + 
-        "    \"addReaction\": {\n" + 
-        "      \"reaction\": {\n" + 
-        "        \"content\": \"HOORAY\"\n" + 
-        "      },\n" + 
-        "      \"subject\": {\n" + 
-        "        \"id\": \""+id+"\"\n" + 
-        "      }\n" + 
-        "    }\n" + 
-        "  }\n" + 
-        "}";
+    String id = g.V().hasLabel("issue").values("id").next().toString();
+    assertEquals(id, "MDU6SXNzdWUyMzEzOTE1NTE=");
+    String mutation = "{\n" + "  \"data\": {\n" + "    \"addReaction\": {\n"
+        + "      \"reaction\": {\n" + "        \"content\": \"HOORAY\"\n"
+        + "      },\n" + "      \"subject\": {\n" + "        \"id\": \"" + id
+        + "\"\n" + "      }\n" + "    }\n" + "  }\n" + "}";
     g = doquery(mutation);
   }
 
