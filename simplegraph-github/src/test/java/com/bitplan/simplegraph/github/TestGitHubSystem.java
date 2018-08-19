@@ -76,7 +76,7 @@ public class TestGitHubSystem {
     }
     long fieldCount = ghs.js.getStartNode().g().V().hasLabel("fields").count()
         .next().longValue();
-    assertEquals(1595, fieldCount);
+    assertEquals(1642, fieldCount);
   }
 
   @Test
@@ -111,7 +111,7 @@ public class TestGitHubSystem {
     // debug=true;
     GraphTraversalSource g = doquery(query);
     long issueCount = g.V().hasLabel("node").count().next().longValue();
-    assertEquals(21, issueCount);
+    assertEquals(20, issueCount);
     Holder<Integer> countIssuesWithNoUrl=new Holder<Integer>(0);
     g.V().hasLabel("node").forEachRemaining(node -> {
       if (node.property("url").isPresent()) {
