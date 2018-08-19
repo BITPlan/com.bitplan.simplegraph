@@ -33,6 +33,8 @@ import org.junit.Test;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.Holder;
 
+import javafx.scene.Node;
+
 /**
  * test the GitHub System
  * 
@@ -79,6 +81,7 @@ public class TestGitHubSystem {
 
   /**
    * get the login of the viewer
+   * 
    * @return the github username
    * @throws Exception
    */
@@ -142,20 +145,26 @@ public class TestGitHubSystem {
   public void testRepositories() throws Exception {
     if (!GitHubSystem.hasAuthentication())
       return;
-    String login=this.getViewerLogin();
-    String query = "query {\n" + 
-        "  repository(owner: \"facebook\", name: \"react\") {\n" + 
-        "    name\n" + 
-        "    nameWithOwner\n" + 
-        "    description\n" + 
-        "    createdAt\n" + 
-        "    updatedAt\n" + 
-        "    isFork\n" + 
-        "  }\n" + 
-        "}\n";
+    String login = this.getViewerLogin();
+
+    // tested in https://developer.github.com/v4/explorer/
+    String query = "query  {\n" + "  user(login: \"" + login + "\") {\n"
+        + "    repositories (first:100) {\n" + "      nodes {\n"
+        + "        nameWithOwner\n" + "        name\n" + "        url\n"
+        + "        owner {\n" + "          id\n" + "        }\n"
+        + "        createdAt\n" + "        description\n" + "        isFork\n"
+        + "      }\n" + "    }\n" + "  }\n" + " }";
+    /*
+     * String query = "query {\n" + "  user(login:\""+login+"\"){\n" +
+     * "    repositories(first:100){\n" + "      name\n" + "    }\n" + "  }\n" +
+     * "}\n";
+     */
     System.out.println(query);
     debug = true;
     GraphTraversalSource g = doquery(query);
+    g.V().has("nodes.isFork", "false").forEachRemaining(
+        node -> Stream.of(node).forEach(SimpleNode.printDebug));
+
   }
 
   @Test
