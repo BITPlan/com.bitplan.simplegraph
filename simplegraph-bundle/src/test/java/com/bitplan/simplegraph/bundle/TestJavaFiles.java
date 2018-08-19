@@ -64,7 +64,7 @@ public class TestJavaFiles {
           SimpleNode javaSrcNode=js.moveTo(javaFile.property("path").value().toString());
         });
     // js.g().V().hasLabel("MethodDeclaration").forEachRemaining(SimpleNode.printDebug);
-    assertEquals(18,js.g().V().hasLabel("MethodDeclaration").has("name", "connect").count().next().longValue());
+    assertEquals(20,js.g().V().hasLabel("MethodDeclaration").has("name", "connect").count().next().longValue());
     // debug = true;
     js.g().V().hasLabel("MethodDeclaration").has("name", "connect")
         .forEachRemaining(jnode -> {

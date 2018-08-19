@@ -94,7 +94,7 @@
                         "Code"
                     ],
                     "Description": [
-                        "Holds technical, pre-formatted texts (similar to type Text)"
+                        "Holds technical, pre-formatted texts (similar to datatype Text)"
                     ],
                     "Provided_by": [
                         "Semantic MediaWiki"
@@ -169,13 +169,13 @@
                 "exists": "1",
                 "displaytitle": "Help:Datatype \"External identifier\""
             },
-            "Help:Type Geographic coordinate": {
+            "Help:Type Geographic coordinates": {
                 "printouts": {
                     "typeid": [
                         "_geo"
                     ],
                     "Datatype": [
-                        "Geographic coordinate"
+                        "Geographic coordinates"
                     ],
                     "Description": [
                         "Holds coordinates describing geographic locations"
@@ -184,11 +184,11 @@
                         "Maps (Semantic Maps)"
                     ]
                 },
-                "fulltext": "Help:Type Geographic coordinate",
-                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Geographic_coordinate",
+                "fulltext": "Help:Type Geographic coordinates",
+                "fullurl": "https://www.semantic-mediawiki.org/wiki/Help:Type_Geographic_coordinates",
                 "namespace": 12,
                 "exists": "1",
-                "displaytitle": "Help:Datatype \"Geographic coordinate\""
+                "displaytitle": "Help:Datatype \"Geographic coordinates\""
             },
             "Help:Type Monolingual text": {
                 "printouts": {
@@ -404,11 +404,11 @@
         "serializer": "SMW\\Serializers\\QueryResultSerializer",
         "version": 2,
         "meta": {
-            "hash": "921f1141ea179fd92c42b3dbdcddf51a",
+            "hash": "0671ee96d4eccbbe47e2b55d34a3ca19",
             "count": 17,
             "offset": 0,
             "source": "",
-            "time": "0.038895"
+            "time": "0.067011"
         }
     }
 }

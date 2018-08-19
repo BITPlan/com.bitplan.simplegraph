@@ -123,7 +123,7 @@ public class TestGitHubSystem {
           Stream.of(node).forEach(SimpleNode.printDebug);
       }
     });
-    assertEquals(1,countIssuesWithNoUrl.getFirstValue().intValue());
+    assertEquals(0,countIssuesWithNoUrl.getFirstValue().intValue());
   }
   
   @Test
