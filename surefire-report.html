@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>SimpleGraph MediaWiki &#x2013; Surefire Report</title>
+    <title>SimpleGraph Semantic MediaWiki &#x2013; Surefire Report</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -16,7 +16,7 @@
   <body class="composite">
     <div id="banner">
 <div id="bannerLeft">
-SimpleGraph MediaWiki
+SimpleGraph Semantic MediaWiki
 </div>
       <div class="clear">
         <hr/>
@@ -27,7 +27,7 @@ SimpleGraph MediaWiki
         <span id="publishDate">Last Published: 2018-08-23</span>
           &nbsp;| <span id="projectVersion">Version: 0.0.2</span>
       </div>
-      <div class="xright"><a href="./" title="SimpleGraph MediaWiki">SimpleGraph MediaWiki</a>      </div>
+      <div class="xright"><a href="./" title="SimpleGraph Semantic MediaWiki">SimpleGraph Semantic MediaWiki</a>      </div>
       <div class="clear">
         <hr/>
       </div>
@@ -91,12 +91,12 @@ function toggleDisplay(elementId) {
 <th>Success Rate</th>
 <th>Time</th></tr>
 <tr class="b">
-<td>3</td>
+<td>11</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>100%</td>
-<td>3.28</td></tr></table><br />
+<td>10.399</td></tr></table><br />
 <p>Note: failures are anticipated and checked for with assertions while errors are unanticipated.</p><br /></div>
 <div class="section">
 <h2><a name="Package_List"></a>Package List</h2><a name="Package_List"></a>
@@ -111,16 +111,16 @@ function toggleDisplay(elementId) {
 <th>Success Rate</th>
 <th>Time</th></tr>
 <tr class="b">
-<td><a href="#com.bitplan.simplegraph.mediawiki">com.bitplan.simplegraph.mediawiki</a></td>
-<td>3</td>
+<td><a href="#com.bitplan.simplegraph.smw">com.bitplan.simplegraph.smw</a></td>
+<td>11</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>100%</td>
-<td>3.28</td></tr></table><br />
+<td>10.399</td></tr></table><br />
 <p>Note: package statistics are not computed recursively, they only sum up all of its testsuites numbers.</p>
 <div class="section">
-<h3><a name="com.bitplan.simplegraph.mediawiki"></a>com.bitplan.simplegraph.mediawiki</h3><a name="com.bitplan.simplegraph.mediawiki"></a>
+<h3><a name="com.bitplan.simplegraph.smw"></a>com.bitplan.simplegraph.smw</h3><a name="com.bitplan.simplegraph.smw"></a>
 <table border="1" class="bodyTable">
 <tr class="a">
 <th></th>
@@ -132,32 +132,64 @@ function toggleDisplay(elementId) {
 <th>Success Rate</th>
 <th>Time</th></tr>
 <tr class="b">
-<td><a href="#com.bitplan.simplegraph.mediawiki.TestMediaWikiSystem"><img src="images/icon_success_sml.gif" alt="" /></a></td>
-<td><a href="#com.bitplan.simplegraph.mediawiki.TestMediaWikiSystem">TestMediaWikiSystem</a></td>
-<td>3</td>
+<td><a href="#com.bitplan.simplegraph.smw.TestSmwSystem"><img src="images/icon_success_sml.gif" alt="" /></a></td>
+<td><a href="#com.bitplan.simplegraph.smw.TestSmwSystem">TestSmwSystem</a></td>
+<td>11</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>100%</td>
-<td>3.28</td></tr></table></div><br /></div>
+<td>10.399</td></tr></table></div><br /></div>
 <div class="section">
 <h2><a name="Test_Cases"></a>Test Cases</h2><a name="Test_Cases"></a>
 <p>[<a href="#Summary">Summary</a>] [<a href="#Package_List">Package List</a>] [<a href="#Test_Cases">Test Cases</a>]</p>
 <div class="section">
-<h3><a name="TestMediaWikiSystem"></a>TestMediaWikiSystem</h3><a name="com.bitplan.simplegraph.mediawiki.TestMediaWikiSystem"></a>
+<h3><a name="TestSmwSystem"></a>TestSmwSystem</h3><a name="com.bitplan.simplegraph.smw.TestSmwSystem"></a>
 <table border="1" class="bodyTable">
 <tr class="a">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
-<td><a name="TC_com.bitplan.simplegraph.mediawiki.TestMediaWikiSystem.testGetPage"></a>testGetPage</td>
-<td>2.26</td></tr>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testBrowseToMap"></a>testBrowseToMap</td>
+<td>2.316</td></tr>
 <tr class="b">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
-<td><a name="TC_com.bitplan.simplegraph.mediawiki.TestMediaWikiSystem.testGetImageInfo"></a>testGetImageInfo</td>
-<td>1.02</td></tr>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testAsk"></a>testAsk</td>
+<td>0.491</td></tr>
 <tr class="a">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
-<td><a name="TC_com.bitplan.simplegraph.mediawiki.TestMediaWikiSystem.testThumbImageUrl"></a>testThumbImageUrl</td>
-<td>0</td></tr></table></div><br /></div>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testPage"></a>testPage</td>
+<td>0.344</td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testTimeFormat"></a>testTimeFormat</td>
+<td>0.001</td></tr>
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testGeoConversion"></a>testGeoConversion</td>
+<td>0.005</td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testDataTypes"></a>testDataTypes</td>
+<td>0.464</td></tr>
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testDataTypeAsConcept"></a>testDataTypeAsConcept</td>
+<td>0.472</td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testFixAsk"></a>testFixAsk</td>
+<td>0.001</td></tr>
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testPageQuery"></a>testPageQuery</td>
+<td>2.458</td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testSimpleGraphModules"></a>testSimpleGraphModules</td>
+<td>3.514</td></tr>
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><a name="TC_com.bitplan.simplegraph.smw.TestSmwSystem.testBrowseBySubject"></a>testBrowseBySubject</td>
+<td>0.333</td></tr></table></div><br /></div>
       </div>
     </div>
     <div class="clear">
