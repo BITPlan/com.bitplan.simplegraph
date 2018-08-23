@@ -58,29 +58,6 @@
 		<module>simplegraph-powerpoint</module> 
 		<module>simplegraph-bundle</module>
 	</modules>
-	<licenses>
-		<license>
-			<name>Apache 2.0 license</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
-		</license>
-	</licenses>
-	<scm>
-		<connection>scm:git:git://github.com/BITPlan/com.bitplan.simplegraph.git</connection>
-		<developerConnection>scm:git:git@github.com:BITPlan/com.bitplan.simplegraph.git</developerConnection>
-		<url>https://github.com/BITPlan/com.bitplan.simplegraph</url>
-	</scm>
-	<issueManagement>
-		<url>https://github.com/BITPlan/com.bitplan.simplegraph/issues</url>
-		<system>GitHub</system>
-	</issueManagement>
-	<developers>
-		<developer>
-			<id>wf</id>
-			<name>Wolfgang Fahl</name>
-			<organization>BITPlan GmbH</organization>
-			<organizationUrl>http://www.bitplan.com</organizationUrl>
-		</developer>
-	</developers>
 	<dependencies>
 		<!-- JUnit testing -->
 		<dependency>
@@ -119,48 +96,12 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<!-- sure-fire (test) plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.18.1</version>
-				<configuration>
-					<excludes>
-						<!-- JUnit4 TestSuites -->
-						<exclude>**/TestSuite.java</exclude>
-						<exclude>**/TestDebug.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<!-- License header handling -->
-			<plugin>
-				<!-- http://code.mycila.com/license-maven-plugin/ -->
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<version>1.9.0</version>
-				<configuration>
-					<header>src/etc/header.txt</header>
-					<includes>
-						<include>src/**/*.java</include>
-					</includes>
-					<strictCheck>true</strictCheck>
-				</configuration>
-			</plugin>
 			<!-- potentially share test jars -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.0.2</version>
+				<version>${maven-jar-plugin.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -191,12 +132,5 @@
 				<version>4.3.0</version>
 			</plugin>
 		</plugins>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh</artifactId>
-				<version>2.10</version>
-			</extension>
-		</extensions>
 	</build>
 </project>
