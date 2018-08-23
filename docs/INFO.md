@@ -1,34 +1,3 @@
-### com.bitplan.simplegraph
-[Wrapper for Apache TinkerPop](http://www.bitplan.com/index.php/SimpleGraph) 
-
-[![Travis (.org)](https://img.shields.io/travis/BITPlan/com.bitplan.simplegraph.svg)](https://travis-ci.org/BITPlan/com.bitplan.simplegraph)
-[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.simplegraph/com.bitplan.simplegraph.svg)](https://search.maven.org/artifact/com.bitplan.simplegraph/com.bitplan.simplegraph/0.0.2/jar)
-[![GitHub issues](https://img.shields.io/github/issues/BITPlan/com.bitplan.simplegraph.svg)](https://github.com/BITPlan/com.bitplan.simplegraph/issues)
-[![GitHub issues](https://img.shields.io/github/issues-closed/BITPlan/com.bitplan.simplegraph.svg)](https://github.com/BITPlan/com.bitplan.simplegraph/issues/?q=is%3Aissue+is%3Aclosed)
-[![GitHub](https://img.shields.io/github/license/BITPlan/com.bitplan.simplegraph.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![BITPlan](http://wiki.bitplan.com/images/wiki/thumb/3/38/BITPlanLogoFontLessTransparent.png/198px-BITPlanLogoFontLessTransparent.png)](http://www.bitplan.com)
-
-### Documentation
-* [Wiki](http://www.bitplan.com/index.php/SimpleGraph)
-### Maven dependency
-
-Maven dependency
-```xml
-<dependency>
-  <groupId>com.bitplan.simplegraph</groupId>
-  <artifactId>com.bitplan.simplegraph</artifactId>
-  <version>0.0.2</version>
-</dependency>
-```
-
-[Current release at repo1.maven.org](http://repo1.maven.org/maven2/com/bitplan/simplegraph/com.bitplan.simplegraph/0.0.2/)
-
-### How to build
-```
-git clone https://github.com/BITPlan/com.bitplan.simplegraph
-cd com.bitplan.simplegraph
-mvn install
-```
 # Coverage
 [![Coverage Status](https://coveralls.io/repos/github/BITPlan/com.bitplan.simplegraph/badge.svg?branch=master)](https://coveralls.io/github/BITPlan/com.bitplan.simplegraph?branch=master)
 
@@ -61,10 +30,3 @@ mvn install
 
 # Links
 * https://stackoverflow.com/questions/48213256/gremlin-interface-for-filesystem
-# History
-* 2018-01-11 initial showcase FileSystem
-* 2018-01-14 adds Powerpoint and SiDIF-TripleStore access
-* 2018-01-15 adds WikiData access
-* 2018-02-19 adds Excel,HTML,JSON,MapSystem,MediaWiki,PDF,SMW,SQL and Word
-* 2018-03-04 adds SNMP, Java and XML
-* 2018-03-09 adds GitHub

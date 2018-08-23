@@ -1,0 +1,7 @@
+# History
+* 2018-01-11 initial showcase FileSystem
+* 2018-01-14 adds Powerpoint and SiDIF-TripleStore access
+* 2018-01-15 adds WikiData access
+* 2018-02-19 adds Excel,HTML,JSON,MapSystem,MediaWiki,PDF,SMW,SQL and Word
+* 2018-03-04 adds SNMP, Java and XML
+* 2018-03-09 adds GitHub

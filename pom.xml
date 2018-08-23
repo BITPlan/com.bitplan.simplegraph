@@ -1,24 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+		<parent>
+		<groupId>com.bitplan.pom</groupId>
+		<artifactId>com.bitplan.pom</artifactId>
+		<version>0.0.9</version>
+		<relativePath>../com.bitplan.pom/pom.xml</relativePath>
+	</parent>
 	<groupId>com.bitplan.simplegraph</groupId>
 	<artifactId>com.bitplan.simplegraph</artifactId>
 	<version>0.0.2</version>
 	<name>SimpleGraph</name>
 	<description>Wrapper for Apache TinkerPop</description>
 	<properties>
-		<!-- JUnit unit testing framework -->
-		<junit4.version>4.12</junit4.version>
-		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
-		<maven-site-plugin.version>3.6</maven-site-plugin.version>
-		<!-- http://stackoverflow.com/questions/3017695/how-to-configure-encoding-in-maven -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<!-- github server corresponds to entry in ~/.m2/settings.xml -->
-		<github.global.server>github</github.global.server>
+		<!-- to make parent pom work -->
+		<github.project>com.bitplan.simplegraph</github.project>
+		<!-- for README.md generation -->
+		<documentation.wiki>http://www.bitplan.com/index.php/SimpleGraph</documentation.wiki>
 		<tinkerpop.version>3.3.1</tinkerpop.version>
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io/2.6  -->
-		<commons.io.version>2.6</commons.io.version>
 		<!-- Rythm Template Engine -->
 		<rythm.version>1.1.7</rythm.version>
 		<!-- Java Code Coverage version -->
