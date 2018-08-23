@@ -10,6 +10,9 @@
 
 ### Documentation
 * [Wiki](http://www.bitplan.com/index.php/SimpleGraph)
+* [com.bitplan.simplegraph Project pages](https://BITPlan.github.io/com.bitplan.simplegraph)
+* [Javadoc](https://BITPlan.github.io/com.bitplan.simplegraph/apidocs/index.html)
+* [Test-Report](https://BITPlan.github.io/com.bitplan.simplegraph/surefire-report.html)
 ### Maven dependency
 
 Maven dependency
