@@ -29,4 +29,6 @@
 * https://groups.google.com/forum/#!forum/simplegraph
 
 # Links
-* https://stackoverflow.com/questions/48213256/gremlin-interface-for-filesystem
+
+* [![Stackoverflow](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Stack_Overflow_logo.svg/150px-Stack_Overflow_logo.svg.png)](https://stackoverflow.com/questions/tagged/simplegraph)
+
