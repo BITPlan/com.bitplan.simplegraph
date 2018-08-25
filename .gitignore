@@ -1,5 +1,10 @@
 # Compiled class file
 *.class
+# do  not check in test results
+./simplegraph-excel/modern.xlsx
+./simplegraph-excel/air-routes.xlsx
+./simplegraph-bundle/modern.xlsx
+./simplegraph-bundle/air-routes.xlsx
 
 # Log file
 *.log
