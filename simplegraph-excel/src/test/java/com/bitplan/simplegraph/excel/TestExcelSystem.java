@@ -28,12 +28,12 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Graph;
-import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.junit.Test;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.TestTinkerPop3;
@@ -44,13 +44,14 @@ import com.bitplan.simplegraph.core.TestTinkerPop3;
  * @author wf
  *
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestExcelSystem {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger
       .getLogger("com.bitplan.simplegraph.excel");
 
   String testAirRouteFileName = "../simplegraph-excel/air-routes.xlsx";
-  String testModernFileName="../simplegraph-excel/modern.xlsx";
+  String testModernFileName = "../simplegraph-excel/modern.xlsx";
 
   @Test
   public void testCreateExcelAirRoutes() throws Exception {
@@ -62,7 +63,7 @@ public class TestExcelSystem {
     assertEquals(6, wb.getNumberOfSheets());
     es.save(wb, testAirRouteFileName);
   }
-  
+
   @Test
   public void testCreateExcelModern() throws Exception {
     ExcelSystem es = new ExcelSystem();
@@ -80,15 +81,17 @@ public class TestExcelSystem {
     es.connect();
     File testFile = new File(testModernFileName);
     es.moveTo(testFile.toURI().toString());
-    debug=true;
+    debug = true;
     if (debug)
       es.forAll(SimpleNode.printDebug);
     long nodeCount = es.g().V().count().next().longValue();
-    assertEquals(17,nodeCount);
-    List<Map<String, Object>> sheetMapList = es.g().V().has("sheetname").valueMap("sheetname").toList();
-    assertEquals(4,sheetMapList.size()); 
-    assertEquals(12,es.g().V().has("row").count().next().longValue());
-    assertEquals(4,es.g().V().has("row").out("sheet").dedup().count().next().longValue());
+    assertEquals(17, nodeCount);
+    List<Map<String, Object>> sheetMapList = es.g().V().has("sheetname")
+        .valueMap("sheetname").toList();
+    assertEquals(4, sheetMapList.size());
+    assertEquals(12, es.g().V().has("row").count().next().longValue());
+    assertEquals(4,
+        es.g().V().has("row").out("sheet").dedup().count().next().longValue());
   }
 
 }
