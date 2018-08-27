@@ -338,7 +338,7 @@ public class TestSmwSystem {
         + "@(prop(mA,\"name\")) ->@(prop(mB,\"name\"))\n" + "}\n" + "}\n"
         + "}\n" + "@(\"}\")\n" + "</graphviz>\n";
     String graphVizCode = rythmContext.render(template, rootMap);
-    // debug = true;
+    debug = true;
     if (debug) {
       System.out.println(graphVizCode);
 

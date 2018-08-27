@@ -20,6 +20,11 @@
  */
 package com.bitplan.simplegraph.geojson;
 
+/**
+ * test the GeoJsonSystem
+ * @author wf
+ *
+ */
 public class TestGeoJsonSystem {
 
 }
