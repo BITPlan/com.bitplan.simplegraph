@@ -1,0 +1,28 @@
+#!/bin/bash
+# WF 2018-08-27
+
+usage() {
+  echo "$0 version" 1>&2
+  exit 1
+}
+
+if [ $# -lt 1 ]
+then
+  usage
+fi
+newversion=$1
+for d in $(find . -name "simplegraph*" -type d -maxdepth 1)
+do
+  version=$(cat $d/pom.xml | xml2 | grep /project/parent/version | cut -f2 -d'=')
+  module=$(echo $d | cut -c3-)
+  echo "$module $version -> $newversion"
+  if [ "$version" != "$newversion" ]
+  then
+    xmlstarlet ed -u  "//_:project/_:parent/_:version" -v $newversion $d/pom.xml   > /tmp/${module}_pom.xml
+    # http://xmlstar.sourceforge.net/doc/UG/ch04s05.html
+    xmlstarlet fo --indent-tab /tmp/${module}_pom.xml | grep -v "<?xml" > /tmp/${module}_pom_formatted.xml
+    #diff /tmp/${module}_pom_formatted.xml $d/pom.xml
+    mv /tmp/${module}_pom_formatted.xml $d/pom.xml
+  fi
+  
+done
