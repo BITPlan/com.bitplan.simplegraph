@@ -39,6 +39,8 @@
 	<url>https://github.com/BITPlan/com.bitplan.simplegraph</url>
 	<modules>
 		<module>simplegraph-core</module>
+		<module>simplegraph-caldav</module>
+		<module>simplegraph-carddav</module>
 		<module>simplegraph-filesystem</module>
 		<module>simplegraph-geojson</module>
 		<module>simplegraph-github</module>
