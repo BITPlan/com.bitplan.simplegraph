@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.bitplan.simplegraph</groupId>
 	<artifactId>com.bitplan.simplegraph</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>SimpleGraph</name>
 	<description>Wrapper for Apache TinkerPop</description>
 	<properties>
@@ -40,10 +40,12 @@
 	<modules>
 		<module>simplegraph-core</module>
 		<module>simplegraph-filesystem</module>
+		<module>simplegraph-geojson</module>
 		<module>simplegraph-github</module>
 		<module>simplegraph-html</module>
 		<module>simplegraph-java</module>
 		<module>simplegraph-json</module>
+		<module>simplegraph-mail</module>
 		<module>simplegraph-map</module>
 		<module>simplegraph-mediawiki</module>
 		<module>simplegraph-smw</module>

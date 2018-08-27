@@ -1,23 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" >
-  <modelVersion>4.0.0</modelVersion>
-  
-  <name>SimpleGraph Word</name>
-  <description>com.bitplan.simplegraph.word submodule of com.bitplan.simplegraph</description>
-  
-  <parent>
-    <groupId>com.bitplan.simplegraph</groupId>
-    <artifactId>com.bitplan.simplegraph</artifactId>
-    <version>0.0.2</version>
-  </parent>
-  <artifactId>com.bitplan.simplegraph.word</artifactId>
-  <packaging>jar</packaging>
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>com.bitplan.simplegraph-core</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>SimpleGraph Word</name>
+	<description>com.bitplan.simplegraph.word submodule of com.bitplan.simplegraph</description>
+
+	<parent>
+		<groupId>com.bitplan.simplegraph</groupId>
+		<artifactId>com.bitplan.simplegraph</artifactId>
+		<version>0.0.3</version>
+	</parent>
+	<artifactId>com.bitplan.simplegraph.word</artifactId>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.bitplan.simplegraph-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -34,5 +36,5 @@
 			<artifactId>poi-scratchpad</artifactId>
 			<version>${apache-poi.version}</version>
 		</dependency>
-  </dependencies>
+	</dependencies>
 </project>
