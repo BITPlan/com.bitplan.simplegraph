@@ -324,7 +324,7 @@ public class TestSmwSystem {
         + "@def WikiPage wikipage(Vertex v, String propname){\n"
         + " return (WikiPage)v.property(propname).value();\n" + "}\n"
         + "@def link(Vertex v, String propname) {\n@{ WikiPage wp=wikipage(v,propname)} URL=\"[[@(wp.fulltext)]]\"}\n"
-        + "@def image(Vertex v, String propname){\n@{ WikiPage wp=wikipage(v,propname)} image=\"@(wp.fulltext.replace(\"File:\",\"\"))\"}\n"
+        + "@def image(Vertex v, String propname){\n@{ WikiPage wp=wikipage(v,propname)} image=\"@(wp.fulltext.replace(\"File:\",\"\").replace(\".svg\",\".svg.png\"))\"}\n"
         + "@def prop(Vertex v, String propname){\n"
         + " @(v.property(propname).value().toString())\n" + "}\n"
         + "<graphviz>\n" + "digraph hubandspoke @(\"{\")\n"
@@ -332,7 +332,7 @@ public class TestSmwSystem {
         + "node [shape=circle,\n"
         + "      fixedsize=true, # don't allow nodes to change sizes dynamically\n"
         + "      width=1]\n" + "@for (Vertex mA:moduleVs) {\n"
-        + " @(prop(mA,\"name\")) [ @link(mA,\"wikipage\") @image(mA,\"logo\") ]\n"
+        + " @(prop(mA,\"name\")) [ @link(mA,\"wikipage\") label=\"\" @image(mA,\"logo\") ]\n"
         + "}\n" + "@for (Vertex mA:moduleVs) {\n"
         + "@for (Vertex mB:moduleVs) {\n" + " @if (mA!=mB) {\n"
         + "@(prop(mA,\"name\")) ->@(prop(mB,\"name\"))\n" + "}\n" + "}\n"
@@ -343,8 +343,8 @@ public class TestSmwSystem {
       System.out.println(graphVizCode);
 
       for (Vertex moduleV : moduleVs) {
-        System.out.println(String.format("# [[%s]]",
-            ((WikiPage) (moduleV.property("logo").value())).fulltext));
+        String logo=((WikiPage) (moduleV.property("logo").value())).fulltext;
+        System.out.println(String.format("# [[%s|110px]]\n##[[%s]]",logo,logo.replace(".svg", ".svg.png")));
       }
     }
   }
