@@ -24,6 +24,11 @@ import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
+/**
+ * wraps access to VCards
+ * @author wf
+ *
+ */
 public class CarddavSystem extends SimpleSystemImpl{
 
 	/**
@@ -36,20 +41,20 @@ public class CarddavSystem extends SimpleSystemImpl{
 	
 	@Override
 	public SimpleSystem connect(String... connectionParams) throws Exception {
-		// TODO Auto-generated method stub
-	    return this;
+	  return this;
 	}
 
 	@Override
 	public SimpleNode moveTo(String nodeQuery, String... keys) {
-		// TODO Auto-generated method stub
-		return null;
+	  VCardNode vcardNode=new VCardNode(this,nodeQuery,keys);
+    if (this.getStartNode()==null)
+      this.setStartNode(vcardNode);
+		return vcardNode;
 	}
 
 	@Override
 	public Class<? extends SimpleNode> getNodeClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return VCardNode.class;
 	}
 
 }
