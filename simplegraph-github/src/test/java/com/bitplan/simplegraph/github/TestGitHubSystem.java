@@ -33,8 +33,6 @@ import org.junit.Test;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.Holder;
 
-import javafx.scene.Node;
-
 /**
  * test the GitHub System
  * 
@@ -76,7 +74,8 @@ public class TestGitHubSystem {
     }
     long fieldCount = ghs.js.getStartNode().g().V().hasLabel("fields").count()
         .next().longValue();
-    assertEquals(1642, fieldCount);
+    // as of 2018-08-31
+    assertTrue(fieldCount>=1644);
   }
 
   /**

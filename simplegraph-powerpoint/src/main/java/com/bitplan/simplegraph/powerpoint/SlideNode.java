@@ -53,7 +53,7 @@ import org.apache.poi.xslf.usermodel.XSLFTextShape;
 import org.openxmlformats.schemas.presentationml.x2006.main.CTSlide;
 
 import com.bitplan.simplegraph.core.SimpleGraph;
-import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
@@ -62,7 +62,7 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  * @author wf
  *
  */
-public class SlideNode extends SimpleNodeImpl implements Slide {
+public class SlideNode extends SimpleNodeImpl implements Slide, SimpleStepNode {
 
   public static String SEPARATOR = "\n";
   boolean failSafe = true;
@@ -115,18 +115,6 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
     map.put("text", getText(SEPARATOR));
     map.put("notes", getNotes(SEPARATOR));
     return map;
-  }
-
-  @Override
-  public Stream<SimpleNode> out(String edgeName) {
-    // TODO if we want to show detail e.g shapes
-    return null;
-  }
-
-  @Override
-  public Stream<SimpleNode> in(String edgeName) {
-    // TODO if we want to link back e.g. to slideshow
-    return null;
   }
 
   /**
@@ -352,6 +340,16 @@ public class SlideNode extends SimpleNodeImpl implements Slide {
   @Override
   public int getPages() {
     return (Integer) map.get("pages");
+  }
+
+  @Override
+  public Stream<SimpleStepNode> out(String edgeName) {
+    return null;
+  }
+
+  @Override
+  public Stream<SimpleStepNode> in(String edgeName) {
+    return null;
   }
 
 }

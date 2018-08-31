@@ -80,18 +80,6 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
     return map;
   }
 
-  @Override
-  public Stream<SimpleNode> out(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Stream<SimpleNode> in(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   /**
    * get the image for this page (for File: pages)
    * 

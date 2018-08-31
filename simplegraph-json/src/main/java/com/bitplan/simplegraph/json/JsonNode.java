@@ -23,10 +23,8 @@ package com.bitplan.simplegraph.json;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import com.bitplan.simplegraph.core.Keys;
-import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 import com.google.gson.JsonArray;
@@ -167,18 +165,6 @@ public class JsonNode extends SimpleNodeImpl {
       throw new IllegalArgumentException(
           "unknown JsonPrimitive kind " + jsonPrimitive.toString());
     }
-  }
-
-  @Override
-  public Stream<SimpleNode> out(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Stream<SimpleNode> in(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 }

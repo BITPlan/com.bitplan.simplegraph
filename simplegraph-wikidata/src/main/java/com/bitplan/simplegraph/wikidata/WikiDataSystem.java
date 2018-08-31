@@ -164,7 +164,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
       GraphTraversal<Vertex, Vertex> propVertex = cache.getSystem().g().V()
           .has("wikidata_id", wikidata_id);
       if (propVertex.hasNext()) {
-        node = propVertex.next().value("mysimplenode");
+        node = SimpleNode.of(propVertex.next());
       } else {
         // no cache entry
         // if the caching is non optional get the value

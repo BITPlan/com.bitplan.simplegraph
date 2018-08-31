@@ -49,6 +49,7 @@ import org.wikidata.wdtk.datamodel.interfaces.Value;
 import org.wikidata.wdtk.datamodel.json.jackson.datavalues.JacksonValueItemId;
 
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
@@ -57,7 +58,7 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  * @author wf
  *
  */
-public class WikiDataNode extends SimpleNodeImpl {
+public class WikiDataNode extends SimpleNodeImpl implements SimpleStepNode {
   private EntityDocument doc;
   /**
    * lookup maps for EntityIds
@@ -261,14 +262,14 @@ public class WikiDataNode extends SimpleNodeImpl {
    * @param itemValue
    * @return the entity Node
    */
-  public SimpleNode getEntityNode(JacksonValueItemId itemValue) {
-    SimpleNode node = this.getSystem().moveTo(itemValue.getId(),keys.getKeys());
+  public SimpleStepNode getEntityNode(JacksonValueItemId itemValue) {
+    SimpleStepNode node = (SimpleStepNode) this.getSystem().moveTo(itemValue.getId(),keys.getKeys());
     return node;
   }
 
   @Override
-  public Stream<SimpleNode> out(String edgeName) {
-    List<SimpleNode> outs = new ArrayList<SimpleNode>();
+  public Stream<SimpleStepNode> out(String edgeName) {
+    List<SimpleStepNode> outs = new ArrayList<SimpleStepNode>();
     String propertyId = edgeName;
     if (!edgeName.matches("P[0-9]+")) {
       EntityIdValue entityIdValue = this.entityIdByName.get(edgeName);
@@ -291,8 +292,7 @@ public class WikiDataNode extends SimpleNodeImpl {
   }
 
   @Override
-  public Stream<SimpleNode> in(String edgeName) {
-    // TODO Auto-generated method stub
+  public Stream<SimpleStepNode> in(String edgeName) {
     return null;
   }
   

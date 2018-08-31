@@ -30,10 +30,15 @@ import org.htmlcleaner.TagNode;
 
 import com.bitplan.simplegraph.core.Keys;
 import com.bitplan.simplegraph.core.SimpleGraph;
-import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
-public class HtmlNode extends SimpleNodeImpl {
+/**
+ * wrap HTML
+ * @author wf
+ *
+ */
+public class HtmlNode extends SimpleNodeImpl implements SimpleStepNode {
 	TagNode rootNode;
 
 	public TagNode getRootNode() {
@@ -80,9 +85,10 @@ public class HtmlNode extends SimpleNodeImpl {
 		return super.map;
 	}
 
-	@Override
-	public Stream<SimpleNode> out(String edgeName) {
-		List<SimpleNode> children=new ArrayList<SimpleNode>();
+	@SuppressWarnings("deprecation")
+  @Override
+	public Stream<SimpleStepNode> out(String edgeName) {
+		List<SimpleStepNode> children=new ArrayList<SimpleStepNode>();
 		if ("child".equals(edgeName)) {
 			rootNode.getChildren().forEach(child -> {
 				HtmlNode childNode=new HtmlNode (this,child);
@@ -94,8 +100,7 @@ public class HtmlNode extends SimpleNodeImpl {
 	}
 
 	@Override
-	public Stream<SimpleNode> in(String edgeName) {
-		// TODO Auto-generated method stub
+	public Stream<SimpleStepNode> in(String edgeName) {
 		return null;
 	}
 

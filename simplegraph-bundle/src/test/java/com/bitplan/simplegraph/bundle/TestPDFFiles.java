@@ -36,6 +36,7 @@ import org.junit.Test;
 
 import com.bitplan.gremlin.RegexPredicate;
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.filesystem.FileNode;
 import com.bitplan.simplegraph.filesystem.FileSystem;
 import com.bitplan.simplegraph.pdf.PdfSystem;
@@ -85,7 +86,7 @@ public class TestPDFFiles {
     fs.g().V().hasLabel("file").has("ext", "pdf").range(0, limit)
         .forEachRemaining(file -> {
           File pdfFile = new File(file.property("path").value().toString());
-          SimpleNode pdfNode = ps.moveTo(pdfFile);
+          SimpleStepNode pdfNode = (SimpleStepNode) ps.moveTo(pdfFile);
           pdfNode.out("pages");
           pdfNode.property("name", pdfFile.getName());
         });

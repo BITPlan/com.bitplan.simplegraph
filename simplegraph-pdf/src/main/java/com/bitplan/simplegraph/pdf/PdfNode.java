@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 
 import com.bitplan.simplegraph.core.Keys;
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
@@ -35,7 +36,7 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  * @author wf
  *
  */
-public class PdfNode extends SimpleNodeImpl {
+public class PdfNode extends SimpleNodeImpl implements SimpleStepNode {
 
   private PDF pdf;
   int pageNo;
@@ -68,11 +69,11 @@ public class PdfNode extends SimpleNodeImpl {
   }
 
   @Override
-  public Stream<SimpleNode> out(String edgeName) {
-    List<SimpleNode> pages = new ArrayList<SimpleNode>();
+  public Stream<SimpleStepNode> out(String edgeName) {
+    List<SimpleStepNode> pages = new ArrayList<SimpleStepNode>();
     if ("pages".equals(edgeName)) {
       for (int pageNo = 1; pageNo <= pdf.pages; pageNo++) {
-        SimpleNode pageNode = new PdfNode((PdfSystem) this.getSimpleGraph(),
+        SimpleStepNode pageNode = new PdfNode((PdfSystem) this.getSimpleGraph(),
             "page", pdf, pageNo);
         this.getVertex().addEdge("pages", pageNode.getVertex());
         pages.add(pageNode);
@@ -82,8 +83,7 @@ public class PdfNode extends SimpleNodeImpl {
   }
 
   @Override
-  public Stream<SimpleNode> in(String edgeName) {
-    // TODO Auto-generated method stub
+  public Stream<SimpleStepNode> in(String edgeName) {
     return null;
   }
 

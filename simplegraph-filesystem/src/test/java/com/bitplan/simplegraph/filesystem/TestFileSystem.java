@@ -33,9 +33,8 @@ import org.junit.Test;
 
 import com.bitplan.gremlin.RegexPredicate;
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
-import com.bitplan.simplegraph.filesystem.FileNode;
-import com.bitplan.simplegraph.filesystem.FileSystem;
 
 /**
  * test navigating the Filesystem with SimpleGraph approaches
@@ -47,12 +46,11 @@ public class TestFileSystem {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.filesystem");
   private static FileSystem fs;
 
- 
   @Test
   public void testFileSystemTree() throws Exception {
     SimpleSystem fs=new FileSystem();
     assertEquals("FileSystem",fs.getName());
-    assertEquals("0.0.1",fs.getVersion());
+    assertEquals("0.0.3",fs.getVersion());
     FileNode start = (FileNode) fs.connect("").moveTo("../simplegraph-filesystem/src");
     if (debug)
       start.printNameValues(System.out);
@@ -84,7 +82,7 @@ public class TestFileSystem {
     fs = new FileSystem();
     // connect to this system with no extra information (e.g. no credentials)
     // and move to the path node
-    SimpleNode start = fs.connect("").moveTo(path);
+    SimpleStepNode start = fs.connect("").moveTo(path);
     // do gremlin style out traversals recursively to the given depth
     start.recursiveOut("files", levels);
     return start;
@@ -119,7 +117,7 @@ public class TestFileSystem {
   public void testEdgeDirection() {
     // we want three directions even if we only use two a this time
     // TODO: BOTH is not covered although Coverage tells you so!
-    assertEquals(2,SimpleNode.EdgeDirection.values().length);
+    assertEquals(2,SimpleStepNode.EdgeDirection.values().length);
   }
   
   @Test
@@ -142,7 +140,7 @@ public class TestFileSystem {
   public void testRegularExpession() throws Exception {
     SimpleNode start=getFileNode("src/test/java",3);
     start.g().V().has("ext","java").has("name",RegexPredicate.regex("Test.*")).forEachRemaining(node->{
-      FileNode fileNode=(FileNode) node.property("mysimplenode").value(); 
+      FileNode fileNode=SimpleNode.of(node,FileNode.class); 
       if (debug)
         fileNode.printNameValues(System.out);
       assertTrue(fileNode.getMap().get("name").toString().startsWith("Test"));

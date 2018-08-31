@@ -43,6 +43,7 @@ import org.wikidata.wdtk.wikibaseapi.apierrors.MediaWikiApiErrorException;
 
 import com.bitplan.simplegraph.core.Keys;
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.KeysImpl;
 
 /**
@@ -54,7 +55,7 @@ import com.bitplan.simplegraph.impl.KeysImpl;
 public class TestWikiDataSystem  {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.smw");
-  static SimpleNode queenVictoria;
+  static SimpleStepNode queenVictoria;
   public static WikiDataSystem wikiDataSystem;
 
   @Test
@@ -81,7 +82,7 @@ public class TestWikiDataSystem  {
    * @return the node
    * @throws Exception
    */
-  public static SimpleNode getQueenVictoria(String... propertyKeys)
+  public static SimpleStepNode getQueenVictoria(String... propertyKeys)
       throws Exception {
     if (queenVictoria == null) {
       wikiDataSystem = new WikiDataSystem();
@@ -90,7 +91,7 @@ public class TestWikiDataSystem  {
           WikiDataSystem.PURPOSE_PROPERTY);
       wikiDataSystem.useCache(new File("QueenVictoriaWikiDataItems.xml"),
           WikiDataSystem.PURPOSE_ITEM);
-      queenVictoria = wikiDataSystem.moveTo("Q9439", propertyKeys);
+      queenVictoria = (SimpleStepNode) wikiDataSystem.moveTo("Q9439", propertyKeys);
     }
     return queenVictoria;
   }
@@ -175,7 +176,7 @@ public class TestWikiDataSystem  {
     // debug=true;
     queenVictoria = getQueenVictoria();
     // first try to navigate via Property Id P22 father
-    List<SimpleNode> fatherList = queenVictoria.out("P22")
+    List<SimpleStepNode> fatherList = queenVictoria.out("P22")
         .collect(Collectors.toCollection(ArrayList::new));
     assertEquals(1, fatherList.size());
     SimpleNode fatherNode = fatherList.get(0);
@@ -249,7 +250,7 @@ public class TestWikiDataSystem  {
     Exception foundException = null;
     try {
       wikiDataSystem.connect();
-      queenVictoria = wikiDataSystem.moveTo("Q6");
+      queenVictoria = (SimpleStepNode) wikiDataSystem.moveTo("Q6");
     } catch (Exception e) {
       foundException = e;
     }

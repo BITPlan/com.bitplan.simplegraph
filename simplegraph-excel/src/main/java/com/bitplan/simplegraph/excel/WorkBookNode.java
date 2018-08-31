@@ -62,9 +62,13 @@ public class WorkBookNode extends SimpleNodeImpl {
     this.query=nodeQuery;
     excel=new Excel(nodeQuery);
     super.setVertexFromMap();
+    // get the sheets as a tree
     init();
   }
 
+  /**
+   * initialize my nodes
+   */
   private void init() {
     List<XSSFSheet> sheets = excel.getSheets();
     for (XSSFSheet sheet:sheets) {
@@ -76,6 +80,7 @@ public class WorkBookNode extends SimpleNodeImpl {
         if (sheetContent.size()>1) {
           for (int rowIndex=1;rowIndex<sheetContent.size();rowIndex++) {
             List<Object> row = sheetContent.get(rowIndex);
+            // create a node for the row
             SimpleNode rowNode=new RowNode(this,titleRow,row,rowIndex);
             sheetNode.getVertex().addEdge("rows", rowNode.getVertex());
             rowNode.getVertex().addEdge("sheet",sheetNode.getVertex());
@@ -89,18 +94,6 @@ public class WorkBookNode extends SimpleNodeImpl {
   public Map<String, Object> initMap() {
     map.put("query", query);
     return map;
-  }
-
-  @Override
-  public Stream<SimpleNode> out(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Stream<SimpleNode> in(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 }

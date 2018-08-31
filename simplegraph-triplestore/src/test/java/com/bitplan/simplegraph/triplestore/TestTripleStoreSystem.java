@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.triplestore.TripleStoreSystem;
 
@@ -68,8 +69,8 @@ public class TestTripleStoreSystem  {
    * @param generations
    * @return the children
    */
-  public static List<SimpleNode> children(SimpleNode person, int generations) {
-    List<SimpleNode> rootChildren = new ArrayList<SimpleNode>();
+  public static List<SimpleStepNode> children(SimpleStepNode person, int generations) {
+    List<SimpleStepNode> rootChildren = new ArrayList<SimpleStepNode>();
     return children(rootChildren, person, generations);
   }
 
@@ -81,16 +82,16 @@ public class TestTripleStoreSystem  {
    * @param generations
    * @return the list of children
    */
-  public static List<SimpleNode> children(List<SimpleNode> rootChildren,
+  public static List<SimpleStepNode> children(List<SimpleStepNode> rootChildren,
       SimpleNode person, int generations) {
-    Optional<SimpleNode> oFamily = person.out("parentOf").findFirst();
+    Optional<SimpleStepNode> oFamily = ((SimpleStepNode) person).out("parentOf").findFirst();
     if (oFamily.isPresent()) {
       SimpleNode family = oFamily.get();
-      List<SimpleNode> personChildren = family.in("childOf")
+      List<SimpleStepNode> personChildren = ((SimpleStepNode) family).in("childOf")
           .collect(Collectors.toCollection(ArrayList::new));
       rootChildren.addAll(personChildren);
       if (generations > 1) {
-        for (SimpleNode child : personChildren) {
+        for (SimpleStepNode child : personChildren) {
           rootChildren.addAll(children(child, generations - 1));
         }
       }
@@ -113,7 +114,7 @@ public class TestTripleStoreSystem  {
     assertEquals("F42", queenVictoria.getMap().get("childOf"));
 
     // get Queen Victoria's family (qvf)
-    SimpleNode qvf = queenVictoria.out("parentOf").findFirst().get();
+    SimpleStepNode qvf = ((SimpleStepNode) queenVictoria).out("parentOf").findFirst().get();
     if (debug) {
       qvf.printNameValues(System.out);
       System.out.println();
@@ -135,15 +136,15 @@ public class TestTripleStoreSystem  {
   public void testReadTree() throws Exception {
     SimpleSystem royal92 = readSiDIF();
     // start with Queen Victoria (Person Id=I1)
-    SimpleNode queenVictoria = royal92.moveTo("id=I1");
-    List<SimpleNode> descendants2 = children(queenVictoria, 2);
+    SimpleStepNode queenVictoria = (SimpleStepNode) royal92.moveTo("id=I1");
+    List<SimpleStepNode> descendants2 = children(queenVictoria, 2);
     if (debug) {
       descendants2.forEach(d -> d.printNameValues(System.out));
       System.out.println(
           String.format("%3d grandchildren found", descendants2.size()));
     }
     assertEquals(49, descendants2.size());
-    List<SimpleNode> descendants7 = children(queenVictoria, 7);
+    List<SimpleStepNode> descendants7 = children(queenVictoria, 7);
     if (debug)
       System.out
           .println(String.format("%4d descendants found", descendants7.size()));

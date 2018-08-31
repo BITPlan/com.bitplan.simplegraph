@@ -21,11 +21,8 @@
 package com.bitplan.simplegraph.core;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
@@ -54,11 +51,6 @@ public interface SimpleNode extends SimpleGraph {
         key -> System.out.println(String.format("%s=%s", key, map.get(key))));
   };
 
-  public static enum EdgeDirection {
-    IN, OUT
-    // ,BOTH
-  };
-
   // interface to Tinkertop/Gremlin wrapped Vertex
   public Vertex getVertex();
 
@@ -74,10 +66,6 @@ public interface SimpleNode extends SimpleGraph {
 
   // fill the map with it's data
   public Map<String, Object> initMap();
-
-  public Stream<SimpleNode> out(String edgeName);
-
-  public Stream<SimpleNode> in(String edgeName);
 
   /**
    * set the property value for the given key with traditional java style syntax
@@ -121,34 +109,6 @@ public interface SimpleNode extends SimpleGraph {
   }
 
   // interfaces with default implementation
-  /**
-   * recursive out handling
-   * 
-   * @param edgeName
-   * @param recursionDepth
-   * @return
-   */
-  public default Stream<SimpleNode> recursiveOut(String edgeName,
-      int recursionDepth) {
-    // get the neighbor nodes with wrapped vertices following the edge with the
-    // given name
-    // prepare a list of simple nodes for the recursive results
-    List<SimpleNode> recursiveOuts = new ArrayList<SimpleNode>();
-    Stream<SimpleNode> outs = this.out(edgeName);
-    // if we still have recursion levels left over
-    if (recursionDepth > 0) {
-      outs.forEach(simpleNode -> {
-        recursiveOuts.add(simpleNode);
-        // get the edge nodes for this level
-        Stream<SimpleNode> levelOuts = simpleNode.recursiveOut(edgeName,
-            recursionDepth - 1);
-        // add them all to the recursive result
-        levelOuts
-            .forEach(levelSimpleNode -> recursiveOuts.add(levelSimpleNode));
-      });
-    }
-    return recursiveOuts.stream();
-  }
 
   // show name values
   public default void printNameValues(PrintStream out) {
@@ -189,6 +149,22 @@ public interface SimpleNode extends SimpleGraph {
       return (SimpleNode) vertex.property(SimpleNode.SELF_LABEL).value();
     }
     return null;
+  }
+
+  /**
+   * get the SimpleNode of a Vertex for the given type
+   * @param vertex
+   * @param type
+   * @return the casted simpleNode
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> T of(Vertex vertex, Class<? extends SimpleNode> type) {
+    SimpleNode simpleNode=of(vertex);
+    if (simpleNode !=null && simpleNode.getClass().isAssignableFrom(type)) {
+      return (T) simpleNode;
+    } else {
+      return null;
+    }
   }
 
 }

@@ -39,7 +39,6 @@ public class CalendarEntryNode extends SimpleNodeImpl{
 
 	public CalendarEntryNode(SimpleGraph simpleGraph, String kind, String[] keys) {
 		super(simpleGraph, kind, keys);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -49,18 +48,6 @@ public class CalendarEntryNode extends SimpleNodeImpl{
 			map.put(p.getName(),p.getValue());
 		});
 	    return map;
-	}
-
-	@Override
-	public Stream<SimpleNode> out(String edgeName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Stream<SimpleNode> in(String edgeName) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

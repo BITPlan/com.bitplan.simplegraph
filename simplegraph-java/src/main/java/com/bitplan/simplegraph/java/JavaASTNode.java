@@ -64,16 +64,4 @@ public class JavaASTNode extends SimpleNodeImpl {
     return map;
   }
 
-  @Override
-  public Stream<SimpleNode> out(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Stream<SimpleNode> in(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
 }

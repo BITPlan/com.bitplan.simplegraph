@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 
 /**
  * test the PDF System
@@ -39,7 +40,7 @@ public class TestPdfSystem {
 	public void testPDF() throws Exception {
 		PdfSystem ps = new PdfSystem();
 		ps.connect();
-		SimpleNode pdfNode = ps.moveTo("http://eprints.nottingham.ac.uk/249/1/cajun.pdf");
+		SimpleStepNode pdfNode = (SimpleStepNode) ps.moveTo("http://eprints.nottingham.ac.uk/249/1/cajun.pdf");
 		pdfNode.out("pages");
 		//debug=true;
 		if (debug) {

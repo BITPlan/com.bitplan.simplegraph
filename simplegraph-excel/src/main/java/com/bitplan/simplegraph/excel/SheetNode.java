@@ -30,14 +30,33 @@ import com.bitplan.simplegraph.core.SimpleGraph;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
+/**
+ * a node that represents an Excel sheet
+ * @author wf
+ *
+ */
 public class SheetNode extends SimpleNodeImpl {
 
+  /**
+   * the sheet that is wrappred by this node
+   */
   private XSSFSheet sheet;
 
+  /**
+   * construct me
+   * @param simpleGraph
+   * @param kind
+   * @param keys
+   */
   public SheetNode(SimpleGraph simpleGraph, String kind, String[] keys) {
     super(simpleGraph, kind, keys);
   }
 
+  /**
+   * construct me
+   * @param simpleGraph
+   * @param sheet
+   */
   public SheetNode(SimpleGraph simpleGraph, XSSFSheet sheet) {
     this(simpleGraph,"sheet",Keys.EMPTY_KEYS);
     this.sheet=sheet;
@@ -48,18 +67,6 @@ public class SheetNode extends SimpleNodeImpl {
   public Map<String, Object> initMap() {
     map.put("sheetname", sheet.getSheetName());
     return map;
-  }
-
-  @Override
-  public Stream<SimpleNode> out(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Stream<SimpleNode> in(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 }

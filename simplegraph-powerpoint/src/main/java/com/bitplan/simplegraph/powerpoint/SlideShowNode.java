@@ -39,6 +39,7 @@ import org.apache.poi.xslf.usermodel.XSLFSlide;
 
 import com.bitplan.simplegraph.core.SimpleGraph;
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
@@ -47,7 +48,7 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  * @author wf
  *
  */
-public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
+public class SlideShowNode extends SimpleNodeImpl implements SlideShow, SimpleStepNode {
 
   protected XMLSlideShow slideshow;
   protected String pathOrUl;
@@ -111,12 +112,12 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
   }
 
   @Override
-  public Stream<SimpleNode> out(String edgeName) {
+  public Stream<SimpleStepNode> out(String edgeName) {
     return inOrOut(edgeName);
   }
 
   @Override
-  public Stream<SimpleNode> in(String edgeName) {
+  public Stream<SimpleStepNode> in(String edgeName) {
     return inOrOut(edgeName);
   }
 
@@ -125,11 +126,11 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow {
    * @param edgeName
    * @return - a stream of nodes
    */
-  private Stream<SimpleNode> inOrOut(String edgeName) {
-    Stream<SimpleNode> links = Stream.of();
+  private Stream<SimpleStepNode> inOrOut(String edgeName) {
+    Stream<SimpleStepNode> links = Stream.of();
     switch (edgeName) {
     case "slides":
-      List<SimpleNode> slideNodes = new ArrayList<SimpleNode>();
+      List<SimpleStepNode> slideNodes = new ArrayList<SimpleStepNode>();
       List<XSLFSlide> slides = slideshow.getSlides();
       int pageNo = 1;
       for (XSLFSlide slide : slides) {

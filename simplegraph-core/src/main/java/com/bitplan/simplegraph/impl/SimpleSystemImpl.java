@@ -22,7 +22,6 @@ package com.bitplan.simplegraph.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import com.bitplan.simplegraph.core.SimpleGraph;
 import com.bitplan.simplegraph.core.SimpleNode;
@@ -35,18 +34,25 @@ import com.bitplan.simplegraph.core.SimpleSystem;
  *
  */
 public abstract class SimpleSystemImpl extends SimpleGraphImpl implements SimpleSystem {
-  protected static Logger LOGGER = Logger
-      .getLogger("com.bitplan.simplegraph.impl");
-  
-  String name;
-  String version;
+
+  String name=this.getClass().getSimpleName();
+  String version="0.0.3";
+  /**
+   * are there any caches defined for this system?
+   */
   protected transient Map<String, Cache> cacheMap = new HashMap<String, Cache>();
   
-
+  /**
+   * default constructor
+   */
   public SimpleSystemImpl() {
     super();
   }
   
+  /**
+   * constructor with a graph parameter
+   * @param graph
+   */
   public SimpleSystemImpl(SimpleGraph graph) {
     super(graph);
   }
@@ -94,6 +100,9 @@ public abstract class SimpleSystemImpl extends SimpleGraphImpl implements Simple
   
   @Override
   public SimpleSystem close(String ... closeParams) throws Exception {
+    /**
+     * flush all caches
+     */
     for (String purpose:this.cacheMap.keySet()) {
       this.flushCache(purpose);
     }

@@ -29,6 +29,8 @@ import org.sidif.triple.Triple;
 import org.sidif.triple.TripleQuery;
 
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
+import com.bitplan.simplegraph.core.SimpleStepNode.EdgeDirection;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
@@ -36,7 +38,7 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  * @author wf
  *
  */
-public class TripleNode extends SimpleNodeImpl {
+public class TripleNode extends SimpleNodeImpl implements SimpleStepNode {
   TripleStoreSystem system;
   Triple triple;
 
@@ -65,7 +67,7 @@ public class TripleNode extends SimpleNodeImpl {
   }
 
   @Override
-  public Stream<SimpleNode> out(String edgeName) {
+  public Stream<SimpleStepNode> out(String edgeName) {
     // translate the graph out vertex step to a triple query
     List<Triple> triples = system.query.select(triple.getSubject(), edgeName,
         null);
@@ -73,7 +75,7 @@ public class TripleNode extends SimpleNodeImpl {
   }
 
   @Override
-  public Stream<SimpleNode> in(String edgeName) {
+  public Stream<SimpleStepNode> in(String edgeName) {
     // translate the graph in vertex step to a triple query
     List<Triple> triples = system.query.select(null, edgeName,
         triple.getSubject());
@@ -87,9 +89,9 @@ public class TripleNode extends SimpleNodeImpl {
    * @param edgeDirection
    * @return the stream of SimpleNodes
    */
-  protected Stream<SimpleNode> triplesAsStream(List<Triple> triples,
+  protected Stream<SimpleStepNode> triplesAsStream(List<Triple> triples,
       EdgeDirection edgeDirection) {
-    List<SimpleNode> nodes = new ArrayList<SimpleNode>();
+    List<SimpleStepNode> nodes = new ArrayList<SimpleStepNode>();
     for (Triple triple : triples) {
       Triple subject = null;
       switch (edgeDirection) {

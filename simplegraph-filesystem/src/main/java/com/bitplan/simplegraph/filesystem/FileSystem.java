@@ -29,14 +29,6 @@ import com.bitplan.simplegraph.core.SimpleNode;
  */
 public class FileSystem extends com.bitplan.simplegraph.impl.SimpleSystemImpl {
 
-  /**
-   * initialize me
-   */
-  public FileSystem() {
-    super.setName("FileSystem");
-    super.setVersion("0.0.1");
-  }
-
   @Override
   public FileNode moveTo(String nodeQuery, String ...keys)  {
     FileNode file=new FileNode(this,nodeQuery,keys);

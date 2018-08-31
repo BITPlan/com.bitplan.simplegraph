@@ -23,6 +23,8 @@ package com.bitplan.simplegraph.carddav;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
@@ -36,7 +38,8 @@ import ezvcard.VCard;
  *
  */
 public class TestCarddavSystem {
-  static boolean debug=false;
+  static boolean debug = false;
+
   /**
    * test vcards from https://www.w3.org/2002/12/cal/vcard-examples/
    */
@@ -58,21 +61,32 @@ public class TestCarddavSystem {
    * item5.X-ABRELATEDNAMES;type=pref:Jane Doe item5.X-ABLabel:_$!<Friend>!$_
    * CATEGORIES:Work,Test group
    * X-ABUID:5AD380FD-B2DE-4261-BA99-DE1D1DB52FBE\:ABPerson END:VCARD
-   * @throws Exception 
+   * 
+   * @throws Exception
    */
   @Test
   public void testJohnDoe() throws Exception {
-    CarddavSystem cs=new CarddavSystem();
+    CarddavSystem cs = new CarddavSystem();
     cs.connect();
-    String jdvcf="https://www.w3.org/2002/12/cal/vcard-examples/john-doe.vcf";
-    VCardNode jdNode=(VCardNode) cs.moveTo(jdvcf);
+    String jdvcf = "https://www.w3.org/2002/12/cal/vcard-examples/john-doe.vcf";
+    VCardNode jdNode = (VCardNode) cs.moveTo(jdvcf);
     assertNotNull(jdNode);
     if (debug)
       cs.forAll(SimpleNode.printDebug);
-    VCard vcard=jdNode.vcard;
-    assertEquals(vcard.getProperties().size()+1,cs.g().V().count().next().longValue());
-    assertEquals(1,cs.g().V().hasLabel("StructuredName").count().next().longValue());
-    assertEquals(4,cs.g().V().hasLabel("Telephone").count().next().longValue());
+    VCard vcard = jdNode.vcard;
+    assertEquals(vcard.getProperties().size() + 1,
+        cs.g().V().count().next().longValue());
+    assertEquals(1,
+        cs.g().V().hasLabel("StructuredName").count().next().longValue());
+    assertEquals(4,
+        cs.g().V().hasLabel("Telephone").count().next().longValue());
+    if (debug)
+      cs.g().V().hasLabel("Telephone").forEachRemaining(SimpleNode.printDebug);
+    /*
+     * cs.g().V().hasLabel("Telephone").forEachRemaining(node -> { List type =
+     * (List) node.property("TYPE").value();
+     * System.out.println(type.get(0).getClass().getName()); });
+     */
   }
 
 }

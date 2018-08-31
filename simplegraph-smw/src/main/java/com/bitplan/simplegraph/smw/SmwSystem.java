@@ -451,11 +451,6 @@ public class SmwSystem extends MediaWikiSystem {
       PrintRequest prq = new PrintRequest(pr);
       prMap.put(label, prq);
     });
-    /*
-     * this.g().V().hasLabel("results").outE().forEachRemaining(edge -> { Vertex
-     * jsonVertex = edge.outVertex(); JsonNode jsonNode = (JsonNode)
-     * jsonVertex.property("mysimplenode") .value();
-     */
 
     askJson.g().V().hasLabel("results").out().forEachRemaining(rNode -> {
       Map<String, Object> conceptMap = new HashMap<String, Object>();

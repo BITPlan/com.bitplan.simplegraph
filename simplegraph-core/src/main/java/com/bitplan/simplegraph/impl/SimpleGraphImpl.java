@@ -20,6 +20,8 @@
  */
 package com.bitplan.simplegraph.impl;
 
+import java.util.logging.Logger;
+
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
@@ -33,6 +35,8 @@ import com.bitplan.simplegraph.core.SimpleNode;
  *
  */
 public class SimpleGraphImpl implements SimpleGraph {
+  protected static Logger LOGGER = Logger
+      .getLogger("com.bitplan.simplegraph.impl");
   protected transient boolean debug = false;
 
   public boolean isDebug() {

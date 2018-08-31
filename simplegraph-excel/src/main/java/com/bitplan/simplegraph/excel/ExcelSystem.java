@@ -34,14 +34,7 @@ import com.bitplan.simplegraph.impl.SimpleSystemImpl;
  *
  */
 public class ExcelSystem extends SimpleSystemImpl {
-  /**
-   * initialize me
-   */
-  public ExcelSystem() {
-    super.setName("ExcelSystem");
-    super.setVersion("0.0.1");
-  }
-
+ 
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
     return this;

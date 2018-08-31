@@ -30,6 +30,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 import com.bitplan.simplegraph.core.SimpleGraph;
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**
@@ -37,7 +38,7 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  * @author wf
  *
  */
-public class MapNode extends SimpleNodeImpl {
+public class MapNode extends SimpleNodeImpl implements SimpleStepNode {
  
   /**
    * initialize me from a map
@@ -55,26 +56,26 @@ public class MapNode extends SimpleNodeImpl {
   }
 
   @Override
-  public Stream<SimpleNode> out(String edgeName) {
+  public Stream<SimpleStepNode> out(String edgeName) {
     return inOrOut(this.g().V(this.getVertex().id()).in(edgeName));
   }
 
   @Override
-  public Stream<SimpleNode> in(String edgeName) {
+  public Stream<SimpleStepNode> in(String edgeName) {
     return inOrOut(this.g().V(this.getVertex().id()).out(edgeName));
   }
   
   /**
    * get my vertices
    * @param graphTraversal
-   * @return
+   * @return the stream of vertices
    */
-  protected Stream<SimpleNode> inOrOut(GraphTraversal<Vertex, Vertex> graphTraversal) {
-    List<SimpleNode> links = new ArrayList<SimpleNode>();
+  protected Stream<SimpleStepNode> inOrOut(GraphTraversal<Vertex, Vertex> graphTraversal) {
+    List<SimpleStepNode> links = new ArrayList<SimpleStepNode>();
     graphTraversal.forEachRemaining(vertex->{
-      Object simpleNodeObject = vertex.property("mysimplenode").value();
-      if (simpleNodeObject instanceof SimpleNode)
-        links.add((SimpleNode) simpleNodeObject);
+      SimpleStepNode simpleNode=SimpleNode.of(vertex,SimpleStepNode.class);
+      if (simpleNode!=null)
+        links.add(simpleNode);
     });
     return links.stream();
   }

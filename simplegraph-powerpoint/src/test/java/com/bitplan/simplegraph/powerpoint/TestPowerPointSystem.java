@@ -44,6 +44,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.mediawiki.MediaWikiPageNode;
 import com.bitplan.simplegraph.mediawiki.MediaWikiSystem;
@@ -212,12 +213,12 @@ public class TestPowerPointSystem  {
    * @param levels
    * @throws Exception
    */
-  private void addSlides(SlideShow sls, MediaWikiSystem mws, SimpleNode person,
+  private void addSlides(SlideShow sls, MediaWikiSystem mws, SimpleStepNode person,
       String[] slideprops, int levels, boolean debug) throws Exception {
     this.addSlide(sls, mws, person, slideprops, debug);
-    List<SimpleNode> children = person.out("child")
+    List<SimpleStepNode> children =  person.out("child")
         .collect(Collectors.toCollection(ArrayList::new));
-    for (SimpleNode child : children) {
+    for (SimpleStepNode child : children) {
       if (levels >= 1) {
         addSlides(sls, mws, child, slideprops, levels - 1, debug);
       }
@@ -233,7 +234,7 @@ public class TestPowerPointSystem  {
 
     String props[] = { "P21", "P22", "P25", "P109", "P569", "P19", "P570",
         "P20", "P1543" };
-    SimpleNode queenVictoria = TestWikiDataSystem.getQueenVictoria(props);
+    SimpleStepNode queenVictoria = TestWikiDataSystem.getQueenVictoria(props);
     String pptFilePath = "../simplegraph-powerpoint/QueenVictoria.pptx";
     SlideShow sls = this.getPPT(pptFilePath, "Queen Victoria");
     if (debug)
@@ -252,7 +253,7 @@ public class TestPowerPointSystem  {
   public void testPowerPointCreateRoyal92() throws Exception {
     SimpleSystem royal92 = TestTripleStoreSystem.readSiDIF();
     // start with Queen Victoria (Person Id=I1)
-    SimpleNode queenVictoria = royal92.moveTo("id=I1");
+    SimpleStepNode queenVictoria = (SimpleStepNode) royal92.moveTo("id=I1");
     String pptFilePath = "../simplegraph-powerpoint/QueenVictoriaRoyal92.pptx";
     SlideShow sls = this.getPPT(pptFilePath, "Queen Victoria");
 
@@ -271,7 +272,7 @@ public class TestPowerPointSystem  {
     SlideNode qv = (SlideNode) slideForNode(sls, queenVictoria, slideprops);
     assertNotNull(qv);
     // debug = true;
-    for (SimpleNode child : TestTripleStoreSystem.children(queenVictoria, 2)) {
+    for (SimpleStepNode child : TestTripleStoreSystem.children(queenVictoria, 2)) {
       child.property("source", source);
       SlideNode slide = (SlideNode) slideForNode(sls, child, slideprops);
       assertEquals(slide.getTitle(), child.getMap().get("name"));
@@ -313,8 +314,8 @@ public class TestPowerPointSystem  {
   public void testReadPowerpoint() throws Exception {
     PowerPointSystem pps=new PowerPointSystem();
     pps.connect();
-    SimpleNode slideShowNode = pps.moveTo("https://www.its.leeds.ac.uk/fileadmin/documents/alumni/Michele_Dix_Leeds_University_-_FINAL.PPTX");
-    List<SimpleNode> slides = slideShowNode.out("slides")
+    SimpleStepNode slideShowNode = (SimpleStepNode) pps.moveTo("https://www.its.leeds.ac.uk/fileadmin/documents/alumni/Michele_Dix_Leeds_University_-_FINAL.PPTX");
+    List<SimpleStepNode> slides = slideShowNode.out("slides")
         .collect(Collectors.toCollection(ArrayList::new));
     // debug=true;
     if (debug)

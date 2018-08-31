@@ -22,13 +22,17 @@ package com.bitplan.simplegraph.excel;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import com.bitplan.simplegraph.core.Keys;
 import com.bitplan.simplegraph.core.SimpleGraph;
-import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
+/**
+ * wraps a row
+ * 
+ * @author wf
+ *
+ */
 public class RowNode extends SimpleNodeImpl {
 
   private int rowIndex;
@@ -41,39 +45,27 @@ public class RowNode extends SimpleNodeImpl {
 
   public RowNode(WorkBookNode workBookNode, List<Object> titleRow,
       List<Object> row, int rowIndex) {
-    this(workBookNode.getSimpleGraph(),"row",Keys.EMPTY_KEYS);
-    this.titleRow=titleRow;
-    this.rowIndex=rowIndex;
-    this.row=row;
+    this(workBookNode.getSimpleGraph(), "row", Keys.EMPTY_KEYS);
+    this.titleRow = titleRow;
+    this.rowIndex = rowIndex;
+    this.row = row;
     super.setVertexFromMap();
   }
 
   @Override
   public Map<String, Object> initMap() {
     map.put("row", this.rowIndex);
-    for (int colIndex=0;colIndex<=titleRow.size();colIndex++) {
-      if (row.size()>colIndex && titleRow.size()>colIndex) {
-         String name="?";
-         Object nameO=titleRow.get(colIndex);
-         if (nameO!=null)
-           name=nameO.toString();
-         Object value=row.get(colIndex);
-         map.put(name, value);
+    for (int colIndex = 0; colIndex <= titleRow.size(); colIndex++) {
+      if (row.size() > colIndex && titleRow.size() > colIndex) {
+        String name = "?";
+        Object nameO = titleRow.get(colIndex);
+        if (nameO != null)
+          name = nameO.toString();
+        Object value = row.get(colIndex);
+        map.put(name, value);
       }
     }
     return map;
-  }
-
-  @Override
-  public Stream<SimpleNode> out(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Stream<SimpleNode> in(String edgeName) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 }

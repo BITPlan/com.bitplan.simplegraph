@@ -29,8 +29,9 @@ import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
 
-import com.bitplan.simplegraph.core.SimpleNode;
+import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
+
 
 /**
  * a File in the File system
@@ -38,7 +39,7 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  * @author wf
  *
  */
-public class FileNode extends SimpleNodeImpl {
+public class FileNode extends SimpleNodeImpl implements SimpleStepNode  {
 
   // File to be wrapped in a Node
   File file;
@@ -96,17 +97,22 @@ public class FileNode extends SimpleNodeImpl {
   }
 
   @Override
-  public Stream<SimpleNode> out(String edgeName) {
+  public Stream<SimpleStepNode> out(String edgeName) {
     return inOrOut(edgeName);
   }
   
   @Override
-  public Stream<SimpleNode> in(String edgeName) {
+  public Stream<SimpleStepNode> in(String edgeName) {
     return inOrOut(edgeName);
   }
 
-  protected Stream<SimpleNode> inOrOut(String edgeName) {
-    Stream<SimpleNode> links = Stream.of();
+  /**
+   * step along the given edge
+   * @param edgeName
+   * @return - the stream of nodes
+   */
+  protected Stream<SimpleStepNode> inOrOut(String edgeName) {
+    Stream<SimpleStepNode> links = Stream.of();
     switch (edgeName) {
     case "parent":
       FileNode parent = new FileNode(fileSystem,file.getParentFile());
@@ -115,7 +121,7 @@ public class FileNode extends SimpleNodeImpl {
       break;
     case "files":
       if (file.isDirectory()) {
-        List<SimpleNode> files = new ArrayList<SimpleNode>();
+        List<SimpleStepNode> files = new ArrayList<SimpleStepNode>();
         for (File childFile : file.listFiles()) {
           FileNode childFileNode=new FileNode(fileSystem,childFile);
           knit(this,childFileNode);
@@ -130,6 +136,11 @@ public class FileNode extends SimpleNodeImpl {
     return links;
   }
   
+  /**
+   * link parent and child together
+   * @param parent
+   * @param child
+   */
   protected void knit(FileNode parent,FileNode child) {
     child.getVertex().addEdge("parent", parent.getVertex());
     parent.getVertex().addEdge("files", child.getVertex());
