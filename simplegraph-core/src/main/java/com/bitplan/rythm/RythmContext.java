@@ -32,8 +32,6 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.rythmengine.RythmEngine;
 import org.rythmengine.conf.RythmConfigurationKey;
 
-import com.bitplan.simplegraph.core.SimpleNode;
-
 /**
  * Rythm Context
  * 
@@ -77,48 +75,7 @@ public class RythmContext {
     return engine;
   }
   
-  /**
-   * generate a GraphViz graph for the given parameters
-   * @param start
-   * @param edge
-   * @param property
-   * @param idProperty
-   * @param urlPrefix
-   * @param rankDir
-   * @param graphname
-   * @return
-   * @throws Exception
-   */
-  public String renderGraphViz(SimpleNode start, String edge,
-      String property, String idProperty, String urlPrefix, String rankDir,String graphname) throws Exception {
-    // prepare the Map of information to be supplied for the Rythm template
-    Map<String, Object> rootMap = new HashMap<String, Object>();
-    // the SimpleNode to start with
-    rootMap.put("start", start);
-    // the edges to select
-    rootMap.put("edge", edge);
-    // the property to show (for edges/vertices)
-    rootMap.put("property", property);
-    // the property to derive the URL from
-    rootMap.put("idProperty", idProperty);
-    // the prefix to prepend to the idProperty to get the final url
-    rootMap.put("urlPrefix", urlPrefix);
-    // style of graph e.g. TB, BT, RL, LR (Top-Bottom, Bottom-Top, Right-Left,
-    // Left-Right see. graphviz rankdir
-    rootMap.put("rankdir", rankDir);
-    // the name of the graph
-    rootMap.put("graphname",
-        graphname);
-    // choose a Rythm template that will work on our graph
-    String templatePath="/com/bitplan/rythm/graphvizTree.rythm";
-    URL templateResource = this.getClass().getResource(templatePath);
-    if (templateResource==null)
-      throw new RuntimeException("template "+templatePath+" not found");
-    // let Rythm do the rendering according to the template
-    String graphViz = render(templateResource, rootMap);
-    return graphViz;
-  }
-
+ 
 
   /**
    * render a node
@@ -204,24 +161,11 @@ public class RythmContext {
     return result;
   }
 
-  private static RythmContext instance = null;
-
   /***
    * enforce singleton
    */
-  private RythmContext() {
+  protected RythmContext() {
 
   }
 
-  /**
-   * get the singleton
-   * 
-   * @return the instance
-   */
-  public static RythmContext getInstance() {
-    if (instance == null) {
-      instance = new RythmContext();
-    }
-    return instance;
-  }
 }

@@ -23,9 +23,7 @@ package com.bitplan.simplegraph.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -51,7 +49,7 @@ import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.junit.Test;
 
-import com.bitplan.rythm.RythmContext;
+import com.bitplan.rythm.GraphRythmContext;
 
 /**
  * get TinkerPop3 API
@@ -404,13 +402,8 @@ public class TestTinkerPop3 {
     }
     ;
     // .properties().forEachRemaining(prop->vprops.add(prop));
-    File plantUMLTemplate = new File(
-        "../simplegraph-core/src/main/rythm/plantuml.rythm");
-    Map<String, Object> rootMap = new HashMap<String, Object>();
-    rootMap.put("g", g);
-    rootMap.put("title", "AirRoutes");
-    String uml = RythmContext.getInstance().render(plantUMLTemplate, rootMap);
-    // debug=true;
+    String uml=GraphRythmContext.getInstance().renderUml(g,"AirRoutes");
+    debug=true;
     if (debug)
       System.out.println(uml);
 
@@ -435,7 +428,7 @@ public class TestTinkerPop3 {
     // https://stackoverflow.com/a/49361250/1497139
     assertEquals(1473, counts.size());
     assertEquals("LinkedHashMap",counts.getClass().getSimpleName());
-    debug=true;
+    // debug=true;
     if (debug)
       for (Object key : counts.keySet()) {
         System.out.println(String.format("%s=%3d", key, counts.get(key)));

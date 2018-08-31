@@ -14,7 +14,7 @@
   	note top of @className: @(g.V().hasLabel(className).count().next().longValue())
   	class @className @("{")
 @{
-  List<VertexProperty> vprops=new ArrayList<VertexProperty>();
+  Set<VertexProperty> vprops=new HashSet<VertexProperty>();
   g.V().hasLabel(className).next().properties().forEachRemaining(prop->vprops.add(prop));
 }  	
   	  @for(VertexProperty vprop:vprops) {

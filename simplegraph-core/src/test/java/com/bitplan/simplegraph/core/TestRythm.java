@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
+import com.bitplan.rythm.GraphRythmContext;
 import com.bitplan.rythm.RythmContext;
 
 /**
@@ -45,7 +46,7 @@ public class TestRythm  {
   
   @Test
   public void testRythmFromFile() throws Exception {
-    RythmContext rythmContext = RythmContext.getInstance();
+    GraphRythmContext rythmContext = GraphRythmContext.getInstance();
     File templateDir = new File("../simplegraph-core/src/main/rythm");
     rythmContext.setTemplateRoot(templateDir.getAbsolutePath());
     // set it again - the engine should not be reconfigured
@@ -60,8 +61,8 @@ public class TestRythm  {
   @Test
   public void testRythmFromString() throws Exception {
     // debug=true;
-    RythmContext rythmContext = RythmContext.getInstance();
-    String template = "@// Rythem template\n"
+    GraphRythmContext rythmContext = GraphRythmContext.getInstance();
+    String template = "@// Rythm template\n"
         + "@// you can try me out at http://fiddle.rythmengine.com\n"
         + "@// Created by Wolfgang Fahl, BITPlan GmbH,  2018-01-12\n"
         + "@args() {\n" + "  String title,int times;\n" + "}\n"

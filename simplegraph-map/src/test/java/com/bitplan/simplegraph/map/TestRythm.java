@@ -27,8 +27,7 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
-import com.bitplan.rythm.RythmContext;
-import com.bitplan.simplegraph.map.MapSystem;
+import com.bitplan.rythm.GraphRythmContext;
 
 /**
  * test the rythm template engine
@@ -43,7 +42,7 @@ public class TestRythm  {
   @Test
   public void testGenerateFromVertex() throws Exception {
     // get us a Rythm context to be able to render via a template
-    RythmContext rythmContext = RythmContext.getInstance();
+    GraphRythmContext rythmContext = GraphRythmContext.getInstance();
     // choose a Rythm template that will work on our graph
     File template = new File("../simplegraph-map/src/main/rythm/carmaphtml.rythm");
     MapSystem ms = TestMapSystem.getCarMapSystem();

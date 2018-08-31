@@ -26,10 +26,8 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
-import com.bitplan.rythm.RythmContext;
+import com.bitplan.rythm.GraphRythmContext;
 import com.bitplan.simplegraph.core.SimpleNode;
-import com.bitplan.simplegraph.map.MapNode;
-import com.bitplan.simplegraph.map.MapSystem;
 
 /**
  * test the Map System
@@ -104,7 +102,7 @@ public class TestMapSystem {
     // and extend to a full url using the WIKIDATA_URL_PREFIX
     // use the rankDir RL = right left
     // and name the graph "CarGraph"
-    String graphViz = RythmContext.getInstance().renderGraphViz(ms.getStartNode(), "brand",
+    String graphViz = GraphRythmContext.getInstance().renderGraphViz(ms.getStartNode(), "brand",
         "name", "wikidataid", WIKIDATA_URL_PREFIX, "RL", "CarGraph");
     // uncomment if you'd like to see the graph source code
     // the rendered graph is available at
