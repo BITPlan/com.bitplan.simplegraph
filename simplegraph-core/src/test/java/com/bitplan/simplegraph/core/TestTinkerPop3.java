@@ -403,7 +403,7 @@ public class TestTinkerPop3 {
     ;
     // .properties().forEachRemaining(prop->vprops.add(prop));
     String uml=GraphRythmContext.getInstance().renderUml(g,"AirRoutes");
-    debug=true;
+    // debug=true;
     if (debug)
       System.out.println(uml);
 
