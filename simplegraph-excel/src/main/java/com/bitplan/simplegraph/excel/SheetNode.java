@@ -21,13 +21,11 @@
 package com.bitplan.simplegraph.excel;
 
 import java.util.Map;
-import java.util.stream.Stream;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import com.bitplan.simplegraph.core.Keys;
 import com.bitplan.simplegraph.core.SimpleGraph;
-import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
 /**

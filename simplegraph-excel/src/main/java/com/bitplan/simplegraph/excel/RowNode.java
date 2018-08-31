@@ -39,10 +39,23 @@ public class RowNode extends SimpleNodeImpl {
   private List<Object> row;
   private List<Object> titleRow;
 
+  /**
+   * create me
+   * @param simpleGraph
+   * @param kind
+   * @param keys
+   */
   public RowNode(SimpleGraph simpleGraph, String kind, String[] keys) {
     super(simpleGraph, kind, keys);
   }
 
+  /**
+   * create me
+   * @param workBookNode
+   * @param titleRow
+   * @param row
+   * @param rowIndex
+   */
   public RowNode(WorkBookNode workBookNode, List<Object> titleRow,
       List<Object> row, int rowIndex) {
     this(workBookNode.getSimpleGraph(), "row", Keys.EMPTY_KEYS);

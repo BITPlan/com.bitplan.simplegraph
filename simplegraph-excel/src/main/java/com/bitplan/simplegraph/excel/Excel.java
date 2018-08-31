@@ -224,7 +224,7 @@ public class Excel {
         } else if (item instanceof Edge) {
           Edge edge = (Edge) item;
           edge.properties().forEachRemaining(prop -> {
-            addCell(wb, headerRow, edge.label(), colIndex, boldStyle);
+            addCell(wb, headerRow, prop.key(), colIndex, boldStyle);
           });
           addCell(wb, headerRow, "in", colIndex, boldStyle);
           addCell(wb, headerRow, "out", colIndex, boldStyle);
@@ -233,6 +233,7 @@ public class Excel {
         rowHolder.setValue(sheet.createRow(++rowNumber));
         rowIndex.setValue(rowNumber);
       }
+      // normal row
       Row row = rowHolder.getFirstValue();
       Holder<Integer> colIndex = new Holder<Integer>(0);
       if (item instanceof Vertex) {
@@ -280,7 +281,7 @@ public class Excel {
         done = true;
       }
     }
-    // their is no order - try our luck with the set of properties
+    // there is no order - try our luck with the set of properties
     if (!done) {
       vertex.properties().forEachRemaining(prop -> {
         if (prop.label() != SimpleNode.SELF_LABEL)

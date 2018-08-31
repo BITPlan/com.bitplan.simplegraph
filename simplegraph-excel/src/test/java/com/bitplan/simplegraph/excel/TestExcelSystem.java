@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Graph;
@@ -69,9 +70,14 @@ public class TestExcelSystem {
     ExcelSystem es = new ExcelSystem();
     Graph graph = TinkerFactory.createModern();
     GraphTraversalSource g = graph.traversal();
-    // es.setDebug(true);
+    es.setDebug(true);
     Workbook wb = es.createWorkBook(g);
     assertEquals(4, wb.getNumberOfSheets());
+    Sheet knowsSheet = wb.getSheet("knows");
+    // check 
+    // https://github.com/BITPlan/com.bitplan.simplegraph/issues/23
+    // is fixed
+    assertEquals("weight",knowsSheet.getRow(0).getCell(0).getStringCellValue());
     es.save(wb, testModernFileName);
   }
 
