@@ -32,7 +32,6 @@ import java.util.logging.Logger;
 import org.junit.Test;
 
 import com.bitplan.rythm.GraphRythmContext;
-import com.bitplan.rythm.RythmContext;
 
 /**
  * test the rythm template engine

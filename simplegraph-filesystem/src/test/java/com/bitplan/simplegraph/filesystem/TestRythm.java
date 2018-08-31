@@ -28,7 +28,7 @@ import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSo
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
-import com.bitplan.rythm.RythmContext;
+import com.bitplan.rythm.GraphRythmContext;
 import com.bitplan.simplegraph.core.SimpleNode;
 
 /**
@@ -51,7 +51,7 @@ public class TestRythm  {
     SimpleNode start = TestFileSystem.getFileNode("../simplegraph-filesystem/src", Integer.MAX_VALUE);
     if (debug)
       start.forAll(SimpleNode.printDebug);
-    String graphViz = RythmContext.getInstance().renderGraphViz(start, "parent", "name", "path",
+    String graphViz = GraphRythmContext.getInstance().renderGraphViz(start, "parent", "name", "path",
         GITHUB_URL_PREFIX,"RL","FileSystemGraphForSrcDirectoryOfSimpleGraphGitHubOpenSourceProject");
     // debug = true;
     assertTrue(graphViz.contains("TestRythm.java"));
