@@ -44,6 +44,7 @@ public class Holder<T> {
    * construct this holder from a value
    * @param value
    */
+  @SuppressWarnings("unchecked")
   public Holder(T value) {
     values.add(value);
     clazz=(Class<T>) value.getClass();

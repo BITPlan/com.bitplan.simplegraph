@@ -24,6 +24,7 @@ import java.io.PrintStream;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 /**
@@ -35,21 +36,38 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
  *
  */
 public interface SimpleNode extends SimpleGraph {
-  
-  static String SELF_LABEL="mysimplenode";
-  
+
+  static String SELF_LABEL = "mysimplenode";
+
   static Consumer<Vertex> printDebug = vertex -> vertex.properties()
       .forEachRemaining(prop -> System.out.println(String.format("%s.%s=%s",
           vertex.label(), prop.label(), prop.value())));
-  
+
   static Consumer<Vertex> printObjectDebug = vertex -> vertex.properties()
-      .forEachRemaining(prop -> System.out.println(String.format("%s.%s=%s (%s)",
-          vertex.label(), prop.label(), prop.value(),prop.value().getClass().getName())));
+      .forEachRemaining(prop -> System.out
+          .println(String.format("%s.%s=%s (%s)", vertex.label(), prop.label(),
+              prop.value(), prop.value().getClass().getName())));
 
   static Consumer<Map<?, Object>> printMapDebug = map -> {
     map.keySet().forEach(
         key -> System.out.println(String.format("%s=%s", key, map.get(key))));
   };
+
+  public static void dumpGraph(Graph graph) {
+    graph.traversal().V().forEachRemaining(vertex -> {
+      System.out.println(String.format("%s=%s", vertex.id(), vertex.label()));
+      vertex.properties().forEachRemaining(prop -> {
+        System.out.println(String.format("\t%s=%s", prop.key(), prop.value()));
+      });
+    });
+    graph.traversal().E().forEachRemaining(edge -> {
+      System.out.println(String.format("%s- %s >%s", edge.inVertex().id(),
+          edge.label(), edge.outVertex().id()));
+      edge.properties().forEachRemaining(prop -> {
+        System.out.println(String.format("\t%s=%s", prop.key(), prop.value()));
+      });
+    });
+  }
 
   // interface to Tinkertop/Gremlin wrapped Vertex
   public Vertex getVertex();
@@ -124,23 +142,26 @@ public interface SimpleNode extends SimpleGraph {
   public default void forAll(Consumer<Vertex> consumer) {
     g().V().forEachRemaining(consumer);
   };
-  
+
   /**
    * get the selfLabel for this Node
+   * 
    * @return - the self label
    */
   public default String getSelfLabel() {
     return SELF_LABEL;
   }
-  
+
   /**
    * get the Keys
+   * 
    * @return the keys
    */
   public Keys getKeys();
 
   /**
-   * get the SimpleNode of a Vertex 
+   * get the SimpleNode of a Vertex
+   * 
    * @param vertex
    * @return - the simpleNode if available or null if not
    */
@@ -153,14 +174,15 @@ public interface SimpleNode extends SimpleGraph {
 
   /**
    * get the SimpleNode of a Vertex for the given type
+   * 
    * @param vertex
    * @param type
    * @return the casted simpleNode
    */
   @SuppressWarnings("unchecked")
   public static <T> T of(Vertex vertex, Class<? extends SimpleNode> type) {
-    SimpleNode simpleNode=of(vertex);
-    if (simpleNode !=null && simpleNode.getClass().isAssignableFrom(type)) {
+    SimpleNode simpleNode = of(vertex);
+    if (simpleNode != null && simpleNode.getClass().isAssignableFrom(type)) {
       return (T) simpleNode;
     } else {
       return null;

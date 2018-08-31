@@ -22,6 +22,7 @@ package com.bitplan.simplegraph.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,21 +145,7 @@ public class TestTinkerPop3 {
    */
   public static void dumpGraph(Graph graph) {
     if (debug) {
-      graph.traversal().V().forEachRemaining(vertex -> {
-        System.out.println(String.format("%s=%s", vertex.id(), vertex.label()));
-        vertex.properties().forEachRemaining(prop -> {
-          System.out
-              .println(String.format("\t%s=%s", prop.key(), prop.value()));
-        });
-      });
-      graph.traversal().E().forEachRemaining(edge -> {
-        System.out.println(String.format("%s- %s >%s", edge.inVertex().id(),
-            edge.label(), edge.outVertex().id()));
-        edge.properties().forEachRemaining(prop -> {
-          System.out
-              .println(String.format("\t%s=%s", prop.key(), prop.value()));
-        });
-      });
+      SimpleNode.dumpGraph(graph);
     }
   }
 
@@ -262,9 +249,10 @@ public class TestTinkerPop3 {
     }
     assertEquals(14,
         g.V("3").valueMap(true).unfold().count().next().longValue());
-    GraphTraversal<Vertex, Vertex> v3 = g.V(3);
+    GraphTraversal<Vertex, Vertex> v3 = g.V("3");
     GraphTraversal<Vertex, Map<Object, Object>> vmap = v3.valueMap(true);
-    GraphTraversal<Vertex, Object> unfolded = g.V(3).valueMap(true).unfold();
+    assertEquals(1,vmap.toList().size());
+    GraphTraversal<Vertex, Object> unfolded = g.V("3").valueMap(true).unfold();
     if (debug)
       unfolded.forEachRemaining(o -> System.out.println(
           String.format("%s (%s)", o.toString(), o.getClass().getName())));
