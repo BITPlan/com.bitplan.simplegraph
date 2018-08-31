@@ -20,6 +20,7 @@
  */
 package com.bitplan.simplegraph.excel;
 
+import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -42,6 +43,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -176,14 +178,15 @@ public class Excel {
    * @return
    */
   public static Workbook createWorkBook(GraphTraversalSource g) {
+    // from POI 4.0.0 on IndexedColorMap colorMap = new DefaultIndexedColorMap();
     // https://poi.apache.org/spreadsheet/quick-guide.html#NewSheet
     Workbook wb = new XSSFWorkbook();
     // add a sheet of vertices per vertex Label
     g.V().label().dedup()
-        .forEachRemaining(vertexLabel -> addSheet(wb, vertexLabel, g.V()));
+        .forEachRemaining(vertexLabel -> addSheet(wb, vertexLabel, g.V(),new XSSFColor(Color.BLUE)));
     // add a sheet of edges per edge Label
     g.E().label().dedup()
-        .forEachRemaining(edgeLabel -> addSheet(wb, edgeLabel, g.E()));
+        .forEachRemaining(edgeLabel -> addSheet(wb, edgeLabel, g.E(),new XSSFColor(Color.GREEN)));
     return wb;
   }
 
@@ -193,9 +196,10 @@ public class Excel {
    * @param wb
    * @param itemLabel
    * @param items
+   * @param color - the color to use
    */
   private static <T> void addSheet(Workbook wb, String itemLabel,
-      GraphTraversal<T, T> items) {
+      GraphTraversal<T, T> items, XSSFColor color) {
     boldStyle = wb.createCellStyle();
     Font font = wb.createFont();
     font.setBold(true);
@@ -203,6 +207,11 @@ public class Excel {
 
     // create one sheet per Label
     Sheet sheet = wb.createSheet(fixSheetName(itemLabel));
+    // set the color
+    if (sheet instanceof XSSFSheet) {
+     XSSFSheet xsheet = (XSSFSheet)sheet;
+     xsheet.setTabColor(color);
+    }
     // rowIndex to be used in Lambda starting from 0
     Holder<Integer> rowIndex = new Holder<Integer>(0);
     // look for nodes/vertices with the given vertexLabel
