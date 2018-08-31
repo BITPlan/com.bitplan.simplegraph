@@ -40,6 +40,17 @@ public class SheetNode extends SimpleNodeImpl {
    */
   private XSSFSheet sheet;
 
+  // set to true if this is a sheet for an edge
+  private boolean forEdge=false;
+  
+  public boolean isForEdge() {
+    return forEdge;
+  }
+
+  public void setForEdge(boolean forEdge) {
+    this.forEdge = forEdge;
+  }
+
   /**
    * construct me
    * @param simpleGraph

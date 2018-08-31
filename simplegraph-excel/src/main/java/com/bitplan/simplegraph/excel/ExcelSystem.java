@@ -22,9 +22,17 @@ package com.bitplan.simplegraph.excel;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+import org.apache.tinkerpop.gremlin.structure.Direction;
+import org.apache.tinkerpop.gremlin.structure.Edge;
+import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.apache.tinkerpop.gremlin.structure.Property;
+import org.apache.tinkerpop.gremlin.structure.T;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
+import com.bitplan.simplegraph.impl.Holder;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
 /**
@@ -34,7 +42,7 @@ import com.bitplan.simplegraph.impl.SimpleSystemImpl;
  *
  */
 public class ExcelSystem extends SimpleSystemImpl {
- 
+
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
     return this;
@@ -42,8 +50,8 @@ public class ExcelSystem extends SimpleSystemImpl {
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
-    WorkBookNode workBookNode=new WorkBookNode(this,nodeQuery);
-    if (this.getStartNode()==null) {
+    WorkBookNode workBookNode = new WorkBookNode(this, nodeQuery);
+    if (this.getStartNode() == null) {
       this.setStartNode(workBookNode);
     }
     return workBookNode;
@@ -54,8 +62,85 @@ public class ExcelSystem extends SimpleSystemImpl {
     return WorkBookNode.class;
   }
 
+  class EdgeInfo {
+    Property inProp;
+    Property outProp;
+  }
+  
+  /**
+   * convert me to a "proper" graph again to allow "round-trip" handling
+   * 
+   * @return - the graph
+   */
+  public Graph asGraph() {
+    Graph graph = TinkerGraph.open();
+    // first get the content of the vertex sheets
+    g().V().has("sheetname").forEachRemaining(vSheetNode -> {
+      SheetNode sheetNode = SimpleNode.of(vSheetNode, SheetNode.class);
+      if (!sheetNode.isForEdge()) {
+        // Vertex sheet
+        String label = sheetNode.property("sheetname").toString();
+        vSheetNode.edges(Direction.OUT, "rows").forEachRemaining(rowEdge -> {
+          Vertex vRowNode = rowEdge.inVertex();
+          // SimpleNode.printDebug.accept(vRowNode);
+          Object id = vRowNode.property("id").value();
+          final Vertex v = graph.addVertex(T.label, label, T.id, id);
+          vRowNode.properties().forEachRemaining(prop -> {
+            switch (prop.key()) {
+            case SimpleNode.SELF_LABEL:
+            case "row":
+              break;
+            case "id":
+              break;
+            default:
+              v.property(prop.key(), prop.value());
+            }
+          });
+        });
+      }
+    });
+    // second pass - do the edges
+    g().V().has("sheetname").forEachRemaining(vSheetNode -> {
+      SheetNode sheetNode = SimpleNode.of(vSheetNode, SheetNode.class);
+      if (sheetNode.isForEdge()) {
+        // Vertex sheet
+        String label = sheetNode.property("sheetname").toString();
+        vSheetNode.edges(Direction.OUT, "rows").forEachRemaining(rowEdge -> {
+          Vertex vRowNode = rowEdge.inVertex();
+          SimpleNode.printDebug.accept(vRowNode);
+          EdgeInfo edgeInfo=new EdgeInfo();
+          vRowNode.properties().forEachRemaining(prop -> {
+            if (prop.key().startsWith("in (")) 
+              edgeInfo.inProp=prop;
+            if (prop.key().startsWith("out ("))
+              edgeInfo.outProp=prop;
+          });
+
+          if (edgeInfo.inProp!=null && edgeInfo.outProp!=null) {
+            Vertex inVertex = graph.traversal().V(edgeInfo.inProp.value()).next();
+            Vertex outVertex = graph.traversal().V(edgeInfo.outProp.value()).next();
+            Edge e = outVertex.addEdge(label, inVertex);
+            vRowNode.properties().forEachRemaining(prop -> {
+              if (!(prop.equals(edgeInfo.inProp) || prop.equals(edgeInfo.outProp))) {
+                switch (prop.key()) {
+                case SimpleNode.SELF_LABEL:
+                case "row":
+                  break;
+                default:
+                  e.property(prop.key(), prop.value());
+                }
+              }
+            });
+          }
+        });
+      }
+    });
+    return graph;
+  }
+
   /**
    * create a workbook based on the given GraphTraversalSource
+   * 
    * @param g
    * @return the Workbook
    */
@@ -66,12 +151,13 @@ public class ExcelSystem extends SimpleSystemImpl {
 
   /**
    * save the workbook with the given filename
+   * 
    * @param wb
    * @param fileName
    * @throws Exception
    */
   public void save(Workbook wb, String fileName) throws Exception {
-    Excel.save(wb,fileName);
+    Excel.save(wb, fileName);
   }
 
 }

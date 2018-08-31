@@ -38,7 +38,7 @@ public class RowNode extends SimpleNodeImpl {
   private int rowIndex;
   private List<Object> row;
   private List<Object> titleRow;
-
+  
   /**
    * create me
    * @param simpleGraph

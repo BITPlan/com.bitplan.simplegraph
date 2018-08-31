@@ -43,6 +43,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -108,6 +109,14 @@ public class Excel {
       break;
     case NUMERIC:
       cellValue = cell.getNumericCellValue();
+      XSSFCellStyle cellStyle = cell.getCellStyle();
+      if (cellStyle!=null) {
+        String format=cellStyle.getDataFormatString();
+        if ("0".equals(format)) {
+          Double d=(Double) cellValue;
+          cellValue=d.longValue();
+        }
+      }
       break;
     case STRING:
       cellValue = cell.getStringCellValue();
@@ -344,13 +353,20 @@ public class Excel {
       Holder<Integer> colIndex, CellStyle cellStyle) {
     Cell cell = row.createCell(colIndex.getFirstValue());
     CreationHelper createHelper = wb.getCreationHelper();
-    ;
     colIndex.setValue(colIndex.getFirstValue() + 1);
     if (value instanceof Integer) {
       Integer intValue = (Integer) value;
+      if (cellStyle == null) { 
+        cellStyle = wb.createCellStyle();
+        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("0"));
+      }
       cell.setCellValue(intValue.doubleValue());
     } else if (value instanceof Long) {
       Long longValue = (Long) value;
+      if (cellStyle == null) { 
+        cellStyle = wb.createCellStyle();
+        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("0"));
+      }
       cell.setCellValue(longValue.doubleValue());
     } else if (value instanceof Double) {
       cell.setCellValue((Double) value);

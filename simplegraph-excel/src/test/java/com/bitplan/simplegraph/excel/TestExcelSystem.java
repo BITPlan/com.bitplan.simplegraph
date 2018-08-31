@@ -99,6 +99,14 @@ public class TestExcelSystem {
     assertEquals(12, es.g().V().has("row").count().next().longValue());
     assertEquals(4,
         es.g().V().has("row").out("sheet").dedup().count().next().longValue());
+    Graph gorg=TinkerFactory.createModern();
+    Graph gnow=es.asGraph();
+    // make sure that the graphs have the same number of vertices
+    assertEquals(gorg.traversal().V().count().next().longValue(),gnow.traversal().V().count().next().longValue());
+    // check the properties
+    TestTinkerPop3.debug=true;
+    TestTinkerPop3.dumpGraph(gorg);
+    TestTinkerPop3.dumpGraph(gnow);
   }
 
 }

@@ -71,12 +71,20 @@ public class WorkBookNode extends SimpleNodeImpl {
    */
   private void init() {
     List<XSSFSheet> sheets = excel.getSheets();
+    // loop over all sheets
     for (XSSFSheet sheet:sheets) {
-      SimpleNode sheetNode=new SheetNode(this.getSimpleGraph(),sheet);
+      // get the sheets 
+      SheetNode sheetNode=new SheetNode(this.getSimpleGraph(),sheet);
       this.getVertex().addEdge(sheetNode.property("sheetname").toString(), sheetNode.getVertex());
       List<List<Object>> sheetContent = excel.getSheetContent(sheet);
       if (sheetContent.size()>0) {
         List<Object> titleRow = sheetContent.get(0);
+        for (Object titleObj:titleRow) {
+          String title=titleObj.toString();
+          if (title.startsWith("in (")) {
+            sheetNode.setForEdge(true);
+          }
+        }
         if (sheetContent.size()>1) {
           for (int rowIndex=1;rowIndex<sheetContent.size();rowIndex++) {
             List<Object> row = sheetContent.get(rowIndex);

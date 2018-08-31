@@ -142,14 +142,23 @@ public class TestTinkerPop3 {
    * 
    * @param graph
    */
-  public void dumpGraph(Graph graph) {
+  public static void dumpGraph(Graph graph) {
     if (debug) {
-      graph.traversal().V().forEachRemaining(
-          vertex -> System.out.println(String.format("%s=%s %s", vertex.id(),
-              vertex.label(), vertex.property("name").value())));
-      graph.traversal().E().forEachRemaining(
-          edge -> System.out.println(String.format("%s- %s >%s",
-              edge.inVertex().id(), edge.label(), edge.outVertex().id())));
+      graph.traversal().V().forEachRemaining(vertex -> {
+        System.out.println(String.format("%s=%s", vertex.id(), vertex.label()));
+        vertex.properties().forEachRemaining(prop -> {
+          System.out
+              .println(String.format("\t%s=%s", prop.key(), prop.value()));
+        });
+      });
+      graph.traversal().E().forEachRemaining(edge -> {
+        System.out.println(String.format("%s- %s >%s", edge.inVertex().id(),
+            edge.label(), edge.outVertex().id()));
+        edge.properties().forEachRemaining(prop -> {
+          System.out
+              .println(String.format("\t%s=%s", prop.key(), prop.value()));
+        });
+      });
     }
   }
 
@@ -402,7 +411,7 @@ public class TestTinkerPop3 {
     }
     ;
     // .properties().forEachRemaining(prop->vprops.add(prop));
-    String uml=GraphRythmContext.getInstance().renderUml(g,"AirRoutes");
+    String uml = GraphRythmContext.getInstance().renderUml(g, "AirRoutes");
     // debug=true;
     if (debug)
       System.out.println(uml);
@@ -424,10 +433,10 @@ public class TestTinkerPop3 {
     Graph graph = getAirRoutes();
     GraphTraversalSource g = graph.traversal();
     Map<Object, Long> counts = g.V().hasLabel("airport").groupCount()
-        .by("region").order(Scope.local).by(Column.values,Order.decr).next();
+        .by("region").order(Scope.local).by(Column.values, Order.decr).next();
     // https://stackoverflow.com/a/49361250/1497139
     assertEquals(1473, counts.size());
-    assertEquals("LinkedHashMap",counts.getClass().getSimpleName());
+    assertEquals("LinkedHashMap", counts.getClass().getSimpleName());
     // debug=true;
     if (debug)
       for (Object key : counts.keySet()) {
