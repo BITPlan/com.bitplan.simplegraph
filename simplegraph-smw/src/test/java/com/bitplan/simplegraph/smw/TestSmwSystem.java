@@ -39,7 +39,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
 import com.bitplan.gremlin.ToStringEqualsPredicate;
-import com.bitplan.rythm.RythmContext;
+import com.bitplan.rythm.GraphRythmContext;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.json.JsonPrettyPrinter;
 import com.bitplan.simplegraph.json.JsonSystem;
@@ -315,7 +315,7 @@ public class TestSmwSystem {
       smw.forAll(SimpleNode.printDebug);
     List<Vertex> moduleVs = smw.getStartNode().g().V()
         .hasLabel("SimpleGraphModule").toList();
-    RythmContext rythmContext = RythmContext.getInstance();
+    GraphRythmContext rythmContext = GraphRythmContext.getInstance();
     Map<String, Object> rootMap = new HashMap<String, Object>();
     rootMap.put("moduleVs", moduleVs);
     String template = "@import org.apache.tinkerpop.gremlin.structure.Vertex\n"

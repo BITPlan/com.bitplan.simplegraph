@@ -78,6 +78,7 @@ public class TestExcelSystem {
     // https://github.com/BITPlan/com.bitplan.simplegraph/issues/23
     // is fixed
     assertEquals("weight",knowsSheet.getRow(0).getCell(0).getStringCellValue());
+    assertEquals("in (person)",knowsSheet.getRow(0).getCell(1).getStringCellValue());
     es.save(wb, testModernFileName);
   }
 

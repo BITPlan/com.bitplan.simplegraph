@@ -235,8 +235,9 @@ public class Excel {
           edge.properties().forEachRemaining(prop -> {
             addCell(wb, headerRow, prop.key(), colIndex, boldStyle);
           });
-          addCell(wb, headerRow, "in", colIndex, boldStyle);
-          addCell(wb, headerRow, "out", colIndex, boldStyle);
+          // the edge
+          addCell(wb, headerRow, String.format("in (%s)",edge.inVertex().label()), colIndex, boldStyle);
+          addCell(wb, headerRow, String.format("out (%s)",edge.outVertex().label()), colIndex, boldStyle);
         }
         // create a new Row
         rowHolder.setValue(sheet.createRow(++rowNumber));
