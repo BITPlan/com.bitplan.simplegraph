@@ -1,11 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<name>SimpleGraph TripleStore</name>
 	<description>com.bitplan.triplestore submodule of com.bitplan.simplegraph</description>
-
 	<parent>
 		<groupId>com.bitplan.simplegraph</groupId>
 		<artifactId>com.bitplan.simplegraph</artifactId>
@@ -24,7 +20,8 @@
 			<artifactId>org.sidif.triplestore</artifactId>
 			<version>0.0.9</version>
 			<exclusions>
-				<exclusion>  <!-- workaround the railroad diagrammer might not be found by travis -->
+				<exclusion>
+					<!-- workaround the railroad diagrammer might not be found by travis -->
 					<groupId>nl-big-o</groupId>
 					<artifactId>rrd-anltr4</artifactId>
 				</exclusion>

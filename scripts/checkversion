@@ -10,12 +10,40 @@ if [ $# -lt 1 ]
 then
   usage
 fi
-newversion=$1
+
+#
+# create a maven configuration
+#
+mvnconfig() {
+for d in $(find . -name "simplegraph*" -type d -maxdepth 1 | sort -u)
+do
+  version=$(   cat $d/pom.xml | xml2 | grep "/project/parent/version" | cut -f2 -d'=')
+  artifactId=$(cat $d/pom.xml | xml2 | grep "/project/artifactId"     | cut -f2 -d'=')
+  echo "<$artifactId.version>$version</$artifactId.version>"
+done
+for d in $(find . -name "simplegraph*" -type d -maxdepth 1 | sort -u)
+do
+  version=$(   cat $d/pom.xml | xml2 | grep "/project/parent/version" | cut -f2 -d'=')
+  artifactId=$(cat $d/pom.xml | xml2 | grep "/project/artifactId"     | cut -f2 -d'=')
+  echo "<!-- https://mvnrepository.com/artifact/com.bitplan.simplegraph/$artifactId.version -->"
+  echo "<dependency>"
+  echo "  <groupId>com.bitplan.simplegraph</groupId>"
+	echo "  <artifactId>$artifactId</artifactId>"
+	echo "  <version>\${$artifactId.version}</version>"
+  echo "</dependency>" 
+done
+}
+
+#
+# check the versions
+#
+versioncheck() {
 for d in $(find . -name "simplegraph*" -type d -maxdepth 1)
 do
-  version=$(cat $d/pom.xml | xml2 | grep /project/parent/version | cut -f2 -d'=')
+  version=$(   cat $d/pom.xml | xml2 | grep "/project/parent/version" | cut -f2 -d'=')
+  artifactId=$(cat $d/pom.xml | xml2 | grep "/project/artifactId"     | cut -f2 -d'=')
   module=$(echo $d | cut -c3-)
-  echo "$module $version -> $newversion"
+  echo "$module $version -> $newversion $artifactid"
   if [ "$version" != "$newversion" ]
   then
     xmlstarlet ed -u  "//_:project/_:parent/_:version" -v $newversion $d/pom.xml   > /tmp/${module}_pom.xml
@@ -23,6 +51,11 @@ do
     xmlstarlet fo --indent-tab /tmp/${module}_pom.xml | grep -v "<?xml" > /tmp/${module}_pom_formatted.xml
     #diff /tmp/${module}_pom_formatted.xml $d/pom.xml
     mv /tmp/${module}_pom_formatted.xml $d/pom.xml
-  fi
-  
+  fi  
 done
+}
+
+
+newversion=$1
+#versioncheck
+mvnconfig
