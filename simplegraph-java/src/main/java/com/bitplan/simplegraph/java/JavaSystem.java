@@ -20,14 +20,24 @@
  */
 package com.bitplan.simplegraph.java;
 
+import org.apache.tinkerpop.gremlin.structure.Vertex;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
+
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
+/**
+ * system for parsing Java source code
+ * @author wf
+ *
+ */
 public class JavaSystem extends SimpleSystemImpl {
 
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
+    TinkerGraph tg=(TinkerGraph) super.graph();
+    tg.createIndex("hashCode", Vertex.class);
     return this;
   }
 

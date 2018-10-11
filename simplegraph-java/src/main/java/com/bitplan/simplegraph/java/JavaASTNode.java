@@ -60,6 +60,7 @@ public class JavaASTNode extends SimpleNodeImpl {
       MethodDeclaration md = (MethodDeclaration) node;
       map.put("name", md.getNameAsString());
     }
+    map.put("hashCode", node.hashCode());
     map.put("node", node);
     return map;
   }
