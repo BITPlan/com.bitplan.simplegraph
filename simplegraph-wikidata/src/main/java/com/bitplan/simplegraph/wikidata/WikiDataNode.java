@@ -82,12 +82,10 @@ public class WikiDataNode extends SimpleNodeImpl implements SimpleStepNode {
   }
 
   /**
-   * create me from the given map
+   * create me from the given WikiDataSystem and keys
    * 
    * @param ws
    * @param keys
-   * @param entityDocument
-   * @param map
    */
   public WikiDataNode(WikiDataSystem ws, String... keys) {
     super(ws, "wikidata", keys);

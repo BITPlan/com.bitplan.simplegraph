@@ -74,7 +74,7 @@ public class TestJavaSystem {
         "../simplegraph-powerpoint/src/main/java/com/bitplan/simplegraph/powerpoint/PowerPointSystem.java");
     assertTrue(srcFile.exists());
     CompilationUnit cu = JavaParser.parse(srcFile);
-    debug=true;
+    // debug=true;
     if (debug)
       cu.walk(node -> {
         if (node instanceof MethodDeclaration) {

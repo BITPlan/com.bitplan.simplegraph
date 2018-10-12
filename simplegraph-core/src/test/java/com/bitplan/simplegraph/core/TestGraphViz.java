@@ -33,7 +33,7 @@ import com.bitplan.rythm.GraphRythmContext;
  */
 public class TestGraphViz {
 
-  public static boolean debug=true;
+  public static boolean debug=false;
   @Test
   public void testTinkerFactoryGraphs() throws Exception {
     Graph graphs[]= {TinkerFactory.createModern(), TinkerFactory.createClassic(),TinkerFactory.createTheCrew()};

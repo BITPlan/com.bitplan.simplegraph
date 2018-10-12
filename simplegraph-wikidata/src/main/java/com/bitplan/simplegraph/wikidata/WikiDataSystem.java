@@ -88,7 +88,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
   /**
    * create a new WikiDataSystem using the given languages
    * 
-   * @param languages
+   * @param languageCodes
    */
   public WikiDataSystem(String... languageCodes) {
     this(null, languageCodes);
@@ -128,7 +128,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
    * 
    * @param cacheFile
    * @param purpose
-   * @return
+   * @return the Cache
    * @throws Exception
    */
   public Cache useCache(File cacheFile, String purpose) throws Exception {
@@ -151,7 +151,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
    * 
    * @param entityId
    *          - Property or Item
-   * @param level
+   * @param optional
    */
   public SimpleNode cache(EntityIdValue entityId, boolean optional) {
     SimpleNode node = null;

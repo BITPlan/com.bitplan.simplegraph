@@ -194,11 +194,10 @@ public class SmwSystem extends MediaWikiSystem {
    */
   public static class SMWVertex {
     /**
-     * assign the value of the property with the given label to the given target
+     * get the property with the given label of the given vertex
      * 
      * @param vertex
      * @param label
-     * @param target
      * @return the value
      */
     public Object get(Vertex vertex, String label) {
@@ -436,8 +435,8 @@ public class SmwSystem extends MediaWikiSystem {
    * recreate nodes
    * 
    * @param concept
-   * @param askJson.
-   * @return
+   * @param askJson
+   * @return the recreated tagged node
    */
   public SimpleNode conceptAlizePrintRequests(String concept,
       JsonSystem askJson) {

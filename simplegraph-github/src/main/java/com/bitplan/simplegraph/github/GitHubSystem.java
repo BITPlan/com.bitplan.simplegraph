@@ -85,7 +85,7 @@ public class GitHubSystem extends SimpleSystemImpl {
   static boolean first=true;
   /**
    * is the authentication available?
-   * @return
+   * @return true if authFile is available
    */
   public static boolean hasAuthentication() {
     File authFile=PropertiesImpl.getPropertyFile("github");

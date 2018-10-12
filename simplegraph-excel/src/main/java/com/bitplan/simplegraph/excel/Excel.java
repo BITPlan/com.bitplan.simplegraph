@@ -78,7 +78,7 @@ public class Excel {
    * get the contents of a sheet
    * 
    * @param sheet
-   * @return
+   * @return the list of list of cells
    */
   public List<List<Object>> getSheetContent(XSSFSheet sheet) {
     List<List<Object>> result = new ArrayList<List<Object>>();
@@ -184,7 +184,7 @@ public class Excel {
    * create a Workbook for the given graph
    * 
    * @param g
-   * @return
+   * @return the workbook created
    */
   public static Workbook createWorkBook(GraphTraversalSource g) {
     // from POI 4.0.0 on IndexedColorMap colorMap = new DefaultIndexedColorMap();
@@ -328,7 +328,7 @@ public class Excel {
   /**
    * get sheets
    * 
-   * @return
+   * @return the list of sheets
    */
   public List<XSSFSheet> getSheets() {
     List<XSSFSheet> sheets = new ArrayList<XSSFSheet>();
@@ -393,9 +393,8 @@ public class Excel {
   }
 
   /**
-   * save the given workbook to the given path
+   * save the current workbook to the given path
    * 
-   * @param wb
    * @param path
    * @throws Exception
    */

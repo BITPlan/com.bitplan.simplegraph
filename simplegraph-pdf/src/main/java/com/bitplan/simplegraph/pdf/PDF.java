@@ -108,7 +108,7 @@ public class PDF {
 
   /**
    * get the text for this PDF
-   * @return
+   * @return the text
    */
   public String getText() {
     String result = "?";

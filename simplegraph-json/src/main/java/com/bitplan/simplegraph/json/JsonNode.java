@@ -138,7 +138,7 @@ public class JsonNode extends SimpleNodeImpl {
    * 
    * @param key
    * @param jObject
-   * @return
+   * @return the JsonNode
    */
   public JsonNode addNode(String key, JsonObject jObject) {
     if (debug)

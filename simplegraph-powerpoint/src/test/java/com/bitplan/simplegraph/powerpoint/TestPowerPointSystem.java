@@ -314,7 +314,7 @@ public class TestPowerPointSystem  {
   public void testReadPowerpoint() throws Exception {
     PowerPointSystem pps=new PowerPointSystem();
     pps.connect();
-    SimpleStepNode slideShowNode = (SimpleStepNode) pps.moveTo("https://www.its.leeds.ac.uk/fileadmin/documents/alumni/Michele_Dix_Leeds_University_-_FINAL.PPTX");
+    SimpleStepNode slideShowNode = (SimpleStepNode) pps.moveTo("http://www.its.leeds.ac.uk/fileadmin/documents/alumni/Michele_Dix_Leeds_University_-_FINAL.PPTX");
     List<SimpleStepNode> slides = slideShowNode.out("slides")
         .collect(Collectors.toCollection(ArrayList::new));
     // debug=true;

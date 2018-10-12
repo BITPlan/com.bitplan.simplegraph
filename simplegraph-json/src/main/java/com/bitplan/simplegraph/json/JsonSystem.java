@@ -120,7 +120,7 @@ public class JsonSystem extends SimpleSystemImpl {
    * get a SimpleNode of the given url and response
    * @param url
    * @param response
-   * @return
+   * @return the SimpleNode
    */
   public SimpleNode of(String url,ClientResponse response) {
     SimpleNode result=null;

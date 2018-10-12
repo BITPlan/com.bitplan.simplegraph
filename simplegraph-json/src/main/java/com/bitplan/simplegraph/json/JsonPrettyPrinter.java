@@ -44,7 +44,7 @@ public class JsonPrettyPrinter {
   /**
    * pretty print the given json string
    * @param json
-   * @return
+   * @return the pretty printed string
    * @throws Exception
    */
   public static String prettyPrint(String json) throws Exception {

@@ -92,7 +92,7 @@ public class TestMapSystem {
   public void testMapSystem() throws Exception {
     MapSystem ms = getCarMapSystem();
     // uncomment if you'd like to see all the node details
-    debug=true;
+    // debug=true;
     if (debug)
       ms.g().V().forEachRemaining(SimpleNode.printDebug);
     // generate a graphviz graph based on this start node

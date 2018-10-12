@@ -70,7 +70,7 @@ public class TestExcelSystem {
     ExcelSystem es = new ExcelSystem();
     Graph graph = TinkerFactory.createModern();
     GraphTraversalSource g = graph.traversal();
-    es.setDebug(true);
+    // es.setDebug(true);
     Workbook wb = es.createWorkBook(g);
     assertEquals(4, wb.getNumberOfSheets());
     Sheet knowsSheet = wb.getSheet("knows");

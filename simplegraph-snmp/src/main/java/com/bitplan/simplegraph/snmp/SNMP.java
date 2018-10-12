@@ -136,11 +136,13 @@ public class SNMP {
     }
     return bindings;
   }
+  
   /**
+   * get the value of the given variable
    * see https://github.com/fbacchella/jrds
    * 
    * @param variable
-   * @return
+   * @return the value
    */
   public Object getValue(Variable variable) {
     Object retvalue = null;
