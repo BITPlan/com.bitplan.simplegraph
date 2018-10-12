@@ -88,7 +88,7 @@ public class TestExcelSystem {
     es.connect();
     File testFile = new File(testModernFileName);
     es.moveTo(testFile.toURI().toString());
-    debug = true;
+    // debug = true;
     if (debug)
       es.forAll(SimpleNode.printDebug);
     long nodeCount = es.g().V().count().next().longValue();

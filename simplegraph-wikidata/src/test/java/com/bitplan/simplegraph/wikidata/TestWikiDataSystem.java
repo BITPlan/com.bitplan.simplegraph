@@ -188,7 +188,7 @@ public class TestWikiDataSystem  {
 
   @Test
   public void testQueenVictoriaChildren() throws Exception {
-    debug=true;
+    // debug=true;
     queenVictoria = getQueenVictoria();
     // first try to navigate via Property Id
     List<SimpleNode> childrenP40 = queenVictoria.out("P40")

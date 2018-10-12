@@ -21,12 +21,15 @@
 package com.bitplan.simplegraph.word;
 
 import java.util.Map;
-import java.util.stream.Stream;
 
 import com.bitplan.simplegraph.core.SimpleGraph;
-import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
+/**
+ * wraps a word file
+ * @author wf
+ *
+ */
 public class WordNode extends SimpleNodeImpl {
 
   private Word word;

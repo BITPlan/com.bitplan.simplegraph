@@ -41,7 +41,7 @@ public class TestWordSystem {
   public void testWordSystem() throws Exception {
     WordSystem ws=new WordSystem();
     ws.connect();
-    ws.moveTo("https://www.benefits.va.gov/compensation/docs/shiplist.docx");
+    ws.moveTo("http://www.benefits.va.gov/compensation/docs/shiplist.docx");
     if (debug)
       ws.forAll(SimpleNode.printDebug);
     String text=ws.g().V().has("text").next().property("text").value().toString();
