@@ -28,6 +28,11 @@ import java.net.URL;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
+/**
+ * Helper class for handling Microsoft Word files
+ * @author wf
+ *
+ */
 public class Word {
   public XWPFDocument doc;
   public Throwable error;

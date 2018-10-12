@@ -39,10 +39,19 @@ public class WordNode extends SimpleNodeImpl {
     super(simpleGraph, kind, keys);
   }
 
+  /**
+   * create  new Word node 
+   * @param simpleGraph
+   * @param word
+   * @param keys
+   */
   public WordNode(WordSystem simpleGraph, Word word, String[] keys) {
     super(simpleGraph,"word",keys);
     this.word=word;
-    super.setVertexFromMap();
+    if (word.error==null)
+      super.setVertexFromMap();
+    else
+      throw new RuntimeException(word.error);
   }
 
   public WordNode(WordSystem simpleGraph, Word97 word97, String[] keys) {
