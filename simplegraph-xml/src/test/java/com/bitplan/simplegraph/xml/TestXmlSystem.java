@@ -20,11 +20,15 @@
  */
 package com.bitplan.simplegraph.xml;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
@@ -40,21 +44,43 @@ public class TestXmlSystem {
   protected static Logger LOGGER = Logger
       .getLogger("com.bitplan.simplegraph.xml");
 
-  @Test
-  public void testXml() throws Exception {
-    File pomFile = new File("../simplegraph-xml/pom.xml");
-    assertTrue(pomFile.exists());
+  public XmlSystem getXML(String fileName) throws Exception {
+    File xmlFile = new File(fileName);
+    assertTrue(xmlFile.exists());
     XmlSystem xs = new XmlSystem();
     xs.connect();
-    xs.moveTo(pomFile.toURI().toString());
+    xs.moveTo(xmlFile.toURI().toString());
     // debug = true;
     if (debug)
       xs.forAll(SimpleNode.printDebug);
+    return xs;
+  }
+
+  @Test
+  public void testXml() throws Exception {
+    XmlSystem xs = getXML("../simplegraph-xml/pom.xml");
     xs.getStartNode().g().V().hasLabel("artifactId")
         .forEachRemaining(xmlnode -> {
           assertTrue(xmlnode.property("text").value().toString()
               .startsWith("com.bitplan.simplegraph"));
         });
+  }
+
+  @Test
+  public void testChildOrder() throws Exception {
+    XmlSystem xs = getXML("src/test/data/h.xml");
+    List<Vertex> parentChildVertices = xs.g().V().hasLabel("parent")
+        .out("child").hasLabel("brother").order().by("XmlSystem.childIndex").toList();
+    assertEquals(3, parentChildVertices.size());
+    String expected[]= {"1","3","4"};
+    int i=0;
+    for (Vertex child : parentChildVertices) {
+      String id=child.property("id").value().toString();
+      if (debug)
+      LOGGER.log(Level.INFO,child.label()+":"+id);
+      assertEquals(expected[i],id);
+      i++;
+    }
   }
 
 }

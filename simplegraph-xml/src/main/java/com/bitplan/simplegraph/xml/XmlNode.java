@@ -23,6 +23,7 @@ package com.bitplan.simplegraph.xml;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -71,7 +72,9 @@ public class XmlNode extends SimpleNodeImpl {
       Node subNode = nodeList.item(i);
       if (subNode instanceof Element) {
         XmlNode xmlNode = new XmlNode(this.getSimpleGraph(), subNode);
-        this.getVertex().addEdge("child", xmlNode.getVertex());
+        Vertex subVertex = xmlNode.getVertex();
+        subVertex.property("XmlSystem.childIndex",i);
+        this.getVertex().addEdge("child",subVertex );
       }
     }
   }

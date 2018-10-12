@@ -1,0 +1,7 @@
+<parent id="0">
+	 <brother id="1"/>
+	 <sister id="2"/>
+	 <brother id="3"/>
+	 <brother id="4"/>
+	 <sister id="5"/>
+</parent>	 	
