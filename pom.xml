@@ -67,7 +67,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit4.version}</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -80,7 +79,6 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
 			<scope>test</scope>
 		</dependency>
 		
