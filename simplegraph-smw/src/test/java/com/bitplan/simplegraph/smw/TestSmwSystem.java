@@ -151,7 +151,7 @@ public class TestSmwSystem {
           System.out.println(String.format("* [[Property:%s]]", propName));
       }
     });
-    assertEquals(12, properties.size());
+    assertEquals(13, properties.size());
     assertTrue(properties.contains("Has_speaker"));
   }
 
