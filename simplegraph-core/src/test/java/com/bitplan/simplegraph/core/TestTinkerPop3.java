@@ -22,7 +22,6 @@ package com.bitplan.simplegraph.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -251,7 +250,7 @@ public class TestTinkerPop3 {
         g.V("3").valueMap(true).unfold().count().next().longValue());
     GraphTraversal<Vertex, Vertex> v3 = g.V("3");
     GraphTraversal<Vertex, Map<Object, Object>> vmap = v3.valueMap(true);
-    assertEquals(1,vmap.toList().size());
+    assertEquals(1, vmap.toList().size());
     GraphTraversal<Vertex, Object> unfolded = g.V("3").valueMap(true).unfold();
     if (debug)
       unfolded.forEachRemaining(o -> System.out.println(

@@ -39,9 +39,12 @@ public interface SimpleNode extends SimpleGraph {
 
   static String SELF_LABEL = "mysimplenode";
 
-  static Consumer<Vertex> printDebug = vertex -> vertex.properties()
-      .forEachRemaining(prop -> System.out.println(String.format("%s.%s=%s",
+  static Consumer<Vertex> printDebug = vertex -> {
+    System.out.println(String.format("%s %s",vertex.label(),vertex.id()));
+    vertex.properties()
+      .forEachRemaining(prop -> System.out.println(String.format("\t%s.%s=%s",
           vertex.label(), prop.label(), prop.value())));
+  };
 
   static Consumer<Vertex> printObjectDebug = vertex -> vertex.properties()
       .forEachRemaining(prop -> System.out
