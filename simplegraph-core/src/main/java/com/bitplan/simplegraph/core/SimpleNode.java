@@ -24,6 +24,7 @@ import java.io.PrintStream;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.apache.tinkerpop.gremlin.structure.Element;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
@@ -39,11 +40,11 @@ public interface SimpleNode extends SimpleGraph {
 
   static String SELF_LABEL = "mysimplenode";
 
-  static Consumer<Vertex> printDebug = vertex -> {
-    System.out.println(String.format("%s %s",vertex.label(),vertex.id()));
-    vertex.properties()
+  static Consumer<Element> printDebug = element -> {
+    System.out.println(String.format("%s %s",element.label(),element.id()));
+    element.properties()
       .forEachRemaining(prop -> System.out.println(String.format("\t%s.%s=%s",
-          vertex.label(), prop.label(), prop.value())));
+          element.label(), prop.key(), prop.value())));
   };
 
   static Consumer<Vertex> printObjectDebug = vertex -> vertex.properties()
