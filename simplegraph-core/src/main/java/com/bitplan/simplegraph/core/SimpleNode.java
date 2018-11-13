@@ -39,12 +39,16 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 public interface SimpleNode extends SimpleGraph {
 
   static String SELF_LABEL = "mysimplenode";
-
-  static Consumer<Element> printDebug = element -> {
+  
+  static Consumer<Element> printDebugElement = element -> {
     System.out.println(String.format("%s %s",element.label(),element.id()));
     element.properties()
       .forEachRemaining(prop -> System.out.println(String.format("\t%s.%s=%s",
           element.label(), prop.key(), prop.value())));
+  };
+  
+  static Consumer<Vertex> printDebug = vertex -> {
+    printDebugElement.accept(vertex);
   };
 
   static Consumer<Vertex> printObjectDebug = vertex -> vertex.properties()
