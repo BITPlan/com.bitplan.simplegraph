@@ -48,7 +48,7 @@ import com.bitplan.simplegraph.xml.TestXmlSystem;
     TestMediaWikiSystem.class, TestMapSystem.class, TestPdfSystem.class,
     TestPDFFiles.class, TestSNMPSystem.class, TestSQLSystem.class,
     TestSmwSystem.class, TestWikiDataSystem.class, TestWordSystem.class,
-    TestXmlSystem.class, com.bitplan.simplegraph.core.TestRythm.class,
+    TestXmlSystem.class, TestThermalBathInTuscany.class, com.bitplan.simplegraph.core.TestRythm.class,
     com.bitplan.simplegraph.filesystem.TestRythm.class,
     com.bitplan.simplegraph.map.TestRythm.class })
 /**
