@@ -1,5 +1,5 @@
 ### com.bitplan.simplegraph
-[Wrapper for Apache TinkerPop](http://www.bitplan.com/index.php/SimpleGraph) 
+[Wrapper for Apache TinkerPop](http://www.bitplan.com/index.php/SimpleGraph)
 
 [![Travis (.org)](https://img.shields.io/travis/BITPlan/com.bitplan.simplegraph.svg)](https://travis-ci.org/BITPlan/com.bitplan.simplegraph)
 [![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.simplegraph/com.bitplan.simplegraph.svg)](https://search.maven.org/artifact/com.bitplan.simplegraph/com.bitplan.simplegraph/0.0.3/jar)
@@ -17,6 +17,7 @@
 
 Maven dependency
 ```xml
+<!-- Wrapper for Apache TinkerPop http://www.bitplan.com/index.php/SimpleGraph -->
 <dependency>
   <groupId>com.bitplan.simplegraph</groupId>
   <artifactId>com.bitplan.simplegraph</artifactId>
@@ -79,3 +80,4 @@ mvn install
 |         | 2018-03-04 | adds SNMP, Java and XML
 |         | 2018-03-09 | adds GitHub
 | 0.0.2   | 2018-08-23 | maven release - improved README - githubpages - preparation for further modules
+| 0.0.3   | 2018-12-07 | maven release 0.0.3
