@@ -175,7 +175,7 @@ public class TestSmwSystem {
     assertEquals(1, resultsCount);
     long outEdges = dtNode.g().V().hasLabel("results").out().count().next()
         .longValue();
-    assertEquals(17, outEdges);
+    assertEquals(18, outEdges);
     if (debug)
       dtNode.g().V().hasLabel("results").outE().forEachRemaining(
           edge -> SimpleNode.printDebug.accept(edge.outVertex()));
@@ -287,7 +287,7 @@ public class TestSmwSystem {
         + "| ?SimpleGraphModule name = name\n"
         + "| ?SimpleGraphModule logo = logo\n" + "}}";
     smw.moveTo("ask=" + askQuery);
-    debug=true;
+    // debug = true;
     if (debug)
       smw.forAll(SimpleNode.printDebug);
     Long logoCount = smw.g().V().has("logo",ToStringEqualsPredicate.compare("File:Java-Logo.svg")).count().next();
