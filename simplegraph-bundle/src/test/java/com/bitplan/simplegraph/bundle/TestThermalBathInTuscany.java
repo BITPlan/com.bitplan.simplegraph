@@ -22,7 +22,9 @@ package com.bitplan.simplegraph.bundle;
 
 import static org.junit.Assert.assertEquals;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -138,9 +140,12 @@ public class TestThermalBathInTuscany {
    * @param g
    */
   public void getWikiDataItems(Graph graph) {
-    graph.traversal().V().hasLabel("wikipedia").forEachRemaining(w -> {
+     long itemCount=graph.traversal().V().hasLabel("wikipedia").count().next().longValue();
+     AtomicLong itemIndex=new AtomicLong(0);
+     graph.traversal().V().hasLabel("wikipedia").forEachRemaining(w -> {
       String url = w.property("link").value().toString();
       try {
+        itemIndex.incrementAndGet();
         HtmlSystem hs = HtmlSystem.forUrl(url);
         hs.g().V().hasLabel("a")
             .has("href", RegexPredicate.regex(
@@ -171,15 +176,21 @@ public class TestThermalBathInTuscany {
       SimpleNode wdNode = wikiDataSystem.moveTo(q);
       if (debug)
         SimpleNode.printDebug.accept(wdNode.getVertex());
-      qnode.property("coordinates",
-          wdNode.getVertex().property("P625").value());
+      String coords=wdNode.getVertex().property("P625").value().toString();
+      coords=coords.replace("(Earth)","").trim();
+      String[] parts = coords.split(":");
+      if (parts.length==2) {
+        qnode.property("lat",parts[0]);
+        qnode.property("lon",parts[1]);
+      }
+      qnode.property("coordinates",coords);
       qnode.property("image", wdNode.getVertex().property("P18").value());
 
     });
   }
 
   @Test
-  public void testWikiList() throws Exception {
+  public void testSimpleGraph() throws Exception {
     Graph graph = TinkerGraph.open();
 
     getThermalBathsInTuscany(graph);
@@ -196,9 +207,13 @@ public class TestThermalBathInTuscany {
     assertEquals(1, wb.getNumberOfSheets());
     File tmpFile = File.createTempFile("tuscany2019", ".xlsx");
     es.save(wb, tmpFile.getAbsolutePath());
-    if (debug)
+    debug=true;
+    if (debug) {
       LOGGER.log(Level.INFO, "saved excel to " + tmpFile.getAbsolutePath());
-
+    }
+    if (Desktop.isDesktopSupported()) {
+      Desktop.getDesktop().open(tmpFile);
+    }
   }
 
 }
