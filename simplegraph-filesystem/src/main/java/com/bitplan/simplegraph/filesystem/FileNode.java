@@ -32,53 +32,56 @@ import org.apache.commons.io.FilenameUtils;
 import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
-
 /**
  * a File in the File system
  * 
  * @author wf
  *
  */
-public class FileNode extends SimpleNodeImpl implements SimpleStepNode  {
+public class FileNode extends SimpleNodeImpl implements SimpleStepNode {
 
   // File to be wrapped in a Node
   File file;
   // System to be used
   FileSystem fileSystem;
-  
+
   transient String ext;
-  
+
   final public static SimpleDateFormat isoDateFormat = new SimpleDateFormat(
       "yyyy-MM-dd HH:mm:ss");
 
   /**
    * default constructor for cache handling
+   * 
    * @param fileSystem
    * @param keys
    */
-  public FileNode(FileSystem fileSystem,String ... keys) {
-    super(fileSystem,"file",keys);
+  public FileNode(FileSystem fileSystem, String... keys) {
+    super(fileSystem, "file", keys);
   }
-  
+
   /**
    * create me from a path
-   * @param fileSystem - the FileSystem to create the FileNode for
+   * 
+   * @param fileSystem
+   *          - the FileSystem to create the FileNode for
    * @param path
-   * @param keys 
+   * @param keys
    */
-  public FileNode(FileSystem fileSystem,String path, String ... keys) {
-    this(fileSystem,new File(path),keys);
+  public FileNode(FileSystem fileSystem, String path, String... keys) {
+    this(fileSystem, new File(path), keys);
   }
 
   /**
    * create me from a file
+   * 
    * @param fileSystem
    * @param file
    */
-  public FileNode(FileSystem fileSystem,File file,String ...keys) {
-    super(fileSystem,"file",keys);
-    this.fileSystem=fileSystem;
-    if (file!=null) {
+  public FileNode(FileSystem fileSystem, File file, String... keys) {
+    super(fileSystem, "file", keys);
+    this.fileSystem = fileSystem;
+    if (file != null) {
       this.file = file;
       this.ext = FilenameUtils.getExtension(file.getName());
     }
@@ -100,7 +103,7 @@ public class FileNode extends SimpleNodeImpl implements SimpleStepNode  {
   public Stream<SimpleStepNode> out(String edgeName) {
     return inOrOut(edgeName);
   }
-  
+
   @Override
   public Stream<SimpleStepNode> in(String edgeName) {
     return inOrOut(edgeName);
@@ -108,6 +111,7 @@ public class FileNode extends SimpleNodeImpl implements SimpleStepNode  {
 
   /**
    * step along the given edge
+   * 
    * @param edgeName
    * @return - the stream of nodes
    */
@@ -115,33 +119,36 @@ public class FileNode extends SimpleNodeImpl implements SimpleStepNode  {
     Stream<SimpleStepNode> links = Stream.of();
     switch (edgeName) {
     case "parent":
-      FileNode parent = new FileNode(fileSystem,file.getParentFile());
-      knit(parent,this);
+      FileNode parent = new FileNode(fileSystem, file.getParentFile());
+      knit(parent, this);
       links = Stream.of(parent);
       break;
     case "files":
       if (file.isDirectory()) {
         List<SimpleStepNode> files = new ArrayList<SimpleStepNode>();
-        for (File childFile : file.listFiles()) {
-          FileNode childFileNode=new FileNode(fileSystem,childFile);
-          knit(this,childFileNode);
-          files.add(childFileNode);
-        }
+        File[] filelist = file.listFiles();
+        if (filelist != null)
+          for (File childFile : filelist) {
+            FileNode childFileNode = new FileNode(fileSystem, childFile);
+            knit(this, childFileNode);
+            files.add(childFileNode);
+          }
         links = files.stream();
       }
       break;
-      default:
-        throw new RuntimeException("unknown edgeName "+edgeName);
+    default:
+      throw new RuntimeException("unknown edgeName " + edgeName);
     }
     return links;
   }
-  
+
   /**
    * link parent and child together
+   * 
    * @param parent
    * @param child
    */
-  protected void knit(FileNode parent,FileNode child) {
+  protected void knit(FileNode parent, FileNode child) {
     child.getVertex().addEdge("parent", parent.getVertex());
     parent.getVertex().addEdge("files", child.getVertex());
   }
