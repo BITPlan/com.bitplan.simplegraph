@@ -39,6 +39,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 
 /**
  * test the Java files
+ * 
  * @author wf
  *
  */
@@ -51,36 +52,38 @@ public class TestJavaFiles {
   public void testJavaFiles() {
     FileSystem fs = new FileSystem();
     fs.connect();
-    FileNode fileRoot = fs.moveTo("..");
+    FileNode fileRoot = fs.moveTo("src");
     fileRoot.recursiveOut("files", Integer.MAX_VALUE);
     long javaFileCount = fs.g().V().hasLabel("file").has("ext", "java").count()
         .next().longValue();
     if (debug)
       System.out.println(javaFileCount);
-    assertTrue(javaFileCount >= 80);
+    assertTrue("" + javaFileCount, javaFileCount >= 5);
     JavaSystem js = new JavaSystem();
     fs.g().V().hasLabel("file").has("ext", "java")
         .forEachRemaining(javaFile -> {
-          SimpleNode javaSrcNode=js.moveTo(javaFile.property("path").value().toString());
+          SimpleNode javaSrcNode = js
+              .moveTo(javaFile.property("path").value().toString());
         });
     // js.g().V().hasLabel("MethodDeclaration").forEachRemaining(SimpleNode.printDebug);
-    assertEquals(21,js.g().V().hasLabel("MethodDeclaration").has("name", "connect").count().next().longValue());
+    assertEquals(1, js.g().V().hasLabel("MethodDeclaration")
+        .has("name", "testJavaFiles").count().next().longValue());
     // debug = true;
-    js.g().V().hasLabel("MethodDeclaration").has("name", "connect")
+    js.g().V().hasLabel("MethodDeclaration").has("name", "testJavaFiles")
         .forEachRemaining(jnode -> {
           MethodDeclaration md = (MethodDeclaration) jnode.property("node")
               .value();
-          if (debug) {
-            System.out.println(md.getNameAsString());
-            Optional<BlockStmt> obody = md.getBody();
-            Optional<Node> ocd = md.getParentNode();
-            if (ocd.isPresent()) {
-                ClassOrInterfaceDeclaration cd = (ClassOrInterfaceDeclaration) md.getParentNode().get();
-                System.out.println(cd.getNameAsString());
-            }
-            if (obody.isPresent()) {
-              System.out.println(md.getBody().get().toString());
-            }
+          assertEquals("testJavaFiles", md.getNameAsString());
+          Optional<BlockStmt> obody = md.getBody();
+          Optional<Node> ocd = md.getParentNode();
+          if (ocd.isPresent()) {
+            ClassOrInterfaceDeclaration cd = (ClassOrInterfaceDeclaration) md
+                .getParentNode().get();
+            assertEquals("TestJavaFiles", cd.getNameAsString());
+          }
+          if (obody.isPresent()) {
+            String body=md.getBody().get().toString();
+            assertTrue(body.contains("fileRoot.recursiveOut"));
           }
         });
   }

@@ -208,13 +208,13 @@ public class TestThermalBathInTuscany {
     assertEquals(1, wb.getNumberOfSheets());
     File tmpFile = File.createTempFile("tuscany2019", ".xlsx");
     es.save(wb, tmpFile.getAbsolutePath());
-    debug=true;
+    //debug=true;
     if (debug) {
       LOGGER.log(Level.INFO, "saved excel to " + tmpFile.getAbsolutePath());
 
-      if (Desktop.isDesktopSupported()) {
-        Desktop.getDesktop().open(tmpFile);
-      }
+      //if (Desktop.isDesktopSupported()) {
+      //Desktop.getDesktop().open(tmpFile);
+      //}
     }
   }
 

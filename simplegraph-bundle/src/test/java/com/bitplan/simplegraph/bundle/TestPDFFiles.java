@@ -171,7 +171,7 @@ public class TestPDFFiles {
     PdfSystem pdfSystem = getPdfSystemForFileSystem(fs, limit);
     Map<String, List<String>> index = this.getIndex(pdfSystem, "ARPA",
         "proposal", "plan");
-    debug=true;
+    // debug=true;
     showIndex(index,debug);
     assertEquals(14,index.get("ARPA").size());
     assertEquals(9,index.get("plan").size());
