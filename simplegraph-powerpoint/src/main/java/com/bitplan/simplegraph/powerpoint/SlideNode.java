@@ -213,7 +213,7 @@ public class SlideNode extends SimpleNodeImpl implements Slide, SimpleStepNode {
     String delim = "";
     if (shapes != null) {
       for (XSLFShape shape : shapes) {
-        result += delim + this.getShapeText(shape, delim, sep);
+        result += delim + SlideNode.getShapeText(shape, delim, sep);
         delim = sep;
       }
     }

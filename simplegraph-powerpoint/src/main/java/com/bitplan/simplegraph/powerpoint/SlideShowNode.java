@@ -32,13 +32,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.apache.poi.POIXMLProperties;
-import org.apache.poi.POIXMLProperties.CoreProperties;
+import org.apache.poi.ooxml.POIXMLProperties.CoreProperties;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 
 import com.bitplan.simplegraph.core.SimpleGraph;
-import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
@@ -98,7 +96,7 @@ public class SlideShowNode extends SimpleNodeImpl implements SlideShow, SimpleSt
    * @return
    */
   public CoreProperties getCoreProperties() {
-    POIXMLProperties props = slideshow.getProperties();
+    org.apache.poi.ooxml.POIXMLProperties props = slideshow.getProperties();
     CoreProperties cp = props.getCoreProperties();
     return cp;
   }

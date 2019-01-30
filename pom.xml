@@ -23,7 +23,7 @@
 		<!-- Java Code Coverage version -->
 		<jacoco.version>0.8.0</jacoco.version>
 		<!-- Apache POI e.g. for Powerpoint -->
-		<apache-poi.version>3.17</apache-poi.version>
+		<apache-poi.version>4.0.1</apache-poi.version>
 		<!-- <wikidata.toolkit.version>0.7.0</wikidata.toolkit.version> -->
 		<wikidata.toolkit.version>0.8.0</wikidata.toolkit.version>
 		<!-- mediawiki japi -->
@@ -51,15 +51,15 @@
 		<module>simplegraph-map</module>
 		<module>simplegraph-mediawiki</module>
 		<module>simplegraph-smw</module>
-		<module>simplegraph-pdf</module> 
+		<module>simplegraph-pdf</module>
 		<module>simplegraph-snmp</module>
 		<module>simplegraph-sql</module>
 		<module>simplegraph-triplestore</module>
-		<module>simplegraph-excel</module> 
+		<module>simplegraph-excel</module>
 		<module>simplegraph-wikidata</module>
 		<module>simplegraph-word</module>
 		<module>simplegraph-xml</module>
-		<module>simplegraph-powerpoint</module> 
+		<module>simplegraph-powerpoint</module>
 		<module>simplegraph-bundle</module>
 	</modules>
 	<dependencies>
@@ -81,7 +81,7 @@
 			<artifactId>hamcrest-all</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- https://stackoverflow.com/a/48230713/1497139 -->
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
 		<dependency>
