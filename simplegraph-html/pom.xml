@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.bitplan.simplegraph</groupId>
 		<artifactId>com.bitplan.simplegraph</artifactId>
-		<version>0.0.3</version>
+		<version>0.0.4</version>
 	</parent>
 	<name>SimpleGraph HTML</name>
 	<description>com.bitplan.simplegraph.html submodule of com.bitplan.simplegraph</description>

@@ -125,4 +125,16 @@ public class TestJsonSystem {
       assertTrue(lat.startsWith("50.9412"));
     }
   }
+  
+  @Test
+  public void testOpenChargeMapApi() throws Exception {
+    String apiUrl="http://api.openchargemap.io/v2/poi/?output=json&latitude=50.598&longitude=7.434&maxresults=10";
+    JsonSystem js=new JsonSystem();
+    js.connect();
+    js.moveTo(apiUrl);
+    long nodes = js.g().V().count().next().longValue();
+    assertEquals(190,nodes);
+    if (debug)
+      SimpleNode.dumpGraph(js.graph());
+  }
 }

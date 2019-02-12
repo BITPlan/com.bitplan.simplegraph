@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.bitplan.simplegraph</groupId>
 	<artifactId>com.bitplan.simplegraph</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<name>SimpleGraph</name>
 	<description>Wrapper for Apache TinkerPop</description>
 	<properties>
@@ -17,7 +17,7 @@
 		<github.project>com.bitplan.simplegraph</github.project>
 		<!-- for README.md generation -->
 		<documentation.wiki>http://www.bitplan.com/index.php/SimpleGraph</documentation.wiki>
-		<tinkerpop.version>3.3.1</tinkerpop.version>
+		<tinkerpop.version>3.4.0</tinkerpop.version>
 		<!-- Rythm Template Engine -->
 		<rythm.version>1.1.7</rythm.version>
 		<!-- Java Code Coverage version -->

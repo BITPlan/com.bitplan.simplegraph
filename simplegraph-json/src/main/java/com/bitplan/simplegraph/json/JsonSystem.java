@@ -29,6 +29,7 @@ import com.bitplan.simplegraph.core.SimpleGraph;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -44,7 +45,7 @@ import com.sun.jersey.api.client.WebResource.Builder;
 public class JsonSystem extends SimpleSystemImpl {
   protected static Logger LOGGER = Logger
       .getLogger("com.bitplan.simplegraph.json");
-  
+
   JsonParser parser = new JsonParser();
   String json;
   Client client = null;
@@ -77,68 +78,85 @@ public class JsonSystem extends SimpleSystemImpl {
        * treeWalk((JsonNode) this.getStartNode()); }
        */
     } else {
-      this.params=params;
+      this.params = params;
     }
     return this;
   }
-  
+
   /**
    * get a builder for the given url
+   * 
    * @param url
    * @return - the Builder
    */
   public Builder getBuilder(String url) {
     if (client == null)
       client = Client.create();
-    WebResource resource = client.resource(url);  
+    WebResource resource = client.resource(url);
     Builder builder = resource.accept(MediaType.APPLICATION_JSON_TYPE);
     // add headers from connection parameters
-    for (String param:params) {
-      String[] paramparts = param.split(":"); 
-      if (paramparts.length==2) {
-        String name=paramparts[0];
-        String value=paramparts[1];
-        builder.header(name,value);
+    if (params != null)
+      for (String param : params) {
+        String[] paramparts = param.split(":");
+        if (paramparts.length == 2) {
+          String name = paramparts[0];
+          String value = paramparts[1];
+          builder.header(name, value);
+        }
       }
-    }
     return builder;
   }
-  
+
   /**
    * post the given postJson json data to the given url
+   * 
    * @param url
    * @param postJson
    * @return a SimpleNode with the result graph
    */
-  public SimpleNode post(String url,String postJson) {
+  public SimpleNode post(String url, String postJson) {
     Builder builder = this.getBuilder(url);
-    ClientResponse response=builder.post(ClientResponse.class,postJson);
-    return of(url,response);
+    ClientResponse response = builder.post(ClientResponse.class, postJson);
+    return of(url, response);
   }
-  
+
   /**
    * get a SimpleNode of the given url and response
+   * 
    * @param url
    * @param response
    * @return the SimpleNode
    */
-  public SimpleNode of(String url,ClientResponse response) {
-    SimpleNode result=null;
+  public SimpleNode of(String url, ClientResponse response) {
+    SimpleNode[] result = {null};
     if (response.getStatus() == 200) {
-      String json=response.getEntity(String.class);
-      result=new JsonNode(this, "jsonroot", parser.parse(json));
-      this.optionalStartNode(result);
+      String json = response.getEntity(String.class);
+      JsonElement jsontree = parser.parse(json);
+      if (jsontree.isJsonObject()) {
+        result[0] = new JsonNode(this, "jsonroot", jsontree);
+        this.optionalStartNode(result[0]);
+      } else {
+        if (jsontree.isJsonArray()) {
+          jsontree.getAsJsonArray().forEach(je->{
+            result[0] = new JsonNode(this, "jsonroot", je);
+            this.optionalStartNode(result[0]);
+          });;
+        } else {
+          new IllegalStateException(String.format("can't handle json url %s with JsonElement  ",url,jsontree.getClass().getName()));
+        }
+      }
     } else {
-      LOGGER.log(Level.WARNING, String.format("response for '%s' failed - status: %3d",url,response.getStatus()));
+      LOGGER.log(Level.WARNING, String.format(
+          "response for '%s' failed - status: %3d", url, response.getStatus()));
     }
-    return result;
+    return result[0];
   }
 
   @Override
   public SimpleNode moveTo(String nodeQuery, String... keys) {
     Builder builder = this.getBuilder(nodeQuery);
     ClientResponse response = builder.get(ClientResponse.class);
-    return of(nodeQuery,response);
+    return of(nodeQuery, response);
   }
 
   @Override
@@ -160,11 +178,11 @@ public class JsonSystem extends SimpleSystemImpl {
    */
   public static JsonSystem of(SimpleGraph graph, String json) {
     JsonSystem js = new JsonSystem(graph);
-    if (graph!=null)
+    if (graph != null)
       js.setDebug(graph.isDebug());
     try {
       js.connect("json", json);
-      if (graph!=null && graph.isDebug())
+      if (graph != null && graph.isDebug())
         js.getStartNode().forAll(SimpleNode.printDebug);
       return js;
     } catch (Exception e) {

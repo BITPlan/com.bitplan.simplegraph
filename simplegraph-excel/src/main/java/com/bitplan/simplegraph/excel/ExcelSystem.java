@@ -20,8 +20,6 @@
  */
 package com.bitplan.simplegraph.excel;
 
-import java.util.Iterator;
-
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Direction;
@@ -35,7 +33,6 @@ import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
-import com.bitplan.simplegraph.impl.Holder;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
 /**
@@ -113,7 +110,7 @@ public class ExcelSystem extends SimpleSystemImpl {
         String label = sheetNode.property("sheetname").toString();
         vSheetNode.edges(Direction.OUT, "rows").forEachRemaining(rowEdge -> {
           Vertex vRowNode = rowEdge.inVertex();
-          SimpleNode.printDebug.accept(vRowNode);
+          // SimpleNode.printDebug.accept(vRowNode);
           EdgeInfo edgeInfo = new EdgeInfo();
           vRowNode.properties().forEachRemaining(prop -> {
             if (prop.key().startsWith("in ("))
