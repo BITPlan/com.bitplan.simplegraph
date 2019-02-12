@@ -93,7 +93,7 @@ public class TestExcelSystem {
       es.forAll(SimpleNode.printDebug);
     long nodeCount = es.g().V().count().next().longValue();
     assertEquals(17, nodeCount);
-    List<Map<String, Object>> sheetMapList = es.g().V().has("sheetname")
+    List<Map<Object, Object>> sheetMapList = es.g().V().has("sheetname")
         .valueMap("sheetname").toList();
     assertEquals(4, sheetMapList.size());
     assertEquals(12, es.g().V().has("row").count().next().longValue());

@@ -83,7 +83,7 @@ public class TestTinkerPop3 {
     Graph graph = getAirRoutes();
     GraphTraversalSource g = graph.traversal();
     assertEquals(3619, g.V().count().next().longValue());
-    Map<String, ?> aus = g.V().has("code", "AUS").valueMap().next();
+    Map<Object, Object> aus = g.V().has("code", "AUS").valueMap().next();
     aus.forEach((k, v) -> {
       if (debug)
         LOGGER.log(Level.INFO, String.format("%s = %s", k, v));
