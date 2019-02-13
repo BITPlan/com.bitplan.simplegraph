@@ -98,11 +98,32 @@ public class Excel {
     return result;
   }
 
+  /**
+   * remove a row from a sheet
+   * see https://stackoverflow.com/a/21947170/1497139
+   * 
+   * @param sheet
+   * @param rowIndex
+   *          - the index of the row to remove
+   */
+  public static void removeRow(Sheet sheet, int rowIndex) {
+    int lastRowNum = sheet.getLastRowNum();
+    if (rowIndex >= 0 && rowIndex < lastRowNum) {
+      sheet.shiftRows(rowIndex + 1, lastRowNum, -1);
+    }
+    if (rowIndex == lastRowNum) {
+      Row removingRow = sheet.getRow(rowIndex);
+      if (removingRow != null) {
+        sheet.removeRow(removingRow);
+      }
+    }
+  }
+
   private Object getCellValue(XSSFCell cell) {
     Object cellValue = null;
-    CellType cellType = cell.getCellTypeEnum();
+    CellType cellType = cell.getCellType();
     if (CellType.FORMULA == cellType)
-      cellType = cell.getCachedFormulaResultTypeEnum();
+      cellType = cell.getCachedFormulaResultType();
     switch (cellType) {
     case BOOLEAN:
       cellValue = cell.getBooleanCellValue();
@@ -110,11 +131,11 @@ public class Excel {
     case NUMERIC:
       cellValue = cell.getNumericCellValue();
       XSSFCellStyle cellStyle = cell.getCellStyle();
-      if (cellStyle!=null) {
-        String format=cellStyle.getDataFormatString();
+      if (cellStyle != null) {
+        String format = cellStyle.getDataFormatString();
         if ("0".equals(format)) {
-          Double d=(Double) cellValue;
-          cellValue=d.longValue();
+          Double d = (Double) cellValue;
+          cellValue = d.longValue();
         }
       }
       break;
@@ -187,15 +208,16 @@ public class Excel {
    * @return the workbook created
    */
   public static Workbook createWorkBook(GraphTraversalSource g) {
-    // from POI 4.0.0 on IndexedColorMap colorMap = new DefaultIndexedColorMap();
+    // from POI 4.0.0 on IndexedColorMap colorMap = new
+    // DefaultIndexedColorMap();
     // https://poi.apache.org/spreadsheet/quick-guide.html#NewSheet
     Workbook wb = new XSSFWorkbook();
     // add a sheet of vertices per vertex Label
-    g.V().label().dedup()
-        .forEachRemaining(vertexLabel -> addSheet(wb, vertexLabel, g.V(),new XSSFColor(Color.BLUE)));
+    g.V().label().dedup().forEachRemaining(vertexLabel -> addSheet(wb,
+        vertexLabel, g.V(), new XSSFColor(Color.BLUE)));
     // add a sheet of edges per edge Label
-    g.E().label().dedup()
-        .forEachRemaining(edgeLabel -> addSheet(wb, edgeLabel, g.E(),new XSSFColor(Color.GREEN)));
+    g.E().label().dedup().forEachRemaining(edgeLabel -> addSheet(wb, edgeLabel,
+        g.E(), new XSSFColor(Color.GREEN)));
     return wb;
   }
 
@@ -205,7 +227,8 @@ public class Excel {
    * @param wb
    * @param itemLabel
    * @param items
-   * @param color - the color to use
+   * @param color
+   *          - the color to use
    */
   private static <T> void addSheet(Workbook wb, String itemLabel,
       GraphTraversal<T, T> items, XSSFColor color) {
@@ -218,8 +241,8 @@ public class Excel {
     Sheet sheet = wb.createSheet(fixSheetName(itemLabel));
     // set the color
     if (sheet instanceof XSSFSheet) {
-     XSSFSheet xsheet = (XSSFSheet)sheet;
-     xsheet.setTabColor(color);
+      XSSFSheet xsheet = (XSSFSheet) sheet;
+      xsheet.setTabColor(color);
     }
     // rowIndex to be used in Lambda starting from 0
     Holder<Integer> rowIndex = new Holder<Integer>(0);
@@ -245,8 +268,12 @@ public class Excel {
             addCell(wb, headerRow, prop.key(), colIndex, boldStyle);
           });
           // the edge
-          addCell(wb, headerRow, String.format("in (%s)",edge.inVertex().label()), colIndex, boldStyle);
-          addCell(wb, headerRow, String.format("out (%s)",edge.outVertex().label()), colIndex, boldStyle);
+          addCell(wb, headerRow,
+              String.format("in (%s)", edge.inVertex().label()), colIndex,
+              boldStyle);
+          addCell(wb, headerRow,
+              String.format("out (%s)", edge.outVertex().label()), colIndex,
+              boldStyle);
         }
         // create a new Row
         rowHolder.setValue(sheet.createRow(++rowNumber));
@@ -356,14 +383,14 @@ public class Excel {
     colIndex.setValue(colIndex.getFirstValue() + 1);
     if (value instanceof Integer) {
       Integer intValue = (Integer) value;
-      if (cellStyle == null) { 
+      if (cellStyle == null) {
         cellStyle = wb.createCellStyle();
         cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("0"));
       }
       cell.setCellValue(intValue.doubleValue());
     } else if (value instanceof Long) {
       Long longValue = (Long) value;
-      if (cellStyle == null) { 
+      if (cellStyle == null) {
         cellStyle = wb.createCellStyle();
         cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("0"));
       }
