@@ -19,7 +19,7 @@
 		<documentation.wiki>http://www.bitplan.com/index.php/SimpleGraph</documentation.wiki>
 		<tinkerpop.version>3.4.0</tinkerpop.version>
 		<!-- Rythm Template Engine -->
-		<rythm.version>1.1.7</rythm.version>
+		<rythm.version>1.3.0</rythm.version>
 		<!-- Java Code Coverage version -->
 		<jacoco.version>0.8.0</jacoco.version>
 		<!-- Apache POI e.g. for Powerpoint -->

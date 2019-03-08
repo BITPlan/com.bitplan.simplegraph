@@ -20,12 +20,15 @@
  */
 package com.bitplan.simplegraph.java;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.logging.Logger;
 
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
@@ -52,7 +55,7 @@ public class TestJavaSystem {
     JavaSystem js = new JavaSystem();
     JavaSourceNode jsn = (JavaSourceNode) js.moveTo(
         "../simplegraph-java/src/test/java/com/bitplan/simplegraph/java/TestJavaSystem.java");
-    // debug = true;
+    debug = true;
     if (debug) {
       js.forAll(SimpleNode.printDebug);
       CompilationUnit cu = jsn.compilationUnit;
@@ -66,6 +69,26 @@ public class TestJavaSystem {
     assertTrue(md.getComment().isPresent());
     assertTrue(md.getComment().get().getContent()
         .contains("test for the Java System"));
+  }
+  
+  public static class AClass {
+    public void aMethod() {
+      
+    }
+  }
+  
+  @Test
+  public void testClasses() {
+    JavaSystem js = new JavaSystem();
+    JavaSourceNode jsn = (JavaSourceNode) js.moveTo(
+        "../simplegraph-java/src/test/java/com/bitplan/simplegraph/java/TestJavaSystem.java");
+    List<Vertex> cdNodes=js.g().V()
+        .hasLabel("ClassOrInterfaceDeclaration").toList();
+    // Local class AClass should also be found
+    assertEquals(2,cdNodes.size());
+    for (Vertex cdNode:cdNodes) {
+      SimpleNode.printDebug.accept(cdNode);
+    }
   }
 
   @Test

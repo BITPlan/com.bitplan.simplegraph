@@ -48,6 +48,7 @@ public class TestFileSystem {
 
   @Test
   public void testFileSystemTree() throws Exception {
+    debug=true;
     SimpleSystem fs=new FileSystem();
     assertEquals("FileSystem",fs.getName());
     assertEquals("0.0.3",fs.getVersion());
