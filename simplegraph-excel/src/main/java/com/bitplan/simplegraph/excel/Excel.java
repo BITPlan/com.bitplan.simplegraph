@@ -32,7 +32,6 @@ import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -43,7 +42,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -80,16 +78,16 @@ public class Excel {
    * @param sheet
    * @return the list of list of cells
    */
-  public List<List<Object>> getSheetContent(XSSFSheet sheet) {
-    List<List<Object>> result = new ArrayList<List<Object>>();
+  public List<List<CellValue>> getSheetContent(XSSFSheet sheet) {
+    List<List<CellValue>> result = new ArrayList<List<CellValue>>();
     Iterator<Row> rows = sheet.rowIterator();
     while (rows.hasNext()) {
       XSSFRow row = (XSSFRow) rows.next();
       Iterator<Cell> cells = row.cellIterator();
-      List<Object> rowList = new ArrayList<Object>();
+      List<CellValue> rowList = new ArrayList<CellValue>();
       while (cells.hasNext()) {
         XSSFCell cell = (XSSFCell) cells.next();
-        Object cellValue = getCellValue(cell);
+        CellValue cellValue = new CellValueImpl(cell);
         rowList.add(cellValue);
       }
       if (rowList.size() > 0)
@@ -99,8 +97,7 @@ public class Excel {
   }
 
   /**
-   * remove a row from a sheet
-   * see https://stackoverflow.com/a/21947170/1497139
+   * remove a row from a sheet see https://stackoverflow.com/a/21947170/1497139
    * 
    * @param sheet
    * @param rowIndex
@@ -117,47 +114,6 @@ public class Excel {
         sheet.removeRow(removingRow);
       }
     }
-  }
-
-  private Object getCellValue(XSSFCell cell) {
-    Object cellValue = null;
-    CellType cellType = cell.getCellType();
-    if (CellType.FORMULA == cellType)
-      cellType = cell.getCachedFormulaResultType();
-    switch (cellType) {
-    case BOOLEAN:
-      cellValue = cell.getBooleanCellValue();
-      break;
-    case NUMERIC:
-      cellValue = cell.getNumericCellValue();
-      XSSFCellStyle cellStyle = cell.getCellStyle();
-      if (cellStyle != null) {
-        String format = cellStyle.getDataFormatString();
-        if ("0".equals(format)) {
-          Double d = (Double) cellValue;
-          cellValue = d.longValue();
-        }
-      }
-      break;
-    case STRING:
-      cellValue = cell.getStringCellValue();
-      break;
-    case BLANK:
-      break;
-    case ERROR:
-      cellValue = cell.getErrorCellValue();
-      break;
-
-    // CELL_TYPE_FORMULA will never occur
-    case FORMULA:
-      break;
-    case _NONE:
-      cellValue = cell.toString();
-      break;
-    default:
-      break;
-    }
-    return cellValue;
   }
 
   /**

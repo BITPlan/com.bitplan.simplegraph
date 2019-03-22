@@ -76,18 +76,18 @@ public class WorkBookNode extends SimpleNodeImpl {
       // get the sheets 
       SheetNode sheetNode=new SheetNode(this.getSimpleGraph(),sheet);
       this.getVertex().addEdge(sheetNode.property("sheetname").toString(), sheetNode.getVertex());
-      List<List<Object>> sheetContent = excel.getSheetContent(sheet);
+      List<List<CellValue>> sheetContent = excel.getSheetContent(sheet);
       if (sheetContent.size()>0) {
-        List<Object> titleRow = sheetContent.get(0);
-        for (Object titleObj:titleRow) {
-          String title=titleObj.toString();
+        List<CellValue> titleRow = sheetContent.get(0);
+        for (CellValue titleObj:titleRow) {
+          String title=titleObj.getValue().toString();
           if (title.startsWith("in (")) {
             sheetNode.setForEdge(true);
           }
         }
         if (sheetContent.size()>1) {
           for (int rowIndex=1;rowIndex<sheetContent.size();rowIndex++) {
-            List<Object> row = sheetContent.get(rowIndex);
+            List<CellValue> row = sheetContent.get(rowIndex);
             // create a node for the row
             SimpleNode rowNode=new RowNode(this,titleRow,row,rowIndex);
             sheetNode.getVertex().addEdge("rows", rowNode.getVertex());

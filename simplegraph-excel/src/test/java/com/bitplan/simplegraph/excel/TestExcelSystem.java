@@ -101,6 +101,9 @@ public class TestExcelSystem {
         es.g().V().has("row").out("sheet").dedup().count().next().longValue());
     Graph gorg=TinkerFactory.createModern();
     Graph gnow=es.asGraph();
+    //debug=true;
+    if (debug)
+      SimpleNode.dumpGraph(gnow);
     // make sure that the graphs have the same number of vertices
     assertEquals(gorg.traversal().V().count().next().longValue(),gnow.traversal().V().count().next().longValue());
     // check the properties
