@@ -49,6 +49,9 @@ public class CellValueImpl implements CellValue {
    * @param cell
    */
   public CellValueImpl(XSSFCell cell) {
+	if (cell == null) {
+		return;
+	}
     CellType cellType = cell.getCellType();
     if (CellType.FORMULA == cellType) {
       formula=cell.getCellFormula();

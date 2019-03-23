@@ -53,6 +53,7 @@ public class TestExcelSystem {
 
   String testAirRouteFileName = "../simplegraph-excel/air-routes.xlsx";
   String testModernFileName = "../simplegraph-excel/modern.xlsx";
+  String testModernWithEmptyCellsFileName = "../simplegraph-excel/src/test/data/modernwithemptycells.xlsx";
 
   @Test
   public void testCreateExcelAirRoutes() throws Exception {
@@ -110,6 +111,27 @@ public class TestExcelSystem {
     TestTinkerPop3.debug=true;
     TestTinkerPop3.dumpGraph(gorg);
     TestTinkerPop3.dumpGraph(gnow);
+  }
+  
+  @Test
+  public void testReadExcelWithEmptyCells() throws Exception {
+    ExcelSystem es = new ExcelSystem();
+    es.connect();
+    File testFile = new File(testModernWithEmptyCellsFileName);
+    es.moveTo(testFile.toURI().toString());
+    // debug = true;
+    if (debug)
+      es.forAll(SimpleNode.printDebug);
+    long nodeCount = es.g().V().count().next().longValue();
+    assertEquals(6, nodeCount);
+    List<Map<Object, Object>> sheetMapList = es.g().V().has("sheetname")
+        .valueMap("sheetname").toList();
+    assertEquals(1, sheetMapList.size());
+    assertEquals(4, es.g().V().has("row").count().next().longValue());
+    long m = es.g().V().has("row").out("sheet").dedup().count().next().longValue();
+    assertEquals(1,
+        es.g().V().has("row").out("sheet").dedup().count().next().longValue());
+
   }
 
 }

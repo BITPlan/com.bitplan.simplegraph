@@ -86,10 +86,14 @@ public class Excel {
       XSSFRow row = (XSSFRow) rows.next();
       Iterator<Cell> cells = row.cellIterator();
       List<CellValue> rowList = new ArrayList<CellValue>();
+      int lastColumnIndex = -1;
       while (cells.hasNext()) {
         XSSFCell cell = (XSSFCell) cells.next();
-        CellValue cellValue = new CellValueImpl(cell);
-        rowList.add(cellValue);
+        while (cell.getColumnIndex() - lastColumnIndex > 0) {
+          CellValue cellValue = (cell.getColumnIndex() - lastColumnIndex > 1) ? (new CellValueImpl(null)) : (new CellValueImpl(cell));
+          rowList.add(cellValue);
+          lastColumnIndex++;
+        }
       }
       if (rowList.size() > 0)
         result.add(rowList);
