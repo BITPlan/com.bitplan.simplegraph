@@ -24,6 +24,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
@@ -51,8 +52,11 @@ public class TestExcelFormulas {
     // debug = true;
     if (debug)
       es.forAll(SimpleNode.printDebug);
-    long nodeCount = es.g().V().count().next().longValue();
+    GraphTraversalSource g = es.g();
+    long nodeCount = g.V().count().next().longValue();
     assertEquals(17, nodeCount);
+    long formulaCount = g.V().has("sum.formula").count().next().longValue();
+    assertEquals(4,formulaCount);
   }
-
+  
 }

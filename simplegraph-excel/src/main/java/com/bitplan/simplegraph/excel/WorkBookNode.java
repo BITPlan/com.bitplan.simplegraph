@@ -22,7 +22,6 @@ package com.bitplan.simplegraph.excel;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -80,7 +79,8 @@ public class WorkBookNode extends SimpleNodeImpl {
       if (sheetContent.size()>0) {
         List<CellValue> titleRow = sheetContent.get(0);
         for (CellValue titleObj:titleRow) {
-          String title=titleObj.getValue().toString();
+          Object value=titleObj.getValue();
+          String title=value==null?"":value.toString();
           if (title.startsWith("in (")) {
             sheetNode.setForEdge(true);
           }

@@ -76,6 +76,10 @@ public class RowNode extends SimpleNodeImpl {
           name = nameO.toString();
         CellValue cellValue=row.get(colIndex);
         map.put(name, cellValue.getValue());
+        String formula=cellValue.getFormula();
+        if (formula!=null) {
+          map.put(name+".formula", formula);
+        }
       }
     }
     return map;

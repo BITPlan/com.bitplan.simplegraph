@@ -29,4 +29,7 @@ public interface CellValue {
   
   // the actual value of the cell e.g. boolean/double/text ...
   public Object getValue();
+  
+  // return the formula for the cell or null if the cell has none
+  public String getFormula();
 }

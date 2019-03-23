@@ -32,19 +32,28 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 public class CellValueImpl implements CellValue {
 
   private Object value;
+  private String formula=null;
+  
   @Override
   public Object getValue() {
     return value;
   }
   
+  @Override
+  public String getFormula() {
+    return formula;
+  }
+
   /**
    * create me from a given Excel cell
    * @param cell
    */
   public CellValueImpl(XSSFCell cell) {
     CellType cellType = cell.getCellType();
-    if (CellType.FORMULA == cellType)
+    if (CellType.FORMULA == cellType) {
+      formula=cell.getCellFormula();
       cellType = cell.getCachedFormulaResultType();
+    }
     switch (cellType) {
     case BOOLEAN:
       value = cell.getBooleanCellValue();
@@ -69,7 +78,8 @@ public class CellValueImpl implements CellValue {
       value = cell.getErrorCellValue();
       break;
 
-    // CELL_TYPE_FORMULA will never occur
+    // CELL_TYPE_FORMULA will never occur since we handle this
+    // above
     case FORMULA:
       break;
     case _NONE:
@@ -80,5 +90,6 @@ public class CellValueImpl implements CellValue {
     }
 
   }
+
 
 }

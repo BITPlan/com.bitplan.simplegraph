@@ -70,6 +70,7 @@ public class Excel {
 
   public XSSFWorkbook workbook = null;
   public Throwable error;
+  private String url;
   // private FormulaEvaluator evaluator;
 
   /**
@@ -122,6 +123,7 @@ public class Excel {
    * @param url
    */
   public Excel(String url) {
+    this.url=url;
     // http://stackoverflow.com/questions/5836965/how-to-open-xlsx-files-with-poi-ss
     try {
       InputStream is = new URL(url).openStream();
@@ -314,6 +316,10 @@ public class Excel {
    * @return the list of sheets
    */
   public List<XSSFSheet> getSheets() {
+    if (error!=null)
+      throw new IllegalStateException(String.format("url %s lead to %s", url,error.getMessage()));
+    if (workbook==null)
+      throw new IllegalStateException("workbook not set for url "+url);
     List<XSSFSheet> sheets = new ArrayList<XSSFSheet>();
     for (int index = 0; index < workbook.getNumberOfSheets(); index++) {
       sheets.add(workbook.getSheetAt(index));
