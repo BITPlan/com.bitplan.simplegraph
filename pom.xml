@@ -4,12 +4,12 @@
 		<parent>
 		<groupId>com.bitplan.pom</groupId>
 		<artifactId>com.bitplan.pom</artifactId>
-		<version>0.0.18</version>
+		<version>0.0.30</version>
 		<relativePath>../com.bitplan.pom/pom.xml</relativePath>
 	</parent>
 	<groupId>com.bitplan.simplegraph</groupId>
 	<artifactId>com.bitplan.simplegraph</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<name>SimpleGraph</name>
 	<description>Wrapper for Apache TinkerPop</description>
 	<properties>
@@ -27,7 +27,7 @@
 		<!-- <wikidata.toolkit.version>0.7.0</wikidata.toolkit.version> -->
 		<wikidata.toolkit.version>0.8.0</wikidata.toolkit.version>
 		<!-- mediawiki japi -->
-		<mediawiki-japi.version>0.0.22</mediawiki-japi.version>
+		<mediawiki-japi.version>0.1.03</mediawiki-japi.version>
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client-->
 		<jersey.version>1.19.4</jersey.version>
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->

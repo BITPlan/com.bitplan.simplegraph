@@ -1,18 +1,18 @@
 ### com.bitplan.simplegraph
 [Wrapper for Apache TinkerPop](http://www.bitplan.com/index.php/SimpleGraph)
 
-[![Travis (.org)](https://img.shields.io/travis/BITPlan/com.bitplan.simplegraph.svg)](https://travis-ci.org/BITPlan/com.bitplan.simplegraph)
-[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.simplegraph/com.bitplan.simplegraph.svg)](https://search.maven.org/artifact/com.bitplan.simplegraph/com.bitplan.simplegraph/0.0.4/jar)
-[![GitHub issues](https://img.shields.io/github/issues/BITPlan/com.bitplan.simplegraph.svg)](https://github.com/BITPlan/com.bitplan.simplegraph/issues)
-[![GitHub issues](https://img.shields.io/github/issues-closed/BITPlan/com.bitplan.simplegraph.svg)](https://github.com/BITPlan/com.bitplan.simplegraph/issues/?q=is%3Aissue+is%3Aclosed)
-[![GitHub](https://img.shields.io/github/license/BITPlan/com.bitplan.simplegraph.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Travis (.org)](https://img.shields.io/travis//com.bitplan.simplegraph.svg)](https://travis-ci.org//com.bitplan.simplegraph)
+[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.simplegraph/com.bitplan.simplegraph.svg)](https://search.maven.org/artifact/com.bitplan.simplegraph/com.bitplan.simplegraph/0.0.5/jar)
+[![GitHub issues](https://img.shields.io/github/issues//com.bitplan.simplegraph.svg)](https://github.com//com.bitplan.simplegraph/issues)
+[![GitHub issues](https://img.shields.io/github/issues-closed//com.bitplan.simplegraph.svg)](https://github.com//com.bitplan.simplegraph/issues/?q=is%3Aissue+is%3Aclosed)
+[![GitHub](https://img.shields.io/github/license//com.bitplan.simplegraph.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![BITPlan](http://wiki.bitplan.com/images/wiki/thumb/3/38/BITPlanLogoFontLessTransparent.png/198px-BITPlanLogoFontLessTransparent.png)](http://www.bitplan.com)
 
 ### Documentation
 * [Wiki](http://www.bitplan.com/index.php/SimpleGraph)
-* [com.bitplan.simplegraph Project pages](https://BITPlan.github.io/com.bitplan.simplegraph)
-* [Javadoc](https://BITPlan.github.io/com.bitplan.simplegraph/com.bitplan.simplegraph/com.bitplan.simplegraph/apidocs/index.html)
-* [Test-Report ](https://BITPlan.github.io/com.bitplan.simplegraph/com.bitplan.simplegraph/com.bitplan.simplegraph/surefire-report.html)
+* [com.bitplan.simplegraph Project pages](https://.github.io/com.bitplan.simplegraph)
+* [Javadoc](https://.github.io/com.bitplan.simplegraph/com.bitplan.simplegraph/com.bitplan.simplegraph/apidocs/index.html)
+* [Test-Report ](https://.github.io/com.bitplan.simplegraph/com.bitplan.simplegraph/com.bitplan.simplegraph/surefire-report.html)
 ### Maven dependency
 
 Maven dependency
@@ -21,15 +21,15 @@ Maven dependency
 <dependency>
   <groupId>com.bitplan.simplegraph</groupId>
   <artifactId>com.bitplan.simplegraph</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5</version>
 </dependency>
 ```
 
-[Current release at repo1.maven.org](http://repo1.maven.org/maven2/com/bitplan/simplegraph/com.bitplan.simplegraph/0.0.4/)
+[Current release at repo1.maven.org](http://repo1.maven.org/maven2/com/bitplan/simplegraph/com.bitplan.simplegraph/0.0.5/)
 
 ### How to build
 ```
-git clone https://github.com/BITPlan/com.bitplan.simplegraph
+git clone https://github.com//com.bitplan.simplegraph
 cd com.bitplan.simplegraph
 mvn install
 ```
