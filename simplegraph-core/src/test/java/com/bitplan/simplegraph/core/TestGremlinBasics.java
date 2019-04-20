@@ -20,8 +20,14 @@
  */
 package com.bitplan.simplegraph.core;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
+import org.apache.tinkerpop.gremlin.structure.T;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.junit.Test;
 
@@ -45,6 +51,26 @@ public class TestGremlinBasics {
       g.V().map(__.out())
           .forEachRemaining(v -> SimpleNode.printDebug.accept(v));
     }
+  }
+
+  @Test
+  /**
+   * https://groups.google.com/forum/#!topic/gremlin-users/UZMD1qp5mfg
+   * https://stackoverflow.com/questions/55771036/it-keyword-in-gremlin-java
+   */
+  public void testGroupBy() {
+    // gremlin>
+    // g.V.outE.groupBy{it.inV.next().name}{it.weight}{it.sum().doubleValue()}.cap.orderMap(T.decr)
+    GraphTraversalSource g = TinkerFactory.createModern().traversal();
+    Map<Object, Object> map = g.V().outE().group().by().next();
+    if (debug) {
+      System.out.println(map.values().size());
+      for (Entry<Object, Object> entry : map.entrySet()) {
+        System.out
+            .println(String.format("%s=%s", entry.getKey(), entry.getValue()));
+      }
+    }
+
   }
 
 }
