@@ -20,27 +20,14 @@
  */
 package com.bitplan.simplegraph.core;
 
-import java.util.List;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.inV;
+
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
-import org.apache.tinkerpop.gremlin.process.traversal.IO;
-import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
-import static org.apache.tinkerpop.gremlin.process.traversal.Operator.*;
-import static org.apache.tinkerpop.gremlin.process.traversal.Order.*;
-import static org.apache.tinkerpop.gremlin.process.traversal.P.*;
-import static org.apache.tinkerpop.gremlin.process.traversal.Pop.*;
-import static org.apache.tinkerpop.gremlin.process.traversal.SackFunctions.*;
-import static org.apache.tinkerpop.gremlin.process.traversal.Scope.*;
-import static org.apache.tinkerpop.gremlin.process.traversal.TextP.*;
-import static org.apache.tinkerpop.gremlin.structure.Column.*;
-import static org.apache.tinkerpop.gremlin.structure.Direction.*;
-import static org.apache.tinkerpop.gremlin.structure.T.*;
-import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.*;
 import org.junit.Test;
 
 /**
