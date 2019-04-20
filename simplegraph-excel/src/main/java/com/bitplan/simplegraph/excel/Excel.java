@@ -32,7 +32,6 @@ import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -43,7 +42,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -72,6 +70,7 @@ public class Excel {
 
   public XSSFWorkbook workbook = null;
   public Throwable error;
+  private String url;
   // private FormulaEvaluator evaluator;
 
   /**
@@ -80,17 +79,21 @@ public class Excel {
    * @param sheet
    * @return the list of list of cells
    */
-  public List<List<Object>> getSheetContent(XSSFSheet sheet) {
-    List<List<Object>> result = new ArrayList<List<Object>>();
+  public List<List<CellValue>> getSheetContent(XSSFSheet sheet) {
+    List<List<CellValue>> result = new ArrayList<List<CellValue>>();
     Iterator<Row> rows = sheet.rowIterator();
     while (rows.hasNext()) {
       XSSFRow row = (XSSFRow) rows.next();
       Iterator<Cell> cells = row.cellIterator();
-      List<Object> rowList = new ArrayList<Object>();
+      List<CellValue> rowList = new ArrayList<CellValue>();
+      int lastColumnIndex = -1;
       while (cells.hasNext()) {
         XSSFCell cell = (XSSFCell) cells.next();
-        Object cellValue = getCellValue(cell);
-        rowList.add(cellValue);
+        while (cell.getColumnIndex() - lastColumnIndex > 0) {
+          CellValue cellValue = (cell.getColumnIndex() - lastColumnIndex > 1) ? (new CellValueImpl(null)) : (new CellValueImpl(cell));
+          rowList.add(cellValue);
+          lastColumnIndex++;
+        }
       }
       if (rowList.size() > 0)
         result.add(rowList);
@@ -99,8 +102,7 @@ public class Excel {
   }
 
   /**
-   * remove a row from a sheet
-   * see https://stackoverflow.com/a/21947170/1497139
+   * remove a row from a sheet see https://stackoverflow.com/a/21947170/1497139
    * 
    * @param sheet
    * @param rowIndex
@@ -119,53 +121,13 @@ public class Excel {
     }
   }
 
-  private Object getCellValue(XSSFCell cell) {
-    Object cellValue = null;
-    CellType cellType = cell.getCellType();
-    if (CellType.FORMULA == cellType)
-      cellType = cell.getCachedFormulaResultType();
-    switch (cellType) {
-    case BOOLEAN:
-      cellValue = cell.getBooleanCellValue();
-      break;
-    case NUMERIC:
-      cellValue = cell.getNumericCellValue();
-      XSSFCellStyle cellStyle = cell.getCellStyle();
-      if (cellStyle != null) {
-        String format = cellStyle.getDataFormatString();
-        if ("0".equals(format)) {
-          Double d = (Double) cellValue;
-          cellValue = d.longValue();
-        }
-      }
-      break;
-    case STRING:
-      cellValue = cell.getStringCellValue();
-      break;
-    case BLANK:
-      break;
-    case ERROR:
-      cellValue = cell.getErrorCellValue();
-      break;
-
-    // CELL_TYPE_FORMULA will never occur
-    case FORMULA:
-      break;
-    case _NONE:
-      cellValue = cell.toString();
-      break;
-    default:
-      break;
-    }
-    return cellValue;
-  }
-
   /**
    * create an Excel sheet from the given url
    * 
    * @param url
    */
   public Excel(String url) {
+    this.url=url;
     // http://stackoverflow.com/questions/5836965/how-to-open-xlsx-files-with-poi-ss
     try {
       InputStream is = new URL(url).openStream();
@@ -358,6 +320,10 @@ public class Excel {
    * @return the list of sheets
    */
   public List<XSSFSheet> getSheets() {
+    if (error!=null)
+      throw new IllegalStateException(String.format("url %s lead to %s", url,error.getMessage()));
+    if (workbook==null)
+      throw new IllegalStateException("workbook not set for url "+url);
     List<XSSFSheet> sheets = new ArrayList<XSSFSheet>();
     for (int index = 0; index < workbook.getNumberOfSheets(); index++) {
       sheets.add(workbook.getSheetAt(index));

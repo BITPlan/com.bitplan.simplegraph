@@ -36,8 +36,8 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 public class RowNode extends SimpleNodeImpl {
 
   private int rowIndex;
-  private List<Object> row;
-  private List<Object> titleRow;
+  private List<CellValue> row;
+  private List<CellValue> titleRow;
   
   /**
    * create me
@@ -56,8 +56,8 @@ public class RowNode extends SimpleNodeImpl {
    * @param row
    * @param rowIndex
    */
-  public RowNode(WorkBookNode workBookNode, List<Object> titleRow,
-      List<Object> row, int rowIndex) {
+  public RowNode(WorkBookNode workBookNode, List<CellValue> titleRow,
+      List<CellValue> row, int rowIndex) {
     this(workBookNode.getSimpleGraph(), "row", Keys.EMPTY_KEYS);
     this.titleRow = titleRow;
     this.rowIndex = rowIndex;
@@ -71,11 +71,15 @@ public class RowNode extends SimpleNodeImpl {
     for (int colIndex = 0; colIndex <= titleRow.size(); colIndex++) {
       if (row.size() > colIndex && titleRow.size() > colIndex) {
         String name = "?";
-        Object nameO = titleRow.get(colIndex);
+        Object nameO = titleRow.get(colIndex).getValue();
         if (nameO != null)
           name = nameO.toString();
-        Object value = row.get(colIndex);
-        map.put(name, value);
+        CellValue cellValue=row.get(colIndex);
+        map.put(name, cellValue.getValue());
+        String formula=cellValue.getFormula();
+        if (formula!=null) {
+          map.put(name+".formula", formula);
+        }
       }
     }
     return map;
