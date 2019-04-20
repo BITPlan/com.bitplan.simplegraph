@@ -20,13 +20,15 @@
  */
 package com.bitplan.simplegraph.core;
 
-import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.inV;
-
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
+
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.*;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.junit.Test;
 
@@ -85,6 +87,8 @@ public class TestGremlinBasics {
           .forEachRemaining(m -> showMap("by(inV().id())", m));
       g.V().outE().group("edges").by(inV().id()).cap("edges")
       .forEachRemaining(o -> showObject("cap", o));
+      // https://stackoverflow.com/a/45112157/1497139
+      g.V().has("name","marko").out("knows").groupCount("a").by("name").group("b").by("name").by(values("age").sum()).cap("a","b").forEachRemaining(v->showObject("sum",v));
     }
   }
 
