@@ -20,15 +20,19 @@
  */
 package com.bitplan.simplegraph.core;
 
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.V;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.inV;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.outV;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.values;
+
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
+import org.apache.tinkerpop.gremlin.process.traversal.Order;
+import org.apache.tinkerpop.gremlin.process.traversal.Scope;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
-import org.apache.tinkerpop.gremlin.structure.Vertex;
-
-import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.*;
+import org.apache.tinkerpop.gremlin.structure.Column;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.junit.Test;
 
@@ -66,9 +70,9 @@ public class TestGremlinBasics {
           .println(String.format("\t%s=%s", entry.getKey(), entry.getValue()));
     }
   }
-  
+
   public void showObject(String title, Object object) {
-    System.out.println(title+":"+object.toString());
+    System.out.println(title + ":" + object.toString());
   }
 
   @Test
@@ -80,15 +84,38 @@ public class TestGremlinBasics {
     // gremlin:
     // g.V.outE.groupBy{it.inV.next().name}{it.weight}{it.sum().doubleValue()}.cap.orderMap(T.decr)
     GraphTraversalSource g = TinkerFactory.createModern().traversal();
-    // debug=true;
+    // debug = true;
     if (debug) {
+      g.V().outE().group().by(inV().values("name")).by(values("weight").sum())
+          .order(Scope.local).by(Column.values, Order.desc)
+          .forEachRemaining(r -> showObject("sum", r));
+      g.E().group("weights").by(outV().values("name")).by(values("weight").sum()).cap("weights")
+          .order(Scope.local).by(Column.values, Order.desc)
+          .forEachRemaining(r -> showObject("sum", r));
+      g.E().group("weights").by(V().values("name")).by(values("weight").sum()).cap("weights")
+      .order(Scope.local).by(Column.values, Order.desc)
+      .forEachRemaining(r -> showObject("sum", r));
+    }
+  }
+
+  @Test
+  public void testGroupByDebug() {
+    GraphTraversalSource g = TinkerFactory.createModern().traversal();
+    // debug = true;
+    if (debug) {
+      g.V().outE().group().by(inV().values("name")).by(values("weight").sum())
+          .order(Scope.local).by(Column.values, Order.desc)
+          .forEachRemaining(r -> showObject("sum", r));
+
       g.V().outE().group().by().forEachRemaining(m -> showMap("by()", m));
       g.V().outE().group().by(inV().id())
           .forEachRemaining(m -> showMap("by(inV().id())", m));
       g.V().outE().group("edges").by(inV().id()).cap("edges")
-      .forEachRemaining(o -> showObject("cap", o));
+          .forEachRemaining(o -> showObject("cap", o));
       // https://stackoverflow.com/a/45112157/1497139
-      g.V().has("name","marko").out("knows").groupCount("a").by("name").group("b").by("name").by(values("age").sum()).cap("a","b").forEachRemaining(v->showObject("sum",v));
+      g.V().has("name", "marko").out("knows").groupCount("a").by("name")
+          .group("b").by("name").by(values("age").sum()).cap("a", "b")
+          .forEachRemaining(v -> showObject("sum", v));
     }
   }
 
