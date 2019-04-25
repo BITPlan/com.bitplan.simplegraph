@@ -157,9 +157,9 @@ public class TestSteps {
         g().V().in("created").toList().toString());
     assertEquals("[v[1], v[1]]", g().V().in("knows").toList().toString());
     assertEquals("[v[1], v[1], v[4], v[6], v[1], v[4]]",
-        g().V().in("created","knows").toList().toString());
+        g().V().in("created", "knows").toList().toString());
   }
-  
+
   @Test
   public void testOut() {
     assertEquals("[v[3], v[2], v[4], v[5], v[3], v[3]]",
@@ -168,18 +168,76 @@ public class TestSteps {
         g().V().out("created").toList().toString());
     assertEquals("[v[2], v[4]]", g().V().out("knows").toList().toString());
     assertEquals("[v[3], v[2], v[4], v[5], v[3], v[3]]",
-        g().V().out("created","knows").toList().toString());
+        g().V().out("created", "knows").toList().toString());
+  }
+
+  @Test
+  public void testBoth() {
+    assertEquals("[v[5], v[3], v[1]]", g().V(4).both().toList().toString());
+    assertEquals("[v[5], v[3]]", g().V(4).both("created").toList().toString());
+    assertEquals("[v[1]]", g().V(4).both("knows").toList().toString());
+    assertEquals("[v[5], v[3], v[1]]",
+        g().V(4).both("created", "knows").toList().toString());
+  }
+
+  @Test
+  public void testInE() {
+    assertEquals(
+        "[e[7][1-knows->2], e[9][1-created->3], e[11][4-created->3], e[12][6-created->3], e[8][1-knows->4], e[10][4-created->5]]",
+        g().V().inE().toList().toString());
+    assertEquals(
+        "[e[9][1-created->3], e[11][4-created->3], e[12][6-created->3], e[10][4-created->5]]",
+        g().V().inE("created").toList().toString());
+    assertEquals("[e[7][1-knows->2], e[8][1-knows->4]]",
+        g().V().inE("knows").toList().toString());
+    assertEquals(
+        "[e[7][1-knows->2], e[9][1-created->3], e[11][4-created->3], e[12][6-created->3], e[8][1-knows->4], e[10][4-created->5]]",
+        g().V().inE("created", "knows").toList().toString());
+  }
+
+  @Test
+  public void testOutE() {
+    assertEquals("[e[9][1-created->3], e[7][1-knows->2], e[8][1-knows->4]]",
+        g().V(1).outE().toList().toString());
+    assertEquals("[e[9][1-created->3]]",
+        g().V(1).outE("created").toList().toString());
+    assertEquals("[e[7][1-knows->2], e[8][1-knows->4]]",
+        g().V(1).outE("knows").toList().toString());
+    assertEquals("[e[9][1-created->3], e[7][1-knows->2], e[8][1-knows->4]]",
+        g().V(1).outE("created", "knows").toList().toString());
+  }
+
+  @Test
+  public void testBothE() {
+    assertEquals("[e[10][4-created->5], e[11][4-created->3], e[8][1-knows->4]]",
+        g().V(4).bothE().toList().toString());
+    assertEquals("[e[10][4-created->5], e[11][4-created->3]]",
+        g().V(4).bothE("created").toList().toString());
+    assertEquals("[e[8][1-knows->4]]",
+        g().V(4).bothE("knows").toList().toString());
+    assertEquals("[e[10][4-created->5], e[11][4-created->3], e[8][1-knows->4]]",
+        g().V(4).bothE("created", "knows").toList().toString());
+  }
+
+  @Test
+  public void testInV() {
+    assertEquals("[v[2], v[4], v[3], v[5], v[3], v[3]]",
+        g().E().inV().toList().toString());
+    assertEquals("[v[3]]", g().E(9).inV().toList().toString());
   }
   
   @Test
-  public void testBoth() {
-    assertEquals("[v[5], v[3], v[1]]",
-      g().V(4).both().toList().toString());
-    assertEquals("[v[5], v[3]]",
-        g().V(4).both("created").toList().toString());
-    assertEquals("[v[1]]", g().V(4).both("knows").toList().toString());
-    assertEquals("[v[5], v[3], v[1]]",
-        g().V(4).both("created","knows").toList().toString());
+  public void testOutV() {
+    assertEquals("[v[1], v[1], v[1], v[4], v[4], v[6]]",
+        g().E().outV().toList().toString());
+    assertEquals("[v[1]]", g().E(9).outV().toList().toString());
+  }
+  
+  @Test
+  public void testBothV() {
+    assertEquals("[v[4], v[3]]",
+        g().E(11).bothV().toList().toString());
+    assertEquals("[v[1], v[3]]", g().E(9).bothV().toList().toString());
   }
 
   /**
