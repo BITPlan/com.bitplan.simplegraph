@@ -20,25 +20,30 @@
  */
 package com.bitplan.simplegraph.core;
 
-import static org.junit.Assert.*;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.addE;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.has;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.hasLabel;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.in;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.inE;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.out;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.outE;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.values;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.tinkerpop.gremlin.structure.Column;
-import org.apache.tinkerpop.gremlin.structure.Edge;
-import org.apache.tinkerpop.gremlin.process.traversal.Order;
-import org.apache.tinkerpop.gremlin.process.traversal.Scope;
 import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
-import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.*;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
+import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
-import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.junit.Test;
 
 /**
@@ -64,6 +69,12 @@ public class TestSteps {
   public void testTraversal() {
     assertEquals(6, g().E().count().next().longValue());
     assertEquals(6, g().V().count().next().longValue());
+  }
+  
+  @Test
+  public void testHasNext() {
+    assertTrue(g().V(1).hasNext());
+    assertFalse(g().V(7).hasNext());
   }
 
   @Test
@@ -225,19 +236,71 @@ public class TestSteps {
         g().E().inV().toList().toString());
     assertEquals("[v[3]]", g().E(9).inV().toList().toString());
   }
-  
+
   @Test
   public void testOutV() {
     assertEquals("[v[1], v[1], v[1], v[4], v[4], v[6]]",
         g().E().outV().toList().toString());
     assertEquals("[v[1]]", g().E(9).outV().toList().toString());
   }
-  
+
   @Test
   public void testBothV() {
-    assertEquals("[v[4], v[3]]",
-        g().E(11).bothV().toList().toString());
+    assertEquals("[v[4], v[3]]", g().E(11).bothV().toList().toString());
     assertEquals("[v[1], v[3]]", g().E(9).bothV().toList().toString());
+  }
+  
+  @Test
+  public void testCoalesce() {
+    System.out.println(g().V().property("nickname", "okram").next());
+    
+  }
+
+  @Test
+  public void testMax() {
+    assertEquals(35, g().V().values("age").max().next());
+    assertEquals(1.0, g().E().values("weight").max().next());
+    assertEquals("vadas", g().V().values("name").max().next());
+  }
+
+  @Test
+  public void testMin() {
+    assertEquals(27, g().V().values("age").min().next());
+    assertEquals(0.2, g().E().values("weight").min().next());
+    assertEquals("josh", g().V().values("name").min().next());
+  }
+
+  @Test
+  public void testMean() {
+    assertEquals(30.75, g().V().values("age").mean().next());
+    assertEquals(0.583, g().E().values("weight").mean().next().doubleValue(),
+        0.001);
+    try {
+      assertEquals("josh", g().V().values("name").mean().next());
+    } catch (Exception e) {
+      assertEquals("java.lang.String cannot be cast to java.lang.Number",e.getMessage());
+    }
+  }
+  
+  @Test
+  public void testSum() {
+    assertEquals(123, g().V().values("age").sum().next().intValue());
+    assertEquals(3.5, g().E().values("weight").sum().next().doubleValue(),0.01);
+  }
+  
+  @Test
+  public void testCount() {
+    assertEquals(6,g().V().count().next().longValue());
+    assertEquals(4,g().V().hasLabel("person").count().next().intValue());
+    assertEquals(2,g().V().hasLabel("software").count().next().intValue());
+    assertEquals(4,g().E().hasLabel("created").count().next().intValue());
+    assertEquals(2,g().E().hasLabel("knows").count().next().intValue());
+  }
+  
+  @Test
+  public void testFold() {
+    List<Object> knowsList1 = g().V(1).out("knows").values("name").fold().next();
+    assertEquals("[vadas, josh]",knowsList1.toString());
   }
 
   /**
