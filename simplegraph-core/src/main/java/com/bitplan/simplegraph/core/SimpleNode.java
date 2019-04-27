@@ -24,6 +24,7 @@ import java.io.PrintStream;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Element;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
@@ -62,13 +63,21 @@ public interface SimpleNode extends SimpleGraph {
   };
 
   public static void dumpGraph(Graph graph) {
-    graph.traversal().V().forEachRemaining(vertex -> {
+    dumpTraversal(graph.traversal());
+  }
+  
+  /**
+   * dump the given traversal
+   * @param g
+   */
+  public static void dumpTraversal(GraphTraversalSource g) {
+    g.V().forEachRemaining(vertex -> {
       System.out.println(String.format("%s=%s", vertex.id(), vertex.label()));
       vertex.properties().forEachRemaining(prop -> {
         System.out.println(String.format("\t%s=%s", prop.key(), prop.value()));
       });
     });
-    graph.traversal().E().forEachRemaining(edge -> {
+    g.E().forEachRemaining(edge -> {
       System.out.println(String.format("%s- %s >%s", edge.inVertex().id(),
           edge.label(), edge.outVertex().id()));
       edge.properties().forEachRemaining(prop -> {

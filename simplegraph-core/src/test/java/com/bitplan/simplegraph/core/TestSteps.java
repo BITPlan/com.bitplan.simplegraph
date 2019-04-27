@@ -20,6 +20,7 @@
  */
 package com.bitplan.simplegraph.core;
 
+import static org.apache.tinkerpop.gremlin.process.traversal.P.without;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.addE;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.has;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.hasLabel;
@@ -32,18 +33,26 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
+import org.apache.tinkerpop.gremlin.process.traversal.step.util.BulkSet;
+import org.apache.tinkerpop.gremlin.process.traversal.util.TraversalExplanation;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.junit.Test;
 
 /**
@@ -53,7 +62,8 @@ import org.junit.Test;
  *
  */
 public class TestSteps {
-
+  public static boolean debug=true;
+  
   /**
    * common access to GraphTraversalSource
    * 
@@ -70,11 +80,72 @@ public class TestSteps {
     assertEquals(6, g().E().count().next().longValue());
     assertEquals(6, g().V().count().next().longValue());
   }
-  
+
   @Test
   public void testHasNext() {
     assertTrue(g().V(1).hasNext());
     assertFalse(g().V(7).hasNext());
+  }
+
+  @Test
+  public void testNext() {
+    assertEquals("v[1]", g().V().next().toString());
+    assertEquals("v[1]", g().V(1).next().toString());
+    assertEquals("[v[1], v[2]]", g().V(1, 2, 3).next(2).toString());
+  }
+
+  @Test
+  public void testTryNext() {
+    assertTrue(g().V(1).tryNext().isPresent());
+    assertFalse(g().V(7).tryNext().isPresent());
+  }
+
+  @Test
+  public void testToList() {
+    List<Vertex> vlist = g().V().toList();
+    assertEquals("[v[1], v[2], v[3], v[4], v[5], v[6]]", vlist.toString());
+    List<Edge> elist = g().E(7, 8, 9).toList();
+    assertEquals("[e[7][1-knows->2], e[8][1-knows->4], e[9][1-created->3]]",
+        elist.toString());
+  }
+
+  @Test
+  public void testToSet() {
+    Set<Vertex> vset = g().V(1, 2, 2, 3, 4).toSet();
+    assertEquals("[v[1], v[2], v[3], v[4]]", vset.toString());
+    Set<Edge> set = g().E(7, 8, 9, 7, 8, 9).toSet();
+    assertEquals("[e[7][1-knows->2], e[8][1-knows->4], e[9][1-created->3]]",
+        set.toString());
+  }
+
+  @Test
+  public void testToBulkSet() {
+    BulkSet<Vertex> vset = g().V(1, 2, 2, 3, 4).toBulkSet();
+    assertEquals(2, vset.asBulk().get(g().V(2).next()).longValue());
+  }
+
+  @Test
+  public void testFill() {
+    List<Vertex> vlist = new LinkedList<Vertex>();
+    List<Vertex> rvlist = g().V().fill(vlist);
+    assertEquals(vlist, rvlist);
+    assertEquals("[v[1], v[2], v[3], v[4], v[5], v[6]]", vlist.toString());
+  }
+
+  @Test
+  public void testIterate() throws IOException {
+    // read and write without iterate doesn't have an effect
+    File kryoFile = File.createTempFile("modern", ".kryo");
+    g().io(kryoFile.getPath()).write();
+    GraphTraversalSource newg = TinkerGraph.open().traversal();
+    newg.io(kryoFile.getPath()).read();
+    assertEquals(0, newg.V().count().next().longValue());
+
+    // read and write with iterate does really write and read
+    g().io(kryoFile.getPath()).write().iterate();
+    newg = TinkerGraph.open().traversal();
+    newg.io(kryoFile.getPath()).read().iterate();
+    assertEquals(6, newg.V().count().next().longValue());
   }
 
   @Test
@@ -83,6 +154,31 @@ public class TestSteps {
     assertEquals(4, g().V().filter(in()).count().next().longValue());
     assertEquals(5, g().E().filter(values("weight").is(P.gte(0.4))).count()
         .next().longValue());
+  }
+
+  @Test
+  public void testPromise() {
+    try {
+      CompletableFuture<Object> cf = g().V().promise(t -> t.next());
+      cf.join();
+      assertTrue(cf.isDone());
+    } catch (Exception e) {
+      assertEquals(
+          "Only traversals created using withRemote() can be used in an async way",
+          e.getMessage());
+    }
+  }
+
+  @Test
+  public void testExplain() {
+    TraversalExplanation te = g().V().explain();
+    String explainText=te.prettyPrint();
+    if (debug)
+      System.out.println(explainText);
+    // the explainText is not deterministic - it changes depending
+    // whether testExplain is called stand alone or in the context of
+    // other unit tests. So we only check that it contains "Original Traversal" 
+    assertTrue(explainText.contains("Original Traversal"));
   }
 
   @Test
@@ -249,11 +345,11 @@ public class TestSteps {
     assertEquals("[v[4], v[3]]", g().E(11).bothV().toList().toString());
     assertEquals("[v[1], v[3]]", g().E(9).bothV().toList().toString());
   }
-  
+
   @Test
   public void testCoalesce() {
-    System.out.println(g().V().property("nickname", "okram").next());
-    
+    // System.out.println(g().V().property("nickname", "okram").next());
+
   }
 
   @Test
@@ -278,29 +374,61 @@ public class TestSteps {
     try {
       assertEquals("josh", g().V().values("name").mean().next());
     } catch (Exception e) {
-      assertEquals("java.lang.String cannot be cast to java.lang.Number",e.getMessage());
+      assertEquals("java.lang.String cannot be cast to java.lang.Number",
+          e.getMessage());
     }
   }
-  
+
   @Test
   public void testSum() {
     assertEquals(123, g().V().values("age").sum().next().intValue());
-    assertEquals(3.5, g().E().values("weight").sum().next().doubleValue(),0.01);
+    assertEquals(3.5, g().E().values("weight").sum().next().doubleValue(),
+        0.01);
   }
-  
+
   @Test
   public void testCount() {
-    assertEquals(6,g().V().count().next().longValue());
-    assertEquals(4,g().V().hasLabel("person").count().next().intValue());
-    assertEquals(2,g().V().hasLabel("software").count().next().intValue());
-    assertEquals(4,g().E().hasLabel("created").count().next().intValue());
-    assertEquals(2,g().E().hasLabel("knows").count().next().intValue());
+    assertEquals(6, g().V().count().next().longValue());
+    assertEquals(4, g().V().hasLabel("person").count().next().intValue());
+    assertEquals(2, g().V().hasLabel("software").count().next().intValue());
+    assertEquals(4, g().E().hasLabel("created").count().next().intValue());
+    assertEquals(2, g().E().hasLabel("knows").count().next().intValue());
+  }
+
+  @Test
+  public void testFold() {
+    List<Object> knowsList1 = g().V(1).out("knows").values("name").fold()
+        .next();
+    assertEquals("[vadas, josh]", knowsList1.toString());
+  }
+
+  @Test
+  public void testAddE() {
+    Vertex marko = g().V().has("name", "marko").next();
+    Vertex peter = g().V().has("name", "peter").next();
+    assertEquals("e[13][1-knows->6]",
+        g().V(marko).addE("knows").to(peter).next().toString());
+    assertEquals("e[13][1-knows->6]",
+        g().addE("knows").from(marko).to(peter).next().toString());
+  }
+
+  @Test
+  public void testAddV() {
+    assertEquals("[marko, vadas, lop, josh, ripple, peter, stephen]",
+        g().addV("person").property("name", "stephen").V().values("name").toList()
+            .toString());
   }
   
   @Test
-  public void testFold() {
-    List<Object> knowsList1 = g().V(1).out("knows").values("name").fold().next();
-    assertEquals("[vadas, josh]",knowsList1.toString());
+  public void testProperty() {
+    assertEquals("[v[3]]",g().V().has("name","lop").property("version","1.0").V().has("version").toList().toString());
+  }
+  
+  @Test
+  public void testAggregate() {
+    assertEquals("[ripple]",g().V(1).out("created").aggregate("x").in("created").out("created").
+                where(without("x")).values("name").toList().toString());
+    assertEquals("[{vadas=1, josh=1}]",g().V().out("knows").aggregate("x").by("name").cap("x").toList().toString());
   }
 
   /**
