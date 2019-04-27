@@ -20,7 +20,15 @@
  */
 package com.bitplan.simplegraph.core;
 
+import static org.apache.tinkerpop.gremlin.process.traversal.P.lt;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.lte;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.gt;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.gte;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.neq;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.within;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.without;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.inside;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.outside;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.addE;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.has;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.hasLabel;
@@ -35,6 +43,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +71,8 @@ import org.junit.Test;
  *
  */
 public class TestSteps {
-  public static boolean debug=true;
-  
+  public static boolean debug = false;
+
   /**
    * common access to GraphTraversalSource
    * 
@@ -172,12 +181,12 @@ public class TestSteps {
   @Test
   public void testExplain() {
     TraversalExplanation te = g().V().explain();
-    String explainText=te.prettyPrint();
+    String explainText = te.prettyPrint();
     if (debug)
       System.out.println(explainText);
     // the explainText is not deterministic - it changes depending
     // whether testExplain is called stand alone or in the context of
-    // other unit tests. So we only check that it contains "Original Traversal" 
+    // other unit tests. So we only check that it contains "Original Traversal"
     assertTrue(explainText.contains("Original Traversal"));
   }
 
@@ -415,20 +424,102 @@ public class TestSteps {
   @Test
   public void testAddV() {
     assertEquals("[marko, vadas, lop, josh, ripple, peter, stephen]",
-        g().addV("person").property("name", "stephen").V().values("name").toList()
-            .toString());
+        g().addV("person").property("name", "stephen").V().values("name")
+            .toList().toString());
   }
-  
+
   @Test
   public void testProperty() {
-    assertEquals("[v[3]]",g().V().has("name","lop").property("version","1.0").V().has("version").toList().toString());
+    assertEquals("[v[3]]", g().V().has("name", "lop").property("version", "1.0")
+        .V().has("version").toList().toString());
   }
-  
+
   @Test
   public void testAggregate() {
-    assertEquals("[ripple]",g().V(1).out("created").aggregate("x").in("created").out("created").
-                where(without("x")).values("name").toList().toString());
-    assertEquals("[{vadas=1, josh=1}]",g().V().out("knows").aggregate("x").by("name").cap("x").toList().toString());
+    assertEquals("[ripple]",
+        g().V(1).out("created").aggregate("x").in("created").out("created")
+            .where(without("x")).values("name").toList().toString());
+    assertEquals("[{vadas=1, josh=1}]", g().V().out("knows").aggregate("x")
+        .by("name").cap("x").toList().toString());
+  }
+
+  @Test
+  public void testAnd() {
+    assertEquals("[marko]", g().V().and(outE("knows"), values("age").is(lt(30)))
+        .values("name").toList().toString());
+  }
+
+  @Test
+  public void testCoin() {
+    // 0% chance
+    assertEquals("[]", g().V().coin(0.0).toList().toString());
+    // 100% chance
+    assertEquals("[v[1], v[2], v[3], v[4], v[5], v[6]]",
+        g().V().coin(1.0).toList().toString());
+    // 50 % chance
+    int tosses = 1000;
+    double sixsigma = 0.33; // 1 out of a million chance that the average will
+                            // deviate more than this
+    int sum = 0;
+    for (int i = 1; i <= tosses; i++)
+      sum += g().V().coin(0.5).toList().size();
+    double avg = sum * 1.0 / tosses;
+    assertTrue(avg < 3.0 + sixsigma);
+    assertTrue(avg > 3.0 - sixsigma);
+  }
+
+  @Test
+  public void testHas() {
+    assertEquals(6, g().V().has("name").count().next().longValue());
+    assertEquals("[29, 27]",
+        (g().V().has("age", inside(20, 30)).values("age").toList().toString()));
+    assertEquals("[32, 35]", (g().V().has("age", outside(20, 30)).values("age")
+        .toList().toString()));
+    assertEquals("[{name=[marko], age=[29]}, {name=[josh], age=[32]}]", (g().V()
+        .has("name", within("josh", "marko")).valueMap().toList().toString()));
+    assertEquals("[lop, ripple]",
+        g().V().hasNot("age").values("name").toList().toString());
+  }
+
+  @Test
+  public void testIs() {
+    assertEquals("[32]", g().V().values("age").is(32).toList().toString());
+    assertEquals("[29, 27]",
+        g().V().values("age").is(lte(30)).toList().toString());
+    assertEquals("[32, 35]",
+        g().V().values("age").is(inside(30, 40)).toList().toString());
+    assertEquals("[ripple]", g().V().where(in("created").count().is(1))
+        .values("name").toList().toString());
+    assertEquals("[lop]", g().V().where(in("created").count().is(gte(2)))
+        .values("name").toList().toString());
+    assertEquals("[lop, ripple]",
+        g().V().where(in("created").values("age").mean().is(inside(30d, 35d)))
+            .values("name").toList().toString());
+  }
+
+  @Test
+  public void testOr() {
+    assertEquals("[marko, lop, josh, peter]",
+        g().V().or(outE("created"), inE("created").count().is(gt(1)))
+            .values("name").toList().toString());
+    assertEquals("[vadas, peter]",
+        g().V().or(values("age").is(gt(33)), values("age").is(lt(29)))
+            .values("name").toList().toString());
+  }
+
+  @Test
+  public void testWhere() {
+    assertEquals("[v[4], v[6]]", g().V(1).as("a").out("created").in("created")
+        .where(neq("a")).toList().toString());
+    String names[] = { "josh", "peter" };
+    assertEquals("[josh, peter]",
+        g().withSideEffect("a", Arrays.asList(names)).V(1).out("created")
+            .in("created").values("name").where(within("a")).toList()
+            .toString());
+    assertEquals("[josh]",
+        g().V(1).out("created").in("created")
+            .where(out("created").count().is(gt(1))).values("name").toList()
+            .toString());
   }
 
   /**
