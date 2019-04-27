@@ -36,6 +36,8 @@ import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.in;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.inE;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.out;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.outE;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.bothE;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.count;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.values;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -520,6 +522,44 @@ public class TestSteps {
         g().V(1).out("created").in("created")
             .where(out("created").count().is(gt(1))).values("name").toList()
             .toString());
+  }
+
+  @Test
+  public void testAs() {
+    assertEquals(
+        "[{a=v[1], b=v[3]}, {a=v[4], b=v[5]}, {a=v[4], b=v[3]}, {a=v[6], b=v[3]}]",
+        g().V().as("a").out("created").as("b").select("a", "b").toList()
+            .toString());
+    assertEquals(
+        "[{a=marko, b=lop}, {a=josh, b=ripple}, {a=josh, b=lop}, {a=peter, b=lop}]",
+        g().V().as("a").out("created").as("b").select("a", "b").by("name")
+            .toList().toString());
+  }
+
+  @Test
+  public void testBy() {
+    assertEquals("[{1=[v[2], v[5], v[6]], 3=[v[1], v[3], v[4]]}]",
+        g().V().group().by(bothE().count()).toList().toString());
+    assertEquals("[{1=[vadas, ripple, peter], 3=[marko, lop, josh]}]",
+        g().V().group().by(bothE().count()).by("name").toList().toString());
+    assertEquals("[{1=3, 3=3}]",
+        g().V().group().by(bothE().count()).by(count()).toList().toString());
+  }
+
+  @Test
+  public void testOption() {
+
+  }
+
+  @Test
+  public void testChoose() {
+    assertEquals("[marko, ripple, lop, lop]",
+        g().V().hasLabel("person")
+            .choose(values("age").is(lte(30)), in(), out()).values("name")
+            .toList().toString());
+    assertEquals("[marko, ripple, lop]",
+        g().V().hasLabel("person").choose(values("age")).option(27, in())
+            .option(32, out()).values("name").toList().toString());
   }
 
   /**
