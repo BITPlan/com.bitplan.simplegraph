@@ -38,6 +38,7 @@ import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.out;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.outE;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.bothE;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.count;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.label;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.values;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -398,6 +399,15 @@ public class TestSteps {
   }
 
   @Test
+  public void testCap() {
+    assertEquals("[{software=2, person=4}]",
+        g().V().groupCount("a").by(label()).cap("a").toList().toString());
+    assertEquals("[{a={software=2, person=4}, b={0=3, 1=1, 2=1, 3=1}}]",
+        g().V().groupCount("a").by(label()).groupCount("b").by(outE().count())
+            .cap("a", "b").toList().toString());
+  }
+
+  @Test
   public void testCount() {
     assertEquals(6, g().V().count().next().longValue());
     assertEquals(4, g().V().hasLabel("person").count().next().intValue());
@@ -560,6 +570,37 @@ public class TestSteps {
     assertEquals("[marko, ripple, lop]",
         g().V().hasLabel("person").choose(values("age")).option(27, in())
             .option(32, out()).values("name").toList().toString());
+  }
+
+  @Test
+  public void testRepeat() {
+    assertEquals("[path[marko, josh, ripple], path[marko, josh, lop]]",
+        g().V(1).repeat(out()).times(2).path().by("name").toList().toString());
+
+    assertEquals(
+        "[path[marko, josh, ripple], path[josh, ripple], path[ripple]]",
+        g().V().until(has("name", "ripple")).repeat(out()).path().by("name")
+            .toList().toString());
+  }
+
+  @Test
+  public void testEmit() {
+    assertEquals(
+        "[path[marko, lop], path[marko, vadas], path[marko, josh], path[marko, josh, ripple], path[marko, josh, lop]]",
+        g().V(1).repeat(out()).times(2).emit().path().by("name").toList()
+            .toString());
+    assertEquals(
+        "[path[marko], path[marko, lop], path[marko, vadas], path[marko, josh], path[marko, josh, ripple], path[marko, josh, lop]]",
+        g().V(1).emit().repeat(out()).times(2).path().by("name").toList()
+            .toString());
+    assertEquals("[path[marko, lop], path[marko, josh, ripple], path[marko, josh, lop]]",g().V(1).repeat(out()).times(2).emit(has("lang")).path()
+        .by("name").toList().toString());
+    assertEquals("[path[marko, lop], path[marko, vadas], path[marko, josh], path[marko, josh, ripple], path[marko, josh, lop]]",g().V(1).repeat(out()).times(2).emit().path().by("name")
+        .toList().toString());
+  }
+
+  @Test
+  public void testUnion() {
   }
 
   /**
