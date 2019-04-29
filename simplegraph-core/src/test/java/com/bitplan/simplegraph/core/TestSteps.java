@@ -20,25 +20,27 @@
  */
 package com.bitplan.simplegraph.core;
 
-import static org.apache.tinkerpop.gremlin.process.traversal.P.lt;
-import static org.apache.tinkerpop.gremlin.process.traversal.P.lte;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.gt;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.gte;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.inside;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.lt;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.lte;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.neq;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.outside;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.within;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.without;
-import static org.apache.tinkerpop.gremlin.process.traversal.P.inside;
-import static org.apache.tinkerpop.gremlin.process.traversal.P.outside;
+import static org.apache.tinkerpop.gremlin.process.traversal.P.*;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.*;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.addE;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.bothE;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.count;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.has;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.hasLabel;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.in;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.inE;
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.label;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.out;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.outE;
-import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.bothE;
-import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.count;
-import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.label;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.values;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -54,6 +56,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
+import org.apache.tinkerpop.gremlin.process.traversal.Order;
 import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
@@ -259,6 +262,16 @@ public class TestSteps {
     assertEquals(6, elabels.size());
     assertEquals("[knows, knows, created, created, created, created]",
         elabels.toString());
+  }
+
+  @Test
+  public void testOrder() {
+    assertEquals("[josh, lop, marko, peter, ripple, vadas]",
+        g().V().values("name").order().toList().toString());
+    assertEquals("[vadas, ripple, peter, marko, lop, josh]",
+        g().V().values("name").order().by(Order.desc).toList().toString());
+    assertEquals("[vadas, marko, josh, peter]", g().V().hasLabel("person")
+        .order().by("age", Order.asc).values("name").toList().toString());
   }
 
   @Test
@@ -593,10 +606,14 @@ public class TestSteps {
         "[path[marko], path[marko, lop], path[marko, vadas], path[marko, josh], path[marko, josh, ripple], path[marko, josh, lop]]",
         g().V(1).emit().repeat(out()).times(2).path().by("name").toList()
             .toString());
-    assertEquals("[path[marko, lop], path[marko, josh, ripple], path[marko, josh, lop]]",g().V(1).repeat(out()).times(2).emit(has("lang")).path()
-        .by("name").toList().toString());
-    assertEquals("[path[marko, lop], path[marko, vadas], path[marko, josh], path[marko, josh, ripple], path[marko, josh, lop]]",g().V(1).repeat(out()).times(2).emit().path().by("name")
-        .toList().toString());
+    assertEquals(
+        "[path[marko, lop], path[marko, josh, ripple], path[marko, josh, lop]]",
+        g().V(1).repeat(out()).times(2).emit(has("lang")).path().by("name")
+            .toList().toString());
+    assertEquals(
+        "[path[marko, lop], path[marko, vadas], path[marko, josh], path[marko, josh, ripple], path[marko, josh, lop]]",
+        g().V(1).repeat(out()).times(2).emit().path().by("name").toList()
+            .toString());
   }
 
   @Test
