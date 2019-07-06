@@ -23,8 +23,6 @@ package com.bitplan.simplegraph.carddav;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
