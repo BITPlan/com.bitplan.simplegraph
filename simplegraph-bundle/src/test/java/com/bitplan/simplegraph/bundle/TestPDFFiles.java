@@ -55,7 +55,7 @@ public class TestPDFFiles {
   public static final String RFC_DIRECTORY = "../simplegraph-pdf/src/test/data/rfcs";
 
   /**
-   * get the filesystem for the given path
+   * get the file system for the given path
    * 
    * @param -
    *          the path
@@ -73,7 +73,7 @@ public class TestPDFFiles {
    * get the PDF files from a FileSystem and retrieve pages with text
    * 
    * @param fs
-   *          - the filesystem in which to look for the PDF files
+   *          - the file system in which to look for the PDF files
    * @param limit
    *          - limit the result to the number if files given
    * @return the PDF System
@@ -110,7 +110,7 @@ public class TestPDFFiles {
           .has("text", RegexPredicate.regex(".*" + keyWord + ".*")).in("pages")
           .dedup().values("name").toList();
       // create a list of file names for the keywords found (basically this only
-      // converst List of object to list of string
+      // convert List of object to list of string
       List<String> foundList = new ArrayList<String>();
       for (Object found : founds) {
         foundList.add((String) found);
@@ -127,9 +127,9 @@ public class TestPDFFiles {
     assertEquals(69, fs.g().V().count().next().longValue());
 
     // potentially limit the number of files to be analyzed
-    int limit = 42;
+    int limit = 69;
     PdfSystem pdfSystem = getPdfSystemForFileSystem(fs, limit);
-    // debug = true;
+    //debug = true;
     if (debug)
       pdfSystem.forAll(SimpleNode.printDebug);
     long pageCount = pdfSystem.g().V().hasLabel("page").count().next()
@@ -138,7 +138,7 @@ public class TestPDFFiles {
     // ... might be page length A4/US letter dependent)
     assertTrue(pageCount >= 71);
     // there should be 2 pages referencing George Gregg
-    assertEquals(1,
+    assertEquals(2,
         pdfSystem.g().V().hasLabel("page")
             .has("text", RegexPredicate.regex(".*George Gregg.*")).count()
             .next().longValue());
@@ -176,7 +176,6 @@ public class TestPDFFiles {
     assertEquals(12,index.get("ARPA").size());
     assertEquals(6,index.get("plan").size());
     assertEquals(6,index.get("proposal").size());
-       
   }
 
   static void showIndex(Map<String, List<String>> index, boolean debug) {

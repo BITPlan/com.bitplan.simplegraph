@@ -64,11 +64,6 @@ public class PdfNode extends SimpleNodeImpl implements SimpleStepNode {
         String parsedText = pdf.getPageText(pageNo);
         map.put("text", parsedText);
         map.put("pageNumber", pageNo);
-        try {
-          pdf.close();
-        } catch (IOException e) {
-          pdf.error=e;
-        }
       }
     return map;
   }
