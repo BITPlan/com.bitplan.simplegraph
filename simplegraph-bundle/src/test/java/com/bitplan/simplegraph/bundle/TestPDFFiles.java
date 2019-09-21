@@ -138,7 +138,7 @@ public class TestPDFFiles {
     // ... might be page length A4/US letter dependent)
     assertTrue(pageCount >= 71);
     // there should be 2 pages referencing George Gregg
-    assertEquals(2,
+    assertEquals(1,
         pdfSystem.g().V().hasLabel("page")
             .has("text", RegexPredicate.regex(".*George Gregg.*")).count()
             .next().longValue());
@@ -173,9 +173,9 @@ public class TestPDFFiles {
         "proposal", "plan");
     // debug=true;
     showIndex(index,debug);
-    assertEquals(14,index.get("ARPA").size());
-    assertEquals(9,index.get("plan").size());
-    assertEquals(8,index.get("proposal").size());
+    assertEquals(12,index.get("ARPA").size());
+    assertEquals(6,index.get("plan").size());
+    assertEquals(6,index.get("proposal").size());
        
   }
 

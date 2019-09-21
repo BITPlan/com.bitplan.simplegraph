@@ -20,13 +20,13 @@
  */
 package com.bitplan.simplegraph.pdf;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
 import com.bitplan.simplegraph.core.Keys;
-import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
@@ -57,13 +57,18 @@ public class PdfNode extends SimpleNodeImpl implements SimpleStepNode {
 
   @Override
   public Map<String, Object> initMap() {
-    if (pdf.error == null)
+    if (pdf.error == null) 
       if (pageNo < 0) {
         map.put("NumberOfPages", pdf.pages);
       } else {
         String parsedText = pdf.getPageText(pageNo);
         map.put("text", parsedText);
         map.put("pageNumber", pageNo);
+        try {
+          pdf.close();
+        } catch (IOException e) {
+          pdf.error=e;
+        }
       }
     return map;
   }

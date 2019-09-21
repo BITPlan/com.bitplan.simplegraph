@@ -86,6 +86,7 @@ public class PDF {
           "org.apache.pdfbox.pdfparser.PDFObjectStreamParser",
           "org.apache.pdfbox.cos.COSDocument",
           "org.apache.pdfbox.pdmodel.font.PDSimpleFont",
+          "org.apache.pdfbox.pdmodel.font.PDType1Font",
           "org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap",
           "org.apache.pdfbox.pdmodel.graphics.color.PDSeparation",
           "org.apache.pdfbox.pdmodel.graphics.color.PDColorState",
@@ -153,6 +154,14 @@ public class PDF {
     atol = atol * aTolFactor;
     pdfStripper.setSpacingTolerance(stol);
     pdfStripper.setAverageCharTolerance(atol);
+  }
+  
+  /**
+   * close me by closing my document
+   * @throws IOException
+   */
+  public void close() throws IOException {
+    doc.close();
   }
 
 }
