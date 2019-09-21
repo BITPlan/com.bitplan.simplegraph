@@ -22,7 +22,6 @@ package com.bitplan.simplegraph.bundle;
 
 import static org.junit.Assert.assertEquals;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
@@ -36,6 +35,7 @@ import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSo
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.bitplan.gremlin.RegexPredicate;
@@ -53,6 +53,7 @@ import com.bitplan.simplegraph.wikidata.WikiDataSystem;
  * @author wf
  *
  */
+@Ignore
 public class TestThermalBathInTuscany {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger
