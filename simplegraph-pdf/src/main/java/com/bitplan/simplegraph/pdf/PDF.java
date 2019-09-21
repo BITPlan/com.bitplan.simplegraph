@@ -161,7 +161,8 @@ public class PDF {
    * @throws IOException
    */
   public void close() throws IOException {
-    doc.close();
+    if (doc!=null)
+      doc.close();
   }
 
 }

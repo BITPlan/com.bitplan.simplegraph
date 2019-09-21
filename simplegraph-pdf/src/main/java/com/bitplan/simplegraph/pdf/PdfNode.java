@@ -20,7 +20,6 @@
  */
 package com.bitplan.simplegraph.pdf;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +41,20 @@ public class PdfNode extends SimpleNodeImpl implements SimpleStepNode {
   int pageNo;
 
   /**
+   * @return the pdf
+   */
+  public PDF getPdf() {
+    return pdf;
+  }
+
+  /**
+   * @param pdf the pdf to set
+   */
+  public void setPdf(PDF pdf) {
+    this.pdf = pdf;
+  }
+
+  /**
    * create a PdfNode for the given pdfAnalysis
    * 
    * @param pdfSystem
@@ -57,7 +70,7 @@ public class PdfNode extends SimpleNodeImpl implements SimpleStepNode {
 
   @Override
   public Map<String, Object> initMap() {
-    if (pdf.error == null) 
+    if (pdf.error == null)
       if (pageNo < 0) {
         map.put("NumberOfPages", pdf.pages);
       } else {

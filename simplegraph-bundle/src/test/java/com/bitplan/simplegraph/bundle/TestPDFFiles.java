@@ -25,6 +25,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +37,9 @@ import org.junit.Test;
 
 import com.bitplan.gremlin.RegexPredicate;
 import com.bitplan.simplegraph.core.SimpleNode;
-import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.filesystem.FileNode;
 import com.bitplan.simplegraph.filesystem.FileSystem;
+import com.bitplan.simplegraph.pdf.PdfNode;
 import com.bitplan.simplegraph.pdf.PdfSystem;
 
 /**
@@ -86,9 +87,14 @@ public class TestPDFFiles {
     fs.g().V().hasLabel("file").has("ext", "pdf").range(0, limit)
         .forEachRemaining(file -> {
           File pdfFile = new File(file.property("path").value().toString());
-          SimpleStepNode pdfNode = (SimpleStepNode) ps.moveTo(pdfFile);
+          PdfNode pdfNode = (PdfNode) ps.moveTo(pdfFile);
           pdfNode.out("pages");
           pdfNode.property("name", pdfFile.getName());
+          try {
+            pdfNode.getPdf().close();
+          } catch (IOException e) {
+            pdfNode.getPdf().error=e;
+          }
         });
     return ps;
   }
@@ -173,9 +179,9 @@ public class TestPDFFiles {
         "proposal", "plan");
     // debug=true;
     showIndex(index,debug);
-    assertEquals(12,index.get("ARPA").size());
-    assertEquals(6,index.get("plan").size());
-    assertEquals(6,index.get("proposal").size());
+    assertEquals(14,index.get("ARPA").size());
+    assertEquals(9,index.get("plan").size());
+    assertEquals(8,index.get("proposal").size());
   }
 
   static void showIndex(Map<String, List<String>> index, boolean debug) {
