@@ -8,10 +8,16 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.tinkerpop.gremlin.structure.Vertex;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 
+/**
+ * test semantic mediawiki API access for the openresearch site
+ * @author wf
+ *
+ */
 public class TestOpenResearch {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.smw");
@@ -77,7 +83,8 @@ public class TestOpenResearch {
     }
   }
 
-  @Test
+  @Ignore
+  // long running test - please activate only when needed
   public void testAllCategories() throws Exception {
     List<String> rawCategories = this.getPages(":Category:+");
     List<String> categories = new ArrayList<String>();
