@@ -66,9 +66,17 @@ public class TestOpenResearch {
         "Paper", "Person", "Project", "Tool" };
     for (String category : categories) {
       List<String> pages = this.getPages("Category:" + category);
-      System.out.println(String.format(
-          "%s [ label=\"%4d:%s\" URL=\"[https://www.openresearch.org/wiki/Category:%s]\"]",
-          category, pages.size(), category, category));
+      String template="";
+      template+="note as %sNote\n";
+      template+="2020-02: %d instances\n";
+      template+="end note\n";
+      template+="class %s [[https://www.openresearch.org/wiki/Category:%s %s]] {\n";
+      template+="}\n";
+      template+="%s - %sNote\n";
+      //System.out.println(String.format(
+      //    "%s [ label=\"%4d:%s\" URL=\"[https://www.openresearch.org/wiki/Category:%s]\"]",
+      //    category, pages.size(), category, category));
+      System.out.println(String.format(template,category,pages.size(),category,category,category,category,category));
     }
   }
 
