@@ -113,18 +113,18 @@ public class TestOpenResearch {
         + " | has frequency = \n" + " | Start date = \n" + " | End date = \n"
         + "}}";
     List<String> props = this.getProps(pageContent, "Journal");
-    assertEquals(10, props.size());
+    assertEquals(11, props.size());
   }
 
   public class Property {
     String name;
     String type;
     String page;
-    
+
     public Property(String name) {
-      this.name=name;
-      this.page=name.replace(" ", "_");
-      this.type="Page";
+      this.name = name;
+      this.page = name.replace(" ", "_");
+      this.type = "Page";
     }
   }
 
@@ -132,7 +132,7 @@ public class TestOpenResearch {
       throws Exception {
     String pageContent = smwSystem.getWiki()
         .getPageContent("Property:" + propName);
-    if (pageContent==null)
+    if (pageContent == null)
       return null;
     Property prop = new Property(propName);
     // System.out.println(pageContent);
@@ -151,9 +151,9 @@ public class TestOpenResearch {
     assertEquals(prop.type, "Text");
   }
 
-  public Map<String, Property> getPropertyMapForPageList(String topic,List<String> pages,
-      int sampleCount) throws Exception {
-    sampleCount=Math.min(sampleCount, pages.size());
+  public Map<String, Property> getPropertyMapForPageList(String topic,
+      List<String> pages, int sampleCount) throws Exception {
+    sampleCount = Math.min(sampleCount, pages.size());
     SmwSystem smwSystem = getSMWSystem();
     Map<String, Property> propMap = new HashMap<String, Property>();
     for (int i = 0; i < sampleCount; i++) {
@@ -165,7 +165,7 @@ public class TestOpenResearch {
         for (String propName : props) {
           if (!propName.isEmpty() && !propMap.containsKey(propName)) {
             Property prop = this.getProperty(smwSystem, propName);
-            if (prop!=null)
+            if (prop != null)
               propMap.put(propName, prop);
           }
         }
@@ -178,7 +178,8 @@ public class TestOpenResearch {
   public void testPropsForCategory() throws Exception {
     String category = "Journal";
     List<String> pages = this.getPages("Category:" + category);
-    Map<String, Property> propMap = this.getPropertyMapForPageList(category,pages, 7);
+    Map<String, Property> propMap = this.getPropertyMapForPageList(category,
+        pages, 7);
     for (Property prop : propMap.values()) {
       System.out.println(String.format("%s %s", prop.type, prop.name));
     }
@@ -189,7 +190,7 @@ public class TestOpenResearch {
     String categories[] = { "Event", "Event series", "Journal", "Organization",
         "Paper", "Person", "Project", "Tool" };
     for (String category : categories) {
-      String categoryPage=category.replace(" ", "_");
+      String categoryPage = category.replace(" ", "_");
       List<String> pages = this.getPages("Category:" + categoryPage);
       String template = "";
       template += "note top of %s\n";
@@ -202,13 +203,14 @@ public class TestOpenResearch {
       // "%s [ label=\"%4d:%s\"
       // URL=\"[https://www.openresearch.org/wiki/Category:%s]\"]",
       // category, pages.size(), category, category));
-      System.out.println(String.format(template, categoryPage, categoryPage, category,
-          pages.size(), categoryPage, categoryPage, category));
-      Map<String, Property> propMap = this.getPropertyMapForPageList(category,pages, 7);
+      System.out.println(String.format(template, categoryPage, categoryPage,
+          category, pages.size(), categoryPage, categoryPage, category));
+      Map<String, Property> propMap = this.getPropertyMapForPageList(category,
+          pages, 7);
       for (Property prop : propMap.values())
         System.out.println(String.format(
             "  %s [[https://www.openresearch.org/wiki/Property:%s %s]]",
-            prop.type, prop.page,prop.name));
+            prop.type, prop.page, prop.name));
       System.out.println("}");
     }
   }
@@ -217,11 +219,14 @@ public class TestOpenResearch {
   public void testEvents() throws Exception {
     SmwSystem smwSystem = getSMWSystem();
     List<String> pages = this.getPages("Category:Event");
-    for (int i = 0; i <= 10; i++) {
-      SimpleNode pageNode = smwSystem.moveTo("page=" + pages.get(i));
-      if (true)
-        pageNode.forAll(SimpleNode.printDebug);
-    }
+    String msg=String.format("expected >=6000 pages for Category:Event but found %d", pages.size());
+    assertTrue(msg,6000 <= pages.size());
+    if (debug)
+      for (int i = 0; i <= 10; i++) {
+        SimpleNode pageNode = smwSystem.moveTo("page=" + pages.get(i));
+        if (true)
+          pageNode.forAll(SimpleNode.printDebug);
+      }
   }
 
   @Ignore
