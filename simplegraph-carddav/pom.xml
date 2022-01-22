@@ -11,7 +11,7 @@
 	<packaging>jar</packaging>
 	<properties>
 		<ez-vcard.version>0.10.4</ez-vcard.version>
-		<commons-beanutils.version>1.9.3</commons-beanutils.version>
+		<commons-beanutils.version>1.9.4</commons-beanutils.version>
 	</properties>
 	<dependencies>
 		<dependency>
