@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 BITPlan GmbH
+ * Copyright (c) 2018-2025 BITPlan GmbH
  *
  * http://www.bitplan.com
  *
@@ -31,6 +31,10 @@ import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 
+/**
+ * Structured Query Language (SQL)
+ * System - accesses relational databases as knowledge graph vertices and edges
+ */
 public class SQLSystem extends SimpleSystemImpl {
   String driver;
   String connection;
@@ -94,12 +98,22 @@ public class SQLSystem extends SimpleSystemImpl {
     stmt.close();
     dbConnection.commit();
   }
-  
+
+  /**
+   * Close the SQL database connection if it is open.
+   *
+   * @param closeParams optional parameters for closing
+   * @return this SQLSystem instance
+   * @throws Exception if an error occurs during close
+   */
   @Override
   public SimpleSystem close(String ...closeParams) throws Exception {
-    dbConnection.close();
+    if (dbConnection != null && !dbConnection.isClosed()) {
+      dbConnection.close();
+    }
     super.close(closeParams);
     return this;
   }
+
 
 }

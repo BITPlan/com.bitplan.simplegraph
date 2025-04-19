@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 BITPlan GmbH
+ * Copyright (c) 2018-2025 BITPlan GmbH
  *
  * http://www.bitplan.com
  *
@@ -29,6 +29,9 @@ import java.net.URL;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.Level;
 
 /**
  * Portable Document File extractor help
@@ -93,9 +96,7 @@ public class PDF {
           "org.apache.pdfbox.pdmodel.graphics.color.PDICCBased",
           "org.apache.pdfbox.pdfparser.PDFObjectStreamParser" };
       for (String logger : loggers) {
-        org.apache.log4j.Logger logpdfengine = org.apache.log4j.Logger
-            .getLogger(logger);
-        logpdfengine.setLevel(org.apache.log4j.Level.OFF);
+    	  Configurator.setLevel(logger, Level.OFF);
       }
 
       doc = PDDocument.load(is);

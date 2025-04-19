@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 BITPlan GmbH
+ * Copyright (c) 2018-2025 BITPlan GmbH
  *
  * http://www.bitplan.com
  *
@@ -22,6 +22,7 @@ package com.bitplan.simplegraph.mediawiki;
 
 import com.bitplan.mediawiki.japi.SSLWiki;
 import com.bitplan.mediawiki.japi.SiteInfo;
+import com.bitplan.mediawiki.japi.user.WikiUser;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
@@ -41,26 +42,31 @@ public class MediaWikiSystem extends SimpleSystemImpl implements SimpleSystem {
 
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
-    if (connectionParams.length<2)
+    if (connectionParams.length < 2)
       throw new IllegalArgumentException("need url, scriptpath and optionally wikiid");
-    String url=connectionParams[0];
-    String scriptPath=connectionParams[1];
+    String url = connectionParams[0];
+    String scriptPath = connectionParams[1];
     switch (connectionParams.length) {
-    case 2:
-      wiki=new SSLWiki(url,scriptPath);
-      break;
-    case 3:
-      String wikiId=connectionParams[2];
-      wiki=new SSLWiki(url,scriptPath,wikiId);
-      // wiki.setDebug(true);
-      wiki.login();
+      case 2: {
+        WikiUser wikiUser = new WikiUser();
+        wikiUser.setUrl(url);
+        wikiUser.setScriptPath(scriptPath);
+        wiki = new SSLWiki(wikiUser);
+        break;
+      }
+      case 3: {
+        String wikiId = connectionParams[2];
+        wiki = SSLWiki.ofId(wikiId);
+        wiki.login();
+        break;
+      }
     }
     SiteInfo siteinfo = wiki.getSiteInfo();
-    //property("lang",siteinfo.getLang());
     this.setVersion(siteinfo.getVersion());
     this.setName(siteinfo.getGeneral().getSitename());
     return this;
   }
+
 
   @Override
   public Class<? extends SimpleNode> getNodeClass() {
