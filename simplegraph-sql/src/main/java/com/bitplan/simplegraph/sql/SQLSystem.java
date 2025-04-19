@@ -30,6 +30,7 @@ import java.sql.Statement;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
+import com.bitplan.simplegraph.core.SimpleGraph;
 
 /**
  * Structured Query Language (SQL)
@@ -41,6 +42,20 @@ public class SQLSystem extends SimpleSystemImpl {
   String user;
   String password;
   private Connection dbConnection;
+
+  /**
+   * Constructor with specific Graph
+   *
+   * @param graph the TinkerGraph to use for this SQLSystem
+   */
+  public SQLSystem(SimpleGraph graph) {
+    super(graph);
+  }
+
+  // keep existing default constructor if needed
+  public SQLSystem() {
+    super();
+  }
 
   @Override
   public SimpleSystem connect(String... connectionParams) throws Exception {
