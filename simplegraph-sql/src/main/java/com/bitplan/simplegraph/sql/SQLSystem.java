@@ -33,102 +33,110 @@ import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 import com.bitplan.simplegraph.core.SimpleGraph;
 
 /**
- * Structured Query Language (SQL)
- * System - accesses relational databases as knowledge graph vertices and edges
+ * Structured Query Language (SQL) System - accesses relational databases as
+ * knowledge graph vertices and edges
  */
 public class SQLSystem extends SimpleSystemImpl {
-  String driver;
-  String connection;
-  String user;
-  String password;
-  private Connection dbConnection;
+	String driver;
+	String connection;
+	String user;
+	String password;
+	String defaultKind = "row"; // the row kind to use if none is set eg. on SQLITE pragma statements
+	private Connection dbConnection;
 
-  /**
-   * Constructor with specific Graph
-   *
-   * @param graph the TinkerGraph to use for this SQLSystem
-   */
-  public SQLSystem(SimpleGraph graph) {
-    super(graph);
-  }
+	/**
+	 * Constructor with specific Graph
+	 *
+	 * @param graph the TinkerGraph to use for this SQLSystem
+	 */
+	public SQLSystem(SimpleGraph graph) {
+		super(graph);
+	}
 
-  // keep existing default constructor if needed
-  public SQLSystem() {
-    super();
-  }
+	// keep existing default constructor if needed
+	public SQLSystem() {
+		super();
+	}
 
-  @Override
-  public SimpleSystem connect(String... connectionParams) throws Exception {
-    if (connectionParams.length > 0)
-      driver = connectionParams[0];
-    if (connectionParams.length > 1)
-      connection = connectionParams[1];
-    if (connectionParams.length > 2)
-      user = connectionParams[2];
-    if (connectionParams.length > 3)
-      password = connectionParams[3];
-    Class.forName(driver);
-    dbConnection = DriverManager.getConnection(connection, user, password);
-    return this;
-  }
+	public void setDefaultKind(String kind) {
+		this.defaultKind = kind;
+	}
 
-  @Override
-  public SimpleNode moveTo(String nodeQuery, String... keys) {
-    SimpleNode sqlRecord=null;
-    try {
-      dbConnection.setAutoCommit(false);
-      Statement stmt = dbConnection.createStatement();
-      ResultSet rs = stmt.executeQuery(nodeQuery);
-      ResultSetMetaData rsMetaData = rs.getMetaData();
-      String kind=rsMetaData.getTableName(1);
-      while (rs.next()) {
-        sqlRecord=new SQLRecord(this,kind,rs,rsMetaData);
-        if (this.getStartNode()==null)
-          this.setStartNode(sqlRecord);
-      }
-      stmt.close();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return sqlRecord;
-  }
+	@Override
+	public SimpleSystem connect(String... connectionParams) throws Exception {
+		if (connectionParams.length > 0)
+			driver = connectionParams[0];
+		if (connectionParams.length > 1)
+			connection = connectionParams[1];
+		if (connectionParams.length > 2)
+			user = connectionParams[2];
+		if (connectionParams.length > 3)
+			password = connectionParams[3];
+		Class.forName(driver);
+		dbConnection = DriverManager.getConnection(connection, user, password);
+		return this;
+	}
 
-  @Override
-  public Class<? extends SimpleNode> getNodeClass() {
-    return SQLRecord.class;
-  }
+	@Override
+	public SimpleNode moveTo(String nodeQuery, String... keys) {
+		SimpleNode sqlRecord = null;
+		try {
+			dbConnection.setAutoCommit(false);
+			Statement stmt = dbConnection.createStatement();
+			ResultSet rs = stmt.executeQuery(nodeQuery);
+			ResultSetMetaData rsMetaData = rs.getMetaData();
+			String kind = rsMetaData.getTableName(1);
+			if (kind == null || kind.trim().isEmpty()) {
+				kind = defaultKind;
+			}
+			while (rs.next()) {
+				sqlRecord = new SQLRecord(this, kind, rs, rsMetaData);
+				if (this.getStartNode() == null)
+					this.setStartNode(sqlRecord);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return sqlRecord;
+	}
 
-  /**
-   * execute the given list of sql Lines in the given sqlScript
-   * @param sqlScript
-   * @throws SQLException
-   */
-  public void execute(String sqlScript) throws SQLException {
-    dbConnection.setAutoCommit(false);
-    Statement stmt = dbConnection.createStatement();
-    String[] sqlLines = sqlScript.split("\n");
-    for (String sqlLine:sqlLines) {
-      stmt.execute(sqlLine);
-    }
-    stmt.close();
-    dbConnection.commit();
-  }
+	@Override
+	public Class<? extends SimpleNode> getNodeClass() {
+		return SQLRecord.class;
+	}
 
-  /**
-   * Close the SQL database connection if it is open.
-   *
-   * @param closeParams optional parameters for closing
-   * @return this SQLSystem instance
-   * @throws Exception if an error occurs during close
-   */
-  @Override
-  public SimpleSystem close(String ...closeParams) throws Exception {
-    if (dbConnection != null && !dbConnection.isClosed()) {
-      dbConnection.close();
-    }
-    super.close(closeParams);
-    return this;
-  }
+	/**
+	 * execute the given list of sql Lines in the given sqlScript
+	 * 
+	 * @param sqlScript
+	 * @throws SQLException
+	 */
+	public void execute(String sqlScript) throws SQLException {
+		dbConnection.setAutoCommit(false);
+		Statement stmt = dbConnection.createStatement();
+		String[] sqlLines = sqlScript.split("\n");
+		for (String sqlLine : sqlLines) {
+			stmt.execute(sqlLine);
+		}
+		stmt.close();
+		dbConnection.commit();
+	}
 
+	/**
+	 * Close the SQL database connection if it is open.
+	 *
+	 * @param closeParams optional parameters for closing
+	 * @return this SQLSystem instance
+	 * @throws Exception if an error occurs during close
+	 */
+	@Override
+	public SimpleSystem close(String... closeParams) throws Exception {
+		if (dbConnection != null && !dbConnection.isClosed()) {
+			dbConnection.close();
+		}
+		super.close(closeParams);
+		return this;
+	}
 
 }

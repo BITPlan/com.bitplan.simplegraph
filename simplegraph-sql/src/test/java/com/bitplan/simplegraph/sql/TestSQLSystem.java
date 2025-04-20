@@ -20,12 +20,13 @@
  */
 package com.bitplan.simplegraph.sql;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.logging.Logger;
 
 import org.junit.Test;
 
 import com.bitplan.simplegraph.core.SimpleNode;
-import com.bitplan.simplegraph.sql.SQLSystem;
 
 /**
  * test the access to the SQL system
@@ -34,31 +35,46 @@ import com.bitplan.simplegraph.sql.SQLSystem;
  *
  */
 public class TestSQLSystem {
-  public static boolean debug = false;
-  protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.sql");
+	public static boolean debug = false;
+	protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.sql");
 
-  private static final String DB_DRIVER = "org.h2.Driver";
-  private static final String DB_CONNECTION = "jdbc:h2:mem:test";
-  private static final String DB_USER = "";
-  private static final String DB_PASSWORD = "";
-  private String createSQL = "CREATE TABLE PERSON(id int primary key, name varchar(255), firstname varchar(255),email varchar(255))\n"
-      + "INSERT INTO PERSON(id, name,firstname,email) VALUES(1, 'Doe','John','john@doe.com')\n"
-      + "INSERT INTO PERSON(id, name,firstname,email) VALUES(2, 'Mayer','Tom','tom@mayer.com')\n"
-      + "INSERT INTO PERSON(id, name,firstname,email) VALUES(3, 'Ford','Bob','bob@ford.com')\n";
+	private static final String DB_DRIVER = "org.h2.Driver";
+	private static final String DB_CONNECTION = "jdbc:h2:mem:test";
+	private static final String DB_USER = "";
+	private static final String DB_PASSWORD = "";
+	private String createSQL = "CREATE TABLE PERSON(id int primary key, name varchar(255), firstname varchar(255),email varchar(255))\n"
+			+ "INSERT INTO PERSON(id, name,firstname,email) VALUES(1, 'Doe','John','john@doe.com')\n"
+			+ "INSERT INTO PERSON(id, name,firstname,email) VALUES(2, 'Mayer','Tom','tom@mayer.com')\n"
+			+ "INSERT INTO PERSON(id, name,firstname,email) VALUES(3, 'Ford','Bob','bob@ford.com')\n";
 
-  @Test
-  public void testSQL() throws Exception {
-    SQLSystem sql = new SQLSystem();
-    sql.connect(DB_DRIVER, DB_CONNECTION, DB_USER, DB_PASSWORD);
-    sql.execute(createSQL);
-    sql.moveTo("select * from PERSON");
-    long pCount = sql.getStartNode().g().V().count().next().longValue();
-    debug = true;
-    if (debug) {
-      System.out.println(String.format("found %3d records",pCount));
-      sql.getStartNode().forAll(SimpleNode.printDebug);
-    }
-    sql.close();
-  }
+	public void checkSqlSystem(SQLSystem sql, String query, long expectedRecords) {
+		sql.moveTo(query);
+		long pCount = sql.getStartNode().g().V().count().next().longValue();
+		debug = true;
+		if (debug) {
+			System.out.println(String.format("found %3d records", pCount));
+			sql.getStartNode().forAll(SimpleNode.printDebug);
+		}
+		assertEquals("",expectedRecords, pCount);
+	}
+
+	@Test
+	public void testSQL() throws Exception {
+		SQLSystem sql = new SQLSystem();
+		sql.connect(DB_DRIVER, DB_CONNECTION, DB_USER, DB_PASSWORD);
+		sql.execute(createSQL);
+		checkSqlSystem(sql, "select * from PERSON", 3);
+		sql.close();
+	}
+
+	@Test
+	public void testSQLiteInMemory() throws Exception {
+		SQLSystem sql = new SQLSystem();
+		sql.connect("org.sqlite.JDBC", "jdbc:sqlite::memory:", "", "");
+		sql.execute(createSQL);
+		checkSqlSystem(sql, "select * from PERSON", 3);
+		checkSqlSystem(sql,"PRAGMA table_info(PERSON)",7);
+		sql.close();
+	}
 
 }
