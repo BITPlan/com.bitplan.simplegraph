@@ -62,6 +62,10 @@ public class SQLSystem extends SimpleSystemImpl {
 		this.defaultKind = kind;
 	}
 
+	public Connection getDBConnection() {
+		return dbConnection;
+	}
+
 	@Override
 	public SimpleSystem connect(String... connectionParams) throws Exception {
 		if (connectionParams.length > 0)
@@ -108,7 +112,7 @@ public class SQLSystem extends SimpleSystemImpl {
 
 	/**
 	 * execute the given list of sql Lines in the given sqlScript
-	 * 
+	 *
 	 * @param sqlScript
 	 * @throws SQLException
 	 */

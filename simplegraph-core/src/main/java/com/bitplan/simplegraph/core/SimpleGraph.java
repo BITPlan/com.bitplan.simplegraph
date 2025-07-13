@@ -49,7 +49,7 @@ public interface SimpleGraph {
   public default GraphTraversalSource g() {
     return this.graph().traversal();
   }
-  
+    
   public Vertex addVertex(SimpleNode other); 
 
   // SimpleGraph API
