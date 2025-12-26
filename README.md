@@ -2,7 +2,7 @@
 [Wrapper for Apache TinkerPop](http://www.bitplan.com/index.php/SimpleGraph)
 
 [![Travis (.org)](https://img.shields.io/travis/BITPlan/com.bitplan.simplegraph.svg)](https://travis-ci.org/BITPlan/com.bitplan.simplegraph)
-[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.simplegraph/com.bitplan.simplegraph.svg)](https://search.maven.org/artifact/com.bitplan.simplegraph/com.bitplan.simplegraph/0.0.5/jar)
+[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.simplegraph/com.bitplan.simplegraph.svg)](https://search.maven.org/artifact/com.bitplan.simplegraph/com.bitplan.simplegraph/0.1.0/jar)
 
 [![GitHub issues](https://img.shields.io/github/issues/BITPlan/com.bitplan.simplegraph.svg)](https://github.com/BITPlan/com.bitplan.simplegraph/issues)
 [![GitHub issues](https://img.shields.io/github/issues-closed/BITPlan/com.bitplan.simplegraph.svg)](https://github.com/BITPlan/com.bitplan.simplegraph/issues/?q=is%3Aissue+is%3Aclosed)
@@ -22,11 +22,11 @@ Maven dependency
 <dependency>
   <groupId>com.bitplan.simplegraph</groupId>
   <artifactId>com.bitplan.simplegraph</artifactId>
-  <version>0.0.5</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 
-[Current release at repo1.maven.org](http://repo1.maven.org/maven2/com/bitplan/simplegraph/com.bitplan.simplegraph/0.0.5/)
+[Current release at repo1.maven.org](https://repo1.maven.org/maven2/com/bitplan/simplegraph/com.bitplan.simplegraph/0.1.0/)
 
 ### How to build
 ```
@@ -84,6 +84,3 @@ mvn install
 | 0.0.3   | 2018-12-07 | maven release 0.0.3
 | 0.0.4   | 2019-02-12 | fixes #28 and releases 0.0.4
 | 0.0.5   | 2019-03-23 | fixes #26 and releases 0.0.5
-| 0.0.6   | 2025-04-19 | local release
-| 0.1.0   | 2025-12-26 | Java 25 compatible version
-
