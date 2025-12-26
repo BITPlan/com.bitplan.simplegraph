@@ -35,6 +35,17 @@ import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 public class MediaWikiSystem extends SimpleSystemImpl implements SimpleSystem {
 
   SSLWiki wiki;
+  
+  private static final String USER_AGENT = 
+	      "SimpleGraph-MediaWiki/1.0 (https://github.com/BITPlan/com.bitplan.simplegraph; webmaster@bitplan.com)";
+  
+  static {
+    // Set default User-Agent for all HTTP connections made by this JVM
+    // This ensures ImageIO.read() and other URL-based operations include User-Agent
+    System.setProperty("http.agent", USER_AGENT);
+  }
+
+
   @Override
   public SimpleNode moveTo(String nodeQuery, String ...keys) {
     return new MediaWikiPageNode(this,nodeQuery,keys);

@@ -58,7 +58,7 @@ public class TestMediaWikiSystem  {
 
   @Test
   public void testGetImageInfo() throws Exception {
-    // debug = true;
+    debug = true;
     MediaWikiSystem mws = new MediaWikiSystem();
     MediaWikiPageNode pageNode = (MediaWikiPageNode) mws
         .connect("https://commons.wikimedia.org", "/w")
