@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018 BITPlan GmbH
+/*
+ * Copyright (c) 2018-2025 BITPlan GmbH
  *
  * http://www.bitplan.com
  *
