@@ -1,13 +1,63 @@
 #!/bin/bash
 # WF 2018-08-27
+# WF 2025-12-26 Updated: with force flag and safety checks
 
+FORCE=false
+
+# show usage
 usage() {
-  echo "$0 version" 1>&2
+  cat << EOF
+Usage: $0 [OPTIONS] <version>
+
+Update the parent version in simplegraph* module pom.xml files.
+
+Arguments:
+  version           New version to set (e.g., 0.0.8)
+
+Options:
+  -f, --force       Actually modify files (default: dry-run mode)
+  -h, --help        Show this help message
+
+Examples:
+  $0 0.0.8                    # Dry-run: show what would change
+  $0 -f 0.0.8                 # Actually update files to version 0.0.8
+  $0 --force 0.0.8            # Same as above
+
+Without -f flag, no files will be modified (safe preview mode).
+EOF
   exit 1
 }
 
-if [ $# -lt 1 ]
-then
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -f|--force)
+      FORCE=true
+      shift
+      ;;
+    -h|--help)
+      usage
+      ;;
+    -*)
+      echo "Error: Unknown option: $1" >&2
+      usage
+      ;;
+    *)
+      # First non-option argument is the version
+      if [ -z "$newversion" ]; then
+        newversion=$1
+      else
+        echo "Error: Too many arguments" >&2
+        usage
+      fi
+      shift
+      ;;
+  esac
+done
+
+# Check if version was provided
+if [ -z "$newversion" ]; then
+  echo "Error: Version argument is required" >&2
   usage
 fi
 
@@ -15,47 +65,115 @@ fi
 # create a maven configuration
 #
 mvnconfig() {
-for d in $(find . -name "simplegraph*" -type d -maxdepth 1 | sort -u)
-do
-  version=$(   cat $d/pom.xml | xml2 | grep "/project/parent/version" | cut -f2 -d'=')
-  artifactId=$(cat $d/pom.xml | xml2 | grep "/project/artifactId"     | cut -f2 -d'=')
-  echo "<$artifactId.version>$version</$artifactId.version>"
-done
-for d in $(find . -name "simplegraph*" -type d -maxdepth 1 | sort -u)
-do
-  version=$(   cat $d/pom.xml | xml2 | grep "/project/parent/version" | cut -f2 -d'=')
-  artifactId=$(cat $d/pom.xml | xml2 | grep "/project/artifactId"     | cut -f2 -d'=')
-  echo "<!-- https://mvnrepository.com/artifact/com.bitplan.simplegraph/$artifactId.version -->"
-  echo "<dependency>"
-  echo "  <groupId>com.bitplan.simplegraph</groupId>"
-	echo "  <artifactId>$artifactId</artifactId>"
-	echo "  <version>\${$artifactId.version}</version>"
-  echo "</dependency>" 
-done
+  echo ""
+  echo "=== Maven Configuration ==="
+  echo ""
+  echo "<!-- Properties -->"
+  for d in $(find . -maxdepth 1 -type d -name "simplegraph*" | sort -u)
+  do
+    version=$(   cat "$d/pom.xml" | xml2 | grep "/project/parent/version" | cut -f2 -d'=')
+    artifactId=$(cat "$d/pom.xml" | xml2 | grep "/project/artifactId"     | cut -f2 -d'=')
+    echo "<$artifactId.version>$version</$artifactId.version>"
+  done
+  
+  echo ""
+  echo "<!-- Dependencies -->"
+  for d in $(find . -maxdepth 1 -type d -name "simplegraph*" | sort -u)
+  do
+    version=$(   cat "$d/pom.xml" | xml2 | grep "/project/parent/version" | cut -f2 -d'=')
+    artifactId=$(cat "$d/pom.xml" | xml2 | grep "/project/artifactId"     | cut -f2 -d'=')
+    echo "<!-- https://mvnrepository.com/artifact/com.bitplan.simplegraph/$artifactId -->"
+    echo "<dependency>"
+    echo "  <groupId>com.bitplan.simplegraph</groupId>"
+    echo "  <artifactId>$artifactId</artifactId>"
+    echo "  <version>\${$artifactId.version}</version>"
+    echo "</dependency>"
+    echo ""
+  done
 }
 
 #
 # check the versions
 #
 versioncheck() {
-for d in $(find . -name "simplegraph*" -type d -maxdepth 1)
-do
-  version=$(   cat $d/pom.xml | xml2 | grep "/project/parent/version" | cut -f2 -d'=')
-  artifactId=$(cat $d/pom.xml | xml2 | grep "/project/artifactId"     | cut -f2 -d'=')
-  module=$(echo $d | cut -c3-)
-  echo "$module $version -> $newversion $artifactid"
-  if [ "$version" != "$newversion" ]
-  then
-    xmlstarlet ed -u  "//_:project/_:parent/_:version" -v $newversion $d/pom.xml   > /tmp/${module}_pom.xml
-    # http://xmlstar.sourceforge.net/doc/UG/ch04s05.html
-    xmlstarlet fo --indent-tab /tmp/${module}_pom.xml | grep -v "<?xml" > /tmp/${module}_pom_formatted.xml
-    #diff /tmp/${module}_pom_formatted.xml $d/pom.xml
-    mv /tmp/${module}_pom_formatted.xml $d/pom.xml
-  fi  
-done
+  local changes_needed=false
+  
+  echo ""
+  echo "=== Version Check: $newversion ==="
+  echo ""
+  
+  if ! $FORCE; then
+    echo "[DRY-RUN MODE] No files will be modified. Use -f to apply changes."
+    echo ""
+  fi
+  
+  for d in $(find . -maxdepth 1 -type d -name "simplegraph*" | sort -u)
+  do
+    if [ ! -f "$d/pom.xml" ]; then
+      echo "Warning: $d/pom.xml not found, skipping" >&2
+      continue
+    fi
+    
+    version=$(   cat "$d/pom.xml" | xml2 | grep "/project/parent/version" | cut -f2 -d'=')
+    artifactId=$(cat "$d/pom.xml" | xml2 | grep "/project/artifactId"     | cut -f2 -d'=')
+    module=$(echo "$d" | cut -c3-)
+    
+    if [ "$version" != "$newversion" ]; then
+      changes_needed=true
+      
+      if $FORCE; then
+        echo "[$module] Updating: $version -> $newversion"
+        
+        # Create backup
+        cp "$d/pom.xml" "$d/pom.xml.backup.$(date +%Y%m%d_%H%M%S)"
+        
+        # Edit version
+        if ! xmlstarlet ed -u "//_:project/_:parent/_:version" -v "$newversion" "$d/pom.xml" > "/tmp/${module}_pom.xml"; then
+          echo "ERROR: xmlstarlet edit failed for $module" >&2
+          continue
+        fi
+        
+        # Check if output file is not empty
+        if [ ! -s "/tmp/${module}_pom.xml" ]; then
+          echo "ERROR: Generated pom.xml is empty for $module" >&2
+          continue
+        fi
+        
+        # Format (keep XML declaration)
+        if ! xmlstarlet fo --indent-tab "/tmp/${module}_pom.xml" > "/tmp/${module}_pom_formatted.xml"; then
+          echo "ERROR: xmlstarlet format failed for $module" >&2
+          continue
+        fi
+        
+        # Check if formatted file is not empty
+        if [ ! -s "/tmp/${module}_pom_formatted.xml" ]; then
+          echo "ERROR: Formatted pom.xml is empty for $module" >&2
+          continue
+        fi
+        
+        # Apply changes
+        mv "/tmp/${module}_pom_formatted.xml" "$d/pom.xml"
+        echo "[$module] ✓ Updated successfully"
+        
+      else
+        echo "[$module] Would update: $version -> $newversion"
+      fi
+    else
+      echo "[$module] Already at version $newversion"
+    fi
+  done
+  
+  echo ""
+  if $FORCE; then
+    echo "Changes applied!"
+  else
+    if $changes_needed; then
+      echo "Run with -f flag to apply these changes"
+    fi
+  fi
+  echo ""
 }
 
-
-newversion=$1
+# Main execution
 versioncheck
 mvnconfig

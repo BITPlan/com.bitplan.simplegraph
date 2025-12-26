@@ -84,3 +84,6 @@ mvn install
 | 0.0.3   | 2018-12-07 | maven release 0.0.3
 | 0.0.4   | 2019-02-12 | fixes #28 and releases 0.0.4
 | 0.0.5   | 2019-03-23 | fixes #26 and releases 0.0.5
+| 0.0.6   | 2025-04-19 | local release
+| 0.1.0   | 2025-12-26 | Java 25 compatible version
+
