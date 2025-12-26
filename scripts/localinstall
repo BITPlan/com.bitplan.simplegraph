@@ -1,0 +1,6 @@
+#!/bin/bash
+# WF 2025-12-26
+# install local version of simplegraph
+. jdk21
+mvn --version
+mvn install
