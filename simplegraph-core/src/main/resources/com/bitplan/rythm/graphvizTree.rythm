@@ -1,9 +1,11 @@
 @// Rythm template
+@// avoid lambdas WF 2025-12-16
 @import com.bitplan.simplegraph.core.SimpleNode
 @import org.apache.tinkerpop.gremlin.structure.Edge
 @import org.apache.tinkerpop.gremlin.structure.Vertex
 @import java.text.SimpleDateFormat
 @import java.util.Date
+@import java.util.Iterator
 @args() {
   SimpleNode start,
   String edge,
@@ -34,13 +36,15 @@
 @// the lambda approach is not so easily applied directly
 @{
   List<Vertex> vertices=new ArrayList<Vertex>();
-  start.g().V().has(idProperty).forEachRemaining(vertex -> {
-    vertices.add(vertex);
-  });
+  Iterator<Vertex> vertexIter = start.g().V().has(idProperty);
+  while(vertexIter.hasNext()) {
+    vertices.add(vertexIter.next());
+  }
   List<Edge> edges=new ArrayList<Edge>();
-  start.g().E().hasLabel(edge).forEachRemaining(edge->{
-    	edges.add(edge);
-  });
+  Iterator<Edge> edgeIter = start.g().E().hasLabel(edge);
+  while(edgeIter.hasNext()) {
+    edges.add(edgeIter.next());
+  }
 }
 @{
  SimpleDateFormat isoDateFormat = new SimpleDateFormat(

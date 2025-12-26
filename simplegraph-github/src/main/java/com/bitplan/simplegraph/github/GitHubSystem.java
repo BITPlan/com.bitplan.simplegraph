@@ -20,20 +20,19 @@
  */
 package com.bitplan.simplegraph.github;
 
-
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
-import com.bitplan.simplegraph.impl.PropertiesImpl;
 import com.bitplan.simplegraph.impl.SimpleSystemImpl;
 import com.bitplan.simplegraph.json.JsonNode;
 import com.bitplan.simplegraph.json.JsonSystem;
 
 /**
- * wraps the GitHub access via the GitHub Java API 
- * http://github-api.kohsuke.org/
+ * wraps the GitHub access via the GitHub GraphQL API
  * @author wf
  *
  */
@@ -43,14 +42,38 @@ public class GitHubSystem extends SimpleSystemImpl {
   JsonSystem js;
   
   /**
+   * Get the authentication file
+   * @return the file object for the access token json
+   */
+  public static File getAuthFile() {
+    String home = System.getProperty("user.home");
+    return new File(home + "/.github/access_token.json");
+  }
+
+  /**
    * get the GitHub JsonSystem
    * @return the JsonSystem
    * @throws Exception
    */
   public JsonSystem getGitHubJsonSystem() throws Exception {
-    PropertiesImpl properties = new PropertiesImpl("github");
-    String token = (String) properties.getProperty("oauth");
+    File authFile = getAuthFile();
+    if (!authFile.exists()) {
+      throw new IllegalStateException("GitHub authentication file not found at " + authFile.getAbsolutePath());
+    }
 
+    // Eat our own dog food: Use JsonSystem to parse the auth file
+    String jsonContent = new String(Files.readAllBytes(Paths.get(authFile.toURI())));
+    JsonSystem authJs = JsonSystem.of(null, jsonContent);
+    SimpleNode authNode = authJs.getStartNode();
+    
+    // Extract the token
+    String token = (String) authNode.getMap().get("access_token");
+    
+    if (token == null || token.trim().isEmpty()) {
+       throw new IllegalStateException("access_token not found in " + authFile.getAbsolutePath());
+    }
+
+    // Create the actual System for the API Query
     JsonSystem js = new JsonSystem();
     js.setDebug(debug);
     js.connect("Authorization: bearer " + token);
@@ -69,6 +92,7 @@ public class GitHubSystem extends SimpleSystemImpl {
     if ("".equals(nodeQuery))
       result=js.moveTo(GITHUB_APIV4);
     else {
+      // escape quotes and remove newlines for GraphQL query wrapping
       String queryJson=String.format("{ \"query\": \"%s\" }",nodeQuery.replaceAll("\"","\\\\\"").replaceAll("\n",""));
       if (debug)
         LOGGER.log(Level.INFO, queryJson);
@@ -82,17 +106,19 @@ public class GitHubSystem extends SimpleSystemImpl {
   public Class<? extends SimpleNode> getNodeClass() {
     return JsonNode.class;
   }
+  
   static boolean first=true;
+  
   /**
    * is the authentication available?
    * @return true if authFile is available
    */
   public static boolean hasAuthentication() {
-    File authFile=PropertiesImpl.getPropertyFile("github");
+    File authFile=getAuthFile();
     boolean result=authFile.canRead();
     if (first && !result) {
       first=false;
-      LOGGER.log(Level.WARNING, String.format("To use the github System you might want to create the file %s with an entry oauth=<token>\nThe token can be obtained from https://github.com/settings/tokens",authFile.getAbsolutePath()));
+      LOGGER.log(Level.WARNING, String.format("To use the github System you might want to create the file %s with the content {\"access_token\": \"<github_pat_...>\"} \nThe token can be obtained from https://github.com/settings/tokens",authFile.getAbsolutePath()));
     }
     return result;
   }
