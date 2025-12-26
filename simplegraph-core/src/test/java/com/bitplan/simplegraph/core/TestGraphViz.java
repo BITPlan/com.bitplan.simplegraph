@@ -20,6 +20,9 @@
  */
 package com.bitplan.simplegraph.core;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.junit.Test;
@@ -35,15 +38,29 @@ public class TestGraphViz {
 
   public static boolean debug=false;
   @Test
+  /**
+   * test rendering the TinkerFactory Graphs as uml
+   * @throws Exception
+   */
   public void testTinkerFactoryGraphs() throws Exception {
-    Graph graphs[]= {TinkerFactory.createModern(), TinkerFactory.createClassic(),TinkerFactory.createTheCrew()};
-    String title[]= {"Modern","Classic","The Crew"};
-    int i=0;
-    for (Graph graph:graphs) {
-      String uml=GraphRythmContext.getInstance().renderUml(graph.traversal(), title[i++]);
-      if (debug)
+    Graph[] graphs = {
+      TinkerFactory.createModern(), 
+      TinkerFactory.createClassic(),
+      TinkerFactory.createTheCrew()
+    };
+    String[] titles = {"Modern", "Classic", "The Crew"};
+    GraphRythmContext rythmContext = GraphRythmContext.getInstance();
+    for (int i = 0; i < graphs.length; i++) {
+      String uml = rythmContext.renderUml(graphs[i].traversal(), titles[i]);
+      
+      assertNotNull("UML should not be null for " + titles[i], uml);
+      assertFalse("UML should not be empty for " + titles[i], uml.trim().isEmpty());
+      
+      if (debug) {
+        System.out.println("=== " + titles[i] + " ===");
         System.out.println(uml);
+      }
     }
   }
-
 }
+
