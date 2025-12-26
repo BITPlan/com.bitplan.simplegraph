@@ -1,0 +1,4 @@
+#!/bin/bash
+# WF 2018-08-22
+# regenerate the README of this project
+checkmos -w https://github.com/BITPlan/com.bitplan.pom/blob/master/docs/BITPlanOSProjects.md -p com.bitplan.pom 
