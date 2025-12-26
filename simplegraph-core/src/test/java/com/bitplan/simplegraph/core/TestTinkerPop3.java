@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 BITPlan GmbH
+ * Copyright (c) 2018-2025 BITPlan GmbH
  *
  * http://www.bitplan.com
  *
@@ -420,7 +420,7 @@ public class TestTinkerPop3 {
     Graph graph = getAirRoutes();
     GraphTraversalSource g = graph.traversal();
     Map<Object, Long> counts = g.V().hasLabel("airport").groupCount()
-        .by("region").order(Scope.local).by(Column.values, Order.decr).next();
+        .by("region").order(Scope.local).by(Column.values, Order.desc).next();
     // https://stackoverflow.com/a/49361250/1497139
     assertEquals(1473, counts.size());
     assertEquals("LinkedHashMap", counts.getClass().getSimpleName());

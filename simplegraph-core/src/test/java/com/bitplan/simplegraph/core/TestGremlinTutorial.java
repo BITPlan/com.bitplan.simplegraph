@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 BITPlan GmbH
+ * Copyright (c) 2018-2025 BITPlan GmbH
  *
  * http://www.bitplan.com
  *
@@ -29,8 +29,8 @@ import static org.junit.Assert.fail;
 
 import java.util.logging.Logger;
 
-import org.apache.commons.configuration.BaseConfiguration;
-import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration2.BaseConfiguration;
+import org.apache.commons.configuration2.Configuration;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
@@ -407,6 +407,10 @@ public class TestGremlinTutorial {
     assertEquals("tinkergraph[vertices:6 edges:7]", g1.toString());
   }
 
+  /**
+   * create class Graph with duplicate IDs
+   * @return
+   */
   public static TinkerGraph createMyClassicWithDuplicateIds() {
     final Configuration conf = new BaseConfiguration();
     conf.setProperty(TinkerGraph.GREMLIN_TINKERGRAPH_VERTEX_ID_MANAGER,

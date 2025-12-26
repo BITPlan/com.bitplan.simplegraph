@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 BITPlan GmbH
+ * Copyright (c) 2018-2025 BITPlan GmbH
  *
  * http://www.bitplan.com
  *
@@ -20,13 +20,12 @@
  */
 package com.bitplan.gremlin;
 
-import java.util.function.BiPredicate;
-
 import org.apache.tinkerpop.gremlin.process.traversal.P;
+import org.apache.tinkerpop.gremlin.process.traversal.PBiPredicate;
 
 // https://groups.google.com/forum/#!topic/gremlin-users/heWLwz9xBQc
 // https://stackoverflow.com/a/45652897/1497139
-public class ToStringEqualsPredicate implements BiPredicate<Object, Object> {
+public class ToStringEqualsPredicate implements PBiPredicate<Object, Object> {
 
   public ToStringEqualsPredicate() {
   }
@@ -36,14 +35,34 @@ public class ToStringEqualsPredicate implements BiPredicate<Object, Object> {
 		return first.toString().equals(second.toString());
 	}
 
+	@Override
+	public PBiPredicate<Object, Object> negate() {
+		return new PBiPredicate<Object, Object>() {
+			@Override
+			public boolean test(Object o1, Object o2) {
+				return !ToStringEqualsPredicate.this.test(o1, o2);
+			}
+
+			@Override
+			public String getPredicateName() {
+				return "not(" + ToStringEqualsPredicate.this.getPredicateName() + ")";
+			}
+		};
+	}
+
+	@Override
+	public String getPredicateName() {
+		return "toStringEquals";
+	}
+
 	/**
-	 * get a .toString() comparision predicate
+	 * get a .toString() comparison predicate
 	 * 
 	 * @param compare
 	 * @return - the predicate
 	 */
 	public static P<Object> compare(String compare) {
-		BiPredicate<Object, Object> b = new ToStringEqualsPredicate();
+		PBiPredicate<Object, Object> b = new ToStringEqualsPredicate();
 		return new P<Object>(b, compare);
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 BITPlan GmbH
+ * Copyright (c) 2018-2025 BITPlan GmbH
  *
  * http://www.bitplan.com
  *
@@ -20,15 +20,15 @@
  */
 package com.bitplan.gremlin;
 
-import java.util.function.BiPredicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.tinkerpop.gremlin.process.traversal.P;
+import org.apache.tinkerpop.gremlin.process.traversal.PBiPredicate;
 
 // https://groups.google.com/forum/#!topic/gremlin-users/heWLwz9xBQc
 // https://stackoverflow.com/a/45652897/1497139
-public class RegexPredicate implements BiPredicate<Object, Object> {
+public class RegexPredicate implements PBiPredicate<Object, Object> {
 	Pattern pattern = null;
 	private Mode mode;
 
@@ -58,6 +58,26 @@ public class RegexPredicate implements BiPredicate<Object, Object> {
 		return false;
 	}
 
+	@Override
+	public PBiPredicate<Object, Object> negate() {
+		return new PBiPredicate<Object, Object>() {
+			@Override
+			public boolean test(Object o1, Object o2) {
+				return !RegexPredicate.this.test(o1, o2);
+			}
+
+			@Override
+			public String getPredicateName() {
+				return "not(" + RegexPredicate.this.getPredicateName() + ")";
+			}
+		};
+	}
+
+	@Override
+	public String getPredicateName() {
+		return "regex";
+	}
+
 	/**
 	 * get a Regular expression predicate
 	 * 
@@ -65,7 +85,7 @@ public class RegexPredicate implements BiPredicate<Object, Object> {
 	 * @return - the predicate
 	 */
 	public static P<Object> regex(Object regex) {
-		BiPredicate<Object, Object> b = new RegexPredicate(regex.toString());
+		PBiPredicate<Object, Object> b = new RegexPredicate(regex.toString());
 		return new P<Object>(b, regex);
 	}
 }
