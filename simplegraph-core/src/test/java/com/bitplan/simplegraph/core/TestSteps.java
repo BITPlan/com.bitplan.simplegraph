@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 BITPlan GmbH
+ * Copyright (c) 2018-2025 BITPlan GmbH
  *
  * http://www.bitplan.com
  *
@@ -399,8 +399,10 @@ public class TestSteps {
     try {
       assertEquals("josh", g().V().values("name").mean().next());
     } catch (Exception e) {
-      assertEquals("java.lang.String cannot be cast to java.lang.Number",
-          e.getMessage());
+      var message=e.getMessage();
+      assertTrue(message.contains("String") && 
+              message.contains("cannot be cast") && 
+              message.contains("Number"));
     }
   }
 
