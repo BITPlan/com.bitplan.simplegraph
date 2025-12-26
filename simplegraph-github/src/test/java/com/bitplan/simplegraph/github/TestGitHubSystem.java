@@ -98,7 +98,6 @@ public class TestGitHubSystem {
     if (!GitHubSystem.hasAuthentication())
       return;
     String query = "query { viewer { login } }";
-    debug = true;
     GraphTraversalSource g = doquery(query);
     List<Object> logins = g.V().hasLabel("viewer").values("login").toList();
     assertEquals(1, logins.size());
@@ -158,8 +157,7 @@ public class TestGitHubSystem {
      * "    repositories(first:100){\n" + "      name\n" + "    }\n" + "  }\n" +
      * "}\n";
      */
-    System.out.println(query);
-    debug = true;
+    if (debug) System.out.println(query);
     GraphTraversalSource g = doquery(query);
     g.V().has("nodes.isFork", "false").forEachRemaining(
         node -> Stream.of(node).forEach(SimpleNode.printDebug));
@@ -174,7 +172,6 @@ public class TestGitHubSystem {
         + "  repository(owner:\"octocat\", name:\"Hello-World\") {\n"
         + "    issue(number:349) {\n" + "      id\n" + "    }\n" + "  }\n"
         + "}";
-    debug = true;
     GraphTraversalSource g = doquery(query);
     String id = g.V().hasLabel("issue").values("id").next().toString();
     assertEquals(id, "MDU6SXNzdWUyMzEzOTE1NTE=");
