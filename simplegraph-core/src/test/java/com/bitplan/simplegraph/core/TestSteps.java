@@ -29,8 +29,6 @@ import static org.apache.tinkerpop.gremlin.process.traversal.P.neq;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.outside;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.within;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.without;
-import static org.apache.tinkerpop.gremlin.process.traversal.P.*;
-import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.*;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.addE;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.bothE;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.count;
@@ -56,6 +54,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
+import org.apache.tinkerpop.gremlin.process.traversal.IO;
 import org.apache.tinkerpop.gremlin.process.traversal.Order;
 import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
@@ -149,17 +148,18 @@ public class TestSteps {
 
   @Test
   public void testIterate() throws IOException {
+    File graphFile = File.createTempFile("modern", ".json");
+    
     // read and write without iterate doesn't have an effect
-    File kryoFile = File.createTempFile("modern", ".kryo");
-    g().io(kryoFile.getPath()).write();
+    g().io(graphFile.getPath()).with(IO.writer, IO.graphson).write();
     GraphTraversalSource newg = TinkerGraph.open().traversal();
-    newg.io(kryoFile.getPath()).read();
+    newg.io(graphFile.getPath()).with(IO.reader, IO.graphson).read();
     assertEquals(0, newg.V().count().next().longValue());
 
     // read and write with iterate does really write and read
-    g().io(kryoFile.getPath()).write().iterate();
+    g().io(graphFile.getPath()).with(IO.writer, IO.graphson).write().iterate();
     newg = TinkerGraph.open().traversal();
-    newg.io(kryoFile.getPath()).read().iterate();
+    newg.io(graphFile.getPath()).with(IO.reader, IO.graphson).read().iterate();
     assertEquals(6, newg.V().count().next().longValue());
   }
 
