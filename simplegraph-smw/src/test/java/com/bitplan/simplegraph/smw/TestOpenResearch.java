@@ -64,9 +64,9 @@ public class TestOpenResearch {
 
   @Test
   public void testPage() throws Exception {
-    // debug=true;
+    debug=true;
     SmwSystem smwSystem = getSMWSystem();
-    SimpleNode pageNode = smwSystem.moveTo("page=RTAS2020");
+    SimpleNode pageNode = smwSystem.moveTo("page=RTAS_2020");
     if (debug)
       pageNode.forAll(SimpleNode.printDebug);
     String pageContent = pageNode.getProperty("pagecontent").toString();
