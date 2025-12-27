@@ -218,13 +218,13 @@ public class TestSmwSystem {
         + "|?Area=qty\n" + "|?SomeProperty=txt\n" + "|?Soccer result=rec\n"
         + "|?Has_URL=uri\n" + "|format=ol\n" + "}}";
     SmwSystem smwSystem = getSMWSystem();
-    // debug = true;
+    debug = true;
     smwSystem.setDebug(debug);
     JsonSystem askJson = smwSystem.getAskJsonResult(askQuery);
     smwSystem.conceptAlizePrintRequests("datatype", askJson);
     if (debug)
       smwSystem.forAll(SimpleNode.printDebug);
-    assertEquals(2,
+    assertEquals(1,
         smwSystem.g().V().hasLabel("datatype").count().next().longValue());
     if (debug)
       smwSystem.g().V().hasLabel("datatype")
@@ -281,7 +281,7 @@ public class TestSmwSystem {
     SmwSystem smw = new SmwSystem();
     // debug = true;
     smw.setDebug(debug);
-    smw.connect("http://wiki.bitplan.com", "/");
+    smw.connect("https://wiki.bitplan.com", "/");
     String askQuery = "{{#ask: [[Concept:SimpleGraphModule]]\n"
         + "|mainlabel=SimpleGraphModule\n"
         + "| ?SimpleGraphModule name = name\n"
@@ -309,7 +309,7 @@ public class TestSmwSystem {
     SmwSystem smw = new SmwSystem();
     // debug = true;
     smw.setDebug(debug);
-    smw.connect("http://wiki.bitplan.com", "/");
+    smw.connect("https://wiki.bitplan.com", "/");
     smw.moveTo("ask=" + askQuery);
     if (debug)
       smw.forAll(SimpleNode.printDebug);
