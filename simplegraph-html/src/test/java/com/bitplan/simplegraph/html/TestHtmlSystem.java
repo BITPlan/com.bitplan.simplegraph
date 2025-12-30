@@ -21,8 +21,10 @@
 package com.bitplan.simplegraph.html;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
@@ -38,46 +40,52 @@ import com.bitplan.simplegraph.core.SimpleNode;
  *
  */
 public class TestHtmlSystem {
-  public static boolean debug = false;
-  protected static Logger LOGGER = Logger
-      .getLogger("com.bitplan.simplegraph.html");
+	public static boolean debug = false;
+	protected static Logger LOGGER = Logger.getLogger("com.bitplan.simplegraph.html");
 
-  @Test
-  public void testRootNodeAttributes() throws Exception {
-    HtmlSystem hs = HtmlSystem.forUrl("http://agilemanifesto.org/");
-    HtmlNode htmlNode = (HtmlNode) hs.getStartNode();
-    assertEquals("html", htmlNode.getRootNode().getName());
-    // debug = true;
-    if (debug) {
-      htmlNode.forAll(SimpleNode.printDebug);
-    }
-    GraphTraversal<Vertex, Vertex> links = hs.g().V().hasLabel("a");
-    assertEquals(72, links.count().next().longValue());
-    links = hs.g().V().hasLabel("a");
-    if (debug)
-      links.forEachRemaining(
-          link -> System.out.println(link.property("href").value()));
-    // links.forEach(link -> System.out.println(link));
-    // links.entrySet().forEach(entry->System.out.println(entry.getKey()+"="+entry.getValue()));
-  }
+	@Test
+	public void testRootNodeAttributes() throws Exception {
+		HtmlSystem hs = HtmlSystem.forUrl("http://agilemanifesto.org/");
+		HtmlNode htmlNode = (HtmlNode) hs.getStartNode();
+		assertEquals("html", htmlNode.getRootNode().getName());
+		// debug = true;
+		if (debug) {
+			htmlNode.forAll(SimpleNode.printDebug);
+		}
+		GraphTraversal<Vertex, Vertex> links = hs.g().V().hasLabel("a");
+		assertEquals(72, links.count().next().longValue());
+		links = hs.g().V().hasLabel("a");
+		if (debug)
+			links.forEachRemaining(link -> System.out.println(link.property("href").value()));
+		// links.forEach(link -> System.out.println(link));
+		// links.entrySet().forEach(entry->System.out.println(entry.getKey()+"="+entry.getValue()));
+	}
 
-  @Test
-  public void testPDFLinks() throws Exception {
-    HtmlSystem hs = HtmlSystem.forUrl(
-        "https://filesamples.com/formats/pdf");
-    int expectedCount=3;
-    HtmlNode htmlNode = (HtmlNode) hs.getStartNode();
-    assertEquals("html", htmlNode.getRootNode().getName());
-    // debug = true;
-    if (debug) {
-      htmlNode.forAll(SimpleNode.printDebug);
-    }
-    GraphTraversal<Vertex, Vertex> links = hs.g().V().hasLabel("a").has("href",
-        RegexPredicate.regex(".*pdf"));
-    assertEquals(expectedCount, links.count().next().longValue());
-    links = hs.g().V().hasLabel("a").has("href", RegexPredicate.regex(".*pdf"));
-    links.forEachRemaining(
-        link -> System.out.println(link.property("href").value()));
-  }
+	@Test
+	public void testPDFLinks() throws Exception {
+		HtmlSystem hs = HtmlSystem.forUrl("https://www.princexml.com/samples/");
+		int expectedCount = 23;
+		HtmlNode htmlNode = (HtmlNode) hs.getStartNode();
+		assertEquals("html", htmlNode.getRootNode().getName());
+		// debug = true;
+		if (debug) {
+			htmlNode.forAll(SimpleNode.printDebug);
+		}
+		GraphTraversal<Vertex, Vertex> links = hs.g().V().hasLabel("a").has("href", RegexPredicate.regex(".*pdf"));
+		assertEquals(expectedCount, links.count().next().longValue());
+		links = hs.g().V().hasLabel("a").has("href", RegexPredicate.regex(".*pdf"));
+
+		Pattern pdfPattern = Pattern.compile("^/samples/.*\\.pdf$");
+
+		links.forEachRemaining(link -> {
+			String hrefValue = link.property("href").value().toString();
+			boolean isValid = pdfPattern.matcher(hrefValue).matches();
+			if (debug) {
+				System.out.println(hrefValue + (isValid ? " ✓" : " ✗ INVALID"));
+			}
+
+			assertTrue("Invalid PDF href pattern: " + hrefValue, isValid);
+		});
+	}
 
 }
