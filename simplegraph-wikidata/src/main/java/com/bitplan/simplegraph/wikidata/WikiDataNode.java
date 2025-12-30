@@ -59,269 +59,288 @@ import com.bitplan.simplegraph.impl.SimpleNodeImpl;
  *
  */
 public class WikiDataNode extends SimpleNodeImpl implements SimpleStepNode {
-  private EntityDocument doc;
-  /**
-   * lookup maps for EntityIds
-   */
-  Map<String, EntityIdValue> entityIdByName = new HashMap<String, EntityIdValue>();
-  Map<String, EntityIdValue> entityIdById = new HashMap<String, EntityIdValue>();
-  SimpleDateFormat isoDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-  //SimpleDateFormat isoDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-  
-  /**
-   * create a wiki Data node
-   * 
-   * @param ws
-   * @param entityDocument
-   */
-  public WikiDataNode(WikiDataSystem ws, EntityDocument entityDocument,
-      String... keys) {
-    super(ws, "wikidata", keys);
-    this.doc = entityDocument;
-    super.setVertexFromMap();
-  }
+	private EntityDocument doc;
+	
+	private static final String DEFAULT_LANG = "en";
+	private static final String DEFAULT_LABEL_KEY = "label_" + DEFAULT_LANG;
 
-  /**
-   * create me from the given WikiDataSystem and keys
-   * 
-   * @param ws
-   * @param keys
-   */
-  public WikiDataNode(WikiDataSystem ws, String... keys) {
-    super(ws, "wikidata", keys);
-  }
+	/**
+	 * lookup maps for EntityIds
+	 */
+	Map<String, EntityIdValue> entityIdByName = new HashMap<String, EntityIdValue>();
+	Map<String, EntityIdValue> entityIdById = new HashMap<String, EntityIdValue>();
+	SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	// SimpleDateFormat isoDateFormat=new SimpleDateFormat("yyyy-MM-dd
+	// HH:mm:ss.SSS");
 
-  protected WikiDataSystem getSystem() {
-    return (WikiDataSystem) super.simpleGraph;
-  }
-  
-  /**
-   * Helper method to add a value to the map.
-   * Handles converting single values to Lists when multiple values exist for the same key.
-   * 
-   * @param key
-   * @param newValue
-   */
-  private void addValueToMap(String key, Object newValue) {
-    if (map.containsKey(key)) {
-      Object existing = map.get(key);
-      if (existing instanceof List) {
-        @SuppressWarnings("unchecked")
-        List<Object> list = (List<Object>) existing;
-        list.add(newValue);
-      } else {
-        List<Object> list = new ArrayList<>();
-        list.add(existing);
-        list.add(newValue);
-        map.put(key, list);
-      }
-    } else {
-      map.put(key, newValue);
-    }
-  }
+	/**
+	 * create a wiki Data node
+	 * 
+	 * @param ws
+	 * @param entityDocument
+	 */
+	public WikiDataNode(WikiDataSystem ws, EntityDocument entityDocument, String... keys) {
+		super(ws, "wikidata", keys);
+		this.doc = entityDocument;
+		super.setVertexFromMap();
+	}
 
+	/**
+	 * create me from the given WikiDataSystem and keys
+	 * 
+	 * @param ws
+	 * @param keys
+	 */
+	public WikiDataNode(WikiDataSystem ws, String... keys) {
+		super(ws, "wikidata", keys);
+	}
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public Map<String, Object> initMap() {
-    DataObjectFactoryImpl df = new DataObjectFactoryImpl();
-    if (doc instanceof TermedDocument) {
-      TermedDocument tdoc = ((TermedDocument) doc);
-      for (String languageCode : getSystem().getLanguages()) {
-        MonolingualTextValue langlabel = tdoc.getLabels().get(languageCode);
-        if (langlabel != null) {
-          String langValue = df
-              .getStringValue(tdoc.getLabels().get(languageCode).getText())
-              .getString();
-          map.put("label_" + languageCode, langValue);
-        }
-      }
-    }
-    if (doc instanceof ItemDocument) {
-      ItemDocument idoc = ((ItemDocument) doc);
-      Map<String, SiteLink> sitelinks = idoc.getSiteLinks();
-      for (String languageCode : getSystem().getLanguages()) {
-        SiteLink languageWikiLink = sitelinks.get(languageCode + "wiki");
-        if (languageWikiLink != null) {
-          map.put("wiki_" + languageCode,
-              df.getStringValue(languageWikiLink.getPageTitle()));
-        }
-      }
-    }
+	protected WikiDataSystem getSystem() {
+		return (WikiDataSystem) super.simpleGraph;
+	}
 
-    if (doc instanceof StatementDocument) {
-      StatementDocument sdoc = ((StatementDocument) doc);
+	/**
+	 * Helper method to add a value to the map. Handles converting single values to
+	 * Lists when multiple values exist for the same key.
+	 * 
+	 * @param key
+	 * @param newValue
+	 */
+	private void addValueToMap(String key, Object newValue) {
+		if (map.containsKey(key)) {
+			Object existing = map.get(key);
+			if (existing instanceof List) {
+				@SuppressWarnings("unchecked")
+				List<Object> list = (List<Object>) existing;
+				list.add(newValue);
+			} else {
+				List<Object> list = new ArrayList<>();
+				list.add(existing);
+				list.add(newValue);
+				map.put(key, list);
+			}
+		} else {
+			map.put(key, newValue);
+		}
+	}
 
-      // loop over all statements
-      Iterator<Statement> siterator = sdoc.getAllStatements();
-      EntityIdValue subject = null;
-      // move over all statements
-      while (siterator.hasNext()) {
-        // get the current statement
-        Statement s = siterator.next();
-        // get the claim of the Statement
-        Claim claim = s.getClaim();
-        if (subject == null) {
-          subject = claim.getSubject(); // Subject - TODO - check under which
-                                        // circumstances there might be
-                                        // different ones
-          map.put("wikidata_id", subject.getId());
-          map.put("wikidata_type", subject.getEntityType());
-        }
-        Snak snak = claim.getMainSnak();
-        PropertyIdValue propId = snak.getPropertyId();
-        this.entityIdById.put(propId.getId(), propId);
-        if (snak instanceof ValueSnak) {
-            Value value = ((ValueSnak) snak).getValue();
-            addValueToMap(propId.getId(), value);
-    
-      
-	        // optionally cache values
-	        // first the property
-	        SimpleNode propNode = this.getSystem().cache(propId, true);
-	        if (propNode != null) {
-	          String propLabel = propNode.getMap().get("label_en").toString();
-	          if (propLabel != null) {
-	            this.entityIdByName.put(propLabel, propId);
-	          }
-	        }
-	        // potentially the value
-	        // https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
-	        // https://wikidata.github.io/Wikidata-Toolkit/org/wikidata/wdtk/datamodel/interfaces/EntityIdValue.html
-	        if (value instanceof ItemIdValue) {
-	          ItemIdValue itemIdValue = (ItemIdValue) value;
-	          this.entityIdById.put(itemIdValue.getId(), itemIdValue);
-	          boolean cacheOptional = true;
-	          if (keys.getKeysList().isPresent())
-	            cacheOptional = !keys.hasKey(propId.getId());
-	          @SuppressWarnings("unused")
-	          SimpleNode itemNode = this.getSystem().cache(itemIdValue,
-	              cacheOptional);
-	        }
-	      }
-      }
-    }
-    return map;
-  }
+	@Override
+	public Map<String, Object> initMap() {
+		DataObjectFactoryImpl df = new DataObjectFactoryImpl();
+		if (doc instanceof TermedDocument) {
+			TermedDocument tdoc = ((TermedDocument) doc);
+			for (String languageCode : getSystem().getLanguages()) {
+				MonolingualTextValue langLabel = tdoc.getLabels().get(languageCode);
+				if (langLabel != null) {
+					this.map.put(DEFAULT_LABEL_KEY, langLabel.getText());
+				}
+			}
+		}
+		if (doc instanceof ItemDocument) {
+			ItemDocument idoc = ((ItemDocument) doc);
+			Map<String, SiteLink> sitelinks = idoc.getSiteLinks();
+			for (String languageCode : getSystem().getLanguages()) {
+				SiteLink languageWikiLink = sitelinks.get(languageCode + "wiki");
+				if (languageWikiLink != null) {
+					map.put("wiki_" + languageCode, df.getStringValue(languageWikiLink.getPageTitle()));
+				}
+			}
+		}
 
-  /**
-   * get the property value for the given key
-   * 
-   * @param key
-   * @return - the property value
-   */
-  public Object getProperty(String key) {
-    String propId = key;
-    if (!key.startsWith("P") && entityIdByName.containsKey(key)) {
-      propId = entityIdByName.get(key).getId();
-    }
-    Object value = map.get(propId);
-    return typeConvert(value);
-  }
+		if (doc instanceof StatementDocument) {
+			StatementDocument sdoc = ((StatementDocument) doc);
 
-  /**
-   * convert the types according to
-   * https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
-   * 
-   * @param value
-   * @return the converted type
-   */
-  public Object typeConvert(Object value) {
-    if (value instanceof StringValue) {
-      StringValue svalue = (StringValue) value;
-      return svalue.getString();
-    } else if (value instanceof TimeValue) {
-      TimeValue timeValue=(TimeValue) value;
-      int year=(int) timeValue.getYear();
-      int month=timeValue.getMonth();
-      int day=timeValue.getDay();
-      int hour=timeValue.getHour();
-      int minute=timeValue.getMinute();
-      int sec=timeValue.getSecond();
-      GregorianCalendar timeDate=new GregorianCalendar(year,month,day,hour,minute,sec);
-      // TODO use timeValue.getPrecision() to select display
-      return this.isoDateFormat.format(timeDate.getTime());
-    } else if (value instanceof ItemIdValue) {
-      ItemIdValue itemIdValue = (ItemIdValue) value;
-      String itemId = itemIdValue.getId();
-      String valueStr = itemId;
-      SimpleNode itemNode = getSystem().cache(itemIdValue, true);
-      if (itemNode != null) {
-        Map<String, Object> itemMap = itemNode.getMap();
-        if (itemMap.containsKey("label_en")) {
-          valueStr = itemMap.get("label_en").toString()+" ("+itemId+")";
-        }
-      }
-      return valueStr;
-    }
-    return value;
-  }
+			// loop over all statements
+			Iterator<Statement> siterator = sdoc.getAllStatements();
+			EntityIdValue subject = null;
+			// move over all statements
+			while (siterator.hasNext()) {
+				// get the current statement
+				Statement s = siterator.next();
+				// get the claim of the Statement
+				Claim claim = s.getClaim();
+				if (subject == null) {
+					subject = claim.getSubject(); // Subject - TODO - check under which
+													// circumstances there might be
+													// different ones
+					map.put("wikidata_id", subject.getId());
+					map.put("wikidata_type", subject.getEntityType());
+				}
+				Snak snak = claim.getMainSnak();
+				PropertyIdValue propId = snak.getPropertyId();
+				this.entityIdById.put(propId.getId(), propId);
+				if (snak instanceof ValueSnak) {
+					Value value = ((ValueSnak) snak).getValue();
+					addValueToMap(propId.getId(), value);
 
-  /*
-   * public SimpleNode getEntityNode(String entityIri) { SimpleNode node =
-   * this.getSystem().moveTo(this.getWikiDataEntityId(entityIri)); return node;
-   * }
-   */
+					// optionally cache values
+					// first the property
+					SimpleNode propNode = this.getSystem().cache(propId, true);
+					String propLabel = this.getLabel(propNode);
+					if (propLabel != null) {
+						this.entityIdByName.put(propLabel, propId);
+					}
+					// potentially the value
+					// https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
+					// https://wikidata.github.io/Wikidata-Toolkit/org/wikidata/wdtk/datamodel/interfaces/EntityIdValue.html
+					if (value instanceof ItemIdValue) {
+						ItemIdValue itemIdValue = (ItemIdValue) value;
+						this.entityIdById.put(itemIdValue.getId(), itemIdValue);
+						boolean cacheOptional = true;
+						if (keys.getKeysList().isPresent())
+							cacheOptional = !keys.hasKey(propId.getId());
+						@SuppressWarnings("unused")
+						SimpleNode itemNode = this.getSystem().cache(itemIdValue, cacheOptional);
+					}
+				}
+			}
+		}
+		return map;
+	}
 
-  /**
-   * get the entity node for the given value
-   * 
-   * @param itemValue
-   * @return the entity Node
-   */
-  public SimpleStepNode getEntityNode(ItemIdValue itemValue) {
-    SimpleStepNode node = (SimpleStepNode) this.getSystem().moveTo(itemValue.getId(),keys.getKeys());
-    return node;
-  }
+	/**
+	 * get the value String for the given key
+	 * 
+	 * @param propNode
+	 * @param key
+	 * @return null if no entry else the toString() object
+	 */
+	public String getValueString(SimpleNode propNode, String key) {
+		String valueString = null;
+		if (propNode != null && propNode.getMap() != null) {
+			Object valueObj = propNode.getMap().get(key);
 
-  @Override
-  public Stream<SimpleStepNode> out(String edgeName) {
-    List<SimpleStepNode> outs = new ArrayList<SimpleStepNode>();
-    String propertyId = edgeName;
-    if (!edgeName.matches("P[0-9]+")) {
-      EntityIdValue entityIdValue = this.entityIdByName.get(edgeName);
-      if (entityIdValue != null) {
-        propertyId = entityIdValue.getId();
-      }
-    }
-    if (map.containsKey(propertyId)) {
-      Object outValue = map.get(propertyId);
-      if (outValue instanceof ItemIdValue) {
-        outs.add(getEntityNode((ItemIdValue) outValue));
-      } else {
-        @SuppressWarnings("unchecked")
-        List<ItemIdValue> entityValues = (List<ItemIdValue>) outValue;
-        entityValues
-            .forEach(entityValue -> outs.add(getEntityNode(entityValue)));
-      }
-    }
-    return outs.stream();
-  }
+			// Only proceed if the object actually exists
+			if (valueObj != null) {
+				valueString = valueObj.toString();
+			}
+		}
+		return valueString;
+	}
 
-  @Override
-  public Stream<SimpleStepNode> in(String edgeName) {
-    return null;
-  }
-  
-  
+	/**
+	 * get the label for the given node
+	 * @param node
+	 * @return the default language label e.g. for lang_en
+	 */
+	public String getLabel(SimpleNode node) {
+		String label=this.getValueString(node, DEFAULT_LABEL_KEY);
+		return label;
+	}
 
-  // show name values
-  public void printNameValues(PrintStream out) {
-    Map<String, Object> map = this.getMap();
-    for (String key : map.keySet()) {
-      if (this.keys.hasKey(key)) {
-        String label = key;
-        EntityIdValue entityId = this.entityIdById.get(key);
-        if (entityId != null) {
-          SimpleNode entityNode = getSystem().cache(entityId, true);
-          if (entityNode != null) {
-            label = entityNode.getMap().get("label_en").toString();
-          }
-        }
-        String valueStr=this.getProperty(key).toString();
-        out.println(
-            String.format("%s (%s) = %s", label, key, valueStr));
-      }
-    }
-  }
+	
+	/**
+	 * get the property value for the given key
+	 * 
+	 * @param key
+	 * @return - the property value
+	 */
+	public Object getProperty(String key) {
+		String propId = key;
+		if (!key.startsWith("P") && entityIdByName.containsKey(key)) {
+			propId = entityIdByName.get(key).getId();
+		}
+		Object value = map.get(propId);
+		return typeConvert(value);
+	}
+
+	/**
+	 * convert the types according to
+	 * https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
+	 * 
+	 * @param value
+	 * @return the converted type
+	 */
+	public Object typeConvert(Object value) {
+		if (value instanceof StringValue) {
+			StringValue svalue = (StringValue) value;
+			return svalue.getString();
+		} else if (value instanceof TimeValue) {
+			TimeValue timeValue = (TimeValue) value;
+			int year = (int) timeValue.getYear();
+			//  GregorianCalendar is 0-indexed (Jan=0),
+			int month = timeValue.getMonth()-1;
+			int day = timeValue.getDay();
+			int hour = timeValue.getHour();
+			int minute = timeValue.getMinute();
+			int sec = timeValue.getSecond();
+			GregorianCalendar timeDate = new GregorianCalendar(year, month, day, hour, minute, sec);
+			// TODO use timeValue.getPrecision() to select display
+			return this.isoDateFormat.format(timeDate.getTime());
+		} else if (value instanceof ItemIdValue) {
+			ItemIdValue itemIdValue = (ItemIdValue) value;
+			String itemId = itemIdValue.getId();
+			String valueStr = itemId;
+			SimpleNode itemNode = getSystem().cache(itemIdValue, true);
+			if (itemNode != null) {
+				Map<String, Object> itemMap = itemNode.getMap();
+				if (itemMap.containsKey(DEFAULT_LABEL_KEY)) {
+					valueStr = itemMap.get(DEFAULT_LABEL_KEY).toString() + " (" + itemId + ")";
+				}
+			}
+			return valueStr;
+		}
+		return value;
+	}
+
+	/*
+	 * public SimpleNode getEntityNode(String entityIri) { SimpleNode node =
+	 * this.getSystem().moveTo(this.getWikiDataEntityId(entityIri)); return node; }
+	 */
+
+	/**
+	 * get the entity node for the given value
+	 * 
+	 * @param itemValue
+	 * @return the entity Node
+	 */
+	public SimpleStepNode getEntityNode(ItemIdValue itemValue) {
+		SimpleStepNode node = (SimpleStepNode) this.getSystem().moveTo(itemValue.getId(), keys.getKeys());
+		return node;
+	}
+
+	@Override
+	public Stream<SimpleStepNode> out(String edgeName) {
+		List<SimpleStepNode> outs = new ArrayList<SimpleStepNode>();
+		String propertyId = edgeName;
+		if (!edgeName.matches("P[0-9]+")) {
+			EntityIdValue entityIdValue = this.entityIdByName.get(edgeName);
+			if (entityIdValue != null) {
+				propertyId = entityIdValue.getId();
+			}
+		}
+		if (map.containsKey(propertyId)) {
+			Object outValue = map.get(propertyId);
+			if (outValue instanceof ItemIdValue) {
+				outs.add(getEntityNode((ItemIdValue) outValue));
+			} else {
+				@SuppressWarnings("unchecked")
+				List<ItemIdValue> entityValues = (List<ItemIdValue>) outValue;
+				entityValues.forEach(entityValue -> outs.add(getEntityNode(entityValue)));
+			}
+		}
+		return outs.stream();
+	}
+
+	@Override
+	public Stream<SimpleStepNode> in(String edgeName) {
+		return null;
+	}
+
+	// show name values
+	public void printNameValues(PrintStream out) {
+		Map<String, Object> map = this.getMap();
+		for (String key : map.keySet()) {
+			if (this.keys.hasKey(key)) {
+				String label = key;
+				EntityIdValue entityId = this.entityIdById.get(key);
+				if (entityId != null) {
+					SimpleNode entityNode = getSystem().cache(entityId, true);
+					label=this.getLabel(entityNode);
+				}
+				String valueStr = this.getProperty(key).toString();
+				out.println(String.format("%s (%s) = %s", label, key, valueStr));
+			}
+		}
+	}
 }
