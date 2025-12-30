@@ -68,6 +68,7 @@ public class TestWikiDataSystem  {
       System.out.println("*** Fetching data for entity Q42:");
     EntityDocument q42 = null;
     try {
+    	wikiDataSystem.throttleRequest();
         q42 = wbdf.getEntityDocument("Q42");
     } catch (IOException e) {
         // Fail the test explicitly with a message
@@ -132,7 +133,7 @@ public class TestWikiDataSystem  {
    */
   @Test
   public void testPropertyCache() throws Exception {
-    debug = true;
+    // debug = true;
     queenVictoria = getQueenVictoria();
     queenVictoria.getVertex().properties().forEachRemaining(prop -> {
       Optional<SimpleNode> propNode = wikiDataSystem.cache(prop.label(), false);

@@ -59,11 +59,18 @@ public class WikiDataSystem extends SimpleSystemImpl {
 	public static String siteiri = "http://www.wikidata.org/entity/";
 	transient static boolean debug = true;
 	transient protected static Logger LOGGER = Logger.getLogger("com.bitplan.wikidata");
+	
+	// throttle control
+	private long lastRequestTime = 0;
+    private long requestDelay = 2000; // 2 seconds delay between requests = 30 req/min
 
 	@Override
 	public SimpleNode moveTo(String entityId, String... keys) {
 		if (wbdf == null)
 			throw new IllegalStateException("not connected");
+		
+		// make sure we stick to Wikidata rate limits
+		throttleRequest();
 		EntityDocument entityDocument;
 		try {
 			entityDocument = wbdf.getEntityDocument(entityId);
@@ -108,6 +115,27 @@ public class WikiDataSystem extends SimpleSystemImpl {
 			addLanguage(languageCode);
 		}
 	}
+	
+	// Simple setter for configuration
+    public void setRequestDelay(long milliseconds) {
+        this.requestDelay = milliseconds;
+    }
+    
+    public synchronized void throttleRequest() {
+        long now = System.currentTimeMillis();
+        long timeSinceLastRequest = now - lastRequestTime;
+        
+        if (timeSinceLastRequest < requestDelay) {
+            try {
+                Thread.sleep(requestDelay - timeSinceLastRequest);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Interrupted during throttle", e);
+            }
+        }
+        
+        lastRequestTime = System.currentTimeMillis();
+    }
 
 	@Override
 	public SimpleSystem connect(String... connectionParams) throws Exception {
