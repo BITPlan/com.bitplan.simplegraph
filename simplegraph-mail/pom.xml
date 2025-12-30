@@ -12,7 +12,7 @@
 	<packaging>jar</packaging>
 	<properties>
 		<!-- https://mvnrepository.com/artifact/org.apache.james/apache-mime4j -->
-		<mime4j.version>0.8.2</mime4j.version>
+		<mime4j.version>0.8.10</mime4j.version>
 	</properties>
 	<dependencies>
 		<dependency>
