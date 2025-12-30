@@ -27,8 +27,9 @@
 		<jacoco.version>0.8.12</jacoco.version>
 		<!-- Apache POI e.g. for Powerpoint -->
 		<apache-poi.version>4.0.1</apache-poi.version>
+		<!-- https://mvnrepository.com/artifact/org.wikidata.wdtk/wdtk-dumpfiles -->
 		<!-- <wikidata.toolkit.version>0.7.0</wikidata.toolkit.version> -->
-		<wikidata.toolkit.version>0.8.0</wikidata.toolkit.version>
+		<wikidata.toolkit.version>0.17.0</wikidata.toolkit.version>
 		<!-- mediawiki japi -->
 		<mediawiki-japi.version>0.3.0</mediawiki-japi.version>
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client-->

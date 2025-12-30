@@ -21,6 +21,7 @@
 package com.bitplan.simplegraph.wikidata;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class WikiDataSystem extends SimpleSystemImpl {
     EntityDocument entityDocument;
     try {
       entityDocument = wbdf.getEntityDocument(entityId);
-    } catch (MediaWikiApiErrorException e) {
+    } catch (MediaWikiApiErrorException | IOException e) {
       throw new RuntimeException(e);
     }
     if (entityDocument == null)

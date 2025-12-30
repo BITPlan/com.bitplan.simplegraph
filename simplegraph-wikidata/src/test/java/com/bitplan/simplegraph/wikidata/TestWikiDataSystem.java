@@ -24,8 +24,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +39,7 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 import org.wikidata.wdtk.datamodel.interfaces.EntityDocument;
 import org.wikidata.wdtk.datamodel.interfaces.EntityIdValue;
-import org.wikidata.wdtk.datamodel.json.jackson.datavalues.JacksonValueItemId;
+import org.wikidata.wdtk.datamodel.interfaces.ItemIdValue;
 import org.wikidata.wdtk.wikibaseapi.WikibaseDataFetcher;
 import org.wikidata.wdtk.wikibaseapi.apierrors.MediaWikiApiErrorException;
 
@@ -64,7 +66,14 @@ public class TestWikiDataSystem  {
     WikibaseDataFetcher wbdf = WikibaseDataFetcher.getWikidataDataFetcher();
     if (debug)
       System.out.println("*** Fetching data for entity Q42:");
-    EntityDocument q42 = wbdf.getEntityDocument("Q42");
+    EntityDocument q42 = null;
+    try {
+        q42 = wbdf.getEntityDocument("Q42");
+    } catch (IOException e) {
+        // Fail the test explicitly with a message
+        fail("Network error while fetching entity: " + e.getMessage());
+    }
+
     assertNotNull(q42);
     if (debug) {
       System.out.println(String.format("id: %s, rev: %s",
@@ -123,7 +132,7 @@ public class TestWikiDataSystem  {
    */
   @Test
   public void testPropertyCache() throws Exception {
-    // debug = true;
+    debug = true;
     queenVictoria = getQueenVictoria();
     queenVictoria.getVertex().properties().forEachRemaining(prop -> {
       Optional<SimpleNode> propNode = wikiDataSystem.cache(prop.label(), false);
@@ -158,13 +167,13 @@ public class TestWikiDataSystem  {
     if (debug)
       queenVictoria.printNameValues(System.out);
     @SuppressWarnings("unchecked")
-    List<JacksonValueItemId> children = (List<JacksonValueItemId>) queenVictoria
+    List<ItemIdValue> children = (List<ItemIdValue>) queenVictoria
         .getMap().get("P40");
     assertEquals(9, children.size());
     assertEquals("Q9439", queenVictoria.getProperty("wikidata_id"));
     Object image = queenVictoria.getProperty("P18");
     assertEquals("Queen Victoria by Bassano.jpg", image); // image
-    for (JacksonValueItemId child : children) {
+    for (ItemIdValue child : children) {
       if (debug)
         System.out.println(child.getId());
       assertTrue(child.getId().startsWith("Q"));
@@ -183,7 +192,7 @@ public class TestWikiDataSystem  {
     if (debug)
       fatherNode.printNameValues(System.out);
     assertEquals(fatherNode.getMap().get("label_en"),
-        "Prince Edward Augustus, Duke of Kent and Strathearn");
+        "Prince Edward, Duke of Kent and Strathearn");
   }
 
   @Test

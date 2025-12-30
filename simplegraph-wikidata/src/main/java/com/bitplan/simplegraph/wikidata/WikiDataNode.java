@@ -46,7 +46,7 @@ import org.wikidata.wdtk.datamodel.interfaces.StringValue;
 import org.wikidata.wdtk.datamodel.interfaces.TermedDocument;
 import org.wikidata.wdtk.datamodel.interfaces.TimeValue;
 import org.wikidata.wdtk.datamodel.interfaces.Value;
-import org.wikidata.wdtk.datamodel.json.jackson.datavalues.JacksonValueItemId;
+import org.wikidata.wdtk.datamodel.interfaces.ValueSnak;
 
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.core.SimpleStepNode;
@@ -94,6 +94,32 @@ public class WikiDataNode extends SimpleNodeImpl implements SimpleStepNode {
   protected WikiDataSystem getSystem() {
     return (WikiDataSystem) super.simpleGraph;
   }
+  
+  /**
+   * Helper method to add a value to the map.
+   * Handles converting single values to Lists when multiple values exist for the same key.
+   * 
+   * @param key
+   * @param newValue
+   */
+  private void addValueToMap(String key, Object newValue) {
+    if (map.containsKey(key)) {
+      Object existing = map.get(key);
+      if (existing instanceof List) {
+        @SuppressWarnings("unchecked")
+        List<Object> list = (List<Object>) existing;
+        list.add(newValue);
+      } else {
+        List<Object> list = new ArrayList<>();
+        list.add(existing);
+        list.add(newValue);
+        map.put(key, list);
+      }
+    } else {
+      map.put(key, newValue);
+    }
+  }
+
 
   @SuppressWarnings("unchecked")
   @Override
@@ -145,51 +171,34 @@ public class WikiDataNode extends SimpleNodeImpl implements SimpleStepNode {
         Snak snak = claim.getMainSnak();
         PropertyIdValue propId = snak.getPropertyId();
         this.entityIdById.put(propId.getId(), propId);
-        Value value = snak.getValue();
-
-        // handle properties with multiple values
-        // like child
-        if (map.containsKey(propId.getId())) {
-          // get the current property
-          Object prop = map.get(propId.getId());
-          // prepare for multiple entries
-          List<Object> propList = null;
-          // is the propery a list already?
-          if (prop instanceof List) {
-            propList = (List<Object>) prop;
-          } else {
-            // replace single element with list
-            propList = new ArrayList<Object>();
-            propList.add(prop);
-            map.put(propId.getId(), propList);
-          }
-          propList.add(value);
-          // System.out.println(propId);
-        } else {
-          // first time single value
-          map.put(propId.getId(), value);
-        }
-        // optionally cache values
-        // first the property
-        SimpleNode propNode = this.getSystem().cache(propId, true);
-        if (propNode != null) {
-          String propLabel = propNode.getMap().get("label_en").toString();
-          if (propLabel != null) {
-            this.entityIdByName.put(propLabel, propId);
-          }
-        }
-        // potentially the value
-        // https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
-        // https://wikidata.github.io/Wikidata-Toolkit/org/wikidata/wdtk/datamodel/interfaces/EntityIdValue.html
-        if (value instanceof ItemIdValue) {
-          ItemIdValue itemIdValue = (ItemIdValue) value;
-          this.entityIdById.put(itemIdValue.getId(), itemIdValue);
-          boolean cacheOptional = true;
-          if (keys.getKeysList().isPresent())
-            cacheOptional = !keys.hasKey(propId.getId());
-          SimpleNode itemNode = this.getSystem().cache(itemIdValue,
-              cacheOptional);
-        }
+        if (snak instanceof ValueSnak) {
+            Value value = ((ValueSnak) snak).getValue();
+            addValueToMap(propId.getId(), value);
+    
+      
+	        // optionally cache values
+	        // first the property
+	        SimpleNode propNode = this.getSystem().cache(propId, true);
+	        if (propNode != null) {
+	          String propLabel = propNode.getMap().get("label_en").toString();
+	          if (propLabel != null) {
+	            this.entityIdByName.put(propLabel, propId);
+	          }
+	        }
+	        // potentially the value
+	        // https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
+	        // https://wikidata.github.io/Wikidata-Toolkit/org/wikidata/wdtk/datamodel/interfaces/EntityIdValue.html
+	        if (value instanceof ItemIdValue) {
+	          ItemIdValue itemIdValue = (ItemIdValue) value;
+	          this.entityIdById.put(itemIdValue.getId(), itemIdValue);
+	          boolean cacheOptional = true;
+	          if (keys.getKeysList().isPresent())
+	            cacheOptional = !keys.hasKey(propId.getId());
+	          @SuppressWarnings("unused")
+	          SimpleNode itemNode = this.getSystem().cache(itemIdValue,
+	              cacheOptional);
+	        }
+	      }
       }
     }
     return map;
@@ -260,7 +269,7 @@ public class WikiDataNode extends SimpleNodeImpl implements SimpleStepNode {
    * @param itemValue
    * @return the entity Node
    */
-  public SimpleStepNode getEntityNode(JacksonValueItemId itemValue) {
+  public SimpleStepNode getEntityNode(ItemIdValue itemValue) {
     SimpleStepNode node = (SimpleStepNode) this.getSystem().moveTo(itemValue.getId(),keys.getKeys());
     return node;
   }
@@ -277,11 +286,11 @@ public class WikiDataNode extends SimpleNodeImpl implements SimpleStepNode {
     }
     if (map.containsKey(propertyId)) {
       Object outValue = map.get(propertyId);
-      if (outValue instanceof JacksonValueItemId) {
-        outs.add(getEntityNode((JacksonValueItemId) outValue));
+      if (outValue instanceof ItemIdValue) {
+        outs.add(getEntityNode((ItemIdValue) outValue));
       } else {
         @SuppressWarnings("unchecked")
-        List<JacksonValueItemId> entityValues = (List<JacksonValueItemId>) outValue;
+        List<ItemIdValue> entityValues = (List<ItemIdValue>) outValue;
         entityValues
             .forEach(entityValue -> outs.add(getEntityNode(entityValue)));
       }
