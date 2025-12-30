@@ -1,16 +1,18 @@
-<?xml version="1.0" ?><graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.1/graphml.xsd"><key id="path" for="node" attr.name="path" attr.type="string"></key><key id="number" for="node" attr.name="number" attr.type="int"></key><key id="labelV" for="node" attr.name="labelV" attr.type="string"></key><key id="mysimplenode" for="node" attr.name="mysimplenode" attr.type="string"></key><key id="comments" for="node" attr.name="comments" attr.type="string"></key><key id="notes" for="node" attr.name="notes" attr.type="string"></key><key id="pages" for="node" attr.name="pages" attr.type="int"></key><key id="pageNo" for="node" attr.name="pageNo" attr.type="int"></key><key id="name" for="node" attr.name="name" attr.type="string"></key><key id="text" for="node" attr.name="text" attr.type="string"></key><key id="title" for="node" attr.name="title" attr.type="string"></key><key id="labelE" for="edge" attr.name="labelE" attr.type="string"></key><graph id="G" edgedefault="directed"><node id="0"><data key="labelV">slideshow</data><data key="path">QueenVictoria.pptx</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideShowNode@7374c9cf</data><data key="title">Queen Victoria</data></node><node id="48"><data key="labelV">slide</data><data key="number">5</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@7cc0a64a</data><data key="comments">[]</data><data key="notes">
+<?xml version="1.0" ?><graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.1/graphml.xsd"><key id="path" for="node" attr.name="path" attr.type="string"></key><key id="number" for="node" attr.name="number" attr.type="int"></key><key id="labelV" for="node" attr.name="labelV" attr.type="string"></key><key id="mysimplenode" for="node" attr.name="mysimplenode" attr.type="string"></key><key id="comments" for="node" attr.name="comments" attr.type="string"></key><key id="notes" for="node" attr.name="notes" attr.type="string"></key><key id="pages" for="node" attr.name="pages" attr.type="int"></key><key id="pageNo" for="node" attr.name="pageNo" attr.type="int"></key><key id="name" for="node" attr.name="name" attr.type="string"></key><key id="text" for="node" attr.name="text" attr.type="string"></key><key id="title" for="node" attr.name="title" attr.type="string"></key><key id="labelE" for="edge" attr.name="labelE" attr.type="string"></key><graph id="G" edgedefault="directed"><node id="0"><data key="labelV">slideshow</data><data key="path">QueenVictoria.pptx</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideShowNode@6a902015</data><data key="title">Queen Victoria</data></node><node id="48"><data key="labelV">slide</data><data key="number">5</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@55d99dc3</data><data key="comments">[]</data><data key="notes">
 
 1.7.2013
 
 
 
+date of birth (P569) = 1844-08-06
+date of death (P570) = [1900-07-30 (Prec.: day [-0 .. +0], PCal: Gregorian), 1900-07-31 (Prec.: day [-0 .. +0], PCal: Gregorian)]
+place of birth (P19) = Windsor Castle (Q42646)
+monogram (P1543) = ["Royal Monogram of Prince Alfred as Duke of Edinburgh.svg", "Royal Monogram of Prince Alfred as Duke of Saxe-Coburg and Gotha.svg"]
 sex or gender (P21) = male (Q6581097)
 place of death (P20) = Schloss Rosenau (Q449510)
+signature (P109) = Prince Alfred's signature.svg
 father (P22) = Albert, Prince Consort (Q152245)
 mother (P25) = Queen Victoria (Q9439)
-date of birth (P569) = 1844-09-06
-date of death (P570) = 1900-08-30
-place of birth (P19) = Windsor Castle (Q42646)
 
 
 
@@ -18,7 +20,7 @@ place of birth (P19) = Windsor Castle (Q42646)
 link:
 
 
-Alfred
+Alfred, Duke of Saxe-Coburg and Gotha
 
 
 
@@ -31,7 +33,7 @@ Q158143
 image:
 
 
-Alfred-sachsen-coburg-gotha.jpg
+Alfred duke of Edinburgh.jpg
 
 
 sex or gender:
@@ -55,19 +57,13 @@ Queen Victoria (Q9439)
 date of birth:
 
 
-1844-09-06
+1844-08-06
 
 
 place of birth:
 
 
 Windsor Castle (Q42646)
-
-
-date of death:
-
-
-1900-08-30
 
 
 place of death:
@@ -85,25 +81,26 @@ Alfred, Duke of Saxe-Coburg and Gotha
 label_en:
 
 
-Alfred
+Alfred, Duke of Saxe-Coburg and Gotha
 
 
 source:
 
 
-WikiData</data></node><node id="81"><data key="labelV">slide</data><data key="number">8</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@196d710d</data><data key="comments">[]</data><data key="notes">
+WikiData</data></node><node id="81"><data key="labelV">slide</data><data key="number">8</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@521a506c</data><data key="comments">[]</data><data key="notes">
 
 1.7.2013
 
 
 
+date of birth (P569) = 1850-05-01
+date of death (P570) = 1942-01-16
+place of birth (P19) = Buckingham Palace (Q42182)
 sex or gender (P21) = male (Q6581097)
 place of death (P20) = Bagshot Park (Q582085)
+signature (P109) = Prince Arthur's signature.svg
 father (P22) = Albert, Prince Consort (Q152245)
 mother (P25) = Queen Victoria (Q9439)
-date of birth (P569) = 1850-06-01
-date of death (P570) = 1942-02-16
-place of birth (P19) = Buckingham Palace (Q42182)
 
 
 
@@ -114,10 +111,17 @@ link:
 Prince Arthur, Duke of Connaught and Strathearn
 
 
+
 wikidata_id:
 
 
 Q160558
+
+
+image:
+
+
+Prince Arthur, 1st Duke of Connaught and Strathearn.jpg
 
 
 sex or gender:
@@ -141,7 +145,7 @@ Queen Victoria (Q9439)
 date of birth:
 
 
-1850-06-01
+1850-05-01
 
 
 place of birth:
@@ -153,7 +157,7 @@ Buckingham Palace (Q42182)
 date of death:
 
 
-1942-02-16
+1942-01-16
 
 
 place of death:
@@ -177,21 +181,21 @@ Prince Arthur, Duke of Connaught and Strathearn
 source:
 
 
-WikiData</data></node><node id="4"><data key="labelV">slide</data><data key="number">1</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@12297d8</data><data key="comments">[]</data><data key="notes">
+WikiData</data></node><node id="4"><data key="labelV">slide</data><data key="number">1</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@3c64339f</data><data key="comments">[]</data><data key="notes">
 
 1.7.2013
 
 
 
-date of birth (P569) = 1819-06-24
-date of death (P570) = 1901-02-22
 place of birth (P19) = Kensington Palace (Q207385)
-monogram (P1543) = Royal Monogram of Queen Victoria of Great Britain.svg
 sex or gender (P21) = female (Q6581072)
-signature (P109) = Queen Victoria Signature.svg
 place of death (P20) = Osborne House (Q565155)
 father (P22) = Prince Edward Augustus, Duke of Kent and Strathearn (Q157009)
 mother (P25) = Princess Victoria of Saxe-Coburg-Saalfeld (Q58067)
+date of birth (P569) = 1819-05-24
+date of death (P570) = 1901-01-22
+monogram (P1543) = Royal Monogram of Queen Victoria of Great Britain.svg
+signature (P109) = Queen Victoria Signature.svg
 
 
 
@@ -236,7 +240,7 @@ Princess Victoria of Saxe-Coburg-Saalfeld (Q58067)
 date of birth:
 
 
-1819-06-24
+1819-05-24
 
 
 place of birth:
@@ -248,7 +252,7 @@ Kensington Palace (Q207385)
 date of death:
 
 
-1901-02-22
+1901-01-22
 
 
 place of death:
@@ -272,19 +276,20 @@ Victoria
 source:
 
 
-WikiData</data></node><node id="37"><data key="labelV">slide</data><data key="number">4</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@544d0c82</data><data key="comments">[]</data><data key="notes">
+WikiData</data></node><node id="37"><data key="labelV">slide</data><data key="number">4</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@579f3c8e</data><data key="comments">[]</data><data key="notes">
 
 1.7.2013
 
 
 
+date of birth (P569) = 1843-04-25
+date of death (P570) = 1878-12-14
+place of birth (P19) = Buckingham Palace (Q42182)
 sex or gender (P21) = female (Q6581072)
 place of death (P20) = Darmstadt (Q2973)
+signature (P109) = Princess Alice's signature.svg
 father (P22) = Albert, Prince Consort (Q152245)
 mother (P25) = Queen Victoria (Q9439)
-date of birth (P569) = 1843-05-25
-date of death (P570) = 1879-01-14
-place of birth (P19) = London (Q84)
 
 
 
@@ -305,7 +310,7 @@ Q155566
 image:
 
 
-Princess Alice 1861.png
+Alice, Princess Louis of Hesse.jpg
 
 
 sex or gender:
@@ -329,19 +334,19 @@ Queen Victoria (Q9439)
 date of birth:
 
 
-1843-05-25
+1843-04-25
 
 
 place of birth:
 
 
-London (Q84)
+Buckingham Palace (Q42182)
 
 
 date of death:
 
 
-1879-01-14
+1878-12-14
 
 
 place of death:
@@ -365,20 +370,21 @@ Princess Alice of the United Kingdom
 source:
 
 
-WikiData</data></node><node id="70"><data key="labelV">slide</data><data key="number">7</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@2dc612b7</data><data key="comments">[]</data><data key="notes">
+WikiData</data></node><node id="70"><data key="labelV">slide</data><data key="number">7</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@4eb1943b</data><data key="comments">[]</data><data key="notes">
 
 1.7.2013
 
 
 
+date of birth (P569) = [1848-03-18 (Prec.: day [-0 .. +0], PCal: Gregorian), 1848-01-01 (Prec.: year [-0 .. +0], PCal: Gregorian)]
+date of death (P570) = [1939-12-03 (Prec.: day [-0 .. +0], PCal: Gregorian), 1939-01-01 (Prec.: year [-0 .. +0], PCal: Gregorian)]
+place of birth (P19) = [http://www.wikidata.org/entity/Q42182 (item), http://www.wikidata.org/entity/Q84 (item)]
 monogram (P1543) = Royal Monogram of Princess Louise of Great Britain.svg
 sex or gender (P21) = female (Q6581072)
-place of death (P20) = London (Q84)
+place of death (P20) = [http://www.wikidata.org/entity/Q207385 (item), http://www.wikidata.org/entity/Q84 (item)]
+signature (P109) = Signature of Princess Louise, Duchess of Argyll.svg
 father (P22) = Albert, Prince Consort (Q152245)
 mother (P25) = Queen Victoria (Q9439)
-date of birth (P569) = 1848-04-18
-date of death (P570) = 1940-01-03
-place of birth (P19) = Buckingham Palace (Q42182)
 
 
 
@@ -399,7 +405,7 @@ Q161167
 image:
 
 
-Princess Louise 1901 copy.jpg
+Princess Louise 1881.png
 
 
 sex or gender:
@@ -420,30 +426,6 @@ mother:
 Queen Victoria (Q9439)
 
 
-date of birth:
-
-
-1848-04-18
-
-
-place of birth:
-
-
-Buckingham Palace (Q42182)
-
-
-date of death:
-
-
-1940-01-03
-
-
-place of death:
-
-
-London (Q84)
-
-
 wiki_en:
 
 
@@ -459,7 +441,7 @@ Princess Louise, Duchess of Argyll
 source:
 
 
-WikiData</data></node><node id="103"><data key="labelV">slide</data><data key="number">10</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@5fd1fb1b</data><data key="comments">[]</data><data key="notes">
+WikiData</data></node><node id="103"><data key="labelV">slide</data><data key="number">10</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@4e2824b1</data><data key="comments">[]</data><data key="notes">
 
 1.7.2013
 
@@ -468,10 +450,11 @@ WikiData</data></node><node id="103"><data key="labelV">slide</data><data key="n
 monogram (P1543) = Royal Monogram of Princess Beatrice of Battenberg.svg
 sex or gender (P21) = female (Q6581072)
 place of death (P20) = Brantridge Park (Q2547961)
+signature (P109) = Princess Beatrice's signature.svg
 father (P22) = Albert, Prince Consort (Q152245)
 mother (P25) = Queen Victoria (Q9439)
-date of birth (P569) = 1857-05-14
-date of death (P570) = 1944-11-26
+date of birth (P569) = 1857-04-14
+date of death (P570) = 1944-10-26
 place of birth (P19) = Buckingham Palace (Q42182)
 
 
@@ -493,7 +476,7 @@ Q158140
 image:
 
 
-Laszlo - Princess Henry of Battenberg.jpg
+Princess Beatrice 1886.jpg
 
 
 sex or gender:
@@ -517,7 +500,7 @@ Queen Victoria (Q9439)
 date of birth:
 
 
-1857-05-14
+1857-04-14
 
 
 place of birth:
@@ -529,7 +512,7 @@ Buckingham Palace (Q42182)
 date of death:
 
 
-1944-11-26
+1944-10-26
 
 
 place of death:
@@ -553,21 +536,21 @@ Princess Beatrice of the United Kingdom
 source:
 
 
-WikiData</data></node><node id="26"><data key="labelV">slide</data><data key="number">3</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@4ad83b6e</data><data key="comments">[]</data><data key="notes">
+WikiData</data></node><node id="26"><data key="labelV">slide</data><data key="number">3</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@534d0e20</data><data key="comments">[]</data><data key="notes">
 
 1.7.2013
 
 
 
-date of birth (P569) = 1841-12-09
-date of death (P570) = 1910-06-06
 place of birth (P19) = Buckingham Palace (Q42182)
-monogram (P1543) = Royal Monogram of King Edward VII of Great Britain.svg
 sex or gender (P21) = male (Q6581097)
-signature (P109) = EdwardVII Signature.svg
 place of death (P20) = Buckingham Palace (Q42182)
 father (P22) = Albert, Prince Consort (Q152245)
 mother (P25) = Queen Victoria (Q9439)
+date of birth (P569) = 1841-11-09
+date of death (P570) = 1910-05-06
+monogram (P1543) = Cypher of Edward VII.svg
+signature (P109) = EdwardVII Signature.svg
 
 
 
@@ -588,7 +571,7 @@ Q20875
 image:
 
 
-Edward VII in coronation robes.jpg
+King-Edward-VII (cropped).jpg
 
 
 sex or gender:
@@ -612,7 +595,7 @@ Queen Victoria (Q9439)
 date of birth:
 
 
-1841-12-09
+1841-11-09
 
 
 place of birth:
@@ -624,7 +607,7 @@ Buckingham Palace (Q42182)
 date of death:
 
 
-1910-06-06
+1910-05-06
 
 
 place of death:
@@ -648,18 +631,19 @@ Edward VII
 source:
 
 
-WikiData</data></node><node id="59"><data key="labelV">slide</data><data key="number">6</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@764d17ab</data><data key="comments">[]</data><data key="notes">
+WikiData</data></node><node id="59"><data key="labelV">slide</data><data key="number">6</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@7d18338b</data><data key="comments">[]</data><data key="notes">
 
 1.7.2013
 
 
 
-date of birth (P569) = [1846-05-25 (Prec.: day [-0 .. +0], PCal: Gregorian), 1846-05-26 (Prec.: day [-0 .. +0], PCal: Gregorian)]
 sex or gender (P21) = female (Q6581072)
-place of death (P20) = London (Q84)
+place of death (P20) = Schomberg House (Q7432105)
+signature (P109) = Princess Helena's signature.svg
 father (P22) = Albert, Prince Consort (Q152245)
 mother (P25) = Queen Victoria (Q9439)
-date of death (P570) = 1923-07-09
+date of birth (P569) = [1846-05-25 (Prec.: day [-0 .. +0], PCal: Gregorian), 1846-05-26 (Prec.: day [-0 .. +0], PCal: Gregorian), 1846-01-01 (Prec.: year [-0 .. +0], PCal: Gregorian)]
+date of death (P570) = [1923-06-09 (Prec.: day [-0 .. +0], PCal: Gregorian), 1923-01-01 (Prec.: year [-0 .. +0], PCal: Gregorian)]
 place of birth (P19) = Buckingham Palace (Q42182)
 
 
@@ -681,7 +665,7 @@ Q160539
 image:
 
 
-Princess Helena Augusta Victoria of Schleswig-Holstein.jpg
+Helena, Princess Christian of Schleswig-Holstein, 1887.jpg
 
 
 sex or gender:
@@ -708,16 +692,10 @@ place of birth:
 Buckingham Palace (Q42182)
 
 
-date of death:
-
-
-1923-07-09
-
-
 place of death:
 
 
-London (Q84)
+Schomberg House (Q7432105)
 
 
 wiki_en:
@@ -735,18 +713,19 @@ Princess Helena of the United Kingdom
 source:
 
 
-WikiData</data></node><node id="92"><data key="labelV">slide</data><data key="number">9</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@6b83e07f</data><data key="comments">[]</data><data key="notes">
+WikiData</data></node><node id="92"><data key="labelV">slide</data><data key="number">9</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@3f4a605f</data><data key="comments">[]</data><data key="notes">
 
 1.7.2013
 
 
 
-date of birth (P569) = 1853-05-07
 sex or gender (P21) = male (Q6581097)
 place of death (P20) = Cannes (Q39984)
+signature (P109) = Prince Leopold's signature.svg
 father (P22) = Albert, Prince Consort (Q152245)
 mother (P25) = Queen Victoria (Q9439)
-date of death (P570) = 1884-04-28
+date of birth (P569) = 1853-04-07
+date of death (P570) = 1884-03-28
 place of birth (P19) = Buckingham Palace (Q42182)
 
 
@@ -792,7 +771,7 @@ Queen Victoria (Q9439)
 date of birth:
 
 
-1853-05-07
+1853-04-07
 
 
 place of birth:
@@ -804,7 +783,7 @@ Buckingham Palace (Q42182)
 date of death:
 
 
-1884-04-28
+1884-03-28
 
 
 place of death:
@@ -828,19 +807,21 @@ Prince Leopold, Duke of Albany
 source:
 
 
-WikiData</data></node><node id="15"><data key="labelV">slide</data><data key="number">2</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@3b5ad737</data><data key="comments">[]</data><data key="notes">
+WikiData</data></node><node id="15"><data key="labelV">slide</data><data key="number">2</data><data key="mysimplenode">com.bitplan.simplegraph.powerpoint.SlideNode@30c8c6ab</data><data key="comments">[]</data><data key="notes">
 
 1.7.2013
 
 
 
+date of birth (P569) = 1840-11-21
+date of death (P570) = 1901-08-05
+place of birth (P19) = [http://www.wikidata.org/entity/Q42182 (item), http://www.wikidata.org/entity/Q84 (item)]
+monogram (P1543) = Royal Monogram of Empress Victoria of Germany.svg
 sex or gender (P21) = female (Q6581072)
 place of death (P20) = Schlosshotel Kronberg (Q510121)
+signature (P109) = Signature of Princess Royal Victoria.svg
 father (P22) = Albert, Prince Consort (Q152245)
 mother (P25) = Queen Victoria (Q9439)
-date of birth (P569) = 1840-12-21
-date of death (P570) = 1901-09-05
-place of birth (P19) = [http://www.wikidata.org/entity/Q42182 (item), http://www.wikidata.org/entity/Q84 (item)]
 
 
 
@@ -885,13 +866,13 @@ Queen Victoria (Q9439)
 date of birth:
 
 
-1840-12-21
+1840-11-21
 
 
 date of death:
 
 
-1901-09-05
+1901-08-05
 
 
 place of death:

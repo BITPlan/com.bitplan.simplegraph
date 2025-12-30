@@ -28,6 +28,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -38,7 +39,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.apache.poi.xslf.usermodel.XSLFPictureShape;
-import org.apache.tinkerpop.gremlin.structure.io.IoCore;
+import org.apache.tinkerpop.gremlin.structure.io.Io;
+import org.apache.tinkerpop.gremlin.structure.io.graphml.GraphMLWriter;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -48,11 +50,6 @@ import com.bitplan.simplegraph.core.SimpleStepNode;
 import com.bitplan.simplegraph.core.SimpleSystem;
 import com.bitplan.simplegraph.mediawiki.MediaWikiPageNode;
 import com.bitplan.simplegraph.mediawiki.MediaWikiSystem;
-import com.bitplan.simplegraph.powerpoint.PowerPointSystem;
-import com.bitplan.simplegraph.powerpoint.Slide;
-import com.bitplan.simplegraph.powerpoint.SlideNode;
-import com.bitplan.simplegraph.powerpoint.SlideShow;
-import com.bitplan.simplegraph.powerpoint.SlideShowNode;
 import com.bitplan.simplegraph.triplestore.TestTripleStoreSystem;
 import com.bitplan.simplegraph.wikidata.TestWikiDataSystem;
 
@@ -307,20 +304,24 @@ public class TestPowerPointSystem  {
     if (debug)
       slides.forEach(slide -> slide.printNameValues(System.out));
     assertEquals(10, slides.size());
-    pps.graph().io(IoCore.graphml()).writeGraph("../simplegraph-powerpoint/QueenVictoriaPowerPoint.xml");
+    // pps.graph().io(IoCore.graphml()).writeGraph("../simplegraph-powerpoint/QueenVictoriaPowerPoint.xml");
+    GraphMLWriter writer = GraphMLWriter.build().create();
+    try (FileOutputStream fos = new FileOutputStream("../simplegraph-powerpoint/QueenVictoriaPowerPoint.xml")) {
+        writer.writeGraph(fos, pps.graph());
+    }
   }
   
   @Test
   public void testReadPowerpoint() throws Exception {
     PowerPointSystem pps=new PowerPointSystem();
     pps.connect();
-    SimpleStepNode slideShowNode = (SimpleStepNode) pps.moveTo("http://www.its.leeds.ac.uk/fileadmin/documents/alumni/Michele_Dix_Leeds_University_-_FINAL.PPTX");
+    SimpleStepNode slideShowNode = (SimpleStepNode) pps.moveTo("https://github.com/WolfgangFahl/pySemanticSlides/raw/refs/heads/main/examples/semanticslides/SemanticSlides.pptx");
     List<SimpleStepNode> slides = slideShowNode.out("slides")
         .collect(Collectors.toCollection(ArrayList::new));
     // debug=true;
     if (debug)
       slides.forEach(slide -> slide.printNameValues(System.out));
-    long expected=44;
+    long expected=3;
     assertEquals(expected, slides.size());
     assertEquals(expected, pps.g().V().hasLabel("slide").count().next().longValue());
     assertEquals(expected, pps.g().V().hasLabel("slide").out("slideshow").count().next().longValue());
