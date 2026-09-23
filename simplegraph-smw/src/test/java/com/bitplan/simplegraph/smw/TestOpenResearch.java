@@ -66,12 +66,17 @@ public class TestOpenResearch {
   public void testPage() throws Exception {
     debug=true;
     SmwSystem smwSystem = getSMWSystem();
-    SimpleNode pageNode = smwSystem.moveTo("page=RTAS_2020");
+    // RTAS 2020 was deleted upstream and the Has coordinator syntax of the
+    // former content model is gone, so an event of the current Event template
+    // is used
+    SimpleNode pageNode = smwSystem.moveTo("page=3DUI_2020");
     if (debug)
       pageNode.forAll(SimpleNode.printDebug);
     String pageContent = pageNode.getProperty("pagecontent").toString();
-    assertTrue(pageContent.contains(
-        "Has coordinator=IEEE, USENIX-The Advanced Computing Systems Association"));
+    assertTrue(pageContent, pageContent.contains("{{Event"));
+    assertTrue(pageContent, pageContent.contains("|Acronym=3DUI 2020"));
+    assertTrue(pageContent,
+        pageContent.contains("|Title=IEEE Symposium on 3D User Interfaces"));
   }
 
   List<String> getPages(String ask) throws Exception {
