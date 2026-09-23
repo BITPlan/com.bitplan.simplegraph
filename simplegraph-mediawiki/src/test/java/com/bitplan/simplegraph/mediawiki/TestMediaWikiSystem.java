@@ -21,6 +21,7 @@
 package com.bitplan.simplegraph.mediawiki;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -57,6 +58,16 @@ public class TestMediaWikiSystem  {
   }
 
   @Test
+  public void testPlainUrl() {
+    // wikimedia appends tracking parameters to image urls since september 2026
+    String tracked = "https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original";
+    String plain = "https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg";
+    assertEquals(plain, MediaWikiPageNode.plainUrl(tracked));
+    assertEquals(plain, MediaWikiPageNode.plainUrl(plain));
+    assertEquals(null, MediaWikiPageNode.plainUrl(null));
+  }
+
+  @Test
   public void testGetImageInfo() throws Exception {
     debug = true;
     MediaWikiSystem mws = new MediaWikiSystem();
@@ -69,18 +80,29 @@ public class TestMediaWikiSystem  {
     assertEquals(
         "https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg",
         url);
+    // wikimedia serves a limited set of thumbnail widths, so the image may be
+    // wider than asked for; its aspect ratio is the one of the original
     BufferedImage queenVictoriaImage = pageNode.getImage(600);
     assertNotNull(queenVictoriaImage);
-    assertEquals(600, queenVictoriaImage.getWidth());
-    assertEquals(847, queenVictoriaImage.getHeight());
+    assertTrue("width " + queenVictoriaImage.getWidth(),
+        queenVictoriaImage.getWidth() >= 600);
+    double aspect = queenVictoriaImage.getHeight()
+        / (double) queenVictoriaImage.getWidth();
+    assertEquals(3851 / 2729.0, aspect, 0.01);
   }
 
   @Test
   public void testThumbImageUrl() throws Exception {
-    String url = "https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg";
-    String thumbUrl = MediaWikiPageNode.getThumbImageUrl(url, 170);
-    assertEquals(
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Queen_Victoria_by_Bassano.jpg/170px-Queen_Victoria_by_Bassano.jpg",
-        thumbUrl);
+    MediaWikiSystem mws = new MediaWikiSystem();
+    MediaWikiPageNode pageNode = (MediaWikiPageNode) mws
+        .connect("https://commons.wikimedia.org", "/w")
+        .moveTo("File:Queen Victoria by Bassano.jpg");
+    // the thumbnail url comes from the imageinfo api since wikimedia stopped
+    // serving thumbnails of arbitrary width from a constructed url
+    String thumbUrl = pageNode.getThumbUrl(600);
+    assertNotNull(thumbUrl);
+    assertTrue(thumbUrl, thumbUrl.contains("Queen_Victoria_by_Bassano.jpg"));
+    assertTrue(thumbUrl, thumbUrl.contains("px-"));
+    assertFalse(thumbUrl, thumbUrl.contains("?"));
   }
 }

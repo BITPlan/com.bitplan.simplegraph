@@ -21,7 +21,10 @@
 package com.bitplan.simplegraph.mediawiki;
 
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +33,8 @@ import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 
 import com.bitplan.mediawiki.japi.api.Ii;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.bitplan.simplegraph.core.SimpleNode;
 import com.bitplan.simplegraph.impl.SimpleNodeImpl;
 
@@ -69,6 +74,7 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
       // TODO -multi language ?
       if (pageTitle.startsWith("File:")) {
         Ii imageInfo = ms.wiki.getImageInfo(pageTitle);
+        imageInfo.setUrl(plainUrl(imageInfo.getUrl()));
         map.put("imageInfo", imageInfo);
       }
     } catch (Exception e) {
@@ -90,25 +96,72 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
     return getImage(null);
   }
 
-  public static String getThumbImageUrl(String url, int size) {
-    // https://upload.wikimedia.org/wikipedia/commons/e/e3/Queen_Victoria_by_Bassano.jpg
-    // https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Queen_Victoria_by_Bassano.jpg/170px-Queen_Victoria_by_Bassano.jpg
-    String[] parts = url.split("/");
-    String thumbUrl = url;
-    int len = parts.length;
-    if (len > 3) {
-      thumbUrl = "";
-      for (int i = 0; i < len - 3; i++) {
-        thumbUrl = thumbUrl + parts[i] + "/";
-      }
-      thumbUrl = thumbUrl + "thumb/";
-      for (int i = len - 3; i < len - 1; i++) {
-        thumbUrl = thumbUrl + parts[i] + "/";
-      }
-      thumbUrl = thumbUrl + parts[len - 1] + "/" + size + "px-"
-          + parts[len - 1];
+  /**
+   * the given url without its query string
+   *
+   * wikimedia appends tracking parameters to the image urls it reports
+   *
+   * @param url
+   * @return the url up to the question mark
+   */
+  public static String plainUrl(String url) {
+    String result = url;
+    if (url != null) {
+      int q = url.indexOf('?');
+      if (q >= 0)
+        result = url.substring(0, q);
     }
-    return thumbUrl;
+    return result;
+  }
+
+  /**
+   * the user agent wikimedia asks api clients to send
+   */
+  public static final String USER_AGENT = "com.bitplan.simplegraph (https://github.com/BITPlan/com.bitplan.simplegraph)";
+
+  /**
+   * open a connection that identifies this library
+   *
+   * @param url
+   * @return the input stream of the response
+   * @throws Exception
+   */
+  public static InputStream openStream(String url) throws Exception {
+    HttpURLConnection connection = (HttpURLConnection) new URL(url)
+        .openConnection();
+    connection.setRequestProperty("User-Agent", USER_AGENT);
+    return connection.getInputStream();
+  }
+
+  /**
+   * ask the imageinfo api for the thumbnail of the given width
+   *
+   * the sizes wikimedia serves are limited, so the thumbnail returned may be
+   * wider than asked for
+   *
+   * @param size
+   *          - the wanted width in pixels
+   * @return the url of the thumbnail or null if there is none
+   * @throws Exception
+   */
+  public String getThumbUrl(int size) throws Exception {
+    String apiUrl = ms.wiki.getSiteurl() + ms.wiki.getScriptPath()
+        + "/api.php?action=query&format=json&prop=imageinfo&iiprop=url&titles="
+        + URLEncoder.encode(pageTitle, "UTF-8") + "&iiurlwidth=" + size;
+    String result = null;
+    try (InputStream stream = openStream(apiUrl)) {
+      JsonObject json = new JsonParser()
+          .parse(new java.io.InputStreamReader(stream, "UTF-8"))
+          .getAsJsonObject();
+      JsonObject pages = json.getAsJsonObject("query").getAsJsonObject("pages");
+      for (String pageId : pages.keySet()) {
+        JsonObject imageInfo = pages.getAsJsonObject(pageId)
+            .getAsJsonArray("imageinfo").get(0).getAsJsonObject();
+        if (imageInfo.has("thumburl"))
+          result = plainUrl(imageInfo.get("thumburl").getAsString());
+      }
+    }
+    return result;
   }
 
   /**
@@ -123,11 +176,14 @@ public class MediaWikiPageNode extends SimpleNodeImpl implements SimpleNode {
     map = getMap();
     if (map.containsKey("imageInfo")) {
       String imageUrlStr = ((Ii) map.get("imageInfo")).getUrl();
-      if (size != null)
-        imageUrlStr = getThumbImageUrl(imageUrlStr, size);
-      URL imageUrl = new URL(imageUrlStr);
-      BufferedImage image = ImageIO.read(imageUrl);
-      return image;
+      if (size != null) {
+        String thumbUrl = getThumbUrl(size);
+        if (thumbUrl != null)
+          imageUrlStr = thumbUrl;
+      }
+      try (InputStream imageStream = openStream(imageUrlStr)) {
+        return ImageIO.read(imageStream);
+      }
     } else {
       return null;
     }
